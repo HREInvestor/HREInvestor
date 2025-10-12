@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Site Name</title>
+  <meta name="description" content="Short description of your site or business." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#">Your Site Name</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav class="site-nav" id="nav">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="container hero-inner">
+        <h1>Make a strong first impression</h1>
+        <p>Say in one sentence what you do and who it helps.</p>
+        <a class="btn" href="#contact">Get in touch</a>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container">
+        <h2>About</h2>
+        <p>
+          Write a short, friendly paragraph about yourself or your business. Mention your location,
+          experience, and what makes you different.
+        </p>
+        <div class="grid two">
+          <div class="card">
+            <h3>Mission</h3>
+            <p>State your mission in a sentence or two.</p>
+          </div>
+          <div class="card">
+            <h3>Values</h3>
+            <p>Highlight what you care about: quality, speed, affordability, etc.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="services">
+      <div class="container">
+        <h2>Services</h2>
+        <div class="grid three">
+          <div class="card">
+            <h3>Service One</h3>
+            <p>Describe what it is and who it’s for.</p>
+          </div>
+          <div class="card">
+            <h3>Service Two</h3>
+            <p>Describe what it is and who it’s for.</p>
+          </div>
+          <div class="card">
+            <h3>Service Three</h3>
+            <p>Describe what it is and who it’s for.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <h2>Contact</h2>
+        <p>Ready to talk? Reach me at <a href="mailto:you@yourdomain.com">you@yourdomain.com</a> or use the form below.</p>
+        <form class="contact-form" name="contact" method="POST" data-netlify="true">
+          <input type="hidden" name="form-name" value="contact" />
+          <div class="grid two">
+            <label>
+              <span>Name</span>
+              <input type="text" name="name" required />
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" required />
+            </label>
+          </div>
+          <label>
+            <span>Message</span>
+            <textarea name="message" rows="5" required></textarea>
+          </label>
+          <button class="btn" type="submit">Send</button>
+          <p class="fineprint">Tip: If you deploy on Netlify, this form works out of the box. For GitHub Pages, replace it with your email link or use a service like Formspree.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Your Site Name — All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const btn = document.querySelector('.menu-toggle');
+    const nav = document.getElementById('nav');
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      nav.classList.toggle('open');
+    });
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
