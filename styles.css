@@ -1,76 +1,51 @@
-/* Basic, clean, mobile-first styles */
 :root{
-  --bg:#0b1020;
   --ink:#0b1020;
   --paper:#ffffff;
   --muted:#6b7280;
-  --brand:#2563eb;
+  --brand:#0ea5e9; /* cyan accent */
   --brand-ink:#ffffff;
   --card:#f8fafc;
-  --ring: rgba(37, 99, 235, .35);
+  --ring: rgba(14,165,233,.35);
 }
-
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  color:var(--ink);
-  background:var(--paper);
-  line-height:1.6;
-}
-
+body{font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;color:var(--ink);background:var(--paper);line-height:1.6}
 .container{max-width:1100px;margin:0 auto;padding:0 1rem}
-
-.site-header{
-  position:sticky;top:0;background:rgba(255,255,255,.9);
-  border-bottom:1px solid #e5e7eb;backdrop-filter:saturate(180%) blur(10px);z-index:10;
-}
+.site-header{position:sticky;top:0;background:rgba(255,255,255,.9);border-bottom:1px solid #e5e7eb;backdrop-filter:saturate(180%) blur(10px);z-index:10}
 .nav{display:flex;align-items:center;gap:1rem;min-height:64px}
-.brand{font-weight:700;text-decoration:none;color:var(--ink);font-size:1.125rem}
+.brand{font-weight:800;text-decoration:none;color:var(--ink);font-size:1.125rem}
 .site-nav{margin-left:auto;display:flex;gap:1rem}
 .site-nav a{color:var(--ink);text-decoration:none;padding:.5rem .75rem;border-radius:.5rem}
 .site-nav a:hover{background:#f3f4f6}
 .menu-toggle{display:none;border:0;background:transparent;font-size:1.5rem}
-
 @media (max-width: 760px){
   .menu-toggle{display:block;margin-left:auto}
   .site-nav{position:absolute;right:1rem;top:64px;flex-direction:column;background:#fff;border:1px solid #e5e7eb;border-radius:.75rem;padding:.5rem;display:none}
   .site-nav.open{display:flex}
 }
-
 .hero{
-  background: radial-gradient(60% 80% at 10% 10%, #e0e7ff 0, transparent 60%), 
-              radial-gradient(60% 80% at 90% 10%, #fee2e2 0, transparent 60%),
+  background: radial-gradient(60% 80% at 10% 10%, #cffafe 0, transparent 60%),
+              radial-gradient(60% 80% at 90% 10%, #e0e7ff 0, transparent 60%),
               linear-gradient(180deg,#ffffff, #f8fafc 60%);
-  padding:5rem 0 4rem;
-  border-bottom:1px solid #e5e7eb;
+  padding:5rem 0 4rem;border-bottom:1px solid #e5e7eb
 }
 .hero-inner{display:grid;gap:1rem;justify-items:start}
 .hero h1{font-size:clamp(1.8rem, 3vw + 1rem, 3rem);margin:0}
 .hero p{color:var(--muted);margin:0 0 1rem 0}
-.btn{
-  display:inline-block;background:var(--brand);color:var(--brand-ink);
-  text-decoration:none;padding:.75rem 1rem;border-radius:.75rem;font-weight:600;border:0;cursor:pointer
-}
+.btn{display:inline-block;background:var(--brand);color:var(--brand-ink);text-decoration:none;padding:.75rem 1rem;border-radius:.75rem;font-weight:700;border:0;cursor:pointer}
 .btn:focus{outline:2px solid var(--ring);outline-offset:2px}
-
 .section{padding:3rem 0}
 .section.alt{background:var(--card)}
 h2{margin:0 0 1rem 0;font-size:1.6rem}
 .grid{display:grid;gap:1rem}
-.grid.two{grid-template-columns:repeat(2, minmax(0, 1fr))}
-.grid.three{grid-template-columns:repeat(3, minmax(0, 1fr))}
-@media (max-width: 900px){
-  .grid.two, .grid.three{grid-template-columns:1fr}
-}
+.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width: 900px){.grid.two,.grid.three{grid-template-columns:1fr}}
 .card{background:#fff;border:1px solid #e5e7eb;border-radius:.75rem;padding:1rem}
-
+.steps{margin:0;padding-left:1.25rem}
 .contact-form label{display:block}
 .contact-form span{display:block;font-weight:600;margin:.5rem 0}
-input, textarea{
-  width:100%;padding:.75rem;border:1px solid #e5e7eb;border-radius:.5rem;font:inherit
-}
-input:focus, textarea:focus{outline:2px solid var(--ring);outline-offset:2px}
+input,textarea{width:100%;padding:.75rem;border:1px solid #e5e7eb;border-radius:.5rem;font:inherit}
+input:focus,textarea:focus{outline:2px solid var(--ring);outline-offset:2px}
 .fineprint{color:var(--muted);font-size:.9rem}
-
 .site-footer{border-top:1px solid #e5e7eb;padding:2rem 0;color:var(--muted);text-align:center}
