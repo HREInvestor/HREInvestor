@@ -1,143 +1,269 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HRE Investor — Real Estate Investing & Advisory</title>
-  <meta name="description" content="HRE Investor helps clients find, analyze, and manage high-return real estate opportunities." />
-  <link rel="icon" href="/favicon.ico">
+  <title>Huntsville Real Estate Investors LLC | Deals • Rentals • Land</title>
+  <meta name="description" content="HREI helps Alabama sellers and renters with simple land contracts, short/medium/long‑term rentals, and fast, fair deals. Book a quick consult or message us on socials." />
+  <!-- Favicon / App Icons -->
+  <link rel="icon" type="image/png" href="/assets/hrei-logo.png" />
+  <link rel="apple-touch-icon" href="/assets/hrei-logo.png" />
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Huntsville Real Estate Investors LLC" />
+  <meta property="og:description" content="Land contracts • Rentals • Local expertise in North Alabama." />
+  <meta property="og:url" content="https://hreinvestor.com/" />
+  <meta property="og:image" content="/assets/og-cover.jpg" />
+  <!-- Instagram uses OG tags too -->
+
+  <!-- Tailwind (Play CDN) for fast iteration; fine for GitHub Pages) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { brand: { DEFAULT:'#0B5C63', dark:'#073C40', accent:'#F59E0B' }}}}};
+  </script>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="styles.css" />
-  <!-- Open Graph -->
-  <meta property="og:title" content="HRE Investor — Real Estate Investing & Advisory">
-  <meta property="og:description" content="Find, analyze, and manage high-return real estate opportunities.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.hreinvestor.com/">
-  <meta property="og:image" content="https://www.hreinvestor.com/og-image.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+    /* Simple SPA via hash routing */
+    section[data-route] { display: none; }
+    section[data-route].active { display: block; }
+  </style>
+
+  <!-- Meta Pixel (paste your Pixel ID where noted) -->
+  <!--
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'PASTE_YOUR_PIXEL_ID');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=PASTE_YOUR_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
+  -->
 </head>
-<body>
-  <header class="site-header">
-    <div class="container nav">
-      <a class="brand" href="#home">HRE Investor</a>
-      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
-      <nav class="site-nav" id="nav">
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#process">Process</a>
-        <a href="#contact">Contact</a>
+
+<body class="bg-slate-50 text-slate-800">
+  <!-- Top Bar -->
+  <div class="bg-brand text-white text-sm">
+    <div class="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between">
+      <div class="font-semibold">Huntsville Real Estate Investors LLC (HREI)</div>
+      <div class="space-x-4">
+        <a href="tel:12567010912" class="hover:underline">256‑701‑0912</a>
+        <a href="mailto:office@hreinvestor.com" class="hover:underline">office@hreinvestor.com</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header / Nav -->
+  <header class="bg-white/90 backdrop-blur sticky top-0 z-40 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="#/" class="flex items-center gap-3">
+        <img src="/assets/hrei-logo.png" alt="HREI logo" class="h-9 w-auto" onerror="this.style.display='none'">
+        <span class="font-extrabold tracking-tight text-brand">HREI</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-6 font-semibold">
+        <a class="hover:text-brand" href="#/details">Details</a>
+        <a class="hover:text-brand" href="#/contact">Contact</a>
+        <a class="hover:text-brand" href="#/payments">Payments</a>
+        <a class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand text-white hover:bg-brand-dark" href="#/book">Book a Call</a>
       </nav>
+      <button class="md:hidden p-2" aria-label="Menu" onclick="document.getElementById('mnav').classList.toggle('hidden')">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+    <div id="mnav" class="md:hidden hidden border-t">
+      <div class="px-4 py-3 grid gap-2 font-semibold">
+        <a class="hover:text-brand" href="#/details">Details</a>
+        <a class="hover:text-brand" href="#/contact">Contact</a>
+        <a class="hover:text-brand" href="#/payments">Payments</a>
+        <a class="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-brand text-white hover:bg-brand-dark" href="#/book">Book a Call</a>
+      </div>
     </div>
   </header>
 
-  <main id="home">
-    <section class="hero">
-      <div class="container hero-inner">
-        <h1>Real estate investing made clear.</h1>
-        <p>We help you identify, underwrite, and operate properties with confidence.</p>
-        <a class="btn" href="#contact">Get in touch</a>
-      </div>
-    </section>
-
-    <section class="section" id="about">
-      <div class="container">
-        <h2>About</h2>
-        <p>
-          HRE Investor partners with individuals and small teams to source opportunities,
-          run conservative projections, and manage assets post-close. Transparent numbers,
-          straight answers, and disciplined execution.
-        </p>
-        <div class="grid two">
-          <div class="card">
-            <h3>Focus</h3>
-            <p>Single-family, small multifamily, and light value-add projects.</p>
+  <!-- Hero -->
+  <section data-route="home" class="active">
+    <div class="relative isolate overflow-hidden">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="py-14 md:py-24 grid md:grid-cols-2 gap-10 items-center">
+          <div>
+            <span class="inline-block text-xs uppercase tracking-widest text-brand">North Alabama • Union Grove • Huntsville</span>
+            <h1 class="mt-3 text-3xl md:text-5xl font-extrabold leading-tight">Simple land deals & rentals—built for real people, not red tape.</h1>
+            <p class="mt-4 text-lg text-slate-700">We use clear contracts and straight talk. Whether you’re selling land, looking for a rental, or exploring a land‑contract option, we’ll map the path, step by step.</p>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="#/book" class="px-5 py-3 rounded-xl bg-brand text-white font-semibold hover:bg-brand-dark">Book a 10‑min consult</a>
+              <a href="#/details" class="px-5 py-3 rounded-xl border border-brand text-brand font-semibold hover:bg-brand/5">How it works</a>
+            </div>
+            <div class="mt-6 flex items-center gap-4 text-sm">
+              <a class="underline" href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a>
+              <a class="underline" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
+              <a class="underline" href="https://maps.app.goo.gl/" target="_blank" rel="noopener">Find us on Maps</a>
+            </div>
           </div>
-          <div class="card">
-            <h3>Coverage</h3>
-            <p>Primarily Midwest & Southeast; open to compelling out-of-state deals.</p>
+          <div>
+            <div class="aspect-[4/3] bg-slate-200 rounded-2xl shadow-inner flex items-center justify-center text-slate-500">Hero image / property collage</div>
           </div>
         </div>
       </div>
-    </section>
-
-    <section class="section alt" id="services">
-      <div class="container">
-        <h2>Services</h2>
-        <div class="grid three">
-          <div class="card">
-            <h3>Deal Sourcing</h3>
-            <p>On- and off-market leads, screeners, and first-pass valuation.</p>
-          </div>
-          <div class="card">
-            <h3>Underwriting</h3>
-            <p>Rent comps, capex plans, exit assumptions, and risk scenarios.</p>
-          </div>
-          <div class="card">
-            <h3>Asset Management</h3>
-            <p>Renovation oversight, leasing KPIs, and monthly performance reviews.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="process">
-      <div class="container">
-        <h2>How We Work</h2>
-        <ol class="steps">
-          <li><strong>Intro call:</strong> goals, criteria, timeline.</li>
-          <li><strong>Buy box:</strong> we codify target markets & returns.</li>
-          <li><strong>Pipeline:</strong> we surface candidates weekly.</li>
-          <li><strong>Offer & close:</strong> we support negotiations and diligence.</li>
-          <li><strong>Operate:</strong> milestones, tracking, and quarterly reviews.</li>
-        </ol>
-      </div>
-    </section>
-
-    <section class="section" id="contact">
-      <div class="container">
-        <h2>Contact</h2>
-        <p>Ready to talk? Email <a href="mailto:info@hreinvestor.com">info@hreinvestor.com</a> or send a message below.</p>
-
-        <!-- For GitHub Pages, use mailto or a form service like Formspree/Netlify -->
-        <form class="contact-form" action="mailto:info@hreinvestor.com" method="POST" enctype="text/plain">
-          <div class="grid two">
-            <label>
-              <span>Name</span>
-              <input type="text" name="name" required>
-            </label>
-            <label>
-              <span>Email</span>
-              <input type="email" name="email" required>
-            </label>
-          </div>
-          <label>
-            <span>Message</span>
-            <textarea name="message" rows="5" required></textarea>
-          </label>
-          <button class="btn" type="submit">Send</button>
-          <p class="fineprint">Prefer a form backend? I can wire this to Formspree or Netlify Forms.</p>
-        </form>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> HRE Investor — All rights reserved.</p>
+      <div class="absolute inset-x-0 bottom-0 h-1.5 bg-brand/10"></div>
     </div>
+  </section>
+
+  <!-- Details (styled after the REI Game Changers details vibe) -->
+  <section data-route="details" class="bg-white">
+    <div class="max-w-3xl mx-auto px-4 py-16">
+      <h2 class="text-3xl md:text-4xl font-extrabold">Our Approach</h2>
+      <p class="mt-4 text-slate-700">We specialize in <strong>land contracts</strong> and <strong>short/medium/long‑term rentals</strong>. Our priority is predictable, transparent terms for both sides.</p>
+      <ol class="mt-8 space-y-6 text-slate-800">
+        <li>
+          <h3 class="font-extrabold text-xl">1) Lead & Fit</h3>
+          <p>Tell us what you need (sell a parcel, rent, or explore installments). We do a quick fit check and pull county records.</p>
+        </li>
+        <li>
+          <h3 class="font-extrabold text-xl">2) Clear Numbers</h3>
+          <p>You get a simple term sheet (price, timeline, fees). No surprises: survey & deed costs are handled up‑front.</p>
+        </li>
+        <li>
+          <h3 class="font-extrabold text-xl">3) Paperwork</h3>
+          <p>We draft clean documents in plain English (with the precise legal language where it matters). You sign in person or e‑sign.</p>
+        </li>
+        <li>
+          <h3 class="font-extrabold text-xl">4) Close & Move‑In</h3>
+          <p>We coordinate recording, keys, or lot access. You get receipts and a tidy folder of PDFs.</p>
+        </li>
+      </ol>
+      <div class="mt-10 p-5 rounded-2xl bg-amber-50 border border-amber-200">
+        <p class="font-semibold">Looking at a specific parcel? </p>
+        <p class="text-slate-700">Send the <em>address, parcel number (PIN), and any photos</em>. We’ll reply with options and timelines.</p>
+      </div>
+      <div class="mt-10">
+        <a href="#/contact" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand text-white font-semibold hover:bg-brand-dark">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section data-route="contact" class="bg-slate-50">
+    <div class="max-w-3xl mx-auto px-4 py-16">
+      <h2 class="text-3xl md:text-4xl font-extrabold">Contact</h2>
+      <p class="mt-2 text-slate-700">Message us and we’ll get back fast (usually same day).</p>
+
+      <!-- Formspree (no‑backend) — replace the action URL with your endpoint -->
+      <form action="https://formspree.io/f/yourFormId" method="POST" class="mt-8 grid gap-4">
+        <div class="grid md:grid-cols-2 gap-4">
+          <input name="name" required class="px-4 py-3 rounded-xl border" placeholder="Your name" />
+          <input name="email" type="email" required class="px-4 py-3 rounded-xl border" placeholder="Email" />
+        </div>
+        <input name="phone" class="px-4 py-3 rounded-xl border" placeholder="Phone (optional)" />
+        <textarea name="message" required class="px-4 py-3 rounded-xl border min-h-[120px]" placeholder="What can we help with?"></textarea>
+        <button class="px-5 py-3 rounded-xl bg-brand text-white font-semibold hover:bg-brand-dark">Send</button>
+      </form>
+
+      <div class="mt-10 grid gap-2 text-slate-700">
+        <div class="font-semibold">Huntsville Real Estate Investors LLC</div>
+        <div>119 Terry Drake Road, Owens Cross Roads, AL 35763</div>
+        <div><a class="underline" href="tel:12567010912">256‑701‑0912</a> • <a class="underline" href="mailto:office@hreinvestor.com">office@hreinvestor.com</a></div>
+      </div>
+
+      <!-- Optional Facebook Page embed (replace href with your page URL) -->
+      <div class="mt-10">
+        <div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0"></script>
+        <div class="fb-page" data-href="https://www.facebook.com/YourBusinessPage" data-tabs="timeline" data-width="500" data-hide-cover="false" data-show-facepile="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Payments -->
+  <section data-route="payments" class="bg-white">
+    <div class="max-w-3xl mx-auto px-4 py-16">
+      <h2 class="text-3xl md:text-4xl font-extrabold">Payments</h2>
+      <p class="mt-2 text-slate-700">We securely process all online payments through <strong>Clover</strong>. After you click a button below, you’ll be redirected to a Clover‑hosted checkout page and receive an email receipt.</p>
+
+      <div class="mt-8 grid md:grid-cols-2 gap-6">
+        <!-- Clover Payment Links (replace the href values with your live links from the Clover Dashboard: Account & Setup → Ecommerce → Payment links) -->
+        <div class="p-5 rounded-2xl border bg-slate-50">
+          <h3 class="font-bold">Pay Deposit</h3>
+          <p class="text-sm text-slate-600 mt-1">Reserve a property or start paperwork.</p>
+          <a href="https://pay.clover.com/p/link/DEPOSIT_LINK" target="_blank" rel="noopener" class="mt-3 inline-flex items-center justify-center px-4 py-2 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark w-full">Pay Deposit via Clover</a>
+        </div>
+        <div class="p-5 rounded-2xl border bg-slate-50">
+          <h3 class="font-bold">Rent / Installment</h3>
+          <p class="text-sm text-slate-600 mt-1">Make a monthly rent or land‑contract payment.</p>
+          <a href="https://pay.clover.com/p/link/RENT_LINK" target="_blank" rel="noopener" class="mt-3 inline-flex items-center justify-center px-4 py-2 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark w-full">Pay Monthly via Clover</a>
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 rounded-xl bg-amber-50 border border-amber-200 text-sm">
+        Need a <em>custom amount</em> (late fee, prorate, survey/deed costs)? Use this link: 
+        <a class="underline font-semibold" href="https://pay.clover.com/p/link/CUSTOM_AMOUNT_LINK" target="_blank" rel="noopener">Custom Payment via Clover</a>.
+      </div>
+
+      <!-- Optional: If you generate a Clover "Button" embed in Dashboard, paste the HTML snippet(s) below this comment and remove the simple links above. -->
+    </div>
+  </section>
+
+  <!-- Book a Call (Calendly or similar) -->
+  <section data-route="book" class="bg-slate-50">
+    <div class="max-w-3xl mx-auto px-4 py-16">
+      <h2 class="text-3xl md:text-4xl font-extrabold">Book a Quick Call</h2>
+      <p class="mt-2 text-slate-700">Pick a time that works. We’ll confirm by text/email.</p>
+      <!-- Replace src with your Calendly link -->
+      <div class="mt-6 aspect-[4/3] rounded-2xl overflow-hidden border">
+        <iframe src="https://calendly.com/your-calendly/intro?hide_gdpr_banner=1" class="w-full h-full" frameborder="0"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-20 border-t">
+    <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8 text-sm">
+      <div>
+        <div class="flex items-center gap-2">
+        <img src="/assets/hrei-logo.png" alt="HREI logo" class="h-6 w-auto" onerror="this.style.display='none'">
+        <span class="font-extrabold text-brand">HREI</span>
+      </div>
+        <p class="mt-2 text-slate-600">Local, straightforward real estate solutions in North Alabama.</p>
+      </div>
+      <div>
+        <div class="font-bold">Company</div>
+        <ul class="mt-2 space-y-2">
+          <li><a class="hover:underline" href="#/details">Details</a></li>
+          <li><a class="hover:underline" href="#/contact">Contact</a></li>
+          <li><a class="hover:underline" href="#/payments">Payments</a></li>
+          <li><a class="hover:underline" href="#/book">Book a Call</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-bold">Contact</div>
+        <ul class="mt-2 space-y-2">
+          <li>119 Terry Drake Road, Owens Cross Roads, AL 35763</li>
+          <li><a class="hover:underline" href="tel:12567010912">256‑701‑0912</a></li>
+          <li><a class="hover:underline" href="mailto:office@hreinvestor.com">office@hreinvestor.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="text-center text-xs text-slate-500 pb-8">© <span id="yr"></span> Huntsville Real Estate Investors LLC • All rights reserved.</div>
   </footer>
 
   <script>
-    // Mobile menu
-    const btn = document.querySelector('.menu-toggle');
-    const nav = document.getElementById('nav');
-    btn.addEventListener('click', () => {
-      const open = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!open));
-      nav.classList.toggle('open');
-    });
-    // Year
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // Hash router
+    const routes = { '': 'home', '/': 'home', '#/': 'home', '#/details': 'details', '#/contact': 'contact', '#/payments': 'payments', '#/book': 'book' };
+    function render() {
+      const hash = location.hash || '#/';
+      document.querySelectorAll('section[data-route]').forEach(s => s.classList.remove('active'));
+      const key = routes[hash] || 'home';
+      const el = document.querySelector(`section[data-route="${key}"]`);
+      if (el) el.classList.add('active');
+      // close mobile nav on route change
+      const m = document.getElementById('mnav');
+      if (m) m.classList.add('hidden');
+    }
+    window.addEventListener('hashchange', render);
+    window.addEventListener('load', () => { render(); document.getElementById('yr').textContent = new Date().getFullYear(); });
   </script>
 </body>
 </html>
