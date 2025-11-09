@@ -360,25 +360,17 @@
   </script>
 
   <!-- Enable Clover buttons when links are present -->
-  <script>
-    (function(){
-      const cfg = (window.HREI_CONFIG && window.HREI_CONFIG.clover) || {};
-      const map = {
-        deposit: document.querySelector('[data-clover="deposit"]'),
-        monthly: document.querySelector('[data-clover="monthly"]'),
-        custom:  document.querySelector('[data-clover="custom"]')
-      };
-      Object.entries(map).forEach(([key, el]) => {
-        if (!el) return;
-        if (cfg[key] && /^https:\/\//.test(cfg[key])) {
-          el.href = cfg[key];
-          el.classList.remove('opacity-50','pointer-events-none');
-        } else {
-          el.href = '#';
-        }
-      });
-    })();
-  </script>
+ <script>
+  window.HREI_CONFIG = {
+    web3forms_key: "0d2dfed2-68b2-415d-a96f-46608eba02c0",
+    clover: {
+      deposit: "https://link.clover.com/urlshortener/vzh799",
+      monthly: "https://link.clover.com/urlshortener/QLkgZY",
+      custom:  ""
+    }
+  };
+</script>
+
 
   <!-- Robust hash router -->
   <script>
