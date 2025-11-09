@@ -70,6 +70,10 @@
     "image": "https://hreinvestor.com/assets/hrei-logo.jpg"
   }
   </script>
+  <script>
+    // Site config: paste your Formspree endpoint here when you have it
+    window.HREI_CONFIG = { formspree: "" };
+  </script>
 </head>
 
 <body class="bg-slate-50 text-slate-800">
@@ -179,16 +183,52 @@
       <h2 class="text-3xl md:text-4xl font-extrabold">Contact</h2>
       <p class="mt-2 text-slate-700">Message us and we’ll get back fast (usually same day).</p>
 
-      <!-- Formspree (no‑backend) — replace the action URL with your endpoint -->
-      <form action="https://formspree.io/f/yourFormId" method="POST" class="mt-8 grid gap-4">
+      <!-- Contact form using Web3Forms (free tier). Replace YOUR_ACCESS_KEY below. -->
+      <form action="https://api.web3forms.com/submit" method="POST" class="mt-8 grid gap-4">
+        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY">
+        <!-- anti-bot honeypot -->
+        <input type="text" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="grid md:grid-cols-2 gap-4">
           <input name="name" required class="px-4 py-3 rounded-xl border" placeholder="Your name" />
           <input name="email" type="email" required class="px-4 py-3 rounded-xl border" placeholder="Email" />
         </div>
         <input name="phone" class="px-4 py-3 rounded-xl border" placeholder="Phone (optional)" />
         <textarea name="message" required class="px-4 py-3 rounded-xl border min-h-[120px]" placeholder="What can we help with?"></textarea>
+        <input type="hidden" name="from_name" value="HREI Website">
+        <input type="hidden" name="redirect" value="https://hreinvestor.github.io/HREInvestor/#/contact">
+        <label class="inline-flex items-start gap-2 text-sm text-slate-600"><input type="checkbox" required class="mt-1"> I agree to the <a href="#/privacy" class="underline ml-1">Privacy Policy</a>.</label>
         <button class="px-5 py-3 rounded-xl bg-brand text-white font-semibold hover:bg-brand-dark">Send</button>
       </form>
+
+      <div class="mt-10 grid gap-2 text-slate-700">
+        <div class="font-semibold">Huntsville Real Estate Investors LLC</div>
+        <div>119 Terry Drake Road, Owens Cross Roads, AL 35763</div>
+        <div><a class="underline" href="tel:12567010912">256‑701‑0912</a> • <a class="underline" href="mailto:office@hreinvestor.com">office@hreinvestor.com</a></div>
+      </div>
+
+      <!-- Facebook Page embed -->
+      <div class="mt-10">
+        <div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0"></script>
+        <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=61577473202289" data-tabs="timeline" data-width="500" data-hide-cover="false" data-show-facepile="true"></div>
+      </div>
+    </div>
+  </section>
+
+      <div class="mt-10 grid gap-2 text-slate-700">
+        <div class="font-semibold">Huntsville Real Estate Investors LLC</div>
+        <div>119 Terry Drake Road, Owens Cross Roads, AL 35763</div>
+        <div><a class="underline" href="tel:12567010912">256‑701‑0912</a> • <a class="underline" href="mailto:office@hreinvestor.com">office@hreinvestor.com</a></div>
+      </div>
+
+      <!-- Facebook Page embed -->
+      <div class="mt-10">
+        <div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0"></script>
+        <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=61577473202289" data-tabs="timeline" data-width="500" data-hide-cover="false" data-show-facepile="true"></div>
+      </div>
+    </div>
+  </section>
 
       <div class="mt-10 grid gap-2 text-slate-700">
         <div class="font-semibold">Huntsville Real Estate Investors LLC</div>
@@ -325,6 +365,26 @@
     window.addEventListener('hashchange', render);
     window.addEventListener('load', () => { render(); document.getElementById('yr').textContent = new Date().getFullYear(); });
   </script>
+  <!-- Facebook Messenger Customer Chat -->
+  <div id="fb-customer-chat" class="fb-customerchat"></div>
+  <script>
+    (function() {
+      var chatbox = document.getElementById('fb-customer-chat');
+      if (chatbox) {
+        chatbox.setAttribute('page_id', '61577473202289');
+        chatbox.setAttribute('attribution', 'biz_inbox');
+      }
+      window.fbAsyncInit = window.fbAsyncInit || function() { FB.init({ xfbml: true, version: 'v19.0' }); };
+      if (!document.getElementById('facebook-jssdk-customerchat')) {
+        var js = document.createElement('script');
+        js.id = 'facebook-jssdk-customerchat';
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        document.body.appendChild(js);
+      }
+    })();
+  </script>
+  <!-- (contact AJAX removed; Web3Forms posts directly) -->
+
   <!-- Facebook Messenger Customer Chat -->
   <div id="fb-customer-chat" class="fb-customerchat"></div>
   <script>
