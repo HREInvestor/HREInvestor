@@ -43,6 +43,33 @@
   </script>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=PASTE_YOUR_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
   -->
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Huntsville Real Estate Investors LLC" />
+  <meta name="twitter:description" content="Land contracts • Rentals • Local expertise in North Alabama." />
+  <meta name="twitter:image" content="assets/og-cover.jpg" />
+
+  <!-- JSON-LD: Local Business Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    "name": "Huntsville Real Estate Investors LLC",
+    "url": "https://hreinvestor.com/",
+    "email": "office@hreinvestor.com",
+    "telephone": "+1-256-701-0912",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "119 Terry Drake Road",
+      "addressLocality": "Owens Cross Roads",
+      "addressRegion": "AL",
+      "postalCode": "35763",
+      "addressCountry": "US"
+    },
+    "areaServed": ["Huntsville", "Union Grove", "Marshall County", "Madison County"],
+    "image": "https://hreinvestor.com/assets/hrei-logo.jpg"
+  }
+  </script>
 </head>
 
 <body class="bg-slate-50 text-slate-800">
@@ -95,12 +122,13 @@
             <p class="mt-4 text-lg text-slate-700">We use clear contracts and straight talk. Whether you’re selling land, looking for a rental, or exploring a land‑contract option, we’ll map the path, step by step.</p>
             <div class="mt-6 flex flex-wrap gap-3">
               <a href="#/book" class="px-5 py-3 rounded-xl bg-brand text-white font-semibold hover:bg-brand-dark">Book a 10‑min consult</a>
-              <a href="#/details" class="px-5 py-3 rounded-xl border border-brand text-brand font-semibold hover:bg-brand/5">How it works</a>
+              <a href="#/payments" class="px-5 py-3 rounded-xl border border-brand text-brand font-semibold hover:bg-brand/5">Make a Payment</a>
+              <a href="#/contact" class="px-5 py-3 rounded-xl border border-slate-300 font-semibold hover:bg-slate-100">Contact Us</a>
             </div>
             <div class="mt-6 flex items-center gap-4 text-sm">
-              <a class="underline" href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a>
-              <a class="underline" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
-              <a class="underline" href="https://maps.app.goo.gl/" target="_blank" rel="noopener">Find us on Maps</a>
+              <a class="underline" href="https://www.facebook.com/profile.php?id=61577473202289" target="_blank" rel="noopener" aria-label="Facebook">Facebook</a>
+              <a class="underline" href="https://www.instagram.com/hreinvestor" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
+              <a class="underline" href="https://maps.app.goo.gl/" target="_blank" rel="noopener" aria-label="Google Maps">Find us on Maps</a>
             </div>
           </div>
           <div>
@@ -172,7 +200,7 @@
       <div class="mt-10">
         <div id="fb-root"></div>
         <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0"></script>
-        <div class="fb-page" data-href="https://www.facebook.com/YourBusinessPage" data-tabs="timeline" data-width="500" data-hide-cover="false" data-show-facepile="true"></div>
+        <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=61577473202289" data-tabs="timeline" data-width="500" data-hide-cover="false" data-show-facepile="true"></div>
       </div>
     </div>
   </section>
@@ -218,6 +246,34 @@
     </div>
   </section>
 
+  <!-- Privacy -->
+  <section data-route="privacy" class="bg-white">
+    <div class="max-w-3xl mx-auto px-4 py-16">
+      <h2 class="text-3xl md:text-4xl font-extrabold">Privacy Policy</h2>
+      <p class="mt-3 text-slate-700">We collect basic contact details you submit (name, email, phone, and message) to respond to inquiries and manage payments. We do not sell your data. Third‑party processors we use include Clover (payments), Formspree (contact form), and Calendly (booking). Each provider processes your data under their own policies. To request deletion, email <a class="underline" href="mailto:office@hreinvestor.com">office@hreinvestor.com</a>.</p>
+    </div>
+  </section>
+
+  <!-- Terms -->
+  <section data-route="terms" class="bg-slate-50">
+    <div class="max-w-3xl mx-auto px-4 py-16">
+      <h2 class="text-3xl md:text-4xl font-extrabold">Terms of Use</h2>
+      <p class="mt-3 text-slate-700">All information on this site is provided for general guidance only and is subject to change. Payments made via Clover are subject to the payment confirmation shown at checkout and any written agreements you sign with HREI. By using this site you agree not to misuse or attempt to disrupt the service.</p>
+    </div>
+  </section>
+
+  <!-- Instagram Feed -->
+  <section class="bg-white">
+    <div class="max-w-6xl mx-auto px-4 py-12">
+      <h3 class="text-2xl font-extrabold mb-4">From Instagram</h3>
+      <div class="rounded-2xl overflow-hidden border">
+        <!-- Replace the src below with your LightWidget/SnapWidget embed for @hreinvestor -->
+        <iframe src="https://lightwidget.com/widgets/YOUR_WIDGET_ID.html" class="w-full" style="border:0; height: 500px;" title="Instagram feed for @hreinvestor"></iframe>
+      </div>
+      <p class="text-sm text-slate-500 mt-2">Follow us on Instagram: <a href="https://www.instagram.com/hreinvestor" class="underline" target="_blank" rel="noopener">@hreinvestor</a></p>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer class="mt-20 border-t">
     <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8 text-sm">
@@ -235,6 +291,8 @@
           <li><a class="hover:underline" href="#/contact">Contact</a></li>
           <li><a class="hover:underline" href="#/payments">Payments</a></li>
           <li><a class="hover:underline" href="#/book">Book a Call</a></li>
+          <li><a class="hover:underline" href="#/privacy">Privacy</a></li>
+          <li><a class="hover:underline" href="#/terms">Terms</a></li>
         </ul>
       </div>
       <div>
@@ -264,6 +322,24 @@
     }
     window.addEventListener('hashchange', render);
     window.addEventListener('load', () => { render(); document.getElementById('yr').textContent = new Date().getFullYear(); });
+  </script>
+  <!-- Facebook Messenger Customer Chat -->
+  <div id="fb-customer-chat" class="fb-customerchat"></div>
+  <script>
+    (function() {
+      var chatbox = document.getElementById('fb-customer-chat');
+      if (chatbox) {
+        chatbox.setAttribute('page_id', '61577473202289');
+        chatbox.setAttribute('attribution', 'biz_inbox');
+      }
+      window.fbAsyncInit = window.fbAsyncInit || function() { FB.init({ xfbml: true, version: 'v19.0' }); };
+      if (!document.getElementById('facebook-jssdk-customerchat')) {
+        var js = document.createElement('script');
+        js.id = 'facebook-jssdk-customerchat';
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        document.body.appendChild(js);
+      }
+    })();
   </script>
 </body>
 </html>
