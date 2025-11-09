@@ -159,7 +159,7 @@
   <section data-route="details" class="bg-white">
     <div class="max-w-3xl mx-auto px-4 py-16">
       <h2 class="text-3xl md:text-4xl font-extrabold">What We Do</h2>
-      <p class="mt-4 text-slate-700">Huntsville Real Estate Investors LLC (HREI) specializes in <strong>simple land contracts</strong> and <strong>short-, medium-, and long-term rentals</strong> across North Alabama. Our goal is to remove red tape and make every step—from first call to keys in hand—predictable and transparent.</p>
+      <p class="mt-4 text-slate-700">HREI specializes in <strong>simple land contracts</strong> and <strong>short-, medium-, and long-term rentals</strong> across North Alabama. Our goal is to remove red tape and make every step—from first call to keys in hand—predictable and transparent.</p>
 
       <h3 class="mt-8 font-extrabold text-xl">Land Contracts (Installment Sales)</h3>
       <p class="mt-2 text-slate-700">For buyers who want to spread payments over time, we structure clear installment agreements with straightforward terms, no surprise fees, and plain-English language alongside the precise legal wording. We outline price, timeline, survey and deed costs up front, then provide receipts and a tidy folder of PDFs after signing and recording.</p>
@@ -344,7 +344,7 @@
     })();
   </script>
 
-  <!-- Robust hash router + bulletproof scroll-to-top -->
+  <!-- Robust hash router + bulletproof scroll-to-top + kill stray 'Find us on Maps' -->
   <script>
     const ROUTES = new Map([
       ['#/', 'home'],
@@ -357,9 +357,7 @@
     ]);
 
     function jumpTop() {
-      // Try standard API
       try { window.scrollTo({ top: 0, left: 0, behavior: 'auto' }); } catch(e) {}
-      // Fallbacks for older mobile Safari
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
     }
@@ -377,20 +375,24 @@
       const m = document.getElementById('mnav'); if (m) m.classList.add('hidden');
     }
 
+    function killMapsLink() {
+      document.querySelectorAll('a').forEach(a => {
+        if (a && /find us on maps/i.test(a.textContent || '')) a.remove();
+      });
+    }
+
     function render() {
       const hash = normalizeHash(location.hash);
       const key = ROUTES.get(hash) || 'home';
       showRoute(key);
-      // Ensure top after DOM paints
       requestAnimationFrame(() => { jumpTop(); requestAnimationFrame(jumpTop); });
+      killMapsLink();
     }
 
     // Always jump top on any SPA link click, even if hash doesn't change
     document.addEventListener('click', (e) => {
       const a = e.target.closest('a[href^="#/"]');
-      if (a) {
-        setTimeout(jumpTop, 0);
-      }
+      if (a) setTimeout(jumpTop, 0);
     });
 
     window.addEventListener('hashchange', render);
