@@ -110,7 +110,6 @@
             <div class="mt-6 flex items-center gap-4 text-sm">
               <a class="underline" href="https://www.facebook.com/profile.php?id=61577473202289" target="_blank" rel="noopener" aria-label="Facebook">Facebook</a>
               <a class="underline" href="https://www.instagram.com/hreinvestor" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
-              <a class="underline" href="https://maps.app.goo.gl/" target="_blank" rel="noopener" aria-label="Google Maps">Find us on Maps</a>
             </div>
           </div>
           <div>
@@ -390,7 +389,6 @@
     document.addEventListener('click', (e) => {
       const a = e.target.closest('a[href^="#/"]');
       if (a) {
-        // Let the router handle visibility, we just ensure the scroll jump
         setTimeout(jumpTop, 0);
       }
     });
