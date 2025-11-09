@@ -49,18 +49,6 @@
     section[data-route] { display: none; }
     section[data-route].active { display: block; }
   </style>
-
-  <!-- Site config: Web3Forms + Clover -->
-  <script>
-    window.HREI_CONFIG = {
-      web3forms_key: "0d2dfed2-68b2-415d-a96f-46608eba02c0",
-      clover: {
-        deposit: "https://link.clover.com/urlshortener/vzh799",
-        monthly: "https://link.clover.com/urlshortener/QLkgZY",
-        custom:  ""
-      }
-    };
-  </script>
 </head>
 
 <body class="bg-slate-50 text-slate-800">
@@ -230,26 +218,28 @@
     </div>
   </section>
 
-  <!-- Payments -->
+  <!-- Payments (hard-wired Clover links) -->
   <section data-route="payments" class="bg-white">
     <div class="max-w-3xl mx-auto px-4 py-16">
       <h2 class="text-3xl md:text-4xl font-extrabold">Payments</h2>
 
       <div class="mt-8 grid md:grid-cols-2 gap-6">
-        <!-- Deposit card -->
+        <!-- Deposit -->
         <div class="p-5 rounded-2xl border bg-slate-50">
           <h3 class="font-bold">Pay Deposit</h3>
-          <a data-clover="deposit" href="#" target="_blank" rel="noopener"
-             class="mt-4 inline-flex items-center justify-center px-4 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark w-full opacity-50 pointer-events-none">
+          <a href="https://link.clover.com/urlshortener/vzh799"
+             target="_blank" rel="noopener"
+             class="mt-4 inline-flex items-center justify-center px-4 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark w-full">
             Pay Deposit via Clover
           </a>
         </div>
 
-        <!-- Monthly card -->
+        <!-- Rent / Installment -->
         <div class="p-5 rounded-2xl border bg-slate-50">
           <h3 class="font-bold">Rent / Installment</h3>
-          <a data-clover="monthly" href="#" target="_blank" rel="noopener"
-             class="mt-4 inline-flex items-center justify-center px-4 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark w-full opacity-50 pointer-events-none">
+          <a href="https://link.clover.com/urlshortener/QLkgZY"
+             target="_blank" rel="noopener"
+             class="mt-4 inline-flex items-center justify-center px-4 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark w-full">
             Pay Monthly via Clover
           </a>
         </div>
@@ -349,27 +339,6 @@
       }
       chatbox.setAttribute('page_id', '61577473202289');
       chatbox.setAttribute('attribution', 'biz_inbox');
-    })();
-  </script>
-
-  <!-- Enable Clover buttons when links are present -->
-  <script>
-    (function(){
-      const cfg = (window.HREI_CONFIG && window.HREI_CONFIG.clover) || {};
-      const map = {
-        deposit: document.querySelector('[data-clover="deposit"]'),
-        monthly: document.querySelector('[data-clover="monthly"]'),
-        custom:  document.querySelector('[data-clover="custom"]')
-      };
-      Object.entries(map).forEach(([key, el]) => {
-        if (!el) return;
-        if (cfg[key] && /^https:\/\//.test(cfg[key])) {
-          el.href = cfg[key];
-          el.classList.remove('opacity-50','pointer-events-none');
-        } else {
-          el.href = '#';
-        }
-      });
     })();
   </script>
 
