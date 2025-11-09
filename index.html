@@ -225,41 +225,31 @@
   </section>
 
   <!-- Payments -->
-  <section data-route="payments" class="bg-white">
-    <div class="max-w-3xl mx-auto px-4 py-16">
-      <h2 class="text-3xl md:text-4xl font-extrabold">Payments</h2>
-      <p class="mt-2 text-slate-700">We securely process all online payments through <strong>Clover</strong>. After you click a button below, you’ll be redirected to a Clover-hosted checkout page and receive an email receipt.</p>
+<section data-route="payments" class="bg-white">
+  <div class="max-w-3xl mx-auto px-4 py-16">
+    <h2 class="text-3xl md:text-4xl font-extrabold">Payments</h2>
 
-      <div class="mt-6 flex items-center gap-2 text-sm text-slate-600">
-        <span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-emerald-50 border border-emerald-200">✅ Secure Clover Checkout</span>
-        <span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-slate-50 border">No card data touches our site</span>
+    <div class="mt-8 grid md:grid-cols-2 gap-6">
+      <!-- Deposit card -->
+      <div class="p-5 rounded-2xl border bg-slate-50">
+        <h3 class="font-bold">Pay Deposit</h3>
+        <a data-clover="deposit" href="#" target="_blank" rel="noopener"
+           class="mt-4 inline-flex items-center justify-center px-4 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark w-full opacity-50 pointer-events-none">
+          Pay Deposit via Clover
+        </a>
       </div>
 
-      <div class="mt-8 grid md:grid-cols-2 gap-6">
-        <!-- Deposit card -->
-        <div class="p-5 rounded-2xl border bg-slate-50">
-          <h3 class="font-bold">Pay Deposit</h3>
-          <p class="text-sm text-slate-600 mt-1">Reserve a property or start paperwork.</p>
-          <a data-clover="deposit" href="#" target="_blank" rel="noopener" class="mt-3 inline-flex items-center justify-center px-4 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark w-full opacity-50 pointer-events-none">Pay Deposit via Clover</a>
-        </div>
-        <!-- Monthly card -->
-        <div class="p-5 rounded-2xl border bg-slate-50">
-          <h3 class="font-bold">Rent / Installment</h3>
-          <p class="text-sm text-slate-600 mt-1">Make a monthly rent or land-contract payment.</p>
-          <a data-clover="monthly" href="#" target="_blank" rel="noopener" class="mt-3 inline-flex items-center justify-center px-4 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark w-full opacity-50 pointer-events-none">Pay Monthly via Clover</a>
-        </div>
-      </div>
-
-      <div class="mt-6 p-4 rounded-xl bg-amber-50 border border-amber-200 text-sm">
-        Need a <em>custom amount</em> (late fee, prorate, survey/deed costs)? Use this link:
-        <a data-clover="custom" class="underline font-semibold opacity-50 pointer-events-none" href="#" target="_blank" rel="noopener">Custom Payment via Clover</a>.
-      </div>
-
-      <div class="mt-8 text-xs text-slate-500">
-        By paying online you agree that payments are subject to your written agreement(s) with HREI and Clover’s terms. For questions, call <a class="underline" href="tel:12567010912">256-701-0912</a> or email <a class="underline" href="mailto:office@hreinvestor.com">office@hreinvestor.com</a>.
+      <!-- Monthly card -->
+      <div class="p-5 rounded-2xl border bg-slate-50">
+        <h3 class="font-bold">Rent / Installment</h3>
+        <a data-clover="monthly" href="#" target="_blank" rel="noopener"
+           class="mt-4 inline-flex items-center justify-center px-4 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark w-full opacity-50 pointer-events-none">
+          Pay Monthly via Clover
+        </a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- Book a Call -->
   <section data-route="book" class="bg-slate-50">
