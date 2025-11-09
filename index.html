@@ -166,6 +166,79 @@
     </div>
   </section>
 
+  <!-- Details -->
+  <section data-route="details" class="bg-white">
+    <div class="max-w-3xl mx-auto px-4 py-16">
+      <h2 class="text-3xl md:text-4xl font-extrabold">What We Do</h2>
+      <p class="mt-4 text-slate-700">Huntsville Real Estate Investors LLC (HREI) specializes in <strong>simple land contracts</strong> and <strong>short‑, medium‑, and long‑term rentals</strong> across North Alabama. Our goal is to remove red tape and make every step—from first call to keys in hand—predictable and transparent.</p>
+
+      <h3 class="mt-8 font-extrabold text-xl">Land Contracts (Installment Sales)</h3>
+      <p class="mt-2 text-slate-700">For buyers who want to spread payments over time, we structure clear installment agreements with straightforward terms, no surprise fees, and plain‑English language alongside the precise legal wording. We outline price, timeline, survey and deed costs up front, then provide receipts and a tidy folder of PDFs after signing and recording.</p>
+
+      <h3 class="mt-6 font-extrabold text-xl">Rentals (Short • Medium • Long Term)</h3>
+      <p class="mt-2 text-slate-700">Whether you need a place for a few weeks, a season, or years, we match properties to your use case and budget. We prioritize responsiveness, clean move‑ins, and clear house rules. Payments are handled online through Clover for speed and convenience.</p>
+
+      <h3 class="mt-6 font-extrabold text-xl">Our Process</h3>
+      <p class="mt-2 text-slate-700"><strong>1) Lead & Fit:</strong> You share the address or parcel (PIN) and your goals. We run a quick fit check and pull county records. <strong>2) Clear Numbers:</strong> We send a one‑page term sheet covering price, timeline, and any survey/deed items. <strong>3) Paperwork:</strong> We draft clean documents; you sign in person or electronically. <strong>4) Close & Move‑In:</strong> Recording, keys/lot access, and final receipts are coordinated promptly.</p>
+
+      <h3 class="mt-6 font-extrabold text-xl">Values & Standards</h3>
+      <p class="mt-2 text-slate-700">We favor straight talk, punctuality, and documented promises. You’ll always know what comes next, who’s doing it, and when it will be done.</p>
+
+      <div class="mt-10 p-5 rounded-2xl bg-amber-50 border border-amber-200">
+        <p class="font-semibold">Have a specific parcel or rental in mind?</p>
+        <p class="text-slate-700">Send the <em>address, parcel number (PIN), and photos</em>. We’ll reply with options and timelines the same day in most cases.</p>
+      </div>
+
+      <div class="mt-10">
+        <a href="#/contact" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand text-white font-semibold hover:bg-brand-dark">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section data-route="contact" class="bg-slate-50">
+    <div class="max-w-3xl mx-auto px-4 py-16">
+      <h2 class="text-3xl md:text-4xl font-extrabold">Contact</h2>
+      <p class="mt-2 text-slate-700">Message us and we’ll get back fast (usually same day).</p>
+
+      <!-- Printed contact info block -->
+      <div class="mt-6 p-5 rounded-2xl bg-white border">
+        <h3 class="font-bold text-lg">Ways to reach us</h3>
+        <ul class="mt-3 space-y-1 text-slate-700">
+          <li><span class="font-semibold">Name:</span> Joshua Cornelius</li>
+          <li><span class="font-semibold">Email:</span> <a class="underline" href="mailto:office@hreinvestor.com">office@hreinvestor.com</a></li>
+          <li><span class="font-semibold">Phone:</span> <a class="underline" href="tel:12567010912">256‑701‑0912</a></li>
+          <li><span class="font-semibold">Address:</span> 119 Terry Drake Road, Owens Cross Roads, AL 35763</li>
+          <li><span class="font-semibold">Facebook:</span> <a class="underline" href="https://www.facebook.com/profile.php?id=61577473202289" target="_blank" rel="noopener">facebook.com/HREI</a></li>
+          <li><span class="font-semibold">Instagram:</span> <a class="underline" href="https://www.instagram.com/hreinvestor" target="_blank" rel="noopener">@hreinvestor</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact form using Web3Forms -->
+      <form action="https://api.web3forms.com/submit" method="POST" class="mt-8 grid gap-4">
+        <input type="hidden" name="access_key" value="0d2dfed2-68b2-415d-a96f-46608eba02c0">
+        <!-- anti-bot honeypot -->
+        <input type="text" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="grid md:grid-cols-2 gap-4">
+          <input name="name" required class="px-4 py-3 rounded-xl border" placeholder="Your name" />
+          <input name="email" type="email" required class="px-4 py-3 rounded-xl border" placeholder="Email" />
+        </div>
+        <input name="phone" class="px-4 py-3 rounded-xl border" placeholder="Phone (optional)" />
+        <textarea name="message" required class="px-4 py-3 rounded-xl border min-h-[120px]" placeholder="What can we help with?"></textarea>
+        <input type="hidden" name="from_name" value="HREI Website">
+        <input type="hidden" name="redirect" value="https://hreinvestor.github.io/HREInvestor/#/contact">
+        <label class="inline-flex items-start gap-2 text-sm text-slate-600"><input type="checkbox" required class="mt-1"> I agree to the <a href="#/privacy" class="underline ml-1">Privacy Policy</a>.</label>
+        <button class="px-5 py-3 rounded-xl bg-brand text-white font-semibold hover:bg-brand-dark">Send</button>
+        <p class="text-xs text-slate-500">Prefer a quick call? Dial <a class="underline" href="tel:12567010912">256‑701‑0912</a>.</p>
+      </form>
+
+      <!-- Facebook Page embed (SDK loaded once at bottom) -->
+      <div class="mt-10">
+        <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=61577473202289" data-tabs="timeline" data-width="500" data-hide-cover="false" data-show-facepile="true"></div>
+      </div>
+    </div>
+  </section>
+
   <!-- Payments -->
   <section data-route="payments" class="bg-white">
     <div class="max-w-3xl mx-auto px-4 py-16">
@@ -302,84 +375,13 @@
       if (m) m.classList.add('hidden');
     }
     window.addEventListener('hashchange', render);
-    window.addEventListener('load', () => { render(); document.getElementById('yr').textContent = new Date().getFullYear(); });
+    
     window.addEventListener('load', () => { render(); document.getElementById('yr').textContent = new Date().getFullYear(); });
   </script>
   
   <!-- (contact AJAX removed; Web3Forms posts directly) -->
 
   
-  <!-- Unified Facebook SDK + Customer Chat (single load) -->
-  <div id="fb-root"></div>
-  <script>
-    (function() {
-      // Load core SDK once
-      if (!document.getElementById('facebook-jssdk')) {
-        var js = document.createElement('script');
-        js.id = 'facebook-jssdk';
-        js.src = 'https://connect.facebook.net/en_US/sdk.js';
-        js.onload = function(){
-          if (window.FB && !window._fbInitDone) {
-            window._fbInitDone = true;
-            FB.init({ xfbml: true, version: 'v19.0' });
-          }
-        };
-        document.body.appendChild(js);
-      }
-      // Load customer chat plugin once
-      if (!document.getElementById('facebook-jssdk-customerchat')) {
-        var cjs = document.createElement('script');
-        cjs.id = 'facebook-jssdk-customerchat';
-        cjs.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-        document.body.appendChild(cjs);
-      }
-      // Configure chat box
-      var chatbox = document.getElementById('fb-customer-chat');
-      if (!chatbox) {
-        chatbox = document.createElement('div');
-        chatbox.id = 'fb-customer-chat';
-        chatbox.className = 'fb-customerchat';
-        document.body.appendChild(chatbox);
-      }
-      chatbox.setAttribute('page_id', '61577473202289');
-      chatbox.setAttribute('attribution', 'biz_inbox');
-    })();
-  </script>
-  <!-- Unified Facebook SDK + Customer Chat (single load) -->
-  <div id="fb-root"></div>
-  <script>
-    (function() {
-      // Load core SDK once
-      if (!document.getElementById('facebook-jssdk')) {
-        var js = document.createElement('script');
-        js.id = 'facebook-jssdk';
-        js.src = 'https://connect.facebook.net/en_US/sdk.js';
-        js.onload = function(){
-          if (window.FB && !window._fbInitDone) {
-            window._fbInitDone = true;
-            FB.init({ xfbml: true, version: 'v19.0' });
-          }
-        };
-        document.body.appendChild(js);
-      }
-      // Load customer chat plugin once
-      if (!document.getElementById('facebook-jssdk-customerchat')) {
-        var cjs = document.createElement('script');
-        cjs.id = 'facebook-jssdk-customerchat';
-        cjs.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-        document.body.appendChild(cjs);
-      }
-      // Ensure single chat box
-      var chatbox = document.getElementById('fb-customer-chat');
-      if (!chatbox) {
-        chatbox = document.createElement('div');
-        chatbox.id = 'fb-customer-chat';
-        chatbox.className = 'fb-customerchat';
-        document.body.appendChild(chatbox);
-      }
-      chatbox.setAttribute('page_id', '61577473202289');
-      chatbox.setAttribute('attribution', 'biz_inbox');
-    })();
-  </script>
+  
 </body>
 </html>
