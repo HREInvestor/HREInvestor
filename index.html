@@ -51,7 +51,7 @@
     html { scroll-behavior: auto !important; }
   </style>
 
-  <!-- Cal.com embed (loads once) -->
+  <!-- Cal.com embed (popup) -->
   <script src="https://cal.com/embed.js" async></script>
 </head>
 
@@ -78,16 +78,22 @@
         <a class="hover:text-brand" href="#/details">Details</a>
         <a class="hover:text-brand" href="#/contact">Get in Touch</a>
         <a class="hover:text-brand" href="#/payments">Payments</a>
+        <!-- New: Book a Call button (popup) -->
+        <button id="bookHeaderBtn" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand text-white hover:bg-brand-dark">
+          Book a Call
+        </button>
       </nav>
       <button class="md:hidden p-2" aria-label="Menu" onclick="document.getElementById('mnav').classList.toggle('hidden')">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       </button>
     </div>
+    <!-- Mobile menu -->
     <div id="mnav" class="md:hidden hidden border-t">
       <div class="px-4 py-3 grid gap-2 font-semibold">
         <a class="hover:text-brand" href="#/details">Details</a>
         <a class="hover:text-brand" href="#/contact">Get in Touch</a>
         <a class="hover:text-brand" href="#/payments">Payments</a>
+        <button id="bookHeaderBtnMobile" class="px-3 py-2 rounded-lg bg-brand text-white hover:bg-brand-dark text-left">Book a Call</button>
       </div>
     </div>
   </header>
@@ -172,11 +178,11 @@
     </div>
   </section>
 
-  <!-- Get in Touch (Contact + Cal.com) -->
+  <!-- Get in Touch (Contact; no inline scheduler) -->
   <section data-route="contact" class="bg-slate-50">
     <div class="max-w-3xl mx-auto px-4 py-16">
       <h2 class="text-3xl md:text-4xl font-extrabold">Get in Touch</h2>
-      <p class="mt-2 text-slate-700">Message us and we’ll get back fast (usually same day). Prefer to talk? Book a quick call below.</p>
+      <p class="mt-2 text-slate-700">Message us and we’ll get back fast (usually same day). Prefer to talk? Tap “Book a Call” at the top.</p>
 
       <!-- Printed contact info block -->
       <div class="mt-6 p-5 rounded-2xl bg-white border">
@@ -206,24 +212,12 @@
         <label class="inline-flex items-start gap-2 text-sm text-slate-600"><input type="checkbox" required class="mt-1"> I agree to the <a href="#/privacy" class="underline ml-1">Privacy Policy</a>.</label>
         <div class="flex flex-wrap gap-3">
           <button class="px-5 py-3 rounded-xl bg-brand text-white font-semibold hover:bg-brand-dark">Send</button>
-          <!-- Popup (Cal.com) with prefill -->
           <button type="button" id="bookPopupBtn" class="px-5 py-3 rounded-xl border border-brand text-brand font-semibold hover:bg-brand/5">
             Book a Call (popup)
           </button>
         </div>
         <p class="text-xs text-slate-500">Prefer a quick call? Dial <a class="underline" href="tel:12567010912">256-701-0912</a>.</p>
       </form>
-
-      <!-- Cal.com Inline Widget -->
-      <div class="mt-12">
-        <h3 class="text-xl font-extrabold">Schedule a Quick Call</h3>
-        <p class="text-slate-700 mt-1">Pick a time that works. We’ll confirm by text/email.</p>
-        <div class="mt-4 rounded-2xl overflow-hidden border">
-          <cal-inline-widget id="calInline"
-             cal-link="hreinvestor/30min"
-             style="min-width:320px;height:700px;"></cal-inline-widget>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -299,7 +293,7 @@
     <div class="text-center text-xs text-slate-500 pb-8">© <span id="yr"></span> Huntsville Real Estate Investors LLC • All rights reserved.</div>
   </footer>
 
-  <!-- Facebook SDK + Customer Chat -->
+  <!-- Unified Facebook SDK + Customer Chat -->
   <div id="fb-root"></div>
   <script>
     (function() {
@@ -366,27 +360,33 @@
       const a = e.target.closest('a[href^="#/"]'); if (a) setTimeout(jumpTop, 0);
     });
 
-    // Cal.com popup with prefill from the Contact form
+    // Open Cal.com popup; prefill from contact form if available
+    function openCalPopup() {
+      const name = (document.getElementById('contactName') || {}).value || '';
+      const email = (document.getElementById('contactEmail') || {}).value || '';
+      const qs = new URLSearchParams({ name, email }).toString();
+      if (window.Cal) {
+        window.Cal('open', { href: CAL_HREF + (qs ? ('?' + qs) : '') });
+      } else {
+        window.open(CAL_HREF + (qs ? ('?' + qs) : ''), '_blank');
+      }
+    }
+
     window.addEventListener('load', () => {
       render();
       const yr = document.getElementById('yr'); if (yr) yr.textContent = new Date().getFullYear();
 
-      const btn = document.getElementById('bookPopupBtn');
-      if (btn) {
-        btn.addEventListener('click', () => {
-          const name = (document.getElementById('contactName') || {}).value || '';
-          const email = (document.getElementById('contactEmail') || {}).value || '';
-          const qs = new URLSearchParams({ name, email }).toString();
-          if (window.Cal) {
-            window.Cal('open', { href: CAL_HREF + (qs ? ('?' + qs) : '') });
-          } else {
-            window.open(CAL_HREF + (qs ? ('?' + qs) : ''), '_blank');
-          }
-        });
-      }
-      // Ensure inline widget points to the right link (safety)
-      const el = document.getElementById('calInline');
-      if (el) el.setAttribute('cal-link', 'hreinvestor/30min');
+      const btnHeader = document.getElementById('bookHeaderBtn');
+      if (btnHeader) btnHeader.addEventListener('click', openCalPopup);
+
+      const btnHeaderMobile = document.getElementById('bookHeaderBtnMobile');
+      if (btnHeaderMobile) btnHeaderMobile.addEventListener('click', () => {
+        openCalPopup();
+        const m = document.getElementById('mnav'); if (m) m.classList.add('hidden');
+      });
+
+      const btnForm = document.getElementById('bookPopupBtn');
+      if (btnForm) btnForm.addEventListener('click', openCalPopup);
     });
 
     window.addEventListener('hashchange', render);
