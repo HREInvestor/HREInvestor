@@ -49,6 +49,8 @@
     /* Strong route visibility control */
     section[data-route] { display: none !important; }
     section[data-route].active { display: block !important; }
+    /* Ensure instant jump (no smooth scroll) */
+    html { scroll-behavior: auto !important; }
   </style>
 </head>
 
@@ -343,7 +345,7 @@
     })();
   </script>
 
-  <!-- Robust hash router + scroll-to-top -->
+  <!-- Robust hash router + bulletproof scroll-to-top -->
   <script>
     const ROUTES = new Map([
       ['#/', 'home'],
@@ -355,9 +357,17 @@
       ['#/terms', 'terms'],
     ]);
 
+    function jumpTop() {
+      // Try standard API
+      try { window.scrollTo({ top: 0, left: 0, behavior: 'auto' }); } catch(e) {}
+      // Fallbacks for older mobile Safari
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+
     function normalizeHash(h) {
       if (!h || h === '#') return '#/';
-      const base = h.split('?')[0].replace(/\/+$/,''); // drop ?query and trailing /
+      const base = h.split('?')[0].replace(/\/+$/,'');
       return base || '#/';
     }
 
@@ -372,9 +382,18 @@
       const hash = normalizeHash(location.hash);
       const key = ROUTES.get(hash) || 'home';
       showRoute(key);
-      // Always jump to top on route change
-      window.scrollTo(0, 0);
+      // Ensure top after DOM paints
+      requestAnimationFrame(() => { jumpTop(); requestAnimationFrame(jumpTop); });
     }
+
+    // Always jump top on any SPA link click, even if hash doesn't change
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest('a[href^="#/"]');
+      if (a) {
+        // Let the router handle visibility, we just ensure the scroll jump
+        setTimeout(jumpTop, 0);
+      }
+    });
 
     window.addEventListener('hashchange', render);
     window.addEventListener('load', () => {
