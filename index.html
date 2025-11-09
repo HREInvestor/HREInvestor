@@ -46,12 +46,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
-    /* Strong route visibility control */
     section[data-route] { display: none !important; }
     section[data-route].active { display: block !important; }
-    /* Ensure instant jump (no smooth scroll) */
     html { scroll-behavior: auto !important; }
   </style>
+
+  <!-- Calendly embed script (loads once) -->
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 </head>
 
 <body class="bg-slate-50 text-slate-800">
@@ -115,11 +117,9 @@
           <div>
             <!-- Hero Property Collage -->
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <!-- Large feature image -->
               <a href="#/details" class="col-span-2 row-span-2 md:col-span-2 md:row-span-2 overflow-hidden rounded-2xl shadow">
                 <img src="assets/properties/prop-1.jpg?v=1" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27800%27 height=%27600%27%3E%3Crect width=%27100%25%27 height=%27100%25%27 fill=%27%23e5e7eb%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 dominant-baseline=%27middle%27 text-anchor=%27middle%27 fill=%27%236b7280%27 font-family=%27Arial, sans-serif%27 font-size=%2720%27%3Emissing: assets/properties/prop-1.jpg%3C/text%3E%3C/svg%3E' " alt="Featured property" class="h-full w-full object-cover" loading="lazy">
               </a>
-              <!-- Supporting images -->
               <a href="#/details" class="overflow-hidden rounded-2xl shadow">
                 <img src="assets/properties/prop-2.jpg?v=1" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27800%27 height=%27600%27%3E%3Crect width=%27100%25%27 height=%27100%25%27 fill=%27%23e5e7eb%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 dominant-baseline=%27middle%27 text-anchor=%27middle%27 fill=%27%236b7280%27 font-family=%27Arial, sans-serif%27 font-size=%2720%27%3Emissing: assets/properties/prop-2.jpg%3C/text%3E%3C/svg%3E' " alt="Interior or parcel view" class="h-full w-full object-cover" loading="lazy">
               </a>
@@ -146,7 +146,6 @@
       <div class="max-w-6xl mx-auto px-4 py-12">
         <h3 class="text-2xl font-extrabold mb-4">From Instagram</h3>
         <div class="rounded-2xl overflow-hidden border">
-          <!-- LightWidget WIDGET -->
           <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
           <iframe src="https://cdn.lightwidget.com/widgets/e4aa32533dc15e2fa8407351891ab765.html" scrolling="no" allowtransparency="true" class="lightwidget-widget" style="width:100%;border:0;overflow:hidden;"></iframe>
         </div>
@@ -170,14 +169,6 @@
       <h3 class="mt-6 font-extrabold text-xl">Our Process</h3>
       <p class="mt-2 text-slate-700"><strong>1) Lead & Fit:</strong> You share the address or parcel (PIN) and your goals. We run a quick fit check and pull county records. <strong>2) Clear Numbers:</strong> We send a one-page term sheet covering price, timeline, and any survey/deed items. <strong>3) Paperwork:</strong> We draft clean documents; you sign in person or electronically. <strong>4) Close & Move-In:</strong> Recording, keys/lot access, and final receipts are coordinated promptly.</p>
 
-      <h3 class="mt-6 font-extrabold text-xl">Values & Standards</h3>
-      <p class="mt-2 text-slate-700">We favor straight talk, punctuality, and documented promises. You’ll always know what comes next, who’s doing it, and when it will be done.</p>
-
-      <div class="mt-10 p-5 rounded-2xl bg-amber-50 border border-amber-200">
-        <p class="font-semibold">Have a specific parcel or rental in mind?</p>
-        <p class="text-slate-700">Send the <em>address, parcel number (PIN), and photos</em>. We’ll reply with options and timelines the same day in most cases.</p>
-      </div>
-
       <div class="mt-10">
         <a href="#/contact" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand text-white font-semibold hover:bg-brand-dark">Contact Us</a>
       </div>
@@ -188,7 +179,7 @@
   <section data-route="contact" class="bg-slate-50">
     <div class="max-w-3xl mx-auto px-4 py-16">
       <h2 class="text-3xl md:text-4xl font-extrabold">Get in Touch</h2>
-      <p class="mt-2 text-slate-700">Message us and we’ll get back fast (usually same day), or grab a time on our calendar below.</p>
+    <p class="mt-2 text-slate-700">Message us and we’ll get back fast (usually same day). Prefer to talk? Book a quick call below.</p>
 
       <!-- Printed contact info block -->
       <div class="mt-6 p-5 rounded-2xl bg-white border">
@@ -204,30 +195,38 @@
       </div>
 
       <!-- Contact form using Web3Forms -->
-      <form action="https://api.web3forms.com/submit" method="POST" class="mt-8 grid gap-4">
+      <form action="https://api.web3forms.com/submit" method="POST" class="mt-8 grid gap-4" id="contactForm">
         <input type="hidden" name="access_key" value="0d2dfed2-68b2-415d-a96f-46608eba02c0">
         <input type="text" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="grid md:grid-cols-2 gap-4">
-          <input name="name" required class="px-4 py-3 rounded-xl border" placeholder="Your name" />
-          <input name="email" type="email" required class="px-4 py-3 rounded-xl border" placeholder="Email" />
+          <input id="contactName" name="name" required class="px-4 py-3 rounded-xl border" placeholder="Your name" />
+          <input id="contactEmail" name="email" type="email" required class="px-4 py-3 rounded-xl border" placeholder="Email" />
         </div>
         <input name="phone" class="px-4 py-3 rounded-xl border" placeholder="Phone (optional)" />
         <textarea name="message" required class="px-4 py-3 rounded-xl border min-h-[120px]" placeholder="What can we help with?"></textarea>
         <input type="hidden" name="from_name" value="HREI Website">
         <input type="hidden" name="redirect" value="https://hreinvestor.github.io/HREInvestor/#/contact">
         <label class="inline-flex items-start gap-2 text-sm text-slate-600"><input type="checkbox" required class="mt-1"> I agree to the <a href="#/privacy" class="underline ml-1">Privacy Policy</a>.</label>
-        <button class="px-5 py-3 rounded-xl bg-brand text-white font-semibold hover:bg-brand-dark">Send</button>
+        <div class="flex flex-wrap gap-3">
+          <button class="px-5 py-3 rounded-xl bg-brand text-white font-semibold hover:bg-brand-dark">Send</button>
+
+          <!-- Popup Calendly with prefill from the fields above -->
+          <button type="button" id="bookPopupBtn" class="px-5 py-3 rounded-xl border border-brand text-brand font-semibold hover:bg-brand/5">
+            Book a Call (popup)
+          </button>
+        </div>
         <p class="text-xs text-slate-500">Prefer a quick call? Dial <a class="underline" href="tel:12567010912">256-701-0912</a>.</p>
       </form>
 
-      <!-- Schedule a Call (Calendly) -->
+      <!-- Calendly Inline Widget (always visible) -->
       <div class="mt-12">
         <h3 class="text-xl font-extrabold">Schedule a Quick Call</h3>
         <p class="text-slate-700 mt-1">Pick a time that works. We’ll confirm by text/email.</p>
-        <div class="mt-4 aspect-[4/3] rounded-2xl overflow-hidden border">
-          <!-- Replace with your Calendly link -->
-          <iframe src="https://calendly.com/your-calendly/intro?hide_gdpr_banner=1"
-                  class="w-full h-full" frameborder="0" title="Book a call"></iframe>
+        <div class="mt-4 rounded-2xl overflow-hidden border">
+          <!-- Replace the URL with your real Calendly URL if different -->
+          <div class="calendly-inline-widget"
+               data-url="https://calendly.com/hrei-booking/intro?hide_gdpr_banner=1"
+               style="min-width:320px;height:700px;"></div>
         </div>
       </div>
     </div>
@@ -311,27 +310,19 @@
   <div id="fb-root"></div>
   <script>
     (function() {
-      // Load core SDK once
       if (!document.getElementById('facebook-jssdk')) {
         var js = document.createElement('script');
         js.id = 'facebook-jssdk';
         js.src = 'https://connect.facebook.net/en_US/sdk.js';
-        js.onload = function(){
-          if (window.FB && !window._fbInitDone) {
-            window._fbInitDone = true;
-            FB.init({ xfbml: true, version: 'v19.0' });
-          }
-        };
+        js.onload = function(){ if (window.FB && !window._fbInitDone) { window._fbInitDone = true; FB.init({ xfbml: true, version: 'v19.0' }); } };
         document.body.appendChild(js);
       }
-      // Load customer chat plugin once
       if (!document.getElementById('facebook-jssdk-customerchat')) {
         var cjs = document.createElement('script');
         cjs.id = 'facebook-jssdk-customerchat';
         cjs.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
         document.body.appendChild(cjs);
       }
-      // Ensure single chat box
       var chatbox = document.getElementById('fb-customer-chat');
       if (!chatbox) {
         chatbox = document.createElement('div');
@@ -344,8 +335,11 @@
     })();
   </script>
 
-  <!-- Robust hash router + bulletproof scroll-to-top + kill stray 'Find us on Maps' -->
+  <!-- Router + scroll-to-top + Calendly helpers -->
   <script>
+    // Config: set your Calendly URL here one time
+    const CALENDLY_URL = 'https://calendly.com/hrei-booking/intro?hide_gdpr_banner=1';
+
     const ROUTES = new Map([
       ['#/', 'home'],
       ['#/home', 'home'],
@@ -375,31 +369,44 @@
       const m = document.getElementById('mnav'); if (m) m.classList.add('hidden');
     }
 
-    function killMapsLink() {
-      document.querySelectorAll('a').forEach(a => {
-        if (a && /find us on maps/i.test(a.textContent || '')) a.remove();
-      });
-    }
-
     function render() {
       const hash = normalizeHash(location.hash);
       const key = ROUTES.get(hash) || 'home';
       showRoute(key);
       requestAnimationFrame(() => { jumpTop(); requestAnimationFrame(jumpTop); });
-      killMapsLink();
     }
 
-    // Always jump top on any SPA link click, even if hash doesn't change
+    // Always jump top on SPA nav click
     document.addEventListener('click', (e) => {
       const a = e.target.closest('a[href^="#/"]');
       if (a) setTimeout(jumpTop, 0);
     });
 
-    window.addEventListener('hashchange', render);
+    // Calendly Popup with prefill from the Contact form
     window.addEventListener('load', () => {
       render();
       const yr = document.getElementById('yr'); if (yr) yr.textContent = new Date().getFullYear();
+
+      const popupBtn = document.getElementById('bookPopupBtn');
+      if (popupBtn) {
+        popupBtn.addEventListener('click', () => {
+          const name = (document.getElementById('contactName') || {}).value || '';
+          const email = (document.getElementById('contactEmail') || {}).value || '';
+          // open popup; embed.js handles async
+          if (window.Calendly) {
+            window.Calendly.initPopupWidget({
+              url: CALENDLY_URL,
+              prefill: { name, email }
+            });
+          } else {
+            // Fallback: open Calendly page if script not yet ready
+            window.open(CALENDLY_URL, '_blank');
+          }
+        });
+      }
     });
+
+    window.addEventListener('hashchange', render);
   </script>
 </body>
 </html>
