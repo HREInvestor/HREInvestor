@@ -158,6 +158,7 @@
                 <span class="absolute bottom-2 right-2 text-xs text-white bg-black/50 px-2 py-1 rounded">View more →</span>
               </a>
             </div>
+            <p class="mt-2 text-xs text-slate-500">Add your images to <code>assets/properties/</code> named <code>prop-1.jpg</code> … <code>prop-5.jpg</code>. Any size works; landscape 1600×900 looks best.</p>
           </div>
         </div>
       </div>
@@ -271,18 +272,37 @@
 
   <script>
     // Hash router
-    const routes = { '': 'home', '/': 'home', '#/': 'home', '#/details': 'details', '#/contact': 'contact', '#/payments': 'payments', '#/book': 'book' };
+    const routes = {
+      '': 'home',
+      '/': 'home',
+      '#/': 'home',
+      '#/home': 'home',
+      '#/details': 'details',
+      '#/contact': 'contact',
+      '#/payments': 'payments',
+      '#/book': 'book',
+      '#/privacy': 'privacy',
+      '#/terms': 'terms'
+    };
+    function normalizeHash(h) {
+      if (!h) return '#/';
+      // keep only path, strip query/hash fragments after ? and trailing slashes
+      let x = h.split('?')[0].replace(/\/+$/,'');
+      if (x === '#' || x === '') x = '#/';
+      return x;
+    }
     function render() {
-      const hash = location.hash || '#/';
-      document.querySelectorAll('section[data-route]').forEach(s => s.classList.remove('active'));
+      const raw = location.hash || '#/';
+      const hash = normalizeHash(raw);
       const key = routes[hash] || 'home';
+      document.querySelectorAll('section[data-route]').forEach(s => s.classList.remove('active'));
       const el = document.querySelector(`section[data-route="${key}"]`);
       if (el) el.classList.add('active');
-      // close mobile nav on route change
       const m = document.getElementById('mnav');
       if (m) m.classList.add('hidden');
     }
     window.addEventListener('hashchange', render);
+    window.addEventListener('load', () => { render(); document.getElementById('yr').textContent = new Date().getFullYear(); });
     window.addEventListener('load', () => { render(); document.getElementById('yr').textContent = new Date().getFullYear(); });
   </script>
   
