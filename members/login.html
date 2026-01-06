@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Member Login</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main style="max-width:520px;margin:40px auto;padding:16px;">
+    <h1>Member Login</h1>
+    <p>Log in to access forms, mini-courses, and templates.</p>
+
+    <label>Email</label>
+    <input id="email" type="email" style="width:100%;padding:10px;margin:6px 0 12px;" />
+
+    <label>Password</label>
+    <input id="password" type="password" style="width:100%;padding:10px;margin:6px 0 12px;" />
+
+    <div style="display:flex;gap:10px;">
+      <button id="loginBtn" style="padding:10px 14px;">Log in</button>
+      <button id="signupBtn" style="padding:10px 14px;">Create account</button>
+    </div>
+
+    <p id="msg" style="margin-top:12px;color:#b00020;"></p>
+    <p style="margin-top:18px;"><a href="/">? Back to site</a></p>
+  </main>
+
+  <script type="module" src="/assets/js/login.js"></script>
+</body>
+</html>

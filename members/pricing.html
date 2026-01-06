@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Get Access</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <script>window.__REQUIRE_PAID__ = false;</script>
+  <script type="module" src="/assets/js/auth-guard.js"></script>
+
+  <main style="max-width:720px;margin:40px auto;padding:16px;">
+    <h1>All-Access Pass —  (one-time)</h1>
+    <ul>
+      <li>Forms + templates</li>
+      <li>Mini-courses</li>
+      <li>Download library</li>
+    </ul>
+
+    <button id="buyBtn" style="padding:12px 16px;font-size:16px;">Buy Access</button>
+    <p id="note" style="margin-top:12px;"></p>
+
+    <p style="margin-top:18px;"><a href="/members/login.html">Back to login</a></p>
+  </main>
+
+  <script src="/assets/js/pricing.js"></script>
+  <script>
+    document.getElementById("buyBtn").addEventListener("click", () => {
+      if (!window.CLOVER_CHECKOUT_URL || window.CLOVER_CHECKOUT_URL.includes("PASTE")) {
+        document.getElementById("note").textContent = "Paste your Clover pay link into /assets/js/pricing.js";
+        return;
+      }
+      window.location.href = window.CLOVER_CHECKOUT_URL;
+    });
+  </script>
+</body>
+</html>
