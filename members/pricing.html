@@ -13,7 +13,7 @@
 
   <!-- If already paid, skip this page -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
@@ -27,7 +27,9 @@
       measurementId: "G-SLBVTW55MG"
     };
 
-    const app = initializeApp(firebaseConfig);
+    // Reuse existing Firebase app if auth-guard already created it
+    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+
     const auth = getAuth(app);
     const db = getFirestore(app);
 
