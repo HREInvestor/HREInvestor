@@ -1,16 +1,8 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// NOTE: This must exist only ONCE in this file.
 const firebaseConfig = {
   apiKey: "AIzaSyCqyyGwpbYfzigj5dYCyXrOC9bFJwNYc_s",
   authDomain: "hrei-members.firebaseapp.com",
@@ -21,18 +13,16 @@ const firebaseConfig = {
   measurementId: "G-SLBVTW55MG"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// Reuse existing Firebase app if already created elsewhere
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
 const LOGIN_URL = "/members/login.html";
 const PRICING_URL = "/members/pricing.html";
 
-// Set window.__REQUIRE_PAID__ = false on pages that only require login (like pricing)
+// On pages that only require login (like pricing), set: window.__REQUIRE_PAID__ = false;
 const mustBePaid = window.__REQUIRE_PAID__ !== false;
 
 onAuthStateChanged(auth, async (user) => {
@@ -40,6 +30,7 @@ onAuthStateChanged(auth, async (user) => {
     window.location.replace(LOGIN_URL);
     return;
   }
+
   if (!mustBePaid) return;
 
   const snap = await getDoc(doc(db, "users", user.uid));
