@@ -1,16 +1,7 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyCqyyGwpbYfzigj5dYCyXrOC9bFJwNYc_s",
   authDomain: "hrei-members.firebaseapp.com",
@@ -21,57 +12,53 @@ const firebaseConfig = {
   measurementId: "G-SLBVTW55MG"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-const app = initializeApp(firebaseConfig);
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const msg = document.getElementById("msg");
+const emailEl = document.getElementById("email");
+const passEl = document.getElementById("password");
+const msgEl = document.getElementById("msg");
+const loginBtn = document.getElementById("loginBtn");
+const signupBtn = document.getElementById("signupBtn");
 
-document.getElementById("signupBtn").addEventListener("click", async () => {
-  msg.textContent = "";
+function setMsg(t) { if (msgEl) msgEl.textContent = t || ""; }
+function val(el) { return (el?.value || "").trim(); }
+
+async function routeAfterLogin(uid) {
+  const ref = doc(db, "users", uid);
+  const snap = await getDoc(ref);
+  const paid = snap.exists() && snap.data().paid === true;
+  window.location.replace(paid ? "/members/dashboard.html" : "/members/pricing.html");
+}
+
+loginBtn?.addEventListener("click", async () => {
   try {
-    const cred = await createUserWithEmailAndPassword(auth, email.value.trim(), password.value);
-    await setDoc(doc(db, "users", cred.user.uid), { paid: false, createdAt: Date.now() }, { merge: true });
-    window.location.href = "/members/pricing.html";
+    setMsg("");
+    const email = val(emailEl);
+    const password = val(passEl);
+    if (!email || !password) return setMsg("Enter email and password.");
+    const cred = await signInWithEmailAndPassword(auth, email, password);
+    await routeAfterLogin(cred.user.uid);
   } catch (e) {
-    msg.textContent = e.message;
+    setMsg(e?.message || "Login failed.");
   }
 });
 
-document.getElementById("loginBtn").addEventListener("click", async () => {
-  msg.textContent = "";
+signupBtn?.addEventListener("click", async () => {
   try {
-    await signInWithEmailAndPassword(auth, email.value.trim(), password.value);
-    window.location.href = "/members/dashboard.html";
+    setMsg("");
+    const email = val(emailEl);
+    const password = val(passEl);
+    if (!email || !password) return setMsg("Enter email and password.");
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+
+    // Create user doc if it doesn't exist
+    const ref = doc(db, "users", cred.user.uid);
+    await setDoc(ref, { paid: false, email }, { merge: true });
+
+    window.location.replace("/members/pricing.html");
   } catch (e) {
-    msg.textContent = e.message;
+    setMsg(e?.message || "Signup failed.");
   }
 });
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCqyyGwpbYfzigj5dYCyXrOC9bFJwNYc_s",
-  authDomain: "hrei-members.firebaseapp.com",
-  projectId: "hrei-members",
-  storageBucket: "hrei-members.firebasestorage.app",
-  messagingSenderId: "756905354156",
-  appId: "1:756905354156:web:f50a6bc24aec9954bd5009",
-  measurementId: "G-SLBVTW55MG"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
