@@ -2,7 +2,6 @@ import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebase
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-// NOTE: This must exist only ONCE in this file.
 const firebaseConfig = {
   apiKey: "AIzaSyCqyyGwpbYfzigj5dYCyXrOC9bFJwNYc_s",
   authDomain: "hrei-members.firebaseapp.com",
@@ -13,21 +12,22 @@ const firebaseConfig = {
   measurementId: "G-SLBVTW55MG"
 };
 
-// Reuse existing Firebase app if already created elsewhere
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-
 const auth = getAuth(app);
 const db = getFirestore(app);
 
 const LOGIN_URL = "/members/login.html";
 const PRICING_URL = "/members/pricing.html";
 
-// On pages that only require login (like pricing), set: window.__REQUIRE_PAID__ = false;
+// Set window.__REQUIRE_PAID__ = false on pages that require login but not paid (pricing)
 const mustBePaid = window.__REQUIRE_PAID__ !== false;
 
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    window.location.replace(LOGIN_URL);
+    // Don't loop if already on login
+    if (!window.location.pathname.endsWith("/members/login.html")) {
+      window.location.replace(LOGIN_URL);
+    }
     return;
   }
 
