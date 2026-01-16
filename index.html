@@ -53,6 +53,12 @@
 
   <!-- Cal.com embed (popup) -->
   <script src="https://cal.com/embed.js" async></script>
+  
+  <!-- ================================================== -->
+  <!-- NEW: Supabase Client Library -->
+  <!-- ================================================== -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 </head>
 
 <body class="bg-slate-50 text-slate-800">
@@ -75,10 +81,13 @@
         <span class="font-extrabold tracking-tight text-brand">HREI</span>
       </a>
       <nav class="hidden md:flex items-center gap-6 font-semibold">
+        <!-- ================================================== -->
+        <!-- NEW: Deals link added to navigation -->
+        <!-- ================================================== -->
+        <a class="hover:text-brand" href="#/deals">Deals</a>
         <a class="hover:text-brand" href="#/details">Details</a>
         <a class="hover:text-brand" href="#/contact">Get in Touch</a>
         <a class="hover:text-brand" href="#/payments">Payments</a>
-        <!-- New: Book a Call button (popup) -->
         <button id="bookHeaderBtn" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand text-white hover:bg-brand-dark">
           Book a Call
         </button>
@@ -90,6 +99,10 @@
     <!-- Mobile menu -->
     <div id="mnav" class="md:hidden hidden border-t">
       <div class="px-4 py-3 grid gap-2 font-semibold">
+        <!-- ================================================== -->
+        <!-- NEW: Deals link added to mobile navigation -->
+        <!-- ================================================== -->
+        <a class="hover:text-brand" href="#/deals">Deals</a>
         <a class="hover:text-brand" href="#/details">Details</a>
         <a class="hover:text-brand" href="#/contact">Get in Touch</a>
         <a class="hover:text-brand" href="#/payments">Payments</a>
@@ -118,7 +131,6 @@
             </div>
           </div>
           <div>
-            <!-- Hero Property Collage -->
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
               <a href="#/details" class="col-span-2 row-span-2 md:col-span-2 md:row-span-2 overflow-hidden rounded-2xl shadow">
                 <img src="assets/properties/prop-1.jpg?v=1" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27800%27 height=%27600%27%3E%3Crect width=%27100%25%27 height=%27100%25%27 fill=%27%23e5e7eb%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 dominant-baseline=%27middle%27 text-anchor=%27middle%27 fill=%27%236b7280%27 font-family=%27Arial, sans-serif%27 font-size=%2720%27%3Emissing: assets/properties/prop-1.jpg%3C/text%3E%3C/svg%3E' " alt="Featured property" class="h-full w-full object-cover" loading="lazy">
@@ -157,34 +169,58 @@
     </div>
   </section>
 
+  <!-- ================================================== -->
+  <!-- NEW: Deals Section -->
+  <!-- ================================================== -->
+  <section data-route="deals" class="bg-white">
+    <div class="max-w-5xl mx-auto px-4 py-16">
+      <h2 class="text-3xl md:text-4xl font-extrabold">Available Deals</h2>
+      <p class="mt-2 text-slate-700">The table below shows our current inventory of properties available for assignment. These are active deals under contract, ready for another investor. Contact us for more details on any property.</p>
+      
+      <div class="mt-8 overflow-x-auto">
+        <table class="min-w-full text-sm text-left">
+          <thead class="bg-slate-100">
+            <tr>
+              <th class="p-3 font-bold">Property Address</th>
+              <th class="p-3 font-bold">City</th>
+              <th class="p-3 font-bold">Asking Price</th>
+              <th class="p-3 font-bold">ARV</th>
+              <th class="p-3 font-bold">Notes</th>
+            </tr>
+          </thead>
+          <tbody id="deals-tbody" class="divide-y">
+            <!-- Supabase data will be loaded here -->
+            <tr>
+              <td colspan="5" class="p-4 text-center text-slate-500">Loading available deals...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
   <!-- Details -->
   <section data-route="details" class="bg-white">
     <div class="max-w-3xl mx-auto px-4 py-16">
       <h2 class="text-3xl md:text-4xl font-extrabold">What We Do</h2>
       <p class="mt-4 text-slate-700">HREI specializes in <strong>simple land contracts</strong> and <strong>short-, medium-, and long-term rentals</strong> across North Alabama. Our goal is to remove red tape and make every step—from first call to keys in hand—predictable and transparent.</p>
-
       <h3 class="mt-8 font-extrabold text-xl">Land Contracts (Installment Sales)</h3>
       <p class="mt-2 text-slate-700">For buyers who want to spread payments over time, we structure clear installment agreements with straightforward terms, no surprise fees, and plain-English language alongside the precise legal wording. We outline price, timeline, survey and deed costs up front, then provide receipts and a tidy folder of PDFs after signing and recording.</p>
-
       <h3 class="mt-6 font-extrabold text-xl">Rentals (Short • Medium • Long Term)</h3>
       <p class="mt-2 text-slate-700">Whether you need a place for a few weeks, a season, or years, we match properties to your use case and budget. We prioritize responsiveness, clean move-ins, and clear house rules. Payments are handled online through Clover for speed and convenience.</p>
-
       <h3 class="mt-6 font-extrabold text-xl">Our Process</h3>
       <p class="mt-2 text-slate-700"><strong>1) Lead & Fit:</strong> You share the address or parcel (PIN) and your goals. We run a quick fit check and pull county records. <strong>2) Clear Numbers:</strong> We send a one-page term sheet covering price, timeline, and any survey/deed items. <strong>3) Paperwork:</strong> We draft clean documents; you sign in person or electronically. <strong>4) Close & Move-In:</strong> Recording, keys/lot access, and final receipts are coordinated promptly.</p>
-
       <div class="mt-10">
         <a href="#/contact" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand text-white font-semibold hover:bg-brand-dark">Contact Us</a>
       </div>
     </div>
   </section>
 
-  <!-- Get in Touch (Contact; no inline scheduler) -->
+  <!-- Get in Touch (Contact) -->
   <section data-route="contact" class="bg-slate-50">
     <div class="max-w-3xl mx-auto px-4 py-16">
       <h2 class="text-3xl md:text-4xl font-extrabold">Get in Touch</h2>
       <p class="mt-2 text-slate-700">Message us and we’ll get back fast (usually same day). Prefer to talk? Tap “Book a Call” at the top.</p>
-
-      <!-- Printed contact info block -->
       <div class="mt-6 p-5 rounded-2xl bg-white border">
         <h3 class="font-bold text-lg">Ways to reach us</h3>
         <ul class="mt-3 space-y-1 text-slate-700">
@@ -196,8 +232,6 @@
           <li><span class="font-semibold">Serving:</span> North Alabama</li>
         </ul>
       </div>
-
-      <!-- Contact form -->
       <form action="https://api.web3forms.com/submit" method="POST" class="mt-8 grid gap-4" id="contactForm">
         <input type="hidden" name="access_key" value="0d2dfed2-68b2-415d-a96f-46608eba02c0">
         <input type="text" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -225,22 +259,16 @@
   <section data-route="payments" class="bg-white">
     <div class="max-w-3xl mx-auto px-4 py-16">
       <h2 class="text-3xl md:text-4xl font-extrabold">Payments</h2>
-
       <div class="mt-8 grid md:grid-cols-2 gap-6">
         <div class="p-5 rounded-2xl border bg-slate-50">
           <h3 class="font-bold">Pay Deposit</h3>
-          <a href="https://link.clover.com/urlshortener/vzh799"
-             target="_blank" rel="noopener"
-             class="mt-4 inline-flex items-center justify-center px-4 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark w-full">
+          <a href="https://link.clover.com/urlshortener/vzh799" target="_blank" rel="noopener" class="mt-4 inline-flex items-center justify-center px-4 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark w-full">
             Pay Deposit via Clover
           </a>
         </div>
-
         <div class="p-5 rounded-2xl border bg-slate-50">
           <h3 class="font-bold">Rent / Installment</h3>
-          <a href="https://link.clover.com/urlshortener/QLkgZY"
-             target="_blank" rel="noopener"
-             class="mt-4 inline-flex items-center justify-center px-4 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark w-full">
+          <a href="https://link.clover.com/urlshortener/QLkgZY" target="_blank" rel="noopener" class="mt-4 inline-flex items-center justify-center px-4 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark w-full">
             Pay Monthly via Clover
           </a>
         </div>
@@ -274,6 +302,7 @@
       <div>
         <div class="font-bold">Company</div>
         <ul class="mt-2 space-y-2">
+          <li><a class="hover:underline" href="#/deals">Deals</a></li>
           <li><a class="hover:underline" href="#/details">Details</a></li>
           <li><a class="hover:underline" href="#/contact">Get in Touch</a></li>
           <li><a class="hover:underline" href="#/payments">Payments</a></li>
@@ -326,9 +355,22 @@
   <script>
     const CAL_HREF = 'https://cal.com/hreinvestor/30min';
 
+    // ==================================================
+    // NEW: Supabase Client Initialization
+    // ==================================================
+    // 1. Get your URL and ANON KEY from your Supabase project's API settings.
+    // 2. Replace the placeholder text below with your actual keys.
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    // ==================================================
+    // MODIFIED: Router map updated with #/deals
+    // ==================================================
     const ROUTES = new Map([
       ['#/', 'home'],
       ['#/home', 'home'],
+      ['#/deals', 'deals'], // <-- New route
       ['#/details', 'details'],
       ['#/contact', 'contact'],
       ['#/payments', 'payments'],
@@ -349,6 +391,13 @@
       const el = document.querySelector(`section[data-route="${key}"]`);
       if (el) el.classList.add('active');
       const m = document.getElementById('mnav'); if (m) m.classList.add('hidden');
+      
+      // ==================================================
+      // NEW: Trigger data loading when deals route is active
+      // ==================================================
+      if (key === 'deals') {
+        loadDeals();
+      }
     }
     function render() {
       const hash = normalizeHash(location.hash);
@@ -360,7 +409,6 @@
       const a = e.target.closest('a[href^="#/"]'); if (a) setTimeout(jumpTop, 0);
     });
 
-    // Open Cal.com popup; prefill from contact form if available
     function openCalPopup() {
       const name = (document.getElementById('contactName') || {}).value || '';
       const email = (document.getElementById('contactEmail') || {}).value || '';
@@ -369,6 +417,46 @@
         window.Cal('open', { href: CAL_HREF + (qs ? ('?' + qs) : '') });
       } else {
         window.open(CAL_HREF + (qs ? ('?' + qs) : ''), '_blank');
+      }
+    }
+    
+    // ==================================================
+    // NEW: Function to load deals from Supabase
+    // ==================================================
+    async function loadDeals() {
+      const tableBody = document.getElementById('deals-tbody');
+      if (!tableBody) return;
+      
+      tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500">Loading available deals...</td></tr>';
+
+      const { data, error } = await _supabase
+        .from('leads')
+        .select('property_address, city, asking_price, arv, notes')
+        .eq('stage', 'Under Contract'); // This filter is enforced by your security policy
+
+      if (error) {
+          console.error('Error fetching deals:', error);
+          tableBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500">Error loading deals. Check the browser console for details.</td></tr>`;
+          return;
+      }
+
+      if (data.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500">No deals currently available. Check back soon!</td></tr>';
+          return;
+      }
+
+      tableBody.innerHTML = ''; // Clear the loading message
+      for (const deal of data) {
+          const row = document.createElement('tr');
+          row.className = 'hover:bg-slate-50';
+          row.innerHTML = `
+              <td class="p-3">${deal.property_address || ''}</td>
+              <td class="p-3">${deal.city || ''}</td>
+              <td class="p-3">$${deal.asking_price ? deal.asking_price.toLocaleString() : 'N/A'}</td>
+              <td class="p-3">$${deal.arv ? deal.arv.toLocaleString() : 'N/A'}</td>
+              <td class="p-3">${deal.notes || ''}</td>
+          `;
+          tableBody.appendChild(row);
       }
     }
 
