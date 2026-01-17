@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HREI CRM - Members Area</title>
+  <!-- Link to your existing stylesheet -->
+  <link rel="stylesheet" href="../styles.css">
+  <!-- Tailwind from your main page -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { brand: { DEFAULT:'#0B5C63', dark:'#073C40', accent:'#F59E0B' }}}}};</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <!-- Supabase Client Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-slate-100">
+
+  <!-- ================================================== -->
+  <!-- IMPORTANT: Authentication Guard -->
+  <!-- This script checks if the user is logged in and -->
+  <!-- redirects to login.html if they are not. -->
+  <!-- ================================================== -->
+  <script src="../assets/js/auth-guard.js"></script>
+
+  <!-- You can copy/paste your member navigation header here if you have one -->
+  
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <h1 class="text-3xl md:text-4xl font-extrabold">HREI Lead CRM</h1>
+    <p class="mt-2 text-slate-700">This table shows all leads from the database. This page is for internal use only.</p>
+    
+    <div class="mt-8 bg-white p-6 rounded-xl shadow-md overflow-x-auto">
+      <table class="min-w-full text-sm text-left">
+        <thead class="bg-slate-100">
+          <tr>
+            <th class="p-3 font-bold">Address</th>
+            <th class="p-3 font-bold">City</th>
+            <th class="p-3 font-bold">Stage</th>
+            <th class="p-3 font-bold">Asking Price</th>
+            <th class="p-3 font-bold">ARV</th>
+            <th class="p-3 font-bold">Notes</th>
+          </tr>
+        </thead>
+        <tbody id="crm-tbody" class="divide-y">
+          <!-- Supabase data will be loaded here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Supabase Client Initialization (LIVE KEYS)
+    const SUPABASE_URL = 'https://lmivqwscebdupfxxwfcc.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuCqbf9E9J3vuv4';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    async function loadAllLeads() {
+      const tableBody = document.getElementById('crm-tbody');
+      if (!tableBody) return;
+      
+      tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">Loading all leads...</td></tr>';
+
+      // Fetch ALL leads, not just 'Under Contract'
+      const { data, error } = await _supabase
+        .from('leads')
+        .select('*') // Select all columns
+        .order('id', { ascending: false }); // Show newest first
+
+      if (error) {
+          console.error('Error fetching leads:', error);
+          tableBody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-500">Error loading leads. Check the browser console.</td></tr>`;
+          return;
+      }
+
+      if (data.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">No leads found in the database.</td></tr>';
+          return;
+      }
+
+      tableBody.innerHTML = ''; // Clear the loading message
+      for (const lead of data) {
+          const row = document.createElement('tr');
+          row.className = 'hover:bg-slate-50';
+          row.innerHTML = `
+              <td class="p-3">${lead.property_address || ''}</td>
+              <td class="p-3">${lead.city || ''}</td>
+              <td class="p-3"><span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">${lead.stage || 'New Lead'}</span></td>
+              <td class="p-3">$${lead.asking_price ? lead.asking_price.toLocaleString() : 'N/A'}</td>
+              <td class="p-3">$${lead.arv ? lead.arv.toLocaleString() : 'N/A'}</td>
+              <td class="p-3 text-slate-600">${lead.notes || ''}</td>
+          `;
+          tableBody.appendChild(row);
+      }
+    }
+
+    // Load the leads when the page is ready
+    document.addEventListener('DOMContentLoaded', loadAllLeads);
+  </script>
+
+</body>
+</html>
