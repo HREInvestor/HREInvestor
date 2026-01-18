@@ -12,6 +12,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     body { font-family: Inter, sans-serif; }
+    .modal { display: none; position: fixed; z-index: 50; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); }
+    .modal.active { display: flex; align-items: center; justify-content: center; }
+    .modal-content { background-color: white; margin: auto; padding: 0; border-radius: 12px; width: 90%; max-width: 800px; max-height: 90vh; overflow-y: auto; }
   </style>
 </head>
 <body class="bg-slate-100">
@@ -170,22 +173,179 @@
     
     <!-- Leads Table -->
     <div class="mt-8 bg-white p-6 rounded-xl shadow-md overflow-x-auto">
-      <h2 class="text-xl font-bold mb-4">All Leads</h2>
+      <h2 class="text-xl font-bold mb-4">All Leads (Click to View/Edit)</h2>
       <table class="min-w-full text-sm text-left">
         <thead class="bg-slate-100">
           <tr>
             <th class="p-3 font-bold">Address</th>
             <th class="p-3 font-bold">City</th>
             <th class="p-3 font-bold">Stage</th>
-            <th class="p-3 font-bold">Asking Price</th>
-            <th class="p-3 font-bold">ARV</th>
-            <th class="p-3 font-bold">Notes</th>
+            <th class="p-3 font-bold">Owner</th>
+            <th class="p-3 font-bold">Phone</th>
           </tr>
         </thead>
         <tbody id="crm-tbody" class="divide-y">
-          <tr><td colspan="6" class="p-3 text-center text-slate-500">Loading leads...</td></tr>
+          <tr><td colspan="5" class="p-3 text-center text-slate-500">Loading leads...</td></tr>
         </tbody>
       </table>
+    </div>
+  </div>
+
+  <!-- Edit Lead Modal -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="bg-brand text-white p-4 rounded-t-xl flex items-center justify-between">
+        <h2 class="text-xl font-bold">Lead Details</h2>
+        <button id="closeModal" class="text-white text-2xl hover:text-slate-200">&times;</button>
+      </div>
+      
+      <!-- Modal Body -->
+      <form id="editLeadForm" class="p-6">
+        <input type="hidden" id="edit_lead_id">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Property Information -->
+          <div class="md:col-span-2 bg-slate-50 p-3 rounded-lg">
+            <h3 class="font-bold text-brand mb-2">Property Information</h3>
+          </div>
+          
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold mb-1">Property Address</label>
+            <input type="text" id="edit_property_address" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">City</label>
+            <input type="text" id="edit_city" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">State</label>
+            <input type="text" id="edit_state" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Zip Code</label>
+            <input type="text" id="edit_zip_code" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">County</label>
+            <input type="text" id="edit_county" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <!-- Owner Information -->
+          <div class="md:col-span-2 bg-slate-50 p-3 rounded-lg mt-4">
+            <h3 class="font-bold text-brand mb-2">Owner/Seller Information</h3>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Seller Name</label>
+            <input type="text" id="edit_seller_name" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Phone</label>
+            <input type="tel" id="edit_seller_phone" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold mb-1">Email</label>
+            <input type="email" id="edit_seller_email" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <!-- Property Details -->
+          <div class="md:col-span-2 bg-slate-50 p-3 rounded-lg mt-4">
+            <h3 class="font-bold text-brand mb-2">Property Details</h3>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Property Type</label>
+            <select id="edit_property_type" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+              <option value="">Select Type</option>
+              <option value="Multi-Family 2-4 Units">Multi-Family 2-4 Units</option>
+              <option value="Single Family">Single Family</option>
+              <option value="Commercial">Commercial</option>
+              <option value="Land">Land</option>
+            </select>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Units Count</label>
+            <input type="number" id="edit_units_count" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Bedrooms</label>
+            <input type="number" id="edit_bedrooms" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Bathrooms</label>
+            <input type="number" step="0.5" id="edit_bathrooms" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Living Sq Ft</label>
+            <input type="number" id="edit_living_sqft" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Year Built</label>
+            <input type="number" id="edit_year_built" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Lot Acres</label>
+            <input type="number" step="0.01" id="edit_lot_acres" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <!-- Lead Stage -->
+          <div class="md:col-span-2 bg-slate-50 p-3 rounded-lg mt-4">
+            <h3 class="font-bold text-brand mb-2">Lead Status</h3>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Stage</label>
+            <select id="edit_stage" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+              <option value="New Lead">New Lead</option>
+              <option value="Contacted">Contacted</option>
+              <option value="Qualified">Qualified</option>
+              <option value="Offer Made">Offer Made</option>
+              <option value="Under Contract">Under Contract</option>
+              <option value="Closed">Closed</option>
+              <option value="Dead">Dead</option>
+            </select>
+          </div>
+          
+          <!-- Call Notes Section (Highlighted) -->
+          <div class="md:col-span-2 bg-blue-50 border-2 border-blue-300 p-4 rounded-lg mt-4">
+            <h3 class="font-bold text-blue-800 mb-2">📞 Call Notes</h3>
+            <p class="text-xs text-blue-700 mb-2">Add notes while you're on the phone with this lead</p>
+            <textarea id="edit_notes" rows="5" class="w-full p-3 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm" placeholder="Type your call notes here..."></textarea>
+          </div>
+        </div>
+        
+        <div class="mt-6 flex flex-col sm:flex-row gap-3">
+          <button type="submit" class="bg-brand text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-dark transition flex-1">
+            💾 Save Changes
+          </button>
+          <button type="button" id="cancelEdit" class="border border-slate-300 px-6 py-3 rounded-lg font-semibold hover:bg-slate-50 transition flex-1">
+            Cancel
+          </button>
+        </div>
+        
+        <!-- Delete Button (Separated) -->
+        <div class="mt-4 pt-4 border-t border-slate-200">
+          <button type="button" id="deleteLeadBtn" class="w-full bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition">
+            🗑️ Delete Lead
+          </button>
+        </div>
+        
+        <p id="editFormMessage" class="mt-4 text-sm"></p>
+      </form>
     </div>
   </div>
 
@@ -198,6 +358,14 @@
     
     const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log('✅ Supabase client initialized');
+    
+    // Modal elements
+    const editModal = document.getElementById('editModal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const cancelEditBtn = document.getElementById('cancelEdit');
+    const editLeadForm = document.getElementById('editLeadForm');
+    const editFormMessage = document.getElementById('editFormMessage');
+    const deleteLeadBtn = document.getElementById('deleteLeadBtn');
     
     // Toggle form visibility
     const toggleFormBtn = document.getElementById('toggleFormBtn');
@@ -217,7 +385,7 @@
       document.getElementById('formMessage').textContent = '';
     });
     
-    // Form submission handler
+    // Form submission handler (ADD NEW LEAD)
     addLeadForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       console.log('Form submitted');
@@ -226,7 +394,6 @@
       formMessage.textContent = 'Adding lead...';
       formMessage.className = 'mt-4 text-sm text-blue-600';
       
-      // Gather form data
       const ownerFirstName = document.getElementById('owner_first').value || null;
       const ownerLastName = document.getElementById('owner_last').value || null;
       const fullOwnerName = ownerFirstName && ownerLastName 
@@ -272,7 +439,6 @@
         formMessage.textContent = '✅ Lead added successfully!';
         formMessage.className = 'mt-4 text-sm text-green-600';
         
-        // Reset form and reload leads
         addLeadForm.reset();
         setTimeout(() => {
           addLeadForm.classList.add('hidden');
@@ -288,17 +454,12 @@
       }
     });
     
-    // Load all leads function
+    // Load all leads
     async function loadAllLeads() {
-      console.log('📊 Loading leads from database...');
+      console.log('📊 Loading leads...');
       const tableBody = document.getElementById('crm-tbody');
       
-      if (!tableBody) {
-        console.error('❌ Table body element not found');
-        return;
-      }
-      
-      tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">Loading all leads...</td></tr>';
+      tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500">Loading leads...</td></tr>';
 
       try {
         const { data, error } = await _supabase
@@ -306,44 +467,189 @@
           .select('*')
           .order('id', { ascending: false });
 
-        console.log('Supabase Response:', { dataCount: data ? data.length : 0, error: error });
-
         if (error) {
-          console.error('❌ Supabase Error:', error);
-          tableBody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-500">Error: ${error.message}</td></tr>`;
+          console.error('❌ Error:', error);
+          tableBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500">Error: ${error.message}</td></tr>`;
           return;
         }
 
         if (!data || data.length === 0) {
-          console.log('ℹ️ No leads found in database');
-          tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">No leads found in the database.</td></tr>';
+          tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500">No leads found.</td></tr>';
           return;
         }
 
-        console.log(`✅ Successfully loaded ${data.length} leads`);
+        console.log(`✅ Loaded ${data.length} leads`);
         tableBody.innerHTML = '';
         
         for (const lead of data) {
           const row = document.createElement('tr');
-          row.className = 'hover:bg-slate-50';
+          row.className = 'hover:bg-blue-50 cursor-pointer transition';
+          row.dataset.leadId = lead.id;
           row.innerHTML = `
             <td class="p-3">${lead.property_address || ''}</td>
             <td class="p-3">${lead.city || ''}</td>
             <td class="p-3"><span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">${lead.stage || 'New Lead'}</span></td>
-            <td class="p-3">$${lead.asking_price ? lead.asking_price.toLocaleString() : 'N/A'}</td>
-            <td class="p-3">$${lead.arv ? lead.arv.toLocaleString() : 'N/A'}</td>
-            <td class="p-3 text-slate-600">${lead.notes ? (lead.notes.length > 100 ? lead.notes.substring(0, 100) + '...' : lead.notes) : ''}</td>
+            <td class="p-3">${lead.seller_name || 'N/A'}</td>
+            <td class="p-3">${lead.seller_phone || 'N/A'}</td>
           `;
+          
+          row.addEventListener('click', () => openEditModal(lead));
           tableBody.appendChild(row);
         }
+      } catch (err) {
+        console.error('❌ Unexpected error:', err);
+        tableBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500">Error: ${err.message}</td></tr>`;
+      }
+    }
+    
+    // Open edit modal
+    function openEditModal(lead) {
+      console.log('Opening modal for lead:', lead.id);
+      
+      document.getElementById('edit_lead_id').value = lead.id;
+      document.getElementById('edit_property_address').value = lead.property_address || '';
+      document.getElementById('edit_city').value = lead.city || '';
+      document.getElementById('edit_state').value = lead.state || '';
+      document.getElementById('edit_zip_code').value = lead.zip_code || '';
+      document.getElementById('edit_county').value = lead.county || '';
+      document.getElementById('edit_seller_name').value = lead.seller_name || '';
+      document.getElementById('edit_seller_phone').value = lead.seller_phone || '';
+      document.getElementById('edit_seller_email').value = lead.seller_email || '';
+      document.getElementById('edit_property_type').value = lead.property_type || '';
+      document.getElementById('edit_units_count').value = lead.units_count || '';
+      document.getElementById('edit_bedrooms').value = lead.bedrooms || '';
+      document.getElementById('edit_bathrooms').value = lead.bathrooms || '';
+      document.getElementById('edit_living_sqft').value = lead.living_sqft || '';
+      document.getElementById('edit_year_built').value = lead.year_built || '';
+      document.getElementById('edit_lot_acres').value = lead.lot_acres || '';
+      document.getElementById('edit_stage').value = lead.stage || 'New Lead';
+      document.getElementById('edit_notes').value = lead.notes || '';
+      
+      editModal.classList.add('active');
+      editFormMessage.textContent = '';
+    }
+    
+    // Close modal
+    function closeModal() {
+      editModal.classList.remove('active');
+      editLeadForm.reset();
+      editFormMessage.textContent = '';
+    }
+    
+    closeModalBtn.addEventListener('click', closeModal);
+    cancelEditBtn.addEventListener('click', closeModal);
+    editModal.addEventListener('click', (e) => {
+      if (e.target === editModal) closeModal();
+    });
+    
+    // Handle form submission (SAVE CHANGES)
+    editLeadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      console.log('Saving lead changes...');
+      
+      editFormMessage.textContent = 'Saving changes...';
+      editFormMessage.className = 'mt-4 text-sm text-blue-600';
+      
+      const leadId = document.getElementById('edit_lead_id').value;
+      
+      const updatedData = {
+        property_address: document.getElementById('edit_property_address').value,
+        city: document.getElementById('edit_city').value,
+        state: document.getElementById('edit_state').value || null,
+        zip_code: document.getElementById('edit_zip_code').value || null,
+        county: document.getElementById('edit_county').value || null,
+        seller_name: document.getElementById('edit_seller_name').value || null,
+        seller_phone: document.getElementById('edit_seller_phone').value || null,
+        seller_email: document.getElementById('edit_seller_email').value || null,
+        property_type: document.getElementById('edit_property_type').value || null,
+        units_count: document.getElementById('edit_units_count').value ? parseInt(document.getElementById('edit_units_count').value) : null,
+        bedrooms: document.getElementById('edit_bedrooms').value ? parseInt(document.getElementById('edit_bedrooms').value) : null,
+        bathrooms: document.getElementById('edit_bathrooms').value ? parseFloat(document.getElementById('edit_bathrooms').value) : null,
+        living_sqft: document.getElementById('edit_living_sqft').value ? parseFloat(document.getElementById('edit_living_sqft').value) : null,
+        year_built: document.getElementById('edit_year_built').value ? parseInt(document.getElementById('edit_year_built').value) : null,
+        lot_acres: document.getElementById('edit_lot_acres').value ? parseFloat(document.getElementById('edit_lot_acres').value) : null,
+        stage: document.getElementById('edit_stage').value,
+        notes: document.getElementById('edit_notes').value || null
+      };
+      
+      try {
+        const { data, error } = await _supabase
+          .from('leads')
+          .update(updatedData)
+          .eq('id', leadId)
+          .select();
         
-        console.log('✅ Table rendered successfully');
+        if (error) {
+          console.error('❌ Error updating lead:', error);
+          editFormMessage.textContent = `Error: ${error.message}`;
+          editFormMessage.className = 'mt-4 text-sm text-red-600';
+          return;
+        }
+        
+        console.log('✅ Lead updated successfully:', data);
+        editFormMessage.textContent = '✅ Changes saved successfully!';
+        editFormMessage.className = 'mt-4 text-sm text-green-600';
+        
+        setTimeout(() => {
+          closeModal();
+          loadAllLeads();
+        }, 1500);
         
       } catch (err) {
         console.error('❌ Unexpected error:', err);
-        tableBody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-500">Unexpected error: ${err.message}</td></tr>`;
+        editFormMessage.textContent = `Error: ${err.message}`;
+        editFormMessage.className = 'mt-4 text-sm text-red-600';
       }
-    }
+    });
+    
+    // Handle DELETE button
+    deleteLeadBtn.addEventListener('click', async () => {
+      const leadId = document.getElementById('edit_lead_id').value;
+      const leadAddress = document.getElementById('edit_property_address').value;
+      
+      const confirmed = confirm(
+        `⚠️ Are you sure you want to DELETE this lead?\n\n` +
+        `Address: ${leadAddress}\n\n` +
+        `This action CANNOT be undone.`
+      );
+      
+      if (!confirmed) {
+        console.log('Delete cancelled by user');
+        return;
+      }
+      
+      console.log('Deleting lead:', leadId);
+      editFormMessage.textContent = 'Deleting lead...';
+      editFormMessage.className = 'mt-4 text-sm text-red-600';
+      
+      try {
+        const { error } = await _supabase
+          .from('leads')
+          .delete()
+          .eq('id', leadId);
+        
+        if (error) {
+          console.error('❌ Error deleting lead:', error);
+          editFormMessage.textContent = `Error: ${error.message}`;
+          editFormMessage.className = 'mt-4 text-sm text-red-600';
+          return;
+        }
+        
+        console.log('✅ Lead deleted successfully');
+        editFormMessage.textContent = '✅ Lead deleted successfully!';
+        editFormMessage.className = 'mt-4 text-sm text-green-600';
+        
+        setTimeout(() => {
+          closeModal();
+          loadAllLeads();
+        }, 1000);
+        
+      } catch (err) {
+        console.error('❌ Unexpected error:', err);
+        editFormMessage.textContent = `Error: ${err.message}`;
+        editFormMessage.className = 'mt-4 text-sm text-red-600';
+      }
+    });
 
     // Logout functionality
     document.getElementById('logoutBtn').addEventListener('click', () => {
