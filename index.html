@@ -3,477 +3,760 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Huntsville Real Estate Investors LLC | Deals • Rentals • Land</title>
-  <meta name="description" content="HREI helps Alabama sellers and renters with simple land contracts, short/medium/long-term rentals, and fast, fair deals. Book a quick consult or message us on socials." />
-
-  <!-- Favicon / App Icons -->
-  <link rel="icon" href="assets/hrei-logo.jpg?v=1" />
-  <link rel="apple-touch-icon" href="assets/hrei-logo.jpg?v=1" />
-
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Huntsville Real Estate Investors LLC" />
-  <meta property="og:description" content="Land contracts • Rentals • Local expertise in North Alabama." />
-  <meta property="og:url" content="https://hreinvestor.github.io/HREInvestor/" />
-  <meta property="og:image" content="assets/og-cover.jpg" />
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Huntsville Real Estate Investors LLC" />
-  <meta name="twitter:description" content="Land contracts • Rentals • Local expertise in North Alabama." />
-  <meta name="twitter:image" content="assets/og-cover.jpg" />
-
-  <!-- JSON-LD -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "RealEstateAgent",
-    "name": "Huntsville Real Estate Investors LLC",
-    "url": "https://hreinvestor.github.io/HREInvestor/",
-    "email": "office@hreinvestor.com",
-    "telephone": "+1-256-701-0912",
-    "areaServed": ["North Alabama", "Huntsville", "Union Grove", "Marshall County", "Madison County"],
-    "image": "https://hreinvestor.github.io/HREInvestor/assets/hrei-logo.jpg"
-  }
-  </script>
-
-  <!-- Tailwind (Play CDN) -->
+  <title>HREI Members Area</title>
+  <script src="../assets/js/auth-guard.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = { theme: { extend: { colors: { brand: { DEFAULT:'#0B5C63', dark:'#073C40', accent:'#F59E0B' }}}}};
-  </script>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="../styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+    body { font-family: Inter, sans-serif; }
+    /* SPA Router styles */
     section[data-route] { display: none !important; }
     section[data-route].active { display: block !important; }
     html { scroll-behavior: auto !important; }
+    /* Modal styles */
+    .modal { display: none; position: fixed; z-index: 50; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); }
+    .modal.active { display: flex; align-items: center; justify-content: center; }
+    .modal-content { background-color: white; margin: auto; padding: 0; border-radius: 12px; width: 90%; max-width: 800px; max-height: 90vh; overflow-y: auto; }
   </style>
-
-  <!-- Cal.com embed (popup) -->
-  <script src="https://cal.com/embed.js" async></script>
-  
-  <!-- ================================================== -->
-  <!-- NEW: Supabase Client Library -->
-  <!-- ================================================== -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+  <script>
+    tailwind.config = { theme: { extend: { colors: { brand: { DEFAULT:'#0B5C63', dark:'#073C40', accent:'#F59E0B' }}}}};
+  </script>
 </head>
+<body class="bg-slate-100">
 
-<body class="bg-slate-50 text-slate-800">
-  <!-- Top Bar -->
-  <div class="bg-brand text-white text-sm">
-    <div class="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between">
-      <div class="font-semibold">Huntsville Real Estate Investors LLC (HREI)</div>
-      <div class="space-x-4">
-        <a href="tel:12567010912" class="hover:underline">256-701-0912</a>
-        <a href="mailto:office@hreinvestor.com" class="hover:underline">office@hreinvestor.com</a>
+  <!-- Member Header -->
+  <header class="bg-white shadow-sm sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <img src="../assets/hrei-logo.jpg" alt="HREI Logo" class="h-8 w-auto">
+        <span class="font-bold text-slate-700">HREI Members</span>
       </div>
-    </div>
-  </div>
-
-  <!-- Header / Nav -->
-  <header class="bg-white/90 backdrop-blur sticky top-0 z-40 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="#/" class="flex items-center gap-3">
-        <img src="assets/hrei-logo.jpg?v=1" alt="HREI logo" class="h-9 w-auto">
-        <span class="font-extrabold tracking-tight text-brand">HREI</span>
-      </a>
-      <nav class="hidden md:flex items-center gap-6 font-semibold">
-        <!-- ================================================== -->
-        <!-- NEW: Deals link added to navigation -->
-        <!-- ================================================== -->
-        <a class="hover:text-brand" href="#/details">Details</a>
-        <a class="hover:text-brand" href="#/contact">Get in Touch</a>
-        <a class="hover:text-brand" href="#/payments">Payments</a>
-        <button id="bookHeaderBtn" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand text-white hover:bg-brand-dark">
-          Book a Call
-        </button>
+      <nav class="flex items-center gap-4 text-sm font-semibold">
+        <a href="#/dashboard" class="text-slate-600 hover:text-brand">Dashboard</a>
+        <a href="#/crm" class="text-slate-600 hover:text-brand">CRM</a>
+        <a href="#/pricing" class="text-slate-600 hover:text-brand">Pricing</a>
+        <a href="#/courses" class="text-slate-600 hover:text-brand">Courses</a>
+        <a href="#/templates" class="text-slate-600 hover:text-brand">Templates</a>
+        <button id="logoutBtn" class="text-slate-500 hover:text-red-600">Logout</button>
       </nav>
-      <button class="md:hidden p-2" aria-label="Menu" onclick="document.getElementById('mnav').classList.toggle('hidden')">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-      </button>
-    </div>
-    <!-- Mobile menu -->
-    <div id="mnav" class="md:hidden hidden border-t">
-      <div class="px-4 py-3 grid gap-2 font-semibold">
-        
-
-        <a class="hover:text-brand" href="#/details">Details</a>
-        <a class="hover:text-brand" href="#/contact">Get in Touch</a>
-        <a class="hover:text-brand" href="#/payments">Payments</a>
-        <button id="bookHeaderBtnMobile" class="px-3 py-2 rounded-lg bg-brand text-white hover:bg-brand-dark text-left">Book a Call</button>
-      </div>
     </div>
   </header>
 
-  <!-- Home -->
-  <section data-route="home" class="active">
-    <div class="relative isolate overflow-hidden">
-      <div class="max-w-6xl mx-auto px-4">
-        <div class="py-14 md:py-24 grid md:grid-cols-2 gap-10 items-center">
-          <div>
-            <span class="inline-block text-xs uppercase tracking-widest text-brand">North Alabama • Union Grove • Huntsville</span>
-            <h1 class="mt-3 text-3xl md:text-5xl font-extrabold leading-tight">Simple land deals & rentals—built for real people, not red tape.</h1>
-            <p class="mt-4 text-lg text-slate-700">We use clear contracts and straight talk. Whether you’re selling land, looking for a rental, or exploring a land-contract option, we’ll map the path, step by step.</p>
-            <div class="mt-6 flex flex-wrap gap-3">
-              <a href="#/contact" class="px-5 py-3 rounded-xl bg-brand text-white font-semibold hover:bg-brand-dark">Get in Touch</a>
-              <a href="#/payments" class="px-5 py-3 rounded-xl border border-brand text-brand font-semibold hover:bg-brand/5">Make a Payment</a>
-              <a href="#/details" class="px-5 py-3 rounded-xl border border-slate-300 font-semibold hover:bg-slate-100">How we work</a>
-            </div>
-            <div class="mt-6 flex items-center gap-4 text-sm">
-              <a class="underline" href="https://www.facebook.com/profile.php?id=61577473202289" target="_blank" rel="noopener" aria-label="Facebook">Facebook</a>
-              <a class="underline" href="https://www.instagram.com/hreinvestor" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
-            </div>
-          </div>
-          <div>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <a href="#/details" class="col-span-2 row-span-2 md:col-span-2 md:row-span-2 overflow-hidden rounded-2xl shadow">
-                <img src="assets/properties/prop-1.jpg?v=1" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27800%27 height=%27600%27%3E%3Crect width=%27100%25%27 height=%27100%25%27 fill=%27%23e5e7eb%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 dominant-baseline=%27middle%27 text-anchor=%27middle%27 fill=%27%236b7280%27 font-family=%27Arial, sans-serif%27 font-size=%2720%27%3Emissing: assets/properties/prop-1.jpg%3C/text%3E%3C/svg%3E' " alt="Featured property" class="h-full w-full object-cover" loading="lazy">
-              </a>
-              <a href="#/details" class="overflow-hidden rounded-2xl shadow">
-                <img src="assets/properties/prop-2.jpg?v=1" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27800%27 height=%27600%27%3E%3Crect width=%27100%25%27 height=%27100%25%27 fill=%27%23e5e7eb%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 dominant-baseline=%27middle%27 text-anchor=%27middle%27 fill=%27%236b7280%27 font-family=%27Arial, sans-serif%27 font-size=%2720%27%3Emissing: assets/properties/prop-2.jpg%3C/text%3E%3C/svg%3E' " alt="Interior or parcel view" class="h-full w-full object-cover" loading="lazy">
-              </a>
-              <a href="#/details" class="overflow-hidden rounded-2xl shadow">
-                <img src="assets/properties/prop-3.jpg?v=1" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27800%27 height=%27600%27%3E%3Crect width=%27100%25%27 height=%27100%25%27 fill=%27%23e5e7eb%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 dominant-baseline=%27middle%27 text-anchor=%27middle%27 fill=%27%236b7280%27 font-family=%27Arial, sans-serif%27 font-size=%2720%27%3Emissing: assets/properties/prop-3.jpg%3C/text%3E%3C/svg%3E' " alt="Nearby area or street" class="h-full w-full object-cover" loading="lazy">
-              </a>
-              <a href="#/details" class="overflow-hidden rounded-2xl shadow hidden md:block">
-                <img src="assets/properties/prop-4.jpg?v=1" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27800%27 height=%27600%27%3E%3Crect width=%27100%25%27 height=%27100%25%27 fill=%27%23e5e7eb%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 dominant-baseline=%27middle%27 text-anchor=%27middle%27 fill=%27%236b7280%27 font-family=%27Arial, sans-serif%27 font-size=%2720%27%3Emissing: assets/properties/prop-4.jpg%3C/text%3E%3C/svg%3E' " alt="Lot lines or survey snippet" class="h-full w-full object-cover" loading="lazy">
-              </a>
-              <a href="#/details" class="overflow-hidden rounded-2xl shadow hidden md:block relative group">
-                <img src="assets/properties/prop-5.jpg?v=1" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27800%27 height=%27600%27%3E%3Crect width=%27100%25%27 height=%27100%25%27 fill=%27%23e5e7eb%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 dominant-baseline=%27middle%27 text-anchor=%27middle%27 fill=%27%236b7280%27 font-family=%27Arial, sans-serif%27 font-size=%2720%27%3Emissing: assets/properties/prop-5.jpg%3C/text%3E%3C/svg%3E' " alt="Second angle" class="h-full w-full object-cover" loading="lazy">
-                <span class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition"></span>
-                <span class="absolute bottom-2 right-2 text-xs text-white bg-black/50 px-2 py-1 rounded">View more →</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="absolute inset-x-0 bottom-0 h-1.5 bg-brand/10"></div>
-    </div>
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-    <!-- Instagram Feed (Home only) -->
-    <div class="bg-white">
-      <div class="max-w-6xl mx-auto px-4 py-12">
-        <h3 class="text-2xl font-extrabold mb-4">From Instagram</h3>
-        <div class="rounded-2xl overflow-hidden border">
-          <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
-          <iframe src="https://cdn.lightwidget.com/widgets/e4aa32533dc15e2fa8407351891ab765.html" scrolling="no" allowtransparency="true" class="lightwidget-widget" style="width:100%;border:0;overflow:hidden;"></iframe>
-        </div>
-        <p class="text-sm text-slate-500 mt-2">Follow us on Instagram: <a href="https://www.instagram.com/hreinvestor" class="underline" target="_blank" rel="noopener">@hreinvestor</a></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================================================== -->
-  <!-- NEW: Deals Section -->
-  <!-- ================================================== -->
-  <section data-route="deals" class="bg-white">
-    <div class="max-w-5xl mx-auto px-4 py-16">
-      <h2 class="text-3xl md:text-4xl font-extrabold">Available Deals</h2>
-      <p class="mt-2 text-slate-700">The table below shows our current inventory of properties available for assignment. These are active deals under contract, ready for another investor. Contact us for more details on any property.</p>
+    <!-- Dashboard Section -->
+    <section data-route="dashboard" class="active">
+      <h1 class="text-3xl font-bold text-slate-800">Member Dashboard</h1>
+      <p class="mt-2 text-slate-600">Welcome back! Here you can find your resources and manage your account.</p>
       
-      <div class="mt-8 overflow-x-auto">
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <a href="#/crm" class="block p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition">
+          <h3 class="text-xl font-bold text-brand">Lead CRM</h3>
+          <p class="mt-2 text-slate-600">Manage your leads and track progress</p>
+        </a>
+        <a href="#/pricing" class="block p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition">
+          <h3 class="text-xl font-bold text-brand">Pricing Plans</h3>
+          <p class="mt-2 text-slate-600">View membership options</p>
+        </a>
+        <a href="#/courses" class="block p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition">
+          <h3 class="text-xl font-bold text-brand">Mini Courses</h3>
+          <p class="mt-2 text-slate-600">Short lessons and walkthroughs</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- CRM Section -->
+    <section data-route="crm">
+      <h1 class="text-3xl md:text-4xl font-extrabold">HREI Lead CRM</h1>
+      <p class="mt-2 text-slate-700">Manage your real estate leads and track their progress through your pipeline.</p>
+      
+      <!-- Add New Lead Form (Collapsible) -->
+      <div class="mt-8 bg-white p-6 rounded-xl shadow-md">
+        <button id="toggleFormBtn" class="w-full flex items-center justify-between text-left font-bold text-lg text-brand hover:text-brand-dark transition">
+          <span>➕ Add New Lead</span>
+          <span id="toggleIcon" class="text-2xl">▼</span>
+        </button>
+        
+        <form id="addLeadForm" class="mt-6 hidden">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- Property Information -->
+            <div class="md:col-span-2">
+              <label class="block text-sm font-semibold mb-1">Property Address *</label>
+              <input type="text" id="property_address" required class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand" placeholder="123 Main St">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-semibold mb-1">City *</label>
+              <input type="text" id="city" required class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand" placeholder="Huntsville">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-semibold mb-1">State</label>
+              <input type="text" id="state" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand" placeholder="AL" value="AL">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-semibold mb-1">Zip Code</label>
+              <input type="text" id="zip_code" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand" placeholder="35810">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-semibold mb-1">County</label>
+              <input type="text" id="county" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand" placeholder="Madison">
+            </div>
+            
+            <!-- Owner Information -->
+            <div>
+              <label class="block text-sm font-semibold mb-1">Owner First Name</label>
+              <input type="text" id="owner_first" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand" placeholder="John">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-semibold mb-1">Owner Last Name</label>
+              <input type="text" id="owner_last" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand" placeholder="Doe">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-semibold mb-1">Phone</label>
+              <input type="tel" id="seller_phone" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand" placeholder="(256) 555-1234">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-semibold mb-1">Email</label>
+              <input type="email" id="seller_email" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand" placeholder="owner@example.com">
+            </div>
+            
+            <!-- Property Details -->
+            <div>
+              <label class="block text-sm font-semibold mb-1">Property Type</label>
+              <select id="property_type" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+                <option value="">Select Type</option>
+                <option value="Multi-Family 2-4 Units">Multi-Family 2-4 Units</option>
+                <option value="Single Family">Single Family</option>
+                <option value="Commercial">Commercial</option>
+                <option value="Land">Land</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-semibold mb-1">Units Count</label>
+              <input type="number" id="units_count" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand" placeholder="1" value="1">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-semibold mb-1">Bedrooms</label>
+              <input type="number" id="bedrooms" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand" placeholder="3">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-semibold mb-1">Bathrooms</label>
+              <input type="number" step="0.5" id="bathrooms" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand" placeholder="2">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-semibold mb-1">Living Square Feet</label>
+              <input type="number" id="living_sqft" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand" placeholder="1500">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-semibold mb-1">Year Built</label>
+              <input type="number" id="year_built" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand" placeholder="1980">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-semibold mb-1">Lot Acres</label>
+              <input type="number" step="0.01" id="lot_acres" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand" placeholder="0.25">
+            </div>
+            
+            <!-- Lead Stage -->
+            <div>
+              <label class="block text-sm font-semibold mb-1">Stage</label>
+              <select id="stage" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+                <option value="New Lead">New Lead</option>
+                <option value="Contacted">Contacted</option>
+                <option value="Qualified">Qualified</option>
+                <option value="Offer Made">Offer Made</option>
+                <option value="Under Contract">Under Contract</option>
+                <option value="Closed">Closed</option>
+                <option value="Dead">Dead</option>
+              </select>
+            </div>
+            
+            <!-- Notes -->
+            <div class="md:col-span-2">
+              <label class="block text-sm font-semibold mb-1">Notes</label>
+              <textarea id="notes" rows="3" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand" placeholder="Additional information about this lead..."></textarea>
+            </div>
+          </div>
+          
+          <div class="mt-6 flex gap-3">
+            <button type="submit" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-brand-dark transition">
+              Add Lead
+            </button>
+            <button type="button" id="cancelBtn" class="border border-slate-300 px-6 py-2 rounded-lg font-semibold hover:bg-slate-50 transition">
+              Cancel
+            </button>
+          </div>
+          
+          <p id="formMessage" class="mt-4 text-sm"></p>
+        </form>
+      </div>
+      
+      <!-- Leads Table -->
+      <div class="mt-8 bg-white p-6 rounded-xl shadow-md overflow-x-auto">
+        <h2 class="text-xl font-bold mb-4">All Leads (Click to View/Edit)</h2>
         <table class="min-w-full text-sm text-left">
           <thead class="bg-slate-100">
             <tr>
-              <th class="p-3 font-bold">Property Address</th>
+              <th class="p-3 font-bold">Address</th>
               <th class="p-3 font-bold">City</th>
-              <th class="p-3 font-bold">Asking Price</th>
-              <th class="p-3 font-bold">ARV</th>
-              <th class="p-3 font-bold">Notes</th>
+              <th class="p-3 font-bold">Stage</th>
+              <th class="p-3 font-bold">Owner</th>
+              <th class="p-3 font-bold">Phone</th>
             </tr>
           </thead>
-          <tbody id="deals-tbody" class="divide-y">
-            <!-- Supabase data will be loaded here -->
-            <tr>
-              <td colspan="5" class="p-4 text-center text-slate-500">Loading available deals...</td>
-            </tr>
+          <tbody id="crm-tbody" class="divide-y">
+            <tr><td colspan="5" class="p-3 text-center text-slate-500">Loading leads...</td></tr>
           </tbody>
         </table>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Details -->
-  <section data-route="details" class="bg-white">
-    <div class="max-w-3xl mx-auto px-4 py-16">
-      <h2 class="text-3xl md:text-4xl font-extrabold">What We Do</h2>
-      <p class="mt-4 text-slate-700">HREI specializes in <strong>simple land contracts</strong> and <strong>short-, medium-, and long-term rentals</strong> across North Alabama. Our goal is to remove red tape and make every step—from first call to keys in hand—predictable and transparent.</p>
-      <h3 class="mt-8 font-extrabold text-xl">Land Contracts (Installment Sales)</h3>
-      <p class="mt-2 text-slate-700">For buyers who want to spread payments over time, we structure clear installment agreements with straightforward terms, no surprise fees, and plain-English language alongside the precise legal wording. We outline price, timeline, survey and deed costs up front, then provide receipts and a tidy folder of PDFs after signing and recording.</p>
-      <h3 class="mt-6 font-extrabold text-xl">Rentals (Short • Medium • Long Term)</h3>
-      <p class="mt-2 text-slate-700">Whether you need a place for a few weeks, a season, or years, we match properties to your use case and budget. We prioritize responsiveness, clean move-ins, and clear house rules. Payments are handled online through Clover for speed and convenience.</p>
-      <h3 class="mt-6 font-extrabold text-xl">Our Process</h3>
-      <p class="mt-2 text-slate-700"><strong>1) Lead & Fit:</strong> You share the address or parcel (PIN) and your goals. We run a quick fit check and pull county records. <strong>2) Clear Numbers:</strong> We send a one-page term sheet covering price, timeline, and any survey/deed items. <strong>3) Paperwork:</strong> We draft clean documents; you sign in person or electronically. <strong>4) Close & Move-In:</strong> Recording, keys/lot access, and final receipts are coordinated promptly.</p>
-      <div class="mt-10">
-        <a href="#/contact" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand text-white font-semibold hover:bg-brand-dark">Contact Us</a>
-      </div>
-    </div>
-  </section>
+    <!-- Pricing Section -->
+    <section data-route="pricing">
+      <h1 class="text-3xl font-bold text-slate-800">Pricing Plans</h1>
+      <p class="mt-2 text-slate-600">This is where the content from your pricing.html file goes.</p>
+      <!-- Paste the body content of your original pricing.html here -->
+    </section>
 
-  <!-- Get in Touch (Contact) -->
-  <section data-route="contact" class="bg-slate-50">
-    <div class="max-w-3xl mx-auto px-4 py-16">
-      <h2 class="text-3xl md:text-4xl font-extrabold">Get in Touch</h2>
-      <p class="mt-2 text-slate-700">Message us and we’ll get back fast (usually same day). Prefer to talk? Tap “Book a Call” at the top.</p>
-      <div class="mt-6 p-5 rounded-2xl bg-white border">
-        <h3 class="font-bold text-lg">Ways to reach us</h3>
-        <ul class="mt-3 space-y-1 text-slate-700">
-          <li><span class="font-semibold">Name:</span> Joshua Cornelius</li>
-          <li><span class="font-semibold">Email:</span> <a class="underline" href="mailto:office@hreinvestor.com">office@hreinvestor.com</a></li>
-          <li><span class="font-semibold">Phone:</span> <a class="underline" href="tel:12567010912">256-701-0912</a></li>
-          <li><span class="font-semibold">Facebook:</span> <a class="underline" href="https://www.facebook.com/profile.php?id=61577473202289" target="_blank" rel="noopener">facebook.com/HREI</a></li>
-          <li><span class="font-semibold">Instagram:</span> <a class="underline" href="https://www.instagram.com/hreinvestor" target="_blank" rel="noopener">@hreinvestor</a></li>
-          <li><span class="font-semibold">Serving:</span> North Alabama</li>
-        </ul>
+    <!-- Courses Section -->
+    <section data-route="courses">
+      <h1 class="text-3xl font-bold text-slate-800">Mini Courses</h1>
+      <p class="mt-2 text-slate-600">Short lessons and walkthroughs for real estate investing.</p>
+      <!-- Paste the body content of your original courses.html here -->
+    </section>
+
+    <!-- Templates Section -->
+    <section data-route="templates">
+      <h1 class="text-3xl font-bold text-slate-800">Templates</h1>
+      <p class="mt-2 text-slate-600">Scripts, checklists, and worksheets.</p>
+      <!-- Paste the body content of your original templates.html here -->
+    </section>
+
+  </main>
+
+  <!-- Edit Lead Modal -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="bg-brand text-white p-4 rounded-t-xl flex items-center justify-between">
+        <h2 class="text-xl font-bold">Lead Details</h2>
+        <button id="closeModal" class="text-white text-2xl hover:text-slate-200">&times;</button>
       </div>
-      <form action="https://api.web3forms.com/submit" method="POST" class="mt-8 grid gap-4" id="contactForm">
-        <input type="hidden" name="access_key" value="0d2dfed2-68b2-415d-a96f-46608eba02c0">
-        <input type="text" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <div class="grid md:grid-cols-2 gap-4">
-          <input id="contactName" name="name" required class="px-4 py-3 rounded-xl border" placeholder="Your name" />
-          <input id="contactEmail" name="email" type="email" required class="px-4 py-3 rounded-xl border" placeholder="Email" />
+      
+      <!-- Modal Body -->
+      <form id="editLeadForm" class="p-6">
+        <input type="hidden" id="edit_lead_id">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Property Information -->
+          <div class="md:col-span-2 bg-slate-50 p-3 rounded-lg">
+            <h3 class="font-bold text-brand mb-2">Property Information</h3>
+          </div>
+          
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold mb-1">Property Address</label>
+            <input type="text" id="edit_property_address" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">City</label>
+            <input type="text" id="edit_city" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">State</label>
+            <input type="text" id="edit_state" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Zip Code</label>
+            <input type="text" id="edit_zip_code" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">County</label>
+            <input type="text" id="edit_county" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <!-- Owner Information -->
+          <div class="md:col-span-2 bg-slate-50 p-3 rounded-lg mt-4">
+            <h3 class="font-bold text-brand mb-2">Owner/Seller Information</h3>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Seller Name</label>
+            <input type="text" id="edit_seller_name" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Phone</label>
+            <input type="tel" id="edit_seller_phone" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold mb-1">Email</label>
+            <input type="email" id="edit_seller_email" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <!-- Property Details -->
+          <div class="md:col-span-2 bg-slate-50 p-3 rounded-lg mt-4">
+            <h3 class="font-bold text-brand mb-2">Property Details</h3>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Property Type</label>
+            <select id="edit_property_type" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+              <option value="">Select Type</option>
+              <option value="Multi-Family 2-4 Units">Multi-Family 2-4 Units</option>
+              <option value="Single Family">Single Family</option>
+              <option value="Commercial">Commercial</option>
+              <option value="Land">Land</option>
+            </select>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Units Count</label>
+            <input type="number" id="edit_units_count" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Bedrooms</label>
+            <input type="number" id="edit_bedrooms" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Bathrooms</label>
+            <input type="number" step="0.5" id="edit_bathrooms" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Living Sq Ft</label>
+            <input type="number" id="edit_living_sqft" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Year Built</label>
+            <input type="number" id="edit_year_built" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Lot Acres</label>
+            <input type="number" step="0.01" id="edit_lot_acres" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+          </div>
+          
+          <!-- Lead Stage -->
+          <div class="md:col-span-2 bg-slate-50 p-3 rounded-lg mt-4">
+            <h3 class="font-bold text-brand mb-2">Lead Status</h3>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold mb-1">Stage</label>
+            <select id="edit_stage" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand">
+              <option value="New Lead">New Lead</option>
+              <option value="Contacted">Contacted</option>
+              <option value="Qualified">Qualified</option>
+              <option value="Offer Made">Offer Made</option>
+              <option value="Under Contract">Under Contract</option>
+              <option value="Closed">Closed</option>
+              <option value="Dead">Dead</option>
+            </select>
+          </div>
+          
+          <!-- Call Notes Section (Highlighted) -->
+          <div class="md:col-span-2 bg-blue-50 border-2 border-blue-300 p-4 rounded-lg mt-4">
+            <h3 class="font-bold text-blue-800 mb-2">📞 Call Notes</h3>
+            <p class="text-xs text-blue-700 mb-2">Add notes while you're on the phone with this lead</p>
+            <textarea id="edit_notes" rows="5" class="w-full p-3 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm" placeholder="Type your call notes here..."></textarea>
+          </div>
         </div>
-        <input name="phone" class="px-4 py-3 rounded-xl border" placeholder="Phone (optional)" />
-        <textarea name="message" required class="px-4 py-3 rounded-xl border min-h-[120px]" placeholder="What can we help with?"></textarea>
-        <input type="hidden" name="from_name" value="HREI Website">
-        <input type="hidden" name="redirect" value="https://hreinvestor.github.io/HREInvestor/#/contact">
-        <label class="inline-flex items-start gap-2 text-sm text-slate-600"><input type="checkbox" required class="mt-1"> I agree to the <a href="#/privacy" class="underline ml-1">Privacy Policy</a>.</label>
-        <div class="flex flex-wrap gap-3">
-          <button class="px-5 py-3 rounded-xl bg-brand text-white font-semibold hover:bg-brand-dark">Send</button>
-          <button type="button" id="bookPopupBtn" class="px-5 py-3 rounded-xl border border-brand text-brand font-semibold hover:bg-brand/5">
-            Book a Call (popup)
+        
+        <div class="mt-6 flex flex-col sm:flex-row gap-3">
+          <button type="submit" class="bg-brand text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-dark transition flex-1">
+            💾 Save Changes
+          </button>
+          <button type="button" id="cancelEdit" class="border border-slate-300 px-6 py-3 rounded-lg font-semibold hover:bg-slate-50 transition flex-1">
+            Cancel
           </button>
         </div>
-        <p class="text-xs text-slate-500">Prefer a quick call? Dial <a class="underline" href="tel:12567010912">256-701-0912</a>.</p>
+        
+        <!-- Delete Button (Separated) -->
+        <div class="mt-4 pt-4 border-t border-slate-200">
+          <button type="button" id="deleteLeadBtn" class="w-full bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition">
+            🗑️ Delete Lead
+          </button>
+        </div>
+        
+        <p id="editFormMessage" class="mt-4 text-sm"></p>
       </form>
     </div>
-  </section>
+  </div>
 
-  <!-- Payments -->
-  <section data-route="payments" class="bg-white">
-    <div class="max-w-3xl mx-auto px-4 py-16">
-      <h2 class="text-3xl md:text-4xl font-extrabold">Payments</h2>
-      <div class="mt-8 grid md:grid-cols-2 gap-6">
-        <div class="p-5 rounded-2xl border bg-slate-50">
-          <h3 class="font-bold">Pay Deposit</h3>
-          <a href="https://link.clover.com/urlshortener/vzh799" target="_blank" rel="noopener" class="mt-4 inline-flex items-center justify-center px-4 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark w-full">
-            Pay Deposit via Clover
-          </a>
-        </div>
-        <div class="p-5 rounded-2xl border bg-slate-50">
-          <h3 class="font-bold">Rent / Installment</h3>
-          <a href="https://link.clover.com/urlshortener/QLkgZY" target="_blank" rel="noopener" class="mt-4 inline-flex items-center justify-center px-4 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-dark w-full">
-            Pay Monthly via Clover
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Privacy -->
-  <section data-route="privacy" class="bg-white">
-    <div class="max-w-3xl mx-auto px-4 py-16">
-      <h2 class="text-3xl md:text-4xl font-extrabold">Privacy Policy</h2>
-      <p class="mt-3 text-slate-700">We collect basic contact details you submit (name, email, phone, and message) to respond to inquiries and manage payments. We do not sell your data. Third-party processors we use include Clover (payments), Web3Forms (contact form), and Cal.com (booking). Each provider processes your data under their own policies. To request deletion, email <a class="underline" href="mailto:office@hreinvestor.com">office@hreinvestor.com</a>.</p>
-    </div>
-  </section>
-
-  <!-- Terms -->
-  <section data-route="terms" class="bg-slate-50">
-    <div class="max-w-3xl mx-auto px-4 py-16">
-      <h2 class="text-3xl md:text-4xl font-extrabold">Terms of Use</h2>
-      <p class="mt-3 text-slate-700">All information on this site is provided for general guidance only and is subject to change. Payments made via Clover are subject to the payment confirmation shown at checkout and any written agreements you sign with HREI. By using this site you agree not to misuse or attempt to disrupt the service.</p>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="mt-20 border-t">
-    <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8 text-sm">
-      <div class="flex items-center gap-2">
-        <img src="assets/hrei-logo.jpg?v=1" alt="HREI logo" class="h-6 w-auto">
-        <span class="font-extrabold text-brand">HREI</span>
-      </div>
-      <div>
-        <div class="font-bold">Company</div>
-        <ul class="mt-2 space-y-2">
-          <li><a class="hover:underline" href="#/deals">Deals</a></li>
-          <li><a class="hover:underline" href="#/details">Details</a></li>
-          <li><a class="hover:underline" href="#/contact">Get in Touch</a></li>
-          <li><a class="hover:underline" href="#/payments">Payments</a></li>
-          <li><a class="hover:underline" href="#/privacy">Privacy</a></li>
-          <li><a class="hover:underline" href="#/terms">Terms</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="font-bold">Contact</div>
-        <ul class="mt-2 space-y-2">
-          <li>Serving North Alabama</li>
-          <li><a class="hover:underline" href="tel:12567010912">256-701-0912</a></li>
-          <li><a class="hover:underline" href="mailto:office@hreinvestor.com">office@hreinvestor.com</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="text-center text-xs text-slate-500 pb-8">© <span id="yr"></span> Huntsville Real Estate Investors LLC • All rights reserved.</div>
-  </footer>
-
-  <!-- Unified Facebook SDK + Customer Chat -->
-  <div id="fb-root"></div>
   <script>
-    (function() {
-      if (!document.getElementById('facebook-jssdk')) {
-        var js = document.createElement('script');
-        js.id = 'facebook-jssdk';
-        js.src = 'https://connect.facebook.net/en_US/sdk.js';
-        js.onload = function(){ if (window.FB && !window._fbInitDone) { window._fbInitDone = true; FB.init({ xfbml: true, version: 'v19.0' }); } };
-        document.body.appendChild(js);
-      }
-      if (!document.getElementById('facebook-jssdk-customerchat')) {
-        var cjs = document.createElement('script');
-        cjs.id = 'facebook-jssdk-customerchat';
-        cjs.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-        document.body.appendChild(cjs);
-      }
-      var chatbox = document.getElementById('fb-customer-chat');
-      if (!chatbox) {
-        chatbox = document.createElement('div');
-        chatbox.id = 'fb-customer-chat';
-        chatbox.className = 'fb-customerchat';
-        document.body.appendChild(chatbox);
-      }
-      chatbox.setAttribute('page_id', '61577473202289');
-      chatbox.setAttribute('attribution', 'biz_inbox');
-    })();
-  </script>
-
-  <!-- Router + scroll-to-top + Cal.com popup helpers -->
-  <script>
-    const CAL_HREF = 'https://cal.com/hreinvestor/30min';
-
-    // ==================================================
-    //// ==================================================
-// NEW: Supabase Client Initialization
-// ==================================================
-const SUPABASE_URL = 'https://lmivqwscedbupfxxwffc.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuCqbf9E9J3vuv4';
-const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('=== HREI Members SPA Initializing ===');
     
-    // ==================================================
-    // MODIFIED: Router map updated with #/deals
-    // ==================================================
+    // Supabase Configuration
+    const SUPABASE_URL = 'https://lmivqwscebdupfxxwfcc.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuCqbf9E9J3vuv4';
+    
+    const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('✅ Supabase client initialized');
+    
+    // SPA Router
     const ROUTES = new Map([
-      ['#/', 'home'],
-      ['#/home', 'home'],
-      ['#/deals', 'deals'], // <-- New route
-      ['#/details', 'details'],
-      ['#/contact', 'contact'],
-      ['#/payments', 'payments'],
-      ['#/privacy', 'privacy'],
-      ['#/terms', 'terms'],
+      ['#/', 'dashboard'],
+      ['#/dashboard', 'dashboard'],
+      ['#/crm', 'crm'],
+      ['#/pricing', 'pricing'],
+      ['#/courses', 'courses'],
+      ['#/templates', 'templates']
     ]);
 
-    function jumpTop() {
-      try { window.scrollTo({ top: 0, left: 0, behavior: 'auto' }); } catch(e) {}
-      document.documentElement.scrollTop = 0; document.body.scrollTop = 0;
-    }
-    function normalizeHash(h) {
-      if (!h || h === '#') return '#/';
-      const base = h.split('?')[0].replace(/\/+$/,''); return base || '#/';
-    }
     function showRoute(key) {
-      document.querySelectorAll('section[data-route]').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('section[data-route]').forEach(el => el.classList.remove('active'));
       const el = document.querySelector(`section[data-route="${key}"]`);
-      if (el) el.classList.add('active');
-      const m = document.getElementById('mnav'); if (m) m.classList.add('hidden');
-      
-      // ==================================================
-      // NEW: Trigger data loading when deals route is active
-      // ==================================================
-      if (key === 'deals') {
-        loadDeals();
+      if (el) {
+        el.classList.add('active');
+        // Load CRM data when navigating to CRM section
+        if (key === 'crm') {
+          loadAllLeads();
+        }
+      } else {
+        document.querySelector('section[data-route="dashboard"]').classList.add('active');
       }
+      window.scrollTo(0, 0);
     }
+
     function render() {
-      const hash = normalizeHash(location.hash);
-      const key = ROUTES.get(hash) || 'home';
+      const hash = location.hash || '#/';
+      const key = ROUTES.get(hash) || 'dashboard';
       showRoute(key);
-      requestAnimationFrame(() => { jumpTop(); requestAnimationFrame(jumpTop); });
     }
-    document.addEventListener('click', (e) => {
-      const a = e.target.closest('a[href^="#/"]'); if (a) setTimeout(jumpTop, 0);
+
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      sessionStorage.removeItem('user-is-logged-in');
+      window.location.href = '/login.html';
     });
 
-    function openCalPopup() {
-      const name = (document.getElementById('contactName') || {}).value || '';
-      const email = (document.getElementById('contactEmail') || {}).value || '';
-      const qs = new URLSearchParams({ name, email }).toString();
-      if (window.Cal) {
-        window.Cal('open', { href: CAL_HREF + (qs ? ('?' + qs) : '') });
-      } else {
-        window.open(CAL_HREF + (qs ? ('?' + qs) : ''), '_blank');
+    // Event Listeners
+    window.addEventListener('hashchange', render);
+    window.addEventListener('load', render);
+    
+    // ============================================
+    // CRM FUNCTIONALITY
+    // ============================================
+    
+    // Modal elements
+    const editModal = document.getElementById('editModal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const cancelEditBtn = document.getElementById('cancelEdit');
+    const editLeadForm = document.getElementById('editLeadForm');
+    const editFormMessage = document.getElementById('editFormMessage');
+    const deleteLeadBtn = document.getElementById('deleteLeadBtn');
+    
+    // Toggle form visibility
+    const toggleFormBtn = document.getElementById('toggleFormBtn');
+    const addLeadForm = document.getElementById('addLeadForm');
+    const toggleIcon = document.getElementById('toggleIcon');
+    const cancelBtn = document.getElementById('cancelBtn');
+    
+    toggleFormBtn.addEventListener('click', () => {
+      addLeadForm.classList.toggle('hidden');
+      toggleIcon.textContent = addLeadForm.classList.contains('hidden') ? '▼' : '▲';
+    });
+    
+    cancelBtn.addEventListener('click', () => {
+      addLeadForm.classList.add('hidden');
+      toggleIcon.textContent = '▼';
+      addLeadForm.reset();
+      document.getElementById('formMessage').textContent = '';
+    });
+    
+    // Form submission handler (ADD NEW LEAD)
+    addLeadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      console.log('Form submitted');
+      
+      const formMessage = document.getElementById('formMessage');
+      formMessage.textContent = 'Adding lead...';
+      formMessage.className = 'mt-4 text-sm text-blue-600';
+      
+      const ownerFirstName = document.getElementById('owner_first').value || null;
+      const ownerLastName = document.getElementById('owner_last').value || null;
+      const fullOwnerName = ownerFirstName && ownerLastName 
+        ? `${ownerFirstName} ${ownerLastName}` 
+        : ownerFirstName || ownerLastName || null;
+      
+      const leadData = {
+        property_address: document.getElementById('property_address').value,
+        city: document.getElementById('city').value,
+        state: document.getElementById('state').value || 'AL',
+        zip_code: document.getElementById('zip_code').value || null,
+        county: document.getElementById('county').value || null,
+        seller_name: fullOwnerName,
+        seller_phone: document.getElementById('seller_phone').value || null,
+        seller_email: document.getElementById('seller_email').value || null,
+        property_type: document.getElementById('property_type').value || null,
+        units_count: document.getElementById('units_count').value ? parseInt(document.getElementById('units_count').value) : 1,
+        bedrooms: document.getElementById('bedrooms').value ? parseInt(document.getElementById('bedrooms').value) : null,
+        bathrooms: document.getElementById('bathrooms').value ? parseFloat(document.getElementById('bathrooms').value) : null,
+        living_sqft: document.getElementById('living_sqft').value ? parseFloat(document.getElementById('living_sqft').value) : null,
+        year_built: document.getElementById('year_built').value ? parseInt(document.getElementById('year_built').value) : null,
+        lot_acres: document.getElementById('lot_acres').value ? parseFloat(document.getElementById('lot_acres').value) : null,
+        stage: document.getElementById('stage').value,
+        notes: document.getElementById('notes').value || null
+      };
+      
+      try {
+        const { data, error } = await _supabase
+          .from('leads')
+          .insert([leadData])
+          .select();
+        
+        if (error) {
+          console.error('❌ Supabase Error:', error);
+          formMessage.textContent = `Error: ${error.message}`;
+          formMessage.className = 'mt-4 text-sm text-red-600';
+          return;
+        }
+        
+        console.log('✅ Lead added successfully:', data);
+        formMessage.textContent = '✅ Lead added successfully!';
+        formMessage.className = 'mt-4 text-sm text-green-600';
+        
+        addLeadForm.reset();
+        setTimeout(() => {
+          addLeadForm.classList.add('hidden');
+          toggleIcon.textContent = '▼';
+          formMessage.textContent = '';
+          loadAllLeads();
+        }, 1500);
+        
+      } catch (err) {
+        console.error('❌ Unexpected error:', err);
+        formMessage.textContent = `Unexpected error: ${err.message}`;
+        formMessage.className = 'mt-4 text-sm text-red-600';
+      }
+    });
+    
+    // Load all leads
+    async function loadAllLeads() {
+      console.log('📊 Loading leads...');
+      const tableBody = document.getElementById('crm-tbody');
+      
+      if (!tableBody) {
+        console.log('Table body not found, skipping load');
+        return;
+      }
+      
+      tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500">Loading leads...</td></tr>';
+
+      try {
+        const { data, error } = await _supabase
+          .from('leads')
+          .select('*')
+          .order('id', { ascending: false });
+
+        if (error) {
+          console.error('❌ Error:', error);
+          tableBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500">Error: ${error.message}</td></tr>`;
+          return;
+        }
+
+        if (!data || data.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500">No leads found.</td></tr>';
+          return;
+        }
+
+        console.log(`✅ Loaded ${data.length} leads`);
+        tableBody.innerHTML = '';
+        
+        for (const lead of data) {
+          const row = document.createElement('tr');
+          row.className = 'hover:bg-blue-50 cursor-pointer transition';
+          row.dataset.leadId = lead.id;
+          row.innerHTML = `
+            <td class="p-3">${lead.property_address || ''}</td>
+            <td class="p-3">${lead.city || ''}</td>
+            <td class="p-3"><span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">${lead.stage || 'New Lead'}</span></td>
+            <td class="p-3">${lead.seller_name || 'N/A'}</td>
+            <td class="p-3">${lead.seller_phone || 'N/A'}</td>
+          `;
+          
+          row.addEventListener('click', () => openEditModal(lead));
+          tableBody.appendChild(row);
+        }
+      } catch (err) {
+        console.error('❌ Unexpected error:', err);
+        tableBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500">Error: ${err.message}</td></tr>`;
       }
     }
     
-    // ==================================================
-    // NEW: Function to load deals from Supabase
-    // ==================================================
-    async function loadDeals() {
-      const tableBody = document.getElementById('deals-tbody');
-      if (!tableBody) return;
+    // Open edit modal
+    function openEditModal(lead) {
+      console.log('Opening modal for lead:', lead.id);
       
-      tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500">Loading available deals...</td></tr>';
-
-      const { data, error } = await _supabase
-        .from('leads')
-        .select('property_address, city, asking_price, arv, notes')
-        .eq('stage', 'Under Contract'); // This filter is enforced by your security policy
-
-      if (error) {
-          console.error('Error fetching deals:', error);
-          tableBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500">Error loading deals. Check the browser console for details.</td></tr>`;
-          return;
-      }
-
-      if (data.length === 0) {
-          tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500">No deals currently available. Check back soon!</td></tr>';
-          return;
-      }
-
-      tableBody.innerHTML = ''; // Clear the loading message
-      for (const deal of data) {
-          const row = document.createElement('tr');
-          row.className = 'hover:bg-slate-50';
-          row.innerHTML = `
-              <td class="p-3">${deal.property_address || ''}</td>
-              <td class="p-3">${deal.city || ''}</td>
-              <td class="p-3">$${deal.asking_price ? deal.asking_price.toLocaleString() : 'N/A'}</td>
-              <td class="p-3">$${deal.arv ? deal.arv.toLocaleString() : 'N/A'}</td>
-              <td class="p-3">${deal.notes || ''}</td>
-          `;
-          tableBody.appendChild(row);
-      }
+      document.getElementById('edit_lead_id').value = lead.id;
+      document.getElementById('edit_property_address').value = lead.property_address || '';
+      document.getElementById('edit_city').value = lead.city || '';
+      document.getElementById('edit_state').value = lead.state || '';
+      document.getElementById('edit_zip_code').value = lead.zip_code || '';
+      document.getElementById('edit_county').value = lead.county || '';
+      document.getElementById('edit_seller_name').value = lead.seller_name || '';
+      document.getElementById('edit_seller_phone').value = lead.seller_phone || '';
+      document.getElementById('edit_seller_email').value = lead.seller_email || '';
+      document.getElementById('edit_property_type').value = lead.property_type || '';
+      document.getElementById('edit_units_count').value = lead.units_count || '';
+      document.getElementById('edit_bedrooms').value = lead.bedrooms || '';
+      document.getElementById('edit_bathrooms').value = lead.bathrooms || '';
+      document.getElementById('edit_living_sqft').value = lead.living_sqft || '';
+      document.getElementById('edit_year_built').value = lead.year_built || '';
+      document.getElementById('edit_lot_acres').value = lead.lot_acres || '';
+      document.getElementById('edit_stage').value = lead.stage || 'New Lead';
+      document.getElementById('edit_notes').value = lead.notes || '';
+      
+      editModal.classList.add('active');
+      editFormMessage.textContent = '';
     }
-
-    window.addEventListener('load', () => {
-      render();
-      const yr = document.getElementById('yr'); if (yr) yr.textContent = new Date().getFullYear();
-
-      const btnHeader = document.getElementById('bookHeaderBtn');
-      if (btnHeader) btnHeader.addEventListener('click', openCalPopup);
-
-      const btnHeaderMobile = document.getElementById('bookHeaderBtnMobile');
-      if (btnHeaderMobile) btnHeaderMobile.addEventListener('click', () => {
-        openCalPopup();
-        const m = document.getElementById('mnav'); if (m) m.classList.add('hidden');
-      });
-
-      const btnForm = document.getElementById('bookPopupBtn');
-      if (btnForm) btnForm.addEventListener('click', openCalPopup);
+    
+    // Close modal
+    function closeModal() {
+      editModal.classList.remove('active');
+      editLeadForm.reset();
+      editFormMessage.textContent = '';
+    }
+    
+    closeModalBtn.addEventListener('click', closeModal);
+    cancelEditBtn.addEventListener('click', closeModal);
+    editModal.addEventListener('click', (e) => {
+      if (e.target === editModal) closeModal();
     });
-
-    window.addEventListener('hashchange', render);
+    
+    // Handle form submission (SAVE CHANGES)
+    editLeadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      console.log('Saving lead changes...');
+      
+      editFormMessage.textContent = 'Saving changes...';
+      editFormMessage.className = 'mt-4 text-sm text-blue-600';
+      
+      const leadId = document.getElementById('edit_lead_id').value;
+      
+      const updatedData = {
+        property_address: document.getElementById('edit_property_address').value,
+        city: document.getElementById('edit_city').value,
+        state: document.getElementById('edit_state').value || null,
+        zip_code: document.getElementById('edit_zip_code').value || null,
+        county: document.getElementById('edit_county').value || null,
+        seller_name: document.getElementById('edit_seller_name').value || null,
+        seller_phone: document.getElementById('edit_seller_phone').value || null,
+        seller_email: document.getElementById('edit_seller_email').value || null,
+        property_type: document.getElementById('edit_property_type').value || null,
+        units_count: document.getElementById('edit_units_count').value ? parseInt(document.getElementById('edit_units_count').value) : null,
+        bedrooms: document.getElementById('edit_bedrooms').value ? parseInt(document.getElementById('edit_bedrooms').value) : null,
+        bathrooms: document.getElementById('edit_bathrooms').value ? parseFloat(document.getElementById('edit_bathrooms').value) : null,
+        living_sqft: document.getElementById('edit_living_sqft').value ? parseFloat(document.getElementById('edit_living_sqft').value) : null,
+        year_built: document.getElementById('edit_year_built').value ? parseInt(document.getElementById('edit_year_built').value) : null,
+        lot_acres: document.getElementById('edit_lot_acres').value ? parseFloat(document.getElementById('edit_lot_acres').value) : null,
+        stage: document.getElementById('edit_stage').value,
+        notes: document.getElementById('edit_notes').value || null
+      };
+      
+      try {
+        const { data, error } = await _supabase
+          .from('leads')
+          .update(updatedData)
+          .eq('id', leadId)
+          .select();
+        
+        if (error) {
+          console.error('❌ Error updating lead:', error);
+          editFormMessage.textContent = `Error: ${error.message}`;
+          editFormMessage.className = 'mt-4 text-sm text-red-600';
+          return;
+        }
+        
+        console.log('✅ Lead updated successfully:', data);
+        editFormMessage.textContent = '✅ Changes saved successfully!';
+        editFormMessage.className = 'mt-4 text-sm text-green-600';
+        
+        setTimeout(() => {
+          closeModal();
+          loadAllLeads();
+        }, 1500);
+        
+      } catch (err) {
+        console.error('❌ Unexpected error:', err);
+        editFormMessage.textContent = `Error: ${err.message}`;
+        editFormMessage.className = 'mt-4 text-sm text-red-600';
+      }
+    });
+    
+    // Handle DELETE button
+    deleteLeadBtn.addEventListener('click', async () => {
+      const leadId = document.getElementById('edit_lead_id').value;
+      const leadAddress = document.getElementById('edit_property_address').value;
+      
+      const confirmed = confirm(
+        `⚠️ Are you sure you want to DELETE this lead?\n\n` +
+        `Address: ${leadAddress}\n\n` +
+        `This action CANNOT be undone.`
+      );
+      
+      if (!confirmed) {
+        console.log('Delete cancelled by user');
+        return;
+      }
+      
+      console.log('Deleting lead:', leadId);
+      editFormMessage.textContent = 'Deleting lead...';
+      editFormMessage.className = 'mt-4 text-sm text-red-600';
+      
+      try {
+        const { error } = await _supabase
+          .from('leads')
+          .delete()
+          .eq('id', leadId);
+        
+        if (error) {
+          console.error('❌ Error deleting lead:', error);
+          editFormMessage.textContent = `Error: ${error.message}`;
+          editFormMessage.className = 'mt-4 text-sm text-red-600';
+          return;
+        }
+        
+        console.log('✅ Lead deleted successfully');
+        editFormMessage.textContent = '✅ Lead deleted successfully!';
+        editFormMessage.className = 'mt-4 text-sm text-green-600';
+        
+        setTimeout(() => {
+          closeModal();
+          loadAllLeads();
+        }, 1000);
+        
+      } catch (err) {
+        console.error('❌ Unexpected error:', err);
+        editFormMessage.textContent = `Error: ${err.message}`;
+        editFormMessage.className = 'mt-4 text-sm text-red-600';
+      }
+    });
+    
+    console.log('=== CRM Script Loaded ===');
   </script>
 </body>
 </html>
