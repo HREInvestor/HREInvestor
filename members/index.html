@@ -284,14 +284,14 @@
     // ============================================
     // SPA ROUTING
     // ============================================
-    const ROUTES = {
-      '#/': 'dashboard',
-      '#/dashboard': 'dashboard',
-      '#/crm': 'crm',
-      '#/forms': 'forms',
-      '#/courses': 'courses',
-      '#/templates': 'templates'
-    };
+   const ROUTES = new Map([
+  ['#/', 'crm'],
+  ['#/dashboard', 'crm'],
+  ['#/crm', 'crm'],
+  ['#/pricing', 'pricing'],
+  ['#/courses', 'courses'],
+  ['#/templates', 'templates']
+]);
 
     function showRoute(key) {
       document.querySelectorAll('section[data-route]').forEach(s => s.classList.remove('active'));
