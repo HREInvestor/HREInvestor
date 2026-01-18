@@ -11,9 +11,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
+    body { font-family: Inter, sans-serif; }
     section[data-route] { display: none; }
     section[data-route].active { display: block; }
-    .nav-link { cursor: pointer; padding: 0.75rem 1.5rem; border-radius: 0.5rem; transition: all 0.2s; }
+    .nav-link { cursor: pointer; padding: 0.75rem 1.5rem; border-radius: 0.5rem; transition: all 0.2s; font-weight: 600; }
     .nav-link:hover { background: #f1f5f9; }
     .nav-link.active { background: #0B5C63; color: white; }
   </style>
@@ -21,11 +22,11 @@
 <body class="bg-slate-50">
   <script src="../assets/js/auth-guard.js"></script>
 
-  <!-- Header with Navigation -->
-  <header class="bg-white shadow-sm border-b">
+  <!-- Header -->
+  <header class="bg-white shadow-sm border-b sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
       <h1 class="text-2xl font-bold text-slate-800">HREI Members Portal</h1>
-      <button onclick="logout()" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Logout</button>
+      <button id="logoutBtn" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold">Logout</button>
     </div>
     <nav class="max-w-7xl mx-auto px-4 py-2 flex gap-2 overflow-x-auto">
       <a class="nav-link" data-nav="crm">CRM</a>
@@ -51,11 +52,11 @@
         
         <form id="crmLeadForm" class="mt-6 hidden grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-semibold mb-1">Property Address</label>
+            <label class="block text-sm font-semibold mb-1">Property Address *</label>
             <input type="text" id="crm_property_address" class="w-full p-2 border rounded" required>
           </div>
           <div>
-            <label class="block text-sm font-semibold mb-1">City</label>
+            <label class="block text-sm font-semibold mb-1">City *</label>
             <input type="text" id="crm_city" class="w-full p-2 border rounded" required>
           </div>
           <div>
@@ -90,8 +91,8 @@
             <textarea id="crm_notes" class="w-full p-2 border rounded" rows="2"></textarea>
           </div>
           <div class="md:col-span-2">
-            <button type="submit" class="px-6 py-2 bg-brand text-white rounded-lg hover:bg-brand-dark">Save Lead</button>
-            <button type="button" id="cancelCrmForm" class="ml-3 px-6 py-2 border rounded-lg hover:bg-slate-50">Cancel</button>
+            <button type="submit" class="px-6 py-2 bg-brand text-white rounded-lg hover:bg-brand-dark font-semibold">Save Lead</button>
+            <button type="button" id="cancelCrmForm" class="ml-3 px-6 py-2 border rounded-lg hover:bg-slate-50 font-semibold">Cancel</button>
             <span id="crmFormMessage" class="ml-4 text-sm"></span>
           </div>
         </form>
@@ -117,75 +118,6 @@
       </div>
     </section>
 
-    <!-- Edit Lead Modal -->
-    <div id="editCrmModal" style="display:none; position:fixed; z-index:50; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
-      <div style="background:white; padding:2rem; border-radius:1rem; max-width:800px; width:90%; max-height:90vh; overflow-y:auto;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
-          <h2 style="font-size:1.5rem; font-weight:bold;">Edit Lead</h2>
-          <button id="closeCrmModal" style="font-size:2rem; color:#999;">&times;</button>
-        </div>
-        
-        <form id="editCrmLeadForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input type="hidden" id="edit_crm_lead_id">
-          
-          <div class="md:col-span-2">
-            <label class="block text-sm font-semibold mb-1">Property Address</label>
-            <input type="text" id="edit_crm_property_address" class="w-full p-2 border rounded">
-          </div>
-          <div>
-            <label class="block text-sm font-semibold mb-1">City</label>
-            <input type="text" id="edit_crm_city" class="w-full p-2 border rounded">
-          </div>
-          <div>
-            <label class="block text-sm font-semibold mb-1">State</label>
-            <input type="text" id="edit_crm_state" class="w-full p-2 border rounded">
-          </div>
-          <div>
-            <label class="block text-sm font-semibold mb-1">Seller Name</label>
-            <input type="text" id="edit_crm_seller_name" class="w-full p-2 border rounded">
-          </div>
-          <div>
-            <label class="block text-sm font-semibold mb-1">Phone</label>
-            <input type="tel" id="edit_crm_seller_phone" class="w-full p-2 border rounded">
-          </div>
-          <div>
-            <label class="block text-sm font-semibold mb-1">Stage</label>
-            <select id="edit_crm_stage" class="w-full p-2 border rounded">
-              <option>New Lead</option>
-              <option>Contacted</option>
-              <option>Qualified</option>
-              <option>Under Contract</option>
-              <option>Closed</option>
-              <option>Dead</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-sm font-semibold mb-1">Asking Price</label>
-            <input type="number" id="edit_crm_asking_price" class="w-full p-2 border rounded">
-          </div>
-          <div>
-            <label class="block text-sm font-semibold mb-1">ARV</label>
-            <input type="number" id="edit_crm_arv" class="w-full p-2 border rounded">
-          </div>
-          <div class="md:col-span-2">
-            <label class="block text-sm font-semibold mb-1">📞 Call Notes</label>
-            <textarea id="edit_crm_notes" class="w-full p-2 border rounded" rows="4"></textarea>
-          </div>
-          
-          <div class="md:col-span-2">
-            <button type="submit" class="px-6 py-3 bg-brand text-white rounded-lg hover:bg-brand-dark">💾 Save Changes</button>
-            <button type="button" id="cancelCrmEdit" class="ml-3 px-6 py-3 border rounded-lg hover:bg-slate-50">Cancel</button>
-          </div>
-          
-          <div class="md:col-span-2 pt-4 border-t">
-            <button type="button" id="deleteCrmLeadBtn" class="w-full px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700">🗑️ Delete Lead</button>
-          </div>
-          
-          <p id="editCrmFormMessage" class="md:col-span-2 text-sm"></p>
-        </form>
-      </div>
-    </div>
-
     <!-- Forms Section -->
     <section data-route="forms">
       <h1 class="text-3xl font-bold text-slate-800 mb-6">Forms Library</h1>
@@ -193,7 +125,359 @@
         <a href="/members/files/Midterm%20Rental%20Agreement.pdf" target="_blank" class="block bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
           <div class="flex items-center justify-between mb-2">
             <h3 class="font-bold text-lg">Midterm Rental Agreement</h3>
-            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">NEW</span>
+            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-semibold">NEW</span>
           </div>
           <p class="text-sm text-slate-600">PDF • Midterm lease agreement</p>
-          <div class="mt-3
+          <div class="mt-3 flex gap-2">
+            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded font-semibold">Rentals</span>
+            <span class="text-xs bg-slate-100 text-slate-800 px-2 py-1 rounded font-semibold">PDF</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section data-route="courses">
+      <h1 class="text-3xl font-bold text-slate-800 mb-6">Training Courses</h1>
+      <div class="bg-white p-6 rounded-xl shadow-md">
+        <h2 class="text-xl font-bold mb-4">Deal Finding Fundamentals</h2>
+        <p class="text-slate-600 mb-4">Learn how to find and analyze profitable real estate deals in the Huntsville market.</p>
+        <div class="aspect-video bg-slate-200 rounded-lg flex items-center justify-center">
+          <p class="text-slate-500">Video content coming soon</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Templates Section -->
+    <section data-route="templates">
+      <h1 class="text-3xl font-bold text-slate-800 mb-6">Document Templates</h1>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-md">
+          <h3 class="font-bold text-lg mb-2">Offer Letter Template</h3>
+          <p class="text-sm text-slate-600 mb-4">Professional offer letter for property acquisitions</p>
+          <button class="px-4 py-2 bg-brand text-white rounded hover:bg-brand-dark font-semibold">Download</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section data-route="pricing">
+      <h1 class="text-3xl font-bold text-slate-800 mb-6">Membership Pricing</h1>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-md">
+          <h3 class="text-xl font-bold mb-2">Basic</h3>
+          <p class="text-3xl font-bold text-brand mb-4">$29<span class="text-sm text-slate-600">/mo</span></p>
+          <ul class="space-y-2 text-sm text-slate-600 mb-6">
+            <li>✓ Forms Library Access</li>
+            <li>✓ Basic Templates</li>
+            <li>✓ Community Forum</li>
+          </ul>
+          <button class="w-full px-4 py-2 bg-brand text-white rounded hover:bg-brand-dark font-semibold">Select Plan</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Edit Lead Modal -->
+  <div id="editCrmModal" style="display:none; position:fixed; z-index:50; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
+    <div style="background:white; padding:2rem; border-radius:1rem; max-width:800px; width:90%; max-height:90vh; overflow-y:auto;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+        <h2 style="font-size:1.5rem; font-weight:bold;">Edit Lead</h2>
+        <button id="closeCrmModal" style="font-size:2rem; color:#999; cursor:pointer; background:none; border:none;">&times;</button>
+      </div>
+      
+      <form id="editCrmLeadForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <input type="hidden" id="edit_crm_lead_id">
+        
+        <div class="md:col-span-2">
+          <label class="block text-sm font-semibold mb-1">Property Address</label>
+          <input type="text" id="edit_crm_property_address" class="w-full p-2 border rounded">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-1">City</label>
+          <input type="text" id="edit_crm_city" class="w-full p-2 border rounded">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-1">State</label>
+          <input type="text" id="edit_crm_state" class="w-full p-2 border rounded">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-1">Seller Name</label>
+          <input type="text" id="edit_crm_seller_name" class="w-full p-2 border rounded">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-1">Phone</label>
+          <input type="tel" id="edit_crm_seller_phone" class="w-full p-2 border rounded">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-1">Stage</label>
+          <select id="edit_crm_stage" class="w-full p-2 border rounded">
+            <option>New Lead</option>
+            <option>Contacted</option>
+            <option>Qualified</option>
+            <option>Under Contract</option>
+            <option>Closed</option>
+            <option>Dead</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-1">Asking Price</label>
+          <input type="number" id="edit_crm_asking_price" class="w-full p-2 border rounded">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-1">ARV</label>
+          <input type="number" id="edit_crm_arv" class="w-full p-2 border rounded">
+        </div>
+        <div class="md:col-span-2">
+          <label class="block text-sm font-semibold mb-1">📞 Call Notes</label>
+          <textarea id="edit_crm_notes" class="w-full p-2 border rounded" rows="4"></textarea>
+        </div>
+        
+        <div class="md:col-span-2">
+          <button type="submit" class="px-6 py-3 bg-brand text-white rounded-lg hover:bg-brand-dark font-semibold">💾 Save Changes</button>
+          <button type="button" id="cancelCrmEdit" class="ml-3 px-6 py-3 border rounded-lg hover:bg-slate-50 font-semibold">Cancel</button>
+        </div>
+        
+        <div class="md:col-span-2 pt-4 border-t">
+          <button type="button" id="deleteCrmLeadBtn" class="w-full px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold">🗑️ Delete Lead</button>
+        </div>
+        
+        <p id="editCrmFormMessage" class="md:col-span-2 text-sm"></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    console.log('=== HREI Members Portal Loading ===');
+
+    // Supabase Configuration
+    const SUPABASE_URL = 'https://lmivqwscebdupfxxwfcc.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuCqbf9E9J3vuv4';
+    
+    if (typeof window.supabase === 'undefined') {
+      console.error('Supabase library not loaded!');
+    }
+    
+    const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('Supabase client initialized');
+
+    // Router
+    const ROUTES = new Map([
+      ['#/', 'crm'],
+      ['#/crm', 'crm'],
+      ['#/forms', 'forms'],
+      ['#/courses', 'courses'],
+      ['#/templates', 'templates'],
+      ['#/pricing', 'pricing']
+    ]);
+
+    function showRoute(hash) {
+      const route = ROUTES.get(hash) || 'crm';
+      console.log('Showing route:', route);
+      
+      document.querySelectorAll('section[data-route]').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+      
+      const section = document.querySelector(`section[data-route="${route}"]`);
+      const navLink = document.querySelector(`.nav-link[data-nav="${route}"]`);
+      
+      if (section) section.classList.add('active');
+      if (navLink) navLink.classList.add('active');
+      
+      if (route === 'crm') loadAllLeads();
+    }
+
+    // Navigation
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const route = e.target.dataset.nav;
+        window.location.hash = `#/${route}`;
+      });
+    });
+
+    window.addEventListener('hashchange', () => showRoute(window.location.hash));
+    window.addEventListener('DOMContentLoaded', () => showRoute(window.location.hash || '#/'));
+
+    // Load Leads
+    async function loadAllLeads() {
+      console.log('Loading leads...');
+      const tableBody = document.getElementById('crm-tbody');
+      if (!tableBody) return;
+      
+      tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500">Loading leads...</td></tr>';
+
+      try {
+        const { data, error } = await _supabase
+          .from('leads')
+          .select('*')
+          .order('id', { ascending: false });
+
+        if (error) {
+          console.error('Error fetching leads:', error);
+          tableBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500">Error: ${error.message}</td></tr>`;
+          return;
+        }
+
+        if (!data || data.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500">No leads found.</td></tr>';
+          return;
+        }
+
+        console.log(`Loaded ${data.length} leads`);
+        tableBody.innerHTML = '';
+        
+        for (const lead of data) {
+          const row = document.createElement('tr');
+          row.className = 'hover:bg-blue-50 cursor-pointer transition';
+          row.innerHTML = `
+            <td class="p-3">${lead.property_address || ''}</td>
+            <td class="p-3">${lead.city || ''}</td>
+            <td class="p-3"><span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">${lead.stage || 'New Lead'}</span></td>
+            <td class="p-3">${lead.seller_name || 'N/A'}</td>
+            <td class="p-3">${lead.seller_phone || 'N/A'}</td>
+          `;
+          row.addEventListener('click', () => openCrmEditModal(lead));
+          tableBody.appendChild(row);
+        }
+      } catch (err) {
+        console.error('Unexpected error:', err);
+        tableBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500">Error loading leads</td></tr>`;
+      }
+    }
+
+    // Form Toggle
+    document.getElementById('toggleCrmForm')?.addEventListener('click', () => {
+      const form = document.getElementById('crmLeadForm');
+      const icon = document.getElementById('toggleCrmIcon');
+      form.classList.toggle('hidden');
+      icon.textContent = form.classList.contains('hidden') ? '▼' : '▲';
+    });
+
+    document.getElementById('cancelCrmForm')?.addEventListener('click', () => {
+      document.getElementById('crmLeadForm').classList.add('hidden');
+      document.getElementById('toggleCrmIcon').textContent = '▼';
+      document.getElementById('crmLeadForm').reset();
+    });
+
+    // Add Lead
+    document.getElementById('crmLeadForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const messageDiv = document.getElementById('crmFormMessage');
+      messageDiv.textContent = 'Saving...';
+      messageDiv.className = 'ml-4 text-sm text-blue-600';
+
+      const formData = {
+        property_address: document.getElementById('crm_property_address').value,
+        city: document.getElementById('crm_city').value,
+        stage: document.getElementById('crm_stage').value,
+        seller_name: document.getElementById('crm_seller_name').value || null,
+        seller_phone: document.getElementById('crm_seller_phone').value || null,
+        asking_price: parseInt(document.getElementById('crm_asking_price').value) || null,
+        arv: parseInt(document.getElementById('crm_arv').value) || null,
+        notes: document.getElementById('crm_notes').value || null
+      };
+
+      const { error } = await _supabase.from('leads').insert([formData]);
+
+      if (error) {
+        messageDiv.textContent = 'Error!';
+        messageDiv.className = 'ml-4 text-sm text-red-600';
+        return;
+      }
+
+      messageDiv.textContent = '✅ Saved!';
+      messageDiv.className = 'ml-4 text-sm text-green-600';
+      document.getElementById('crmLeadForm').reset();
+      loadAllLeads();
+      setTimeout(() => { messageDiv.textContent = ''; }, 3000);
+    });
+
+    // Edit Modal
+    function openCrmEditModal(lead) {
+      document.getElementById('edit_crm_lead_id').value = lead.id;
+      document.getElementById('edit_crm_property_address').value = lead.property_address || '';
+      document.getElementById('edit_crm_city').value = lead.city || '';
+      document.getElementById('edit_crm_state').value = lead.state || '';
+      document.getElementById('edit_crm_seller_name').value = lead.seller_name || '';
+      document.getElementById('edit_crm_seller_phone').value = lead.seller_phone || '';
+      document.getElementById('edit_crm_stage').value = lead.stage || 'New Lead';
+      document.getElementById('edit_crm_asking_price').value = lead.asking_price || '';
+      document.getElementById('edit_crm_arv').value = lead.arv || '';
+      document.getElementById('edit_crm_notes').value = lead.notes || '';
+      
+      document.getElementById('editCrmModal').style.display = 'flex';
+    }
+
+    document.getElementById('closeCrmModal')?.addEventListener('click', () => {
+      document.getElementById('editCrmModal').style.display = 'none';
+    });
+
+    document.getElementById('cancelCrmEdit')?.addEventListener('click', () => {
+      document.getElementById('editCrmModal').style.display = 'none';
+    });
+
+    // Save Edit
+    document.getElementById('editCrmLeadForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const messageDiv = document.getElementById('editCrmFormMessage');
+      messageDiv.textContent = 'Saving...';
+      messageDiv.className = 'text-sm text-blue-600';
+
+      const leadId = document.getElementById('edit_crm_lead_id').value;
+      const updatedData = {
+        property_address: document.getElementById('edit_crm_property_address').value,
+        city: document.getElementById('edit_crm_city').value,
+        state: document.getElementById('edit_crm_state').value || null,
+        seller_name: document.getElementById('edit_crm_seller_name').value || null,
+        seller_phone: document.getElementById('edit_crm_seller_phone').value || null,
+        stage: document.getElementById('edit_crm_stage').value,
+        asking_price: parseInt(document.getElementById('edit_crm_asking_price').value) || null,
+        arv: parseInt(document.getElementById('edit_crm_arv').value) || null,
+        notes: document.getElementById('edit_crm_notes').value || null
+      };
+
+      const { error } = await _supabase.from('leads').update(updatedData).eq('id', leadId);
+
+      if (error) {
+        messageDiv.textContent = 'Error!';
+        messageDiv.className = 'text-sm text-red-600';
+        return;
+      }
+
+      messageDiv.textContent = '✅ Saved!';
+      messageDiv.className = 'text-sm text-green-600';
+      setTimeout(() => {
+        document.getElementById('editCrmModal').style.display = 'none';
+        loadAllLeads();
+      }, 1500);
+    });
+
+    // Delete Lead
+    document.getElementById('deleteCrmLeadBtn')?.addEventListener('click', async () => {
+      const leadId = document.getElementById('edit_crm_lead_id').value;
+      const address = document.getElementById('edit_crm_property_address').value;
+      
+      if (!confirm(`⚠️ Delete "${address}"?\n\nThis cannot be undone.`)) return;
+
+      const { error } = await _supabase.from('leads').delete().eq('id', leadId);
+
+      if (error) {
+        alert('Error deleting!');
+        return;
+      }
+
+      document.getElementById('editCrmModal').style.display = 'none';
+      loadAllLeads();
+    });
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      sessionStorage.removeItem('user-is-logged-in');
+      window.location.href = '/login.html';
+    });
+
+    console.log('=== Script loaded successfully ===');
+  </script>
+</body>
+</html>
