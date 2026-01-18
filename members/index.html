@@ -39,173 +39,152 @@
   <main class="max-w-7xl mx-auto px-4 py-8">
 
     <!-- CRM Section -->
-<section data-route="crm">
-  <h1 class="text-3xl font-bold text-slate-800 mb-6">Lead CRM</h1>
-  
-  <!-- Add New Lead Form -->
-  <div class="bg-white p-6 rounded-xl shadow-md mb-6">
-    <button id="toggleCrmForm" class="w-full flex items-center justify-between text-left font-bold text-lg text-brand hover:text-brand-dark transition">
-      <span>➕ Add New Lead</span>
-      <span id="toggleCrmIcon" class="text-2xl">▼</span>
-    </button>
-    
-    <form id="crmLeadForm" class="mt-6 hidden grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label class="block text-sm font-semibold mb-1">Property Address</label>
-        <input type="text" id="crm_property_address" class="w-full p-2 border rounded" required>
-      </div>
-      <div>
-        <label class="block text-sm font-semibold mb-1">City</label>
-        <input type="text" id="crm_city" class="w-full p-2 border rounded" required>
-      </div>
-      <div>
-        <label class="block text-sm font-semibold mb-1">Stage</label>
-        <select id="crm_stage" class="w-full p-2 border rounded">
-          <option>New Lead</option>
-          <option>Contacted</option>
-          <option>Qualified</option>
-          <option>Under Contract</option>
-          <option>Closed</option>
-          <option>Dead</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-sm font-semibold mb-1">Seller Name</label>
-        <input type="text" id="crm_seller_name" class="w-full p-2 border rounded">
-      </div>
-      <div>
-        <label class="block text-sm font-semibold mb-1">Phone</label>
-        <input type="tel" id="crm_seller_phone" class="w-full p-2 border rounded">
-      </div>
-      <div>
-        <label class="block text-sm font-semibold mb-1">Asking Price</label>
-        <input type="number" id="crm_asking_price" class="w-full p-2 border rounded">
-      </div>
-      <div>
-        <label class="block text-sm font-semibold mb-1">ARV</label>
-        <input type="number" id="crm_arv" class="w-full p-2 border rounded">
-      </div>
-      <div class="md:col-span-2">
-        <label class="block text-sm font-semibold mb-1">Notes</label>
-        <textarea id="crm_notes" class="w-full p-2 border rounded" rows="2"></textarea>
-      </div>
-      <div class="md:col-span-2">
-        <button type="submit" class="px-6 py-2 bg-brand text-white rounded-lg hover:bg-brand-dark">Save Lead</button>
-        <button type="button" id="cancelCrmForm" class="ml-3 px-6 py-2 border rounded-lg hover:bg-slate-50">Cancel</button>
-        <span id="crmFormMessage" class="ml-4 text-sm"></span>
-      </div>
-    </form>
-  </div>
-
-  <!-- Leads Table -->
-  <div class="bg-white p-6 rounded-xl shadow-md overflow-x-auto">
-    <h2 class="text-xl font-bold mb-4">All Leads (Click to Edit)</h2>
-    <table class="min-w-full text-sm text-left">
-      <thead class="bg-slate-100">
-        <tr>
-          <th class="p-3 font-bold">Address</th>
-          <th class="p-3 font-bold">City</th>
-          <th class="p-3 font-bold">Stage</th>
-          <th class="p-3 font-bold">Owner</th>
-          <th class="p-3 font-bold">Phone</th>
-        </tr>
-      </thead>
-      <tbody id="crm-tbody" class="divide-y">
-        <tr><td colspan="5" class="p-4 text-center text-slate-500">Loading leads...</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- Edit Lead Modal -->
-<div id="editCrmModal" style="display:none; position:fixed; z-index:50; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
-  <div style="background:white; padding:2rem; border-radius:1rem; max-width:800px; width:90%; max-height:90vh; overflow-y:auto;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
-      <h2 style="font-size:1.5rem; font-weight:bold;">Edit Lead</h2>
-      <button id="closeCrmModal" style="font-size:2rem; color:#999;">&times;</button>
-    </div>
-    
-    <form id="editCrmLeadForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <input type="hidden" id="edit_crm_lead_id">
+    <section data-route="crm">
+      <h1 class="text-3xl font-bold text-slate-800 mb-6">Lead CRM</h1>
       
-      <div class="md:col-span-2">
-        <label class="block text-sm font-semibold mb-1">Property Address</label>
-        <input type="text" id="edit_crm_property_address" class="w-full p-2 border rounded">
+      <!-- Add New Lead Form -->
+      <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+        <button id="toggleCrmForm" class="w-full flex items-center justify-between text-left font-bold text-lg text-brand hover:text-brand-dark transition">
+          <span>➕ Add New Lead</span>
+          <span id="toggleCrmIcon" class="text-2xl">▼</span>
+        </button>
+        
+        <form id="crmLeadForm" class="mt-6 hidden grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold mb-1">Property Address</label>
+            <input type="text" id="crm_property_address" class="w-full p-2 border rounded" required>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">City</label>
+            <input type="text" id="crm_city" class="w-full p-2 border rounded" required>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">Stage</label>
+            <select id="crm_stage" class="w-full p-2 border rounded">
+              <option>New Lead</option>
+              <option>Contacted</option>
+              <option>Qualified</option>
+              <option>Under Contract</option>
+              <option>Closed</option>
+              <option>Dead</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">Seller Name</label>
+            <input type="text" id="crm_seller_name" class="w-full p-2 border rounded">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">Phone</label>
+            <input type="tel" id="crm_seller_phone" class="w-full p-2 border rounded">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">Asking Price</label>
+            <input type="number" id="crm_asking_price" class="w-full p-2 border rounded">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">ARV</label>
+            <input type="number" id="crm_arv" class="w-full p-2 border rounded">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold mb-1">Notes</label>
+            <textarea id="crm_notes" class="w-full p-2 border rounded" rows="2"></textarea>
+          </div>
+          <div class="md:col-span-2">
+            <button type="submit" class="px-6 py-2 bg-brand text-white rounded-lg hover:bg-brand-dark">Save Lead</button>
+            <button type="button" id="cancelCrmForm" class="ml-3 px-6 py-2 border rounded-lg hover:bg-slate-50">Cancel</button>
+            <span id="crmFormMessage" class="ml-4 text-sm"></span>
+          </div>
+        </form>
       </div>
-      <div>
-        <label class="block text-sm font-semibold mb-1">City</label>
-        <input type="text" id="edit_crm_city" class="w-full p-2 border rounded">
-      </div>
-      <div>
-        <label class="block text-sm font-semibold mb-1">State</label>
-        <input type="text" id="edit_crm_state" class="w-full p-2 border rounded">
-      </div>
-      <div>
-        <label class="block text-sm font-semibold mb-1">Seller Name</label>
-        <input type="text" id="edit_crm_seller_name" class="w-full p-2 border rounded">
-      </div>
-      <div>
-        <label class="block text-sm font-semibold mb-1">Phone</label>
-        <input type="tel" id="edit_crm_seller_phone" class="w-full p-2 border rounded">
-      </div>
-      <div>
-        <label class="block text-sm font-semibold mb-1">Stage</label>
-        <select id="edit_crm_stage" class="w-full p-2 border rounded">
-          <option>New Lead</option>
-          <option>Contacted</option>
-          <option>Qualified</option>
-          <option>Under Contract</option>
-          <option>Closed</option>
-          <option>Dead</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-sm font-semibold mb-1">Asking Price</label>
-        <input type="number" id="edit_crm_asking_price" class="w-full p-2 border rounded">
-      </div>
-      <div>
-        <label class="block text-sm font-semibold mb-1">ARV</label>
-        <input type="number" id="edit_crm_arv" class="w-full p-2 border rounded">
-      </div>
-      <div class="md:col-span-2">
-        <label class="block text-sm font-semibold mb-1">📞 Call Notes</label>
-        <textarea id="edit_crm_notes" class="w-full p-2 border rounded" rows="4"></textarea>
-      </div>
-      
-      <div class="md:col-span-2">
-        <button type="submit" class="px-6 py-3 bg-brand text-white rounded-lg hover:bg-brand-dark">💾 Save Changes</button>
-        <button type="button" id="cancelCrmEdit" class="ml-3 px-6 py-3 border rounded-lg hover:bg-slate-50">Cancel</button>
-      </div>
-      
-      <div class="md:col-span-2 pt-4 border-t">
-        <button type="button" id="deleteCrmLeadBtn" class="w-full px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700">🗑️ Delete Lead</button>
-      </div>
-      
-      <p id="editCrmFormMessage" class="md:col-span-2 text-sm"></p>
-    </form>
-  </div>
-</div>
 
       <!-- Leads Table -->
       <div class="bg-white p-6 rounded-xl shadow-md overflow-x-auto">
-        <h2 class="text-xl font-bold mb-4">All Leads</h2>
+        <h2 class="text-xl font-bold mb-4">All Leads (Click to Edit)</h2>
         <table class="min-w-full text-sm text-left">
           <thead class="bg-slate-100">
             <tr>
               <th class="p-3 font-bold">Address</th>
               <th class="p-3 font-bold">City</th>
               <th class="p-3 font-bold">Stage</th>
-              <th class="p-3 font-bold">Asking Price</th>
-              <th class="p-3 font-bold">ARV</th>
-              <th class="p-3 font-bold">Notes</th>
+              <th class="p-3 font-bold">Owner</th>
+              <th class="p-3 font-bold">Phone</th>
             </tr>
           </thead>
           <tbody id="crm-tbody" class="divide-y">
-            <tr><td colspan="6" class="p-4 text-center text-slate-500">Loading leads...</td></tr>
+            <tr><td colspan="5" class="p-4 text-center text-slate-500">Loading leads...</td></tr>
           </tbody>
         </table>
       </div>
     </section>
+
+    <!-- Edit Lead Modal -->
+    <div id="editCrmModal" style="display:none; position:fixed; z-index:50; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
+      <div style="background:white; padding:2rem; border-radius:1rem; max-width:800px; width:90%; max-height:90vh; overflow-y:auto;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+          <h2 style="font-size:1.5rem; font-weight:bold;">Edit Lead</h2>
+          <button id="closeCrmModal" style="font-size:2rem; color:#999;">&times;</button>
+        </div>
+        
+        <form id="editCrmLeadForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="hidden" id="edit_crm_lead_id">
+          
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold mb-1">Property Address</label>
+            <input type="text" id="edit_crm_property_address" class="w-full p-2 border rounded">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">City</label>
+            <input type="text" id="edit_crm_city" class="w-full p-2 border rounded">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">State</label>
+            <input type="text" id="edit_crm_state" class="w-full p-2 border rounded">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">Seller Name</label>
+            <input type="text" id="edit_crm_seller_name" class="w-full p-2 border rounded">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">Phone</label>
+            <input type="tel" id="edit_crm_seller_phone" class="w-full p-2 border rounded">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">Stage</label>
+            <select id="edit_crm_stage" class="w-full p-2 border rounded">
+              <option>New Lead</option>
+              <option>Contacted</option>
+              <option>Qualified</option>
+              <option>Under Contract</option>
+              <option>Closed</option>
+              <option>Dead</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">Asking Price</label>
+            <input type="number" id="edit_crm_asking_price" class="w-full p-2 border rounded">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">ARV</label>
+            <input type="number" id="edit_crm_arv" class="w-full p-2 border rounded">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold mb-1">📞 Call Notes</label>
+            <textarea id="edit_crm_notes" class="w-full p-2 border rounded" rows="4"></textarea>
+          </div>
+          
+          <div class="md:col-span-2">
+            <button type="submit" class="px-6 py-3 bg-brand text-white rounded-lg hover:bg-brand-dark">💾 Save Changes</button>
+            <button type="button" id="cancelCrmEdit" class="ml-3 px-6 py-3 border rounded-lg hover:bg-slate-50">Cancel</button>
+          </div>
+          
+          <div class="md:col-span-2 pt-4 border-t">
+            <button type="button" id="deleteCrmLeadBtn" class="w-full px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700">🗑️ Delete Lead</button>
+          </div>
+          
+          <p id="editCrmFormMessage" class="md:col-span-2 text-sm"></p>
+        </form>
+      </div>
+    </div>
 
     <!-- Forms Section -->
     <section data-route="forms">
@@ -217,305 +196,4 @@
             <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">NEW</span>
           </div>
           <p class="text-sm text-slate-600">PDF • Midterm lease agreement</p>
-          <div class="mt-3 flex gap-2">
-            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Rentals</span>
-            <span class="text-xs bg-slate-100 text-slate-800 px-2 py-1 rounded">PDF</span>
-          </div>
-        </a>
-        <!-- Add more forms here -->
-      </div>
-    </section>
-
-    <!-- Courses Section -->
-    <section data-route="courses">
-      <h1 class="text-3xl font-bold text-slate-800 mb-6">Training Courses</h1>
-      <div class="bg-white p-6 rounded-xl shadow-md">
-        <h2 class="text-xl font-bold mb-4">Deal Finding Fundamentals</h2>
-        <p class="text-slate-600 mb-4">Learn how to find and analyze profitable real estate deals in the Huntsville market.</p>
-        <div class="aspect-video bg-slate-200 rounded-lg flex items-center justify-center">
-          <p class="text-slate-500">Video content coming soon</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Templates Section -->
-    <section data-route="templates">
-      <h1 class="text-3xl font-bold text-slate-800 mb-6">Document Templates</h1>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white p-6 rounded-xl shadow-md">
-          <h3 class="font-bold text-lg mb-2">Offer Letter Template</h3>
-          <p class="text-sm text-slate-600 mb-4">Professional offer letter for property acquisitions</p>
-          <button class="px-4 py-2 bg-brand text-white rounded hover:bg-brand-dark">Download</button>
-        </div>
-        <!-- Add more templates here -->
-      </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section data-route="pricing">
-      <h1 class="text-3xl font-bold text-slate-800 mb-6">Membership Pricing</h1>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-xl shadow-md">
-          <h3 class="text-xl font-bold mb-2">Basic</h3>
-          <p class="text-3xl font-bold text-brand mb-4">$29<span class="text-sm text-slate-600">/mo</span></p>
-          <ul class="space-y-2 text-sm text-slate-600 mb-6">
-            <li>✓ Forms Library Access</li>
-            <li>✓ Basic Templates</li>
-            <li>✓ Community Forum</li>
-          </ul>
-          <button class="w-full px-4 py-2 bg-brand text-white rounded hover:bg-brand-dark">Select Plan</button>
-        </div>
-        <!-- Add more pricing tiers -->
-      </div>
-    </section>
-
-  </main>
-// CRM Form Toggle
-document.getElementById('toggleCrmForm')?.addEventListener('click', () => {
-  const form = document.getElementById('crmLeadForm');
-  const icon = document.getElementById('toggleCrmIcon');
-  form.classList.toggle('hidden');
-  icon.textContent = form.classList.contains('hidden') ? '▼' : '▲';
-});
-
-document.getElementById('cancelCrmForm')?.addEventListener('click', () => {
-  document.getElementById('crmLeadForm').classList.add('hidden');
-  document.getElementById('toggleCrmIcon').textContent = '▼';
-  document.getElementById('crmLeadForm').reset();
-});
-
-// CRM Add Lead Form Handler
-document.getElementById('crmLeadForm')?.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const messageDiv = document.getElementById('crmFormMessage');
-  messageDiv.textContent = 'Saving...';
-  messageDiv.className = 'ml-4 text-sm text-blue-600';
-
-  const formData = {
-    property_address: document.getElementById('crm_property_address').value,
-    city: document.getElementById('crm_city').value,
-    stage: document.getElementById('crm_stage').value,
-    seller_name: document.getElementById('crm_seller_name').value || null,
-    seller_phone: document.getElementById('crm_seller_phone').value || null,
-    asking_price: parseInt(document.getElementById('crm_asking_price').value) || null,
-    arv: parseInt(document.getElementById('crm_arv').value) || null,
-    notes: document.getElementById('crm_notes').value || null
-  };
-
-  const { error } = await _supabase.from('leads').insert([formData]);
-
-  if (error) {
-    messageDiv.textContent = 'Error saving lead!';
-    messageDiv.className = 'ml-4 text-sm text-red-600';
-    return;
-  }
-
-  messageDiv.textContent = 'Lead saved!';
-  messageDiv.className = 'ml-4 text-sm text-green-600';
-  document.getElementById('crmLeadForm').reset();
-  loadAllLeads();
-  setTimeout(() => { messageDiv.textContent = ''; }, 3000);
-});
-
-// Open Edit Modal
-function openCrmEditModal(lead) {
-  document.getElementById('edit_crm_lead_id').value = lead.id;
-  document.getElementById('edit_crm_property_address').value = lead.property_address || '';
-  document.getElementById('edit_crm_city').value = lead.city || '';
-  document.getElementById('edit_crm_state').value = lead.state || '';
-  document.getElementById('edit_crm_seller_name').value = lead.seller_name || '';
-  document.getElementById('edit_crm_seller_phone').value = lead.seller_phone || '';
-  document.getElementById('edit_crm_stage').value = lead.stage || 'New Lead';
-  document.getElementById('edit_crm_asking_price').value = lead.asking_price || '';
-  document.getElementById('edit_crm_arv').value = lead.arv || '';
-  document.getElementById('edit_crm_notes').value = lead.notes || '';
-  
-  document.getElementById('editCrmModal').style.display = 'flex';
-}
-
-// Close Edit Modal
-document.getElementById('closeCrmModal')?.addEventListener('click', () => {
-  document.getElementById('editCrmModal').style.display = 'none';
-});
-
-document.getElementById('cancelCrmEdit')?.addEventListener('click', () => {
-  document.getElementById('editCrmModal').style.display = 'none';
-});
-
-// Save Edited Lead
-document.getElementById('editCrmLeadForm')?.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const messageDiv = document.getElementById('editCrmFormMessage');
-  messageDiv.textContent = 'Saving...';
-  messageDiv.className = 'text-sm text-blue-600';
-
-  const leadId = document.getElementById('edit_crm_lead_id').value;
-  const updatedData = {
-    property_address: document.getElementById('edit_crm_property_address').value,
-    city: document.getElementById('edit_crm_city').value,
-    state: document.getElementById('edit_crm_state').value || null,
-    seller_name: document.getElementById('edit_crm_seller_name').value || null,
-    seller_phone: document.getElementById('edit_crm_seller_phone').value || null,
-    stage: document.getElementById('edit_crm_stage').value,
-    asking_price: parseInt(document.getElementById('edit_crm_asking_price').value) || null,
-    arv: parseInt(document.getElementById('edit_crm_arv').value) || null,
-    notes: document.getElementById('edit_crm_notes').value || null
-  };
-
-  const { error } = await _supabase.from('leads').update(updatedData).eq('id', leadId);
-
-  if (error) {
-    messageDiv.textContent = 'Error saving!';
-    messageDiv.className = 'text-sm text-red-600';
-    return;
-  }
-
-  messageDiv.textContent = '✅ Saved!';
-  messageDiv.className = 'text-sm text-green-600';
-  setTimeout(() => {
-    document.getElementById('editCrmModal').style.display = 'none';
-    loadAllLeads();
-  }, 1500);
-});
-
-// Delete Lead
-document.getElementById('deleteCrmLeadBtn')?.addEventListener('click', async () => {
-  const leadId = document.getElementById('edit_crm_lead_id').value;
-  const address = document.getElementById('edit_crm_property_address').value;
-  
-  if (!confirm(`⚠️ Delete lead for "${address}"?\n\nThis cannot be undone.`)) return;
-
-  const { error } = await _supabase.from('leads').delete().eq('id', leadId);
-
-  if (error) {
-    alert('Error deleting lead!');
-    return;
-  }
-
-  document.getElementById('editCrmModal').style.display = 'none';
-  loadAllLeads();
-});
-  <script>
-    // Supabase Configuration
-    const SUPABASE_URL = 'https://lmivqwscebdupfxxwfcc.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuCqbf9E9J3vuv4';
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    // Router
-    const ROUTES = new Map([
-      ['#/', 'crm'],
-      ['#/crm', 'crm'],
-      ['#/forms', 'forms'],
-      ['#/courses', 'courses'],
-      ['#/templates', 'templates'],
-      ['#/pricing', 'pricing']
-    ]);
-
-    function showRoute(hash) {
-      const route = ROUTES.get(hash) || 'crm';
-      document.querySelectorAll('section[data-route]').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
-      
-      const section = document.querySelector(`section[data-route="${route}"]`);
-      const navLink = document.querySelector(`.nav-link[data-nav="${route}"]`);
-      
-      if (section) section.classList.add('active');
-      if (navLink) navLink.classList.add('active');
-      
-      if (route === 'crm') loadAllLeads();
-    }
-
-    // Navigation click handlers
-    document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        const route = e.target.dataset.nav;
-        window.location.hash = `#/${route}`;
-      });
-    });
-
-    window.addEventListener('hashchange', () => showRoute(window.location.hash));
-    window.addEventListener('DOMContentLoaded', () => showRoute(window.location.hash || '#/'));
-
-    // Load Leads from Supabase
-    async function loadAllLeads() {
-      const tableBody = document.getElementById('crm-tbody');
-      if (!tableBody) return;
-      
-      tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">Loading leads...</td></tr>';
-
-      const { data, error } = await _supabase
-        .from('leads')
-        .select('*')
-        .order('id', { ascending: false });
-
-      if (error) {
-        console.error('Error fetching leads:', error);
-        tableBody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-500">Error loading leads.</td></tr>`;
-        return;
-      }
-
-      if (data.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">No leads found.</td></tr>';
-        return;
-      }
-
-      tableBody.innerHTML = '';
-for (const lead of data) {
-  const row = document.createElement('tr');
-  row.className = 'hover:bg-blue-50 cursor-pointer transition';
-  row.innerHTML = `
-    <td class="p-3">${lead.property_address || ''}</td>
-    <td class="p-3">${lead.city || ''}</td>
-    <td class="p-3"><span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">${lead.stage || 'New Lead'}</span></td>
-    <td class="p-3">${lead.seller_name || 'N/A'}</td>
-    <td class="p-3">${lead.seller_phone || 'N/A'}</td>
-  `;
-  row.addEventListener('click', () => openCrmEditModal(lead));
-  tableBody.appendChild(row);
-}
-      }
-    }
-
-    // Add New Lead Form Handler
-    document.getElementById('leadForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const messageDiv = document.getElementById('formMessage');
-      messageDiv.textContent = 'Saving...';
-      messageDiv.className = 'ml-4 text-sm text-blue-600';
-
-      const formData = {
-        property_address: document.getElementById('property_address').value,
-        city: document.getElementById('city').value,
-        stage: document.getElementById('stage').value,
-        asking_price: parseInt(document.getElementById('asking_price').value) || null,
-        arv: parseInt(document.getElementById('arv').value) || null,
-        notes: document.getElementById('notes').value
-      };
-
-      const { data, error } = await _supabase
-        .from('leads')
-        .insert([formData]);
-
-      if (error) {
-        console.error('Error saving lead:', error);
-        messageDiv.textContent = 'Error saving lead!';
-        messageDiv.className = 'ml-4 text-sm text-red-600';
-        return;
-      }
-
-      messageDiv.textContent = 'Lead saved successfully!';
-      messageDiv.className = 'ml-4 text-sm text-green-600';
-      document.getElementById('leadForm').reset();
-      loadAllLeads();
-      
-      setTimeout(() => { messageDiv.textContent = ''; }, 3000);
-    });
-
-    // Logout Function
-    function logout() {
-      localStorage.removeItem('hrei_session');
-      window.location.href = '/login.html';
-    }
-  </script>
-</body>
-</html>
+          <div class="mt-3
