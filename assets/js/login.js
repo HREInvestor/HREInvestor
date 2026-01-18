@@ -29,7 +29,7 @@ async function routeAfterLogin(uid) {
   const ref = doc(db, "users", uid);
   const snap = await getDoc(ref);
   const paid = snap.exists() && snap.data().paid === true;
-  window.location.replace(paid ? "/members/dashboard.html" : "/members/pricing.html");
+ window.location.replace(paid ? "/members/" : "/members/pricing.html");
 }
 
 loginBtn?.addEventListener("click", async () => {
