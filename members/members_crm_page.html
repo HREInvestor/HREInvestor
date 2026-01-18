@@ -4,186 +4,33 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>HREI CRM - Members Area</title>
-  
-  <!-- Tailwind CSS -->
+  <!-- Link to your existing stylesheet -->
+  <link rel="stylesheet" href="../styles.css">
+  <!-- Tailwind from your main page -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = { 
-      theme: { 
-        extend: { 
-          colors: { 
-            brand: { 
-              DEFAULT:'#0B5C63', 
-              dark:'#073C40', 
-              accent:'#F59E0B' 
-            }
-          }
-        }
-      }
-    };
-  </script>
+    tailwind.config = { theme: { extend: { colors: { brand: { DEFAULT:'#0B5C63', dark:'#073C40', accent:'#F59E0B' }}}}};</script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   
   <!-- Supabase Client Library -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
-  <style>
-    body { font-family: Inter, sans-serif; }
-  </style>
 </head>
 <body class="bg-slate-100">
 
   <!-- ================================================== -->
   <!-- IMPORTANT: Authentication Guard -->
+  <!-- This script checks if the user is logged in and -->
+  <!-- redirects to login.html if they are not. -->
   <!-- ================================================== -->
   <script src="../assets/js/auth-guard.js"></script>
 
-  <!-- Header -->
-  <header class="bg-white shadow-sm sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="/" class="font-extrabold text-brand text-xl">HREI</a>
-      <nav class="flex gap-6 font-semibold text-sm">
-        <a href="/members/dashboard.html" class="hover:text-brand">Dashboard</a>
-        <a href="/members/members_crm_page.html" class="text-brand">CRM</a>
-        <button id="logoutBtn" class="text-red-600 hover:text-red-800">Logout</button>
-      </nav>
-    </div>
-  </header>
+  <!-- You can copy/paste your member navigation header here if you have one -->
   
   <div class="max-w-7xl mx-auto px-4 py-12">
     <h1 class="text-3xl md:text-4xl font-extrabold">HREI Lead CRM</h1>
-    <p class="mt-2 text-slate-700">Manage your real estate leads and track their progress through your pipeline.</p>
+    <p class="mt-2 text-slate-700">This table shows all leads from the database. This page is for internal use only.</p>
     
-    <!-- Add New Lead Form (Collapsible) -->
-    <div class="mt-8 bg-white p-6 rounded-xl shadow-md">
-      <button id="toggleFormBtn" class="w-full flex items-center justify-between text-left font-bold text-lg text-brand hover:text-brand-dark">
-        <span>➕ Add New Lead</span>
-        <span id="toggleIcon">▼</span>
-      </button>
-      
-      <form id="addLeadForm" class="mt-6 hidden">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          
-          <!-- Seller Information -->
-          <div>
-            <label class="block text-sm font-semibold mb-1">Seller Name</label>
-            <input type="text" id="seller_name" class="w-full p-2 border border-slate-300 rounded-lg" placeholder="John Doe">
-          </div>
-          
-          <div>
-            <label class="block text-sm font-semibold mb-1">Phone</label>
-            <input type="tel" id="phone" class="w-full p-2 border border-slate-300 rounded-lg" placeholder="(256) 555-1234">
-          </div>
-          
-          <div>
-            <label class="block text-sm font-semibold mb-1">Email</label>
-            <input type="email" id="email" class="w-full p-2 border border-slate-300 rounded-lg" placeholder="seller@example.com">
-          </div>
-          
-          <!-- Property Information -->
-          <div>
-            <label class="block text-sm font-semibold mb-1">Property Address *</label>
-            <input type="text" id="property_address" required class="w-full p-2 border border-slate-300 rounded-lg" placeholder="123 Main St">
-          </div>
-          
-          <div>
-            <label class="block text-sm font-semibold mb-1">City *</label>
-            <input type="text" id="city" required class="w-full p-2 border border-slate-300 rounded-lg" placeholder="Huntsville">
-          </div>
-          
-          <div>
-            <label class="block text-sm font-semibold mb-1">State</label>
-            <input type="text" id="state" class="w-full p-2 border border-slate-300 rounded-lg" placeholder="AL" value="AL">
-          </div>
-          
-          <div>
-            <label class="block text-sm font-semibold mb-1">Zip Code</label>
-            <input type="text" id="zip" class="w-full p-2 border border-slate-300 rounded-lg" placeholder="35801">
-          </div>
-          
-          <!-- Lead Details -->
-          <div>
-            <label class="block text-sm font-semibold mb-1">Stage</label>
-            <select id="stage" class="w-full p-2 border border-slate-300 rounded-lg">
-              <option value="New Lead">New Lead</option>
-              <option value="Contacted">Contacted</option>
-              <option value="Qualified">Qualified</option>
-              <option value="Offer Made">Offer Made</option>
-              <option value="Under Contract">Under Contract</option>
-              <option value="Closed">Closed</option>
-              <option value="Dead">Dead</option>
-            </select>
-          </div>
-          
-          <div>
-            <label class="block text-sm font-semibold mb-1">Source</label>
-            <input type="text" id="source" class="w-full p-2 border border-slate-300 rounded-lg" placeholder="Cold Call, Direct Mail, etc.">
-          </div>
-          
-          <div>
-            <label class="block text-sm font-semibold mb-1">Property Type</label>
-            <input type="text" id="property_type" class="w-full p-2 border border-slate-300 rounded-lg" placeholder="Single Family, Multifamily, etc.">
-          </div>
-          
-          <!-- Financial Information -->
-          <div>
-            <label class="block text-sm font-semibold mb-1">Asking Price</label>
-            <input type="number" id="asking_price" class="w-full p-2 border border-slate-300 rounded-lg" placeholder="150000">
-          </div>
-          
-          <div>
-            <label class="block text-sm font-semibold mb-1">ARV (After Repair Value)</label>
-            <input type="number" id="arv" class="w-full p-2 border border-slate-300 rounded-lg" placeholder="200000">
-          </div>
-          
-          <div>
-            <label class="block text-sm font-semibold mb-1">Repair Estimate</label>
-            <input type="number" id="repairs" class="w-full p-2 border border-slate-300 rounded-lg" placeholder="25000">
-          </div>
-          
-          <div>
-            <label class="block text-sm font-semibold mb-1">MAO (Maximum Allowable Offer)</label>
-            <input type="number" id="mao" class="w-full p-2 border border-slate-300 rounded-lg" placeholder="125000">
-          </div>
-          
-          <div>
-            <label class="block text-sm font-semibold mb-1">Offer Made</label>
-            <input type="number" id="offer_made" class="w-full p-2 border border-slate-300 rounded-lg" placeholder="120000">
-          </div>
-          
-          <!-- Tags and Notes -->
-          <div>
-            <label class="block text-sm font-semibold mb-1">Tags</label>
-            <input type="text" id="tags" class="w-full p-2 border border-slate-300 rounded-lg" placeholder="motivated, vacant, etc.">
-          </div>
-          
-          <div class="md:col-span-2">
-            <label class="block text-sm font-semibold mb-1">Notes</label>
-            <textarea id="notes" rows="3" class="w-full p-2 border border-slate-300 rounded-lg" placeholder="Additional information about this lead..."></textarea>
-          </div>
-          
-          <div>
-            <label class="block text-sm font-semibold mb-1">Next Follow-up Date</label>
-            <input type="date" id="next_followup" class="w-full p-2 border border-slate-300 rounded-lg">
-          </div>
-        </div>
-        
-        <div class="mt-6 flex gap-3">
-          <button type="submit" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-brand-dark">
-            Add Lead
-          </button>
-          <button type="button" id="cancelBtn" class="border border-slate-300 px-6 py-2 rounded-lg font-semibold hover:bg-slate-50">
-            Cancel
-          </button>
-        </div>
-        
-        <p id="formMessage" class="mt-4 text-sm"></p>
-      </form>
-    </div>
-    
-    <!-- Leads Table -->
     <div class="mt-8 bg-white p-6 rounded-xl shadow-md overflow-x-auto">
-      <h2 class="text-xl font-bold mb-4">All Leads</h2>
       <table class="min-w-full text-sm text-left">
         <thead class="bg-slate-100">
           <tr>
@@ -196,7 +43,7 @@
           </tr>
         </thead>
         <tbody id="crm-tbody" class="divide-y">
-          <tr><td colspan="6" class="p-3 text-center text-slate-500">Loading leads...</td></tr>
+          <!-- Supabase data will be loaded here -->
         </tbody>
       </table>
     </div>
@@ -204,162 +51,65 @@
 
   <script>
     // ============================================
-    // SUPABASE CLIENT INITIALIZATION
+    // Supabase Client Initialization (CORRECTED)
     // ============================================
     const SUPABASE_URL = 'https://lmivqwscebdupfxxwfcc.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuZHqLCkF_pGxqI';
     
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    // ============================================
-    // FORM TOGGLE FUNCTIONALITY
-    // ============================================
-    const toggleFormBtn = document.getElementById('toggleFormBtn');
-    const addLeadForm = document.getElementById('addLeadForm');
-    const toggleIcon = document.getElementById('toggleIcon');
-    const cancelBtn = document.getElementById('cancelBtn');
+    // FIXED: Use window.supabase instead of just supabase
+    const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
-    toggleFormBtn.addEventListener('click', () => {
-      addLeadForm.classList.toggle('hidden');
-      toggleIcon.textContent = addLeadForm.classList.contains('hidden') ? '▼' : '▲';
-    });
-    
-    cancelBtn.addEventListener('click', () => {
-      addLeadForm.classList.add('hidden');
-      toggleIcon.textContent = '▼';
-      addLeadForm.reset();
-      document.getElementById('formMessage').textContent = '';
-    });
-
-    // ============================================
-    // FORM SUBMISSION HANDLER
-    // ============================================
-    addLeadForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const formMessage = document.getElementById('formMessage');
-      formMessage.textContent = 'Adding lead...';
-      formMessage.className = 'mt-4 text-sm text-blue-600';
-      
-      // Gather form data
-      const leadData = {
-        seller_name: document.getElementById('seller_name').value || null,
-        phone: document.getElementById('phone').value || null,
-        email: document.getElementById('email').value || null,
-        property_address: document.getElementById('property_address').value,
-        city: document.getElementById('city').value,
-        state: document.getElementById('state').value || 'AL',
-        zip: document.getElementById('zip').value || null,
-        stage: document.getElementById('stage').value,
-        source: document.getElementById('source').value || null,
-        property_type: document.getElementById('property_type').value || null,
-        asking_price: document.getElementById('asking_price').value ? parseFloat(document.getElementById('asking_price').value) : null,
-        arv: document.getElementById('arv').value ? parseFloat(document.getElementById('arv').value) : null,
-        repairs: document.getElementById('repairs').value ? parseFloat(document.getElementById('repairs').value) : null,
-        mao: document.getElementById('mao').value ? parseFloat(document.getElementById('mao').value) : null,
-        offer_made: document.getElementById('offer_made').value ? parseFloat(document.getElementById('offer_made').value) : null,
-        tags: document.getElementById('tags').value || null,
-        notes: document.getElementById('notes').value || null,
-        next_followup: document.getElementById('next_followup').value || null
-      };
-      
-      try {
-        const { data, error } = await supabaseClient
-          .from('leads')
-          .insert([leadData])
-          .select();
-        
-        if (error) {
-          console.error('Error adding lead:', error);
-          formMessage.textContent = `Error: ${error.message}`;
-          formMessage.className = 'mt-4 text-sm text-red-600';
-          return;
-        }
-        
-        formMessage.textContent = '✅ Lead added successfully!';
-        formMessage.className = 'mt-4 text-sm text-green-600';
-        
-        // Reset form and reload leads
-        addLeadForm.reset();
-        setTimeout(() => {
-          addLeadForm.classList.add('hidden');
-          toggleIcon.textContent = '▼';
-          formMessage.textContent = '';
-          loadAllLeads();
-        }, 1500);
-        
-      } catch (err) {
-        console.error('Unexpected error:', err);
-        formMessage.textContent = `Unexpected error: ${err.message}`;
-        formMessage.className = 'mt-4 text-sm text-red-600';
-      }
-    });
-
-    // ============================================
-    // LOAD ALL LEADS FUNCTION
-    // ============================================
     async function loadAllLeads() {
       const tableBody = document.getElementById('crm-tbody');
-      
       if (!tableBody) {
         console.error('Table body element not found');
         return;
       }
       
-      tableBody.innerHTML = '<tr><td colspan="6" class="p-3 text-center text-slate-500">Loading leads...</td></tr>';
-      
+      tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">Loading all leads...</td></tr>';
+
       try {
-        const { data, error } = await supabaseClient
+        // Fetch ALL leads, not just 'Under Contract'
+        const { data, error } = await _supabase
           .from('leads')
-          .select('*')
-          .order('id', { ascending: false });
+          .select('*') // Select all columns
+          .order('id', { ascending: false }); // Show newest first
 
         if (error) {
-          console.error('Supabase error:', error);
-          tableBody.innerHTML = '<tr><td colspan="6" class="p-3 text-center text-red-600">Error loading leads. Check console for details.</td></tr>';
-          return;
+            console.error('Error fetching leads:', error);
+            tableBody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-500">Error loading leads. Check the browser console.</td></tr>`;
+            return;
         }
 
         if (!data || data.length === 0) {
-          tableBody.innerHTML = '<tr><td colspan="6" class="p-3 text-center text-slate-500">No leads found in the database.</td></tr>';
-          return;
+            tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">No leads found in the database.</td></tr>';
+            return;
         }
 
         tableBody.innerHTML = ''; // Clear the loading message
         
-        for (const lead of data) {
-          const row = document.createElement('tr');
-          row.className = 'hover:bg-slate-50';
-          row.innerHTML = `
-            <td class="p-3">${lead.property_address || ''}</td>
-            <td class="p-3">${lead.city || ''}</td>
-            <td class="p-3"><span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">${lead.stage || 'New Lead'}</span></td>
-            <td class="p-3">$${lead.asking_price ? lead.asking_price.toLocaleString() : 'N/A'}</td>
-            <td class="p-3">$${lead.arv ? lead.arv.toLocaleString() : 'N/A'}</td>
-            <td class="p-3 text-slate-600">${lead.notes || ''}</td>
-          `;
-          tableBody.appendChild(row);
-        }
-        
         console.log(`Successfully loaded ${data.length} leads`);
         
+        for (const lead of data) {
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-slate-50';
+            row.innerHTML = `
+                <td class="p-3">${lead.property_address || ''}</td>
+                <td class="p-3">${lead.city || ''}</td>
+                <td class="p-3"><span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">${lead.stage || 'New Lead'}</span></td>
+                <td class="p-3">$${lead.asking_price ? lead.asking_price.toLocaleString() : 'N/A'}</td>
+                <td class="p-3">$${lead.arv ? lead.arv.toLocaleString() : 'N/A'}</td>
+                <td class="p-3 text-slate-600">${lead.notes || ''}</td>
+            `;
+            tableBody.appendChild(row);
+        }
       } catch (err) {
         console.error('Unexpected error:', err);
-        tableBody.innerHTML = '<tr><td colspan="6" class="p-3 text-center text-red-600">Unexpected error occurred. Check console.</td></tr>';
+        tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-red-500">Unexpected error occurred. Check console.</td></tr>';
       }
     }
 
-    // ============================================
-    // LOGOUT FUNCTIONALITY
-    // ============================================
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      sessionStorage.removeItem('user-is-logged-in');
-      window.location.href = '/login.html';
-    });
-
-    // ============================================
-    // INITIALIZE PAGE
-    // ============================================
+    // Load the leads when the page is ready
     document.addEventListener('DOMContentLoaded', () => {
       console.log('Page loaded, initializing CRM...');
       loadAllLeads();
