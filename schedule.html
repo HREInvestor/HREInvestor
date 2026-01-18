@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Schedule a Meeting - HREI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: Inter, sans-serif; }
+  </style>
+  <script>
+    tailwind.config = { 
+      theme: { 
+        extend: { 
+          colors: { 
+            brand: { 
+              DEFAULT:'#0B5C63', 
+              dark:'#073C40', 
+              accent:'#F59E0B' 
+            }
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-slate-50">
+
+  <!-- Header -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <a href="/" class="font-extrabold text-2xl text-brand">HREI</a>
+      </div>
+      <nav class="flex items-center gap-6 text-sm font-semibold">
+        <a href="/" class="text-slate-700 hover:text-brand">Home</a>
+        <a href="/login.html" class="text-slate-700 hover:text-brand">Member Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    
+    <!-- Page Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4">
+        Schedule a Meeting
+      </h1>
+      <p class="text-xl text-slate-600 max-w-2xl mx-auto">
+        Book a free 30-minute consultation to discuss your real estate goals or selling your property
+      </p>
+    </div>
+
+    <!-- Meeting Types -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+      
+      <!-- Investor Consultation -->
+      <div class="bg-white rounded-xl shadow-md p-6 border-2 border-transparent hover:border-brand transition">
+        <div class="flex items-start gap-4">
+          <div class="flex-shrink-0 w-12 h-12 bg-brand text-white rounded-lg flex items-center justify-center text-2xl">
+            💼
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">Investor Consultation</h3>
+            <p class="text-slate-600 mb-3">
+              Learn about real estate investing strategies, deal analysis, and how to get started in the Huntsville market.
+            </p>
+            <ul class="space-y-1 text-sm text-slate-600">
+              <li>✓ 30-minute video call</li>
+              <li>✓ Free consultation</li>
+              <li>✓ Investment strategies</li>
+              <li>✓ Market insights</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sell Your House -->
+      <div class="bg-white rounded-xl shadow-md p-6 border-2 border-transparent hover:border-brand transition">
+        <div class="flex items-start gap-4">
+          <div class="flex-shrink-0 w-12 h-12 bg-brand text-white rounded-lg flex items-center justify-center text-2xl">
+            🏠
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">Sell Your House</h3>
+            <p class="text-slate-600 mb-3">
+              Get a fair cash offer for your property. We buy houses in any condition - no repairs needed.
+            </p>
+            <ul class="space-y-1 text-sm text-slate-600">
+              <li>✓ 30-minute consultation</li>
+              <li>✓ Fast cash offers</li>
+              <li>✓ No fees or commissions</li>
+              <li>✓ Close on your timeline</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Calendly Embed -->
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+      <h2 class="text-2xl font-bold text-slate-900 mb-6 text-center">Choose Your Time</h2>
+      
+      <!-- Calendly Inline Widget -->
+      <div class="calendly-inline-widget" 
+           data-url="https://calendly.com/huntsvillerealestate256/30min" 
+           style="min-width:320px;height:700px;">
+      </div>
+      
+      <!-- Calendly Script -->
+      <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+    </div>
+
+    <!-- What to Expect -->
+    <div class="mt-12 bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg">
+      <h3 class="font-bold text-blue-900 mb-3">📋 What to Expect</h3>
+      <ul class="space-y-2 text-sm text-blue-800">
+        <li>• <strong>Confirmation Email:</strong> You'll receive an email with meeting details and a calendar invite</li>
+        <li>• <strong>Video Call:</strong> We'll meet via Zoom or Google Meet (link provided in confirmation)</li>
+        <li>• <strong>Preparation:</strong> No preparation needed - just bring your questions!</li>
+        <li>• <strong>Follow-up:</strong> After our call, we'll send you relevant resources and next steps</li>
+      </ul>
+    </div>
+
+    <!-- Help Section -->
+    <div class="mt-12 text-center">
+      <h3 class="text-lg font-bold text-slate-900 mb-3">Questions Before Booking?</h3>
+      <p class="text-slate-600 mb-4">
+        Feel free to reach out if you have any questions about scheduling or what to expect.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="mailto:info@hreinvestor.com" class="inline-block bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold px-6 py-3 rounded-lg transition">
+          📧 Email Us
+        </a>
+        <a href="tel:+12565551234" class="inline-block bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold px-6 py-3 rounded-lg transition">
+          📞 Call Us
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-300 py-8 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-sm">&copy; 2026 Huntsville Real Estate Investor LLC. All rights reserved.</p>
+      <p class="text-sm mt-2">
+        <a href="/" class="hover:text-white">Home</a> • 
+        <a href="/login.html" class="hover:text-white">Member Login</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
