@@ -52,16 +52,16 @@
         
         <form id="crmLeadForm" class="mt-6 hidden grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-semibold mb-1">Property Address *</label>
-            <input type="text" id="crm_property_address" class="w-full p-2 border rounded" required>
+            <label for="crm_property_address" class="block text-sm font-semibold mb-1">Property Address *</label>
+            <input type="text" id="crm_property_address" name="crm_property_address" class="w-full p-2 border rounded" required autocomplete="street-address">
           </div>
           <div>
-            <label class="block text-sm font-semibold mb-1">City *</label>
-            <input type="text" id="crm_city" class="w-full p-2 border rounded" required>
+            <label for="crm_city" class="block text-sm font-semibold mb-1">City *</label>
+            <input type="text" id="crm_city" name="crm_city" class="w-full p-2 border rounded" required autocomplete="address-level2">
           </div>
           <div>
-            <label class="block text-sm font-semibold mb-1">Stage</label>
-            <select id="crm_stage" class="w-full p-2 border rounded">
+            <label for="crm_stage" class="block text-sm font-semibold mb-1">Stage</label>
+            <select id="crm_stage" name="crm_stage" class="w-full p-2 border rounded">
               <option>New Lead</option>
               <option>Contacted</option>
               <option>Qualified</option>
@@ -71,24 +71,24 @@
             </select>
           </div>
           <div>
-            <label class="block text-sm font-semibold mb-1">Seller Name</label>
-            <input type="text" id="crm_seller_name" class="w-full p-2 border rounded">
+            <label for="crm_seller_name" class="block text-sm font-semibold mb-1">Seller Name</label>
+            <input type="text" id="crm_seller_name" name="crm_seller_name" class="w-full p-2 border rounded" autocomplete="name">
           </div>
           <div>
-            <label class="block text-sm font-semibold mb-1">Phone</label>
-            <input type="tel" id="crm_seller_phone" class="w-full p-2 border rounded">
+            <label for="crm_seller_phone" class="block text-sm font-semibold mb-1">Phone</label>
+            <input type="tel" id="crm_seller_phone" name="crm_seller_phone" class="w-full p-2 border rounded" autocomplete="tel">
           </div>
           <div>
-            <label class="block text-sm font-semibold mb-1">Asking Price</label>
-            <input type="number" id="crm_asking_price" class="w-full p-2 border rounded">
+            <label for="crm_asking_price" class="block text-sm font-semibold mb-1">Asking Price</label>
+            <input type="number" id="crm_asking_price" name="crm_asking_price" class="w-full p-2 border rounded" autocomplete="off">
           </div>
           <div>
-            <label class="block text-sm font-semibold mb-1">ARV</label>
-            <input type="number" id="crm_arv" class="w-full p-2 border rounded">
+            <label for="crm_arv" class="block text-sm font-semibold mb-1">ARV</label>
+            <input type="number" id="crm_arv" name="crm_arv" class="w-full p-2 border rounded" autocomplete="off">
           </div>
           <div class="md:col-span-2">
-            <label class="block text-sm font-semibold mb-1">Notes</label>
-            <textarea id="crm_notes" class="w-full p-2 border rounded" rows="2"></textarea>
+            <label for="crm_notes" class="block text-sm font-semibold mb-1">Notes</label>
+            <textarea id="crm_notes" name="crm_notes" class="w-full p-2 border rounded" rows="2"></textarea>
           </div>
           <div class="md:col-span-2">
             <button type="submit" class="px-6 py-2 bg-brand text-white rounded-lg hover:bg-brand-dark font-semibold">Save Lead</button>
@@ -191,28 +191,28 @@
         <input type="hidden" id="edit_crm_lead_id">
         
         <div class="md:col-span-2">
-          <label class="block text-sm font-semibold mb-1">Property Address</label>
-          <input type="text" id="edit_crm_property_address" class="w-full p-2 border rounded">
+          <label for="edit_crm_property_address" class="block text-sm font-semibold mb-1">Property Address</label>
+          <input type="text" id="edit_crm_property_address" name="edit_crm_property_address" class="w-full p-2 border rounded" autocomplete="street-address">
         </div>
         <div>
-          <label class="block text-sm font-semibold mb-1">City</label>
-          <input type="text" id="edit_crm_city" class="w-full p-2 border rounded">
+          <label for="edit_crm_city" class="block text-sm font-semibold mb-1">City</label>
+          <input type="text" id="edit_crm_city" name="edit_crm_city" class="w-full p-2 border rounded" autocomplete="address-level2">
         </div>
         <div>
-          <label class="block text-sm font-semibold mb-1">State</label>
-          <input type="text" id="edit_crm_state" class="w-full p-2 border rounded">
+          <label for="edit_crm_state" class="block text-sm font-semibold mb-1">State</label>
+          <input type="text" id="edit_crm_state" name="edit_crm_state" class="w-full p-2 border rounded" autocomplete="address-level1">
         </div>
         <div>
-          <label class="block text-sm font-semibold mb-1">Seller Name</label>
-          <input type="text" id="edit_crm_seller_name" class="w-full p-2 border rounded">
+          <label for="edit_crm_seller_name" class="block text-sm font-semibold mb-1">Seller Name</label>
+          <input type="text" id="edit_crm_seller_name" name="edit_crm_seller_name" class="w-full p-2 border rounded" autocomplete="name">
         </div>
         <div>
-          <label class="block text-sm font-semibold mb-1">Phone</label>
-          <input type="tel" id="edit_crm_seller_phone" class="w-full p-2 border rounded">
+          <label for="edit_crm_seller_phone" class="block text-sm font-semibold mb-1">Phone</label>
+          <input type="tel" id="edit_crm_seller_phone" name="edit_crm_seller_phone" class="w-full p-2 border rounded" autocomplete="tel">
         </div>
         <div>
-          <label class="block text-sm font-semibold mb-1">Stage</label>
-          <select id="edit_crm_stage" class="w-full p-2 border rounded">
+          <label for="edit_crm_stage" class="block text-sm font-semibold mb-1">Stage</label>
+          <select id="edit_crm_stage" name="edit_crm_stage" class="w-full p-2 border rounded">
             <option>New Lead</option>
             <option>Contacted</option>
             <option>Qualified</option>
@@ -222,16 +222,16 @@
           </select>
         </div>
         <div>
-          <label class="block text-sm font-semibold mb-1">Asking Price</label>
-          <input type="number" id="edit_crm_asking_price" class="w-full p-2 border rounded">
+          <label for="edit_crm_asking_price" class="block text-sm font-semibold mb-1">Asking Price</label>
+          <input type="number" id="edit_crm_asking_price" name="edit_crm_asking_price" class="w-full p-2 border rounded" autocomplete="off">
         </div>
         <div>
-          <label class="block text-sm font-semibold mb-1">ARV</label>
-          <input type="number" id="edit_crm_arv" class="w-full p-2 border rounded">
+          <label for="edit_crm_arv" class="block text-sm font-semibold mb-1">ARV</label>
+          <input type="number" id="edit_crm_arv" name="edit_crm_arv" class="w-full p-2 border rounded" autocomplete="off">
         </div>
         <div class="md:col-span-2">
-          <label class="block text-sm font-semibold mb-1">📞 Call Notes</label>
-          <textarea id="edit_crm_notes" class="w-full p-2 border rounded" rows="4"></textarea>
+          <label for="edit_crm_notes" class="block text-sm font-semibold mb-1">📞 Call Notes</label>
+          <textarea id="edit_crm_notes" name="edit_crm_notes" class="w-full p-2 border rounded" rows="4"></textarea>
         </div>
         
         <div class="md:col-span-2">
