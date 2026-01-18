@@ -203,13 +203,17 @@
   </div>
 
   <script>
-    // Supabase Client Initialization
+    // ============================================
+    // SUPABASE CLIENT INITIALIZATION
+    // ============================================
     const SUPABASE_URL = 'https://lmivqwscebdupfxxwfcc.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuZHqLCkF_pGxqI';
     
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Toggle form visibility
+    // ============================================
+    // FORM TOGGLE FUNCTIONALITY
+    // ============================================
     const toggleFormBtn = document.getElementById('toggleFormBtn');
     const addLeadForm = document.getElementById('addLeadForm');
     const toggleIcon = document.getElementById('toggleIcon');
@@ -227,7 +231,9 @@
       document.getElementById('formMessage').textContent = '';
     });
 
-    // Handle form submission
+    // ============================================
+    // FORM SUBMISSION HANDLER
+    // ============================================
     addLeadForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       
@@ -258,7 +264,7 @@
       };
       
       try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
           .from('leads')
           .insert([leadData])
           .select();
@@ -289,19 +295,28 @@
       }
     });
 
-    // Function to load all leads from Supabase
+    // ============================================
+    // LOAD ALL LEADS FUNCTION
+    // ============================================
     async function loadAllLeads() {
       const tableBody = document.getElementById('crm-tbody');
       
+      if (!tableBody) {
+        console.error('Table body element not found');
+        return;
+      }
+      
+      tableBody.innerHTML = '<tr><td colspan="6" class="p-3 text-center text-slate-500">Loading leads...</td></tr>';
+      
       try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
           .from('leads')
           .select('*')
           .order('id', { ascending: false });
 
         if (error) {
           console.error('Supabase error:', error);
-          tableBody.innerHTML = '<tr><td colspan="6" class="p-3 text-center text-red-600">Error loading leads. Check console.</td></tr>';
+          tableBody.innerHTML = '<tr><td colspan="6" class="p-3 text-center text-red-600">Error loading leads. Check console for details.</td></tr>';
           return;
         }
 
@@ -325,19 +340,29 @@
           `;
           tableBody.appendChild(row);
         }
+        
+        console.log(`Successfully loaded ${data.length} leads`);
+        
       } catch (err) {
         console.error('Unexpected error:', err);
-        tableBody.innerHTML = '<tr><td colspan="6" class="p-3 text-center text-red-600">Unexpected error occurred.</td></tr>';
+        tableBody.innerHTML = '<tr><td colspan="6" class="p-3 text-center text-red-600">Unexpected error occurred. Check console.</td></tr>';
       }
     }
 
-    // Load the leads when the page is ready
-    document.addEventListener('DOMContentLoaded', loadAllLeads);
-
-    // Logout functionality
+    // ============================================
+    // LOGOUT FUNCTIONALITY
+    // ============================================
     document.getElementById('logoutBtn').addEventListener('click', () => {
       sessionStorage.removeItem('user-is-logged-in');
       window.location.href = '/login.html';
+    });
+
+    // ============================================
+    // INITIALIZE PAGE
+    // ============================================
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('Page loaded, initializing CRM...');
+      loadAllLeads();
     });
   </script>
 </body>
