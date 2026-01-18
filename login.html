@@ -1,31 +1,239 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Member Login</title>
+  <title>Member Login - HREI</title>
   <link rel="stylesheet" href="/styles.css">
+  <style>
+    body {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      padding: 0;
+    }
+    .login-container {
+      max-width: 420px;
+      margin: 60px auto;
+      padding: 32px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      color: #0B5C63;
+    }
+    p {
+      margin: 0 0 24px;
+      color: #64748b;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #334155;
+      font-size: 14px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+    input:focus {
+      outline: none;
+      border-color: #0B5C63;
+      box-shadow: 0 0 0 3px rgba(11, 92, 99, 0.1);
+    }
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    button {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    #loginBtn {
+      background: #0B5C63;
+      color: white;
+    }
+    #loginBtn:hover {
+      background: #073C40;
+    }
+    #signupBtn {
+      background: #e2e8f0;
+      color: #334155;
+    }
+    #signupBtn:hover {
+      background: #cbd5e1;
+    }
+    #msg {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      text-align: center;
+    }
+    #msg.error {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+    #msg.success {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    #msg.info {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #64748b;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover {
+      color: #0B5C63;
+    }
+  </style>
 </head>
 <body>
-  <main style="max-width:520px;margin:40px auto;padding:16px;">
+  <div class="login-container">
     <h1>Member Login</h1>
-    <p>Log in to access forms, mini-courses, and templates.</p>
+    <p>Log in to access forms, courses, and templates.</p>
 
-    <label>Email</label>
-    <input id="email" type="email" style="width:100%;padding:10px;margin:6px 0 12px;" />
+    <form id="loginForm">
+      <label for="email">Email Address</label>
+      <input 
+        type="email" 
+        id="email" 
+        name="email"
+        autocomplete="email"
+        placeholder="you@example.com"
+        required
+      />
 
-    <label>Password</label>
-    <input id="password" type="password" style="width:100%;padding:10px;margin:6px 0 12px;" />
+      <label for="password">Password</label>
+      <input 
+        type="password" 
+        id="password" 
+        name="password"
+        autocomplete="current-password"
+        placeholder="Enter your password"
+        required
+      />
 
-    <div style="display:flex;gap:10px;">
-      <button id="loginBtn" style="padding:10px 14px;">Log in</button>
-      <button id="signupBtn" style="padding:10px 14px;">Create account</button>
-    </div>
+      <div class="button-group">
+        <button type="button" id="loginBtn">Log in</button>
+        <button type="button" id="signupBtn">Create account</button>
+      </div>
 
-    <p id="msg" style="margin-top:12px;color:#b00020;"></p>
-    <p style="margin-top:18px;"><a href="/">? Back to site</a></p>
-  </main>
+      <div id="msg"></div>
+    </form>
 
-  <script type="module" src="/assets/js/login.js"></script>
+    <a href="/" class="back-link">← Back to site</a>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDLCGF7pqZ8vY9QxH5wX2J3K4L6M8N0P2R",
+      authDomain: "hreinvestor.firebaseapp.com",
+      projectId: "hreinvestor",
+      storageBucket: "hreinvestor.appspot.com",
+      messagingSenderId: "123456789012",
+      appId: "1:123456789012:web:abcdef1234567890"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const msg = document.getElementById('msg');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    function showMessage(text, type) {
+      msg.textContent = text;
+      msg.className = type;
+      msg.style.display = 'block';
+    }
+
+    loginBtn.addEventListener('click', async () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      
+      if (!email || !password) {
+        showMessage('Please enter email and password', 'error');
+        return;
+      }
+      
+      showMessage('Logging in...', 'info');
+      
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        sessionStorage.setItem('user-is-logged-in', 'true');
+        showMessage('Success! Redirecting...', 'success');
+        setTimeout(() => {
+          window.location.href = '/members/';
+        }, 500);
+      } catch (error) {
+        console.error('Login error:', error);
+        showMessage('Invalid email or password', 'error');
+      }
+    });
+
+    signupBtn.addEventListener('click', async () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      
+      if (!email || !password) {
+        showMessage('Please enter email and password', 'error');
+        return;
+      }
+      
+      if (password.length < 6) {
+        showMessage('Password must be at least 6 characters', 'error');
+        return;
+      }
+      
+      showMessage('Creating account...', 'info');
+      
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        sessionStorage.setItem('user-is-logged-in', 'true');
+        showMessage('Account created! Redirecting...', 'success');
+        setTimeout(() => {
+          window.location.href = '/members/';
+        }, 500);
+      } catch (error) {
+        console.error('Signup error:', error);
+        showMessage(error.message, 'error');
+      }
+    });
+
+    // Allow Enter key to submit
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      loginBtn.click();
+    });
+  </script>
 </body>
 </html>
