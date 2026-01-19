@@ -24,6 +24,9 @@
     .phone-btn:hover { background: #059669; }
     .email-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: #3b82f6; color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 600; font-size: 0.875rem; transition: all 0.2s; }
     .email-btn:hover { background: #2563eb; }
+    .modal { display: none; position: fixed; z-index: 50; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); overflow-y: auto; padding: 2rem; }
+    .modal.active { display: flex; align-items: flex-start; justify-content: center; }
+    .modal-content { background: white; border-radius: 1rem; max-width: 1200px; width: 100%; margin: 2rem auto; }
   </style>
 </head>
 <body class="bg-slate-50">
@@ -52,7 +55,7 @@
       
       <!-- Leads Table -->
       <div class="bg-white p-6 rounded-xl shadow-md overflow-x-auto">
-        <h2 class="text-xl font-bold mb-4">All Leads (Click to View Details)</h2>
+        <h2 class="text-xl font-bold mb-4">All Leads (Click to View/Edit)</h2>
         <table class="min-w-full text-sm text-left">
           <thead class="bg-slate-100">
             <tr>
@@ -132,170 +135,246 @@
 
   </main>
 
-  <!-- Lead Detail Modal -->
-  <div id="leadDetailModal" style="display:none; position:fixed; z-index:50; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); overflow-y:auto; padding:2rem;">
-    <div style="background:white; border-radius:1rem; max-width:1200px; margin:0 auto; padding:2rem;">
+  <!-- Edit Lead Modal -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
       
       <!-- Modal Header -->
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; border-bottom:2px solid #e2e8f0; padding-bottom:1rem;">
+      <div style="background:#0B5C63; color:white; padding:1.5rem; border-radius:1rem 1rem 0 0; display:flex; justify-content:space-between; align-items:center;">
         <div>
-          <h2 id="modal_property_address" style="font-size:1.75rem; font-weight:bold; color:#1e293b;"></h2>
-          <p id="modal_city_state" style="color:#64748b; margin-top:0.25rem;"></p>
+          <h2 id="modal_property_address" style="font-size:1.5rem; font-weight:bold;"></h2>
+          <p id="modal_city_state" style="opacity:0.9; margin-top:0.25rem;"></p>
         </div>
-        <button id="closeLeadModal" style="font-size:2rem; color:#999; cursor:pointer; background:none; border:none;">&times;</button>
+        <button id="closeModal" style="font-size:2rem; background:none; border:none; color:white; cursor:pointer;">&times;</button>
       </div>
 
-      <!-- Contact Section -->
-      <div style="margin-bottom:2rem;">
-        <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63;">📞 Contact Information</h3>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:1rem;">
-          
-          <div class="info-card">
-            <div class="info-label">Owner Name</div>
-            <div id="modal_owner_name" class="info-value">-</div>
+      <!-- Modal Body -->
+      <form id="editLeadForm" style="padding:2rem;">
+        <input type="hidden" id="edit_lead_id">
+        
+        <!-- Contact Information Section -->
+        <div style="margin-bottom:2rem;">
+          <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63; border-bottom:2px solid #e2e8f0; padding-bottom:0.5rem;">📞 Contact Information</h3>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:1rem;">
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Owner First Name</label>
+              <input type="text" id="edit_owner_first_name" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Owner Last Name</label>
+              <input type="text" id="edit_owner_last_name" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Cell Phone 1</label>
+              <input type="tel" id="edit_wireless_1" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Cell Phone 2</label>
+              <input type="tel" id="edit_wireless_2" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Cell Phone 3</label>
+              <input type="tel" id="edit_wireless_3" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Landline</label>
+              <input type="tel" id="edit_landline_1" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Email 1</label>
+              <input type="email" id="edit_email_1" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Email 2</label>
+              <input type="email" id="edit_email_2" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Owner Occupied</label>
+              <select id="edit_owner_occupied" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+                <option value="">Unknown</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+            
           </div>
           
-          <div class="info-card">
-            <div class="info-label">Owner Occupied</div>
-            <div id="modal_owner_occupied" class="info-value">-</div>
+          <!-- Mailing Address -->
+          <div style="margin-top:1rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Owner Mailing Address</label>
+            <input type="text" id="edit_owner_mailing_address" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
           </div>
           
-          <div class="info-card" style="grid-column: span 2;">
-            <div class="info-label">Mailing Address</div>
-            <div id="modal_mailing_address" class="info-value">-</div>
+          <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:1rem; margin-top:1rem;">
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Mailing City</label>
+              <input type="text" id="edit_owner_mailing_city" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Mailing State</label>
+              <input type="text" id="edit_owner_mailing_state" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Mailing Zip</label>
+              <input type="text" id="edit_owner_mailing_zip" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Property Information Section -->
+        <div style="margin-bottom:2rem;">
+          <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63; border-bottom:2px solid #e2e8f0; padding-bottom:0.5rem;">🏠 Property Information</h3>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:1rem;">
+            
+            <div style="grid-column:span 2;">
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Property Address</label>
+              <input type="text" id="edit_property_address" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">City</label>
+              <input type="text" id="edit_city" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">State</label>
+              <input type="text" id="edit_state" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Zip Code</label>
+              <input type="text" id="edit_zip_code" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">County</label>
+              <input type="text" id="edit_county" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Property Type</label>
+              <input type="text" id="edit_property_type" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Units</label>
+              <input type="number" id="edit_units_count" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Bedrooms</label>
+              <input type="number" id="edit_bedrooms" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Bathrooms</label>
+              <input type="number" step="0.5" id="edit_bathrooms" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Living Sq Ft</label>
+              <input type="number" id="edit_living_sqft" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Year Built</label>
+              <input type="number" id="edit_year_built" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Lot Acres</label>
+              <input type="number" step="0.01" id="edit_lot_acres" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+          </div>
+        </div>
+
+        <!-- Financial Information Section -->
+        <div style="margin-bottom:2rem;">
+          <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63; border-bottom:2px solid #e2e8f0; padding-bottom:0.5rem;">💰 Financial Information</h3>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:1rem;">
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Estimated Value</label>
+              <input type="number" id="edit_estimated_value" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Estimated Equity</label>
+              <input type="number" id="edit_estimated_equity" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Equity %</label>
+              <input type="number" step="0.01" id="edit_estimated_equity_percent" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Mortgage Balance</label>
+              <input type="number" id="edit_open_mortgage_balance" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Last Sale Date</label>
+              <input type="date" id="edit_last_sale_date" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+            <div>
+              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Last Sale Amount</label>
+              <input type="number" id="edit_last_sale_amount" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+            </div>
+            
+          </div>
+        </div>
+
+        <!-- Lead Management Section -->
+        <div style="margin-bottom:2rem;">
+          <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63; border-bottom:2px solid #e2e8f0; padding-bottom:0.5rem;">📊 Lead Management</h3>
+          
+          <div style="margin-bottom:1rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Stage</label>
+            <select id="edit_stage" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+              <option>New Lead</option>
+              <option>Contacted</option>
+              <option>Qualified</option>
+              <option>Offer Made</option>
+              <option>Under Contract</option>
+              <option>Closed</option>
+              <option>Dead</option>
+            </select>
           </div>
           
+          <div>
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">📝 Notes</label>
+            <textarea id="edit_notes" rows="5" style="width:100%; padding:0.75rem; border:1px solid #e2e8f0; border-radius:0.5rem; font-family:inherit;"></textarea>
+          </div>
+        </div>
+
+        <!-- Property Details Dump (Read-only) -->
+        <div id="property_dump_section" style="margin-bottom:2rem; display:none;">
+          <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63; border-bottom:2px solid #e2e8f0; padding-bottom:0.5rem;">📋 Additional Property Details</h3>
+          <div style="background:#f8fafc; padding:1rem; border-radius:0.5rem; border:1px solid #e2e8f0;">
+            <pre id="edit_property_details_dump" style="white-space:pre-wrap; font-size:0.875rem; color:#475569; margin:0;"></pre>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display:flex; gap:1rem; padding-top:1rem; border-top:2px solid #e2e8f0;">
+          <button type="submit" style="flex:1; padding:0.75rem 1.5rem; background:#0B5C63; color:white; border:none; border-radius:0.5rem; font-weight:600; cursor:pointer;">💾 Save All Changes</button>
+          <button type="button" id="cancelEdit" style="padding:0.75rem 1.5rem; background:#e2e8f0; color:#475569; border:none; border-radius:0.5rem; font-weight:600; cursor:pointer;">Cancel</button>
         </div>
         
-        <!-- Phone Numbers -->
-        <div style="margin-top:1rem;">
-          <div class="info-label" style="margin-bottom:0.5rem;">Phone Numbers</div>
-          <div id="modal_phones" style="display:flex; flex-wrap:wrap; gap:0.5rem;"></div>
-        </div>
-        
-        <!-- Emails -->
-        <div style="margin-top:1rem;">
-          <div class="info-label" style="margin-bottom:0.5rem;">Email Addresses</div>
-          <div id="modal_emails" style="display:flex; flex-wrap:wrap; gap:0.5rem;"></div>
-        </div>
-      </div>
-
-      <!-- Property Details -->
-      <div style="margin-bottom:2rem;">
-        <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63;">🏠 Property Details</h3>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem;">
-          
-          <div class="info-card">
-            <div class="info-label">Units</div>
-            <div id="modal_units" class="info-value">-</div>
-          </div>
-          
-          <div class="info-card">
-            <div class="info-label">Bedrooms</div>
-            <div id="modal_bedrooms" class="info-value">-</div>
-          </div>
-          
-          <div class="info-card">
-            <div class="info-label">Bathrooms</div>
-            <div id="modal_bathrooms" class="info-value">-</div>
-          </div>
-          
-          <div class="info-card">
-            <div class="info-label">Living Sq Ft</div>
-            <div id="modal_sqft" class="info-value">-</div>
-          </div>
-          
-          <div class="info-card">
-            <div class="info-label">Year Built</div>
-            <div id="modal_year_built" class="info-value">-</div>
-          </div>
-          
-          <div class="info-card">
-            <div class="info-label">Lot Acres</div>
-            <div id="modal_lot_acres" class="info-value">-</div>
-          </div>
-          
-        </div>
-      </div>
-
-      <!-- Financial Analysis -->
-      <div style="margin-bottom:2rem;">
-        <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63;">💰 Financial Analysis</h3>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem;">
-          
-          <div class="info-card" style="background:#dcfce7; border-color:#86efac;">
-            <div class="info-label">Estimated Value</div>
-            <div id="modal_estimated_value" class="info-value" style="color:#166534; font-size:1.25rem;">-</div>
-          </div>
-          
-          <div class="info-card" style="background:#dbeafe; border-color:#93c5fd;">
-            <div class="info-label">Estimated Equity</div>
-            <div id="modal_estimated_equity" class="info-value" style="color:#1e40af; font-size:1.25rem;">-</div>
-          </div>
-          
-          <div class="info-card">
-            <div class="info-label">Equity %</div>
-            <div id="modal_equity_percent" class="info-value">-</div>
-          </div>
-          
-          <div class="info-card">
-            <div class="info-label">Mortgage Balance</div>
-            <div id="modal_mortgage_balance" class="info-value">-</div>
-          </div>
-          
-          <div class="info-card">
-            <div class="info-label">Last Sale Date</div>
-            <div id="modal_last_sale_date" class="info-value">-</div>
-          </div>
-          
-          <div class="info-card">
-            <div class="info-label">Last Sale Amount</div>
-            <div id="modal_last_sale_amount" class="info-value">-</div>
-          </div>
-          
-        </div>
-      </div>
-
-      <!-- Property Details Dump -->
-      <div id="property_dump_section" style="margin-bottom:2rem; display:none;">
-        <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63;">📋 Additional Details</h3>
-        <div class="info-card">
-          <pre id="modal_property_dump" style="white-space:pre-wrap; font-size:0.875rem; color:#475569;"></pre>
-        </div>
-      </div>
-
-      <!-- Notes -->
-      <div style="margin-bottom:2rem;">
-        <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63;">📝 Notes</h3>
-        <div class="info-card">
-          <textarea id="modal_notes" style="width:100%; min-height:100px; border:1px solid #e2e8f0; border-radius:0.5rem; padding:0.75rem; font-family:inherit;" placeholder="Add notes about this lead..."></textarea>
-          <button id="saveNotesBtn" style="margin-top:0.75rem; padding:0.5rem 1rem; background:#0B5C63; color:white; border:none; border-radius:0.5rem; font-weight:600; cursor:pointer;">Save Notes</button>
-          <span id="notesSaveMsg" style="margin-left:1rem; font-size:0.875rem;"></span>
-        </div>
-      </div>
-
-      <!-- Stage Management -->
-      <div style="margin-bottom:2rem;">
-        <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63;">📊 Lead Stage</h3>
-        <div class="info-card">
-          <select id="modal_stage" style="width:100%; padding:0.75rem; border:1px solid #e2e8f0; border-radius:0.5rem; font-size:1rem;">
-            <option>New Lead</option>
-            <option>Contacted</option>
-            <option>Qualified</option>
-            <option>Under Contract</option>
-            <option>Closed</option>
-            <option>Dead</option>
-          </select>
-          <button id="saveStageBtn" style="margin-top:0.75rem; padding:0.5rem 1rem; background:#0B5C63; color:white; border:none; border-radius:0.5rem; font-weight:600; cursor:pointer;">Update Stage</button>
-          <span id="stageSaveMsg" style="margin-left:1rem; font-size:0.875rem;"></span>
-        </div>
-      </div>
-
-      <!-- Actions -->
-      <div style="display:flex; gap:1rem; justify-content:flex-end; padding-top:1rem; border-top:2px solid #e2e8f0;">
-        <button id="closeLeadModalBtn" style="padding:0.75rem 1.5rem; background:#e2e8f0; color:#475569; border:none; border-radius:0.5rem; font-weight:600; cursor:pointer;">Close</button>
-      </div>
-
+        <p id="editFormMessage" style="margin-top:1rem; font-size:0.875rem;"></p>
+      </form>
     </div>
   </div>
 
@@ -304,7 +383,7 @@
 
     // Supabase Configuration
     const SUPABASE_URL = 'https://lmivqwscebdupfxxwfcc.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuCqbf9E9J3vuv4';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuZHqLCkF_pGxqI';
     
     const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log('Supabase client initialized');
@@ -391,7 +470,7 @@
             <td class="p-3 font-bold text-green-700">${equity}</td>
             <td class="p-3"><span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">${lead.stage || 'New Lead'}</span></td>
           `;
-          row.addEventListener('click', () => openLeadDetail(lead));
+          row.addEventListener('click', () => openEditModal(lead));
           tableBody.appendChild(row);
         }
       } catch (err) {
@@ -400,120 +479,159 @@
       }
     }
 
-    // Open Lead Detail Modal
-    function openLeadDetail(lead) {
+    // Open Edit Modal
+    function openEditModal(lead) {
       currentLeadId = lead.id;
+      console.log('Opening edit modal for lead:', lead.id);
       
-      // Property Info
+      // Header
       document.getElementById('modal_property_address').textContent = lead.property_address || 'N/A';
       document.getElementById('modal_city_state').textContent = `${lead.city || ''}, ${lead.state || ''} ${lead.zip_code || ''}`.trim();
       
       // Contact Info
-      const ownerName = lead.seller_name || `${lead.owner_first_name || ''} ${lead.owner_last_name || ''}`.trim() || 'N/A';
-      document.getElementById('modal_owner_name').textContent = ownerName;
-      document.getElementById('modal_owner_occupied').textContent = lead.owner_occupied || 'Unknown';
+      document.getElementById('edit_lead_id').value = lead.id;
+      document.getElementById('edit_owner_first_name').value = lead.owner_first_name || '';
+      document.getElementById('edit_owner_last_name').value = lead.owner_last_name || '';
+      document.getElementById('edit_wireless_1').value = lead.wireless_1 || '';
+      document.getElementById('edit_wireless_2').value = lead.wireless_2 || '';
+      document.getElementById('edit_wireless_3').value = lead.wireless_3 || '';
+      document.getElementById('edit_landline_1').value = lead.landline_1 || '';
+      document.getElementById('edit_email_1').value = lead.email_1 || '';
+      document.getElementById('edit_email_2').value = lead.email_2 || '';
+      document.getElementById('edit_owner_occupied').value = lead.owner_occupied || '';
+      document.getElementById('edit_owner_mailing_address').value = lead.owner_mailing_address || '';
+      document.getElementById('edit_owner_mailing_city').value = lead.owner_mailing_city || '';
+      document.getElementById('edit_owner_mailing_state').value = lead.owner_mailing_state || '';
+      document.getElementById('edit_owner_mailing_zip').value = lead.owner_mailing_zip || '';
       
-      const mailingAddr = lead.owner_mailing_address ? 
-        `${lead.owner_mailing_address}, ${lead.owner_mailing_city || ''}, ${lead.owner_mailing_state || ''} ${lead.owner_mailing_zip || ''}`.trim() : 
-        'N/A';
-      document.getElementById('modal_mailing_address').textContent = mailingAddr;
+      // Property Info
+      document.getElementById('edit_property_address').value = lead.property_address || '';
+      document.getElementById('edit_city').value = lead.city || '';
+      document.getElementById('edit_state').value = lead.state || '';
+      document.getElementById('edit_zip_code').value = lead.zip_code || '';
+      document.getElementById('edit_county').value = lead.county || '';
+      document.getElementById('edit_property_type').value = lead.property_type || '';
+      document.getElementById('edit_units_count').value = lead.units_count || '';
+      document.getElementById('edit_bedrooms').value = lead.bedrooms || '';
+      document.getElementById('edit_bathrooms').value = lead.bathrooms || '';
+      document.getElementById('edit_living_sqft').value = lead.living_sqft || '';
+      document.getElementById('edit_year_built').value = lead.year_built || '';
+      document.getElementById('edit_lot_acres').value = lead.lot_acres || '';
       
-      // Phone Numbers
-      const phonesDiv = document.getElementById('modal_phones');
-      phonesDiv.innerHTML = '';
-      [lead.wireless_1, lead.wireless_2, lead.wireless_3, lead.landline_1].forEach((phone, idx) => {
-        if (phone) {
-          const label = idx < 3 ? `Cell ${idx+1}` : 'Landline';
-          phonesDiv.innerHTML += `<a href="tel:${phone}" class="phone-btn">📞 ${label}: ${phone}</a>`;
-        }
-      });
-      if (phonesDiv.innerHTML === '') phonesDiv.innerHTML = '<span style="color:#94a3b8;">No phone numbers available</span>';
+      // Financial Info
+      document.getElementById('edit_estimated_value').value = lead.estimated_value || '';
+      document.getElementById('edit_estimated_equity').value = lead.estimated_equity || '';
+      document.getElementById('edit_estimated_equity_percent').value = lead.estimated_equity_percent || '';
+      document.getElementById('edit_open_mortgage_balance').value = lead.open_mortgage_balance || '';
+      document.getElementById('edit_last_sale_date').value = lead.last_sale_date || '';
+      document.getElementById('edit_last_sale_amount').value = lead.last_sale_amount || '';
       
-      // Emails
-      const emailsDiv = document.getElementById('modal_emails');
-      emailsDiv.innerHTML = '';
-      [lead.email_1, lead.email_2].forEach((email, idx) => {
-        if (email) {
-          emailsDiv.innerHTML += `<a href="mailto:${email}" class="email-btn">✉️ Email ${idx+1}: ${email}</a>`;
-        }
-      });
-      if (emailsDiv.innerHTML === '') emailsDiv.innerHTML = '<span style="color:#94a3b8;">No email addresses available</span>';
+      // Lead Management
+      document.getElementById('edit_stage').value = lead.stage || 'New Lead';
+      document.getElementById('edit_notes').value = lead.notes || '';
       
-      // Property Details
-      document.getElementById('modal_units').textContent = lead.units_count || 'N/A';
-      document.getElementById('modal_bedrooms').textContent = lead.bedrooms || 'N/A';
-      document.getElementById('modal_bathrooms').textContent = lead.bathrooms || 'N/A';
-      document.getElementById('modal_sqft').textContent = lead.living_sqft ? lead.living_sqft.toLocaleString() : 'N/A';
-      document.getElementById('modal_year_built').textContent = lead.year_built || 'N/A';
-      document.getElementById('modal_lot_acres').textContent = lead.lot_acres || 'N/A';
-      
-      // Financial
-      document.getElementById('modal_estimated_value').textContent = lead.estimated_value ? `$${lead.estimated_value.toLocaleString()}` : 'N/A';
-      document.getElementById('modal_estimated_equity').textContent = lead.estimated_equity ? `$${lead.estimated_equity.toLocaleString()}` : 'N/A';
-      document.getElementById('modal_equity_percent').textContent = lead.estimated_equity_percent ? `${lead.estimated_equity_percent}%` : 'N/A';
-      document.getElementById('modal_mortgage_balance').textContent = lead.open_mortgage_balance ? `$${lead.open_mortgage_balance.toLocaleString()}` : 'N/A';
-      document.getElementById('modal_last_sale_date').textContent = lead.last_sale_date || 'N/A';
-      document.getElementById('modal_last_sale_amount').textContent = lead.last_sale_amount ? `$${lead.last_sale_amount.toLocaleString()}` : 'N/A';
-      
-      // Property Dump
+      // Property Details Dump
       if (lead.property_details_dump) {
-        document.getElementById('modal_property_dump').textContent = lead.property_details_dump;
+        document.getElementById('edit_property_details_dump').textContent = lead.property_details_dump;
         document.getElementById('property_dump_section').style.display = 'block';
       } else {
         document.getElementById('property_dump_section').style.display = 'none';
       }
       
-      // Notes & Stage
-      document.getElementById('modal_notes').value = lead.notes || '';
-      document.getElementById('modal_stage').value = lead.stage || 'New Lead';
-      
-      document.getElementById('leadDetailModal').style.display = 'block';
+      document.getElementById('editModal').classList.add('active');
     }
 
     // Close Modal
-    document.getElementById('closeLeadModal').addEventListener('click', () => {
-      document.getElementById('leadDetailModal').style.display = 'none';
-    });
-    document.getElementById('closeLeadModalBtn').addEventListener('click', () => {
-      document.getElementById('leadDetailModal').style.display = 'none';
-    });
-
-    // Save Notes
-    document.getElementById('saveNotesBtn').addEventListener('click', async () => {
-      const notes = document.getElementById('modal_notes').value;
-      const msg = document.getElementById('notesSaveMsg');
-      msg.textContent = 'Saving...';
-      msg.style.color = '#3b82f6';
-      
-      const { error } = await _supabase.from('leads').update({ notes }).eq('id', currentLeadId);
-      
-      if (error) {
-        msg.textContent = 'Error!';
-        msg.style.color = '#ef4444';
-      } else {
-        msg.textContent = '✅ Saved!';
-        msg.style.color = '#10b981';
-        setTimeout(() => { msg.textContent = ''; }, 2000);
-      }
+    function closeModal() {
+      document.getElementById('editModal').classList.remove('active');
+      document.getElementById('editFormMessage').textContent = '';
+    }
+    
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    document.getElementById('cancelEdit').addEventListener('click', closeModal);
+    document.getElementById('editModal').addEventListener('click', (e) => {
+      if (e.target.id === 'editModal') closeModal();
     });
 
-    // Save Stage
-    document.getElementById('saveStageBtn').addEventListener('click', async () => {
-      const stage = document.getElementById('modal_stage').value;
-      const msg = document.getElementById('stageSaveMsg');
-      msg.textContent = 'Saving...';
+    // Save Changes
+    document.getElementById('editLeadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      console.log('Saving lead changes...');
+      
+      const msg = document.getElementById('editFormMessage');
+      msg.textContent = 'Saving all changes...';
       msg.style.color = '#3b82f6';
       
-      const { error } = await _supabase.from('leads').update({ stage }).eq('id', currentLeadId);
+      const updatedData = {
+        // Contact Info
+        owner_first_name: document.getElementById('edit_owner_first_name').value || null,
+        owner_last_name: document.getElementById('edit_owner_last_name').value || null,
+        seller_name: `${document.getElementById('edit_owner_first_name').value || ''} ${document.getElementById('edit_owner_last_name').value || ''}`.trim() || null,
+        wireless_1: document.getElementById('edit_wireless_1').value || null,
+        wireless_2: document.getElementById('edit_wireless_2').value || null,
+        wireless_3: document.getElementById('edit_wireless_3').value || null,
+        landline_1: document.getElementById('edit_landline_1').value || null,
+        email_1: document.getElementById('edit_email_1').value || null,
+        email_2: document.getElementById('edit_email_2').value || null,
+        owner_occupied: document.getElementById('edit_owner_occupied').value || null,
+        owner_mailing_address: document.getElementById('edit_owner_mailing_address').value || null,
+        owner_mailing_city: document.getElementById('edit_owner_mailing_city').value || null,
+        owner_mailing_state: document.getElementById('edit_owner_mailing_state').value || null,
+        owner_mailing_zip: document.getElementById('edit_owner_mailing_zip').value || null,
+        
+        // Property Info
+        property_address: document.getElementById('edit_property_address').value,
+        city: document.getElementById('edit_city').value,
+        state: document.getElementById('edit_state').value || null,
+        zip_code: document.getElementById('edit_zip_code').value || null,
+        county: document.getElementById('edit_county').value || null,
+        property_type: document.getElementById('edit_property_type').value || null,
+        units_count: parseInt(document.getElementById('edit_units_count').value) || null,
+        bedrooms: parseInt(document.getElementById('edit_bedrooms').value) || null,
+        bathrooms: parseFloat(document.getElementById('edit_bathrooms').value) || null,
+        living_sqft: parseFloat(document.getElementById('edit_living_sqft').value) || null,
+        year_built: parseInt(document.getElementById('edit_year_built').value) || null,
+        lot_acres: parseFloat(document.getElementById('edit_lot_acres').value) || null,
+        
+        // Financial Info
+        estimated_value: parseFloat(document.getElementById('edit_estimated_value').value) || null,
+        estimated_equity: parseFloat(document.getElementById('edit_estimated_equity').value) || null,
+        estimated_equity_percent: parseFloat(document.getElementById('edit_estimated_equity_percent').value) || null,
+        open_mortgage_balance: parseFloat(document.getElementById('edit_open_mortgage_balance').value) || null,
+        last_sale_date: document.getElementById('edit_last_sale_date').value || null,
+        last_sale_amount: parseFloat(document.getElementById('edit_last_sale_amount').value) || null,
+        
+        // Lead Management
+        stage: document.getElementById('edit_stage').value,
+        notes: document.getElementById('edit_notes').value || null
+      };
       
-      if (error) {
-        msg.textContent = 'Error!';
-        msg.style.color = '#ef4444';
-      } else {
-        msg.textContent = '✅ Saved!';
+      try {
+        const { error } = await _supabase
+          .from('leads')
+          .update(updatedData)
+          .eq('id', currentLeadId);
+        
+        if (error) {
+          console.error('Error updating lead:', error);
+          msg.textContent = `Error: ${error.message}`;
+          msg.style.color = '#ef4444';
+          return;
+        }
+        
+        console.log('Lead updated successfully');
+        msg.textContent = '✅ All changes saved successfully!';
         msg.style.color = '#10b981';
-        loadAllLeads();
-        setTimeout(() => { msg.textContent = ''; }, 2000);
+        
+        setTimeout(() => {
+          closeModal();
+          loadAllLeads();
+        }, 1500);
+        
+      } catch (err) {
+        console.error('Unexpected error:', err);
+        msg.textContent = `Error: ${err.message}`;
+        msg.style.color = '#ef4444';
       }
     });
 
