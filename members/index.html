@@ -20,13 +20,13 @@
     .info-card { background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1rem; }
     .info-label { font-size: 0.75rem; color: #64748b; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem; }
     .info-value { font-size: 1rem; color: #1e293b; font-weight: 500; }
-    .phone-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: #10b981; color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 600; font-size: 0.875rem; transition: all 0.2s; }
-    .phone-btn:hover { background: #059669; }
-    .email-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: #3b82f6; color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 600; font-size: 0.875rem; transition: all 0.2s; }
-    .email-btn:hover { background: #2563eb; }
+    .call-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: #10b981; color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 600; font-size: 0.875rem; transition: all 0.2s; border: none; cursor: pointer; }
+    .call-btn:hover { background: #059669; transform: scale(1.05); }
+    .call-btn:active { transform: scale(0.95); }
     .modal { display: none; position: fixed; z-index: 50; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); overflow-y: auto; padding: 2rem; }
     .modal.active { display: flex; align-items: flex-start; justify-content: center; }
     .modal-content { background: white; border-radius: 1rem; max-width: 1200px; width: 100%; margin: 2rem auto; }
+    .call-log-entry { background: #f0fdf4; border-left: 3px solid #10b981; padding: 0.75rem; margin-bottom: 0.5rem; border-radius: 0.5rem; font-size: 0.875rem; }
   </style>
 </head>
 <body class="bg-slate-50">
@@ -65,10 +65,11 @@
               <th class="p-3 font-bold">Units</th>
               <th class="p-3 font-bold">Equity</th>
               <th class="p-3 font-bold">Stage</th>
+              <th class="p-3 font-bold">Quick Call</th>
             </tr>
           </thead>
           <tbody id="crm-tbody" class="divide-y">
-            <tr><td colspan="6" class="p-4 text-center text-slate-500">Loading leads...</td></tr>
+            <tr><td colspan="7" class="p-4 text-center text-slate-500">Loading leads...</td></tr>
           </tbody>
         </table>
       </div>
@@ -152,51 +153,81 @@
       <form id="editLeadForm" style="padding:2rem;">
         <input type="hidden" id="edit_lead_id">
         
+        <!-- Quick Actions Bar -->
+        <div style="background:#f0fdf4; border:2px solid #10b981; border-radius:0.75rem; padding:1rem; margin-bottom:2rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+            <div>
+              <h3 style="font-weight:bold; color:#065f46; margin-bottom:0.25rem;">📞 Quick Actions</h3>
+              <p style="font-size:0.875rem; color:#047857;">Call this lead or mark as contacted</p>
+            </div>
+            <button type="button" id="markContactedBtn" style="padding:0.75rem 1.5rem; background:#10b981; color:white; border:none; border-radius:0.5rem; font-weight:600; cursor:pointer;">
+              ✅ Mark as Contacted
+            </button>
+          </div>
+        </div>
+
         <!-- Contact Information Section -->
         <div style="margin-bottom:2rem;">
           <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63; border-bottom:2px solid #e2e8f0; padding-bottom:0.5rem;">📞 Contact Information</h3>
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:1rem;">
-            
+          
+          <!-- Phone Numbers with Call Buttons -->
+          <div style="background:#f8fafc; padding:1.5rem; border-radius:0.75rem; margin-bottom:1rem;">
+            <h4 style="font-weight:600; margin-bottom:1rem; color:#475569;">Phone Numbers</h4>
+            <div style="display:grid; gap:1rem;">
+              
+              <div style="display:flex; align-items:center; gap:1rem;">
+                <div style="flex:1;">
+                  <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Cell Phone 1</label>
+                  <input type="tel" id="edit_wireless_1" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+                </div>
+                <a href="#" id="call_wireless_1" class="call-btn" style="margin-top:1.5rem;">📱 Call</a>
+              </div>
+              
+              <div style="display:flex; align-items:center; gap:1rem;">
+                <div style="flex:1;">
+                  <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Cell Phone 2</label>
+                  <input type="tel" id="edit_wireless_2" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+                </div>
+                <a href="#" id="call_wireless_2" class="call-btn" style="margin-top:1.5rem;">📱 Call</a>
+              </div>
+              
+              <div style="display:flex; align-items:center; gap:1rem;">
+                <div style="flex:1;">
+                  <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Cell Phone 3</label>
+                  <input type="tel" id="edit_wireless_3" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+                </div>
+                <a href="#" id="call_wireless_3" class="call-btn" style="margin-top:1.5rem;">📱 Call</a>
+              </div>
+              
+              <div style="display:flex; align-items:center; gap:1rem;">
+                <div style="flex:1;">
+                  <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Landline</label>
+                  <input type="tel" id="edit_landline_1" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
+                </div>
+                <a href="#" id="call_landline_1" class="call-btn" style="margin-top:1.5rem;">☎️ Call</a>
+              </div>
+              
+            </div>
+          </div>
+          
+          <!-- Owner Info -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:1rem; margin-bottom:1rem;">
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Owner First Name</label>
               <input type="text" id="edit_owner_first_name" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Owner Last Name</label>
               <input type="text" id="edit_owner_last_name" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
-            <div>
-              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Cell Phone 1</label>
-              <input type="tel" id="edit_wireless_1" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
-            </div>
-            
-            <div>
-              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Cell Phone 2</label>
-              <input type="tel" id="edit_wireless_2" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
-            </div>
-            
-            <div>
-              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Cell Phone 3</label>
-              <input type="tel" id="edit_wireless_3" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
-            </div>
-            
-            <div>
-              <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Landline</label>
-              <input type="tel" id="edit_landline_1" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
-            </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Email 1</label>
               <input type="email" id="edit_email_1" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Email 2</label>
               <input type="email" id="edit_email_2" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Owner Occupied</label>
               <select id="edit_owner_occupied" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
@@ -205,7 +236,6 @@
                 <option value="No">No</option>
               </select>
             </div>
-            
           </div>
           
           <!-- Mailing Address -->
@@ -213,7 +243,6 @@
             <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Owner Mailing Address</label>
             <input type="text" id="edit_owner_mailing_address" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
           </div>
-          
           <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:1rem; margin-top:1rem;">
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Mailing City</label>
@@ -230,71 +259,64 @@
           </div>
         </div>
 
+        <!-- Call Log Section -->
+        <div id="callLogSection" style="margin-bottom:2rem; display:none;">
+          <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63; border-bottom:2px solid #e2e8f0; padding-bottom:0.5rem;">📋 Call History</h3>
+          <div id="callLogEntries"></div>
+        </div>
+
         <!-- Property Information Section -->
         <div style="margin-bottom:2rem;">
           <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63; border-bottom:2px solid #e2e8f0; padding-bottom:0.5rem;">🏠 Property Information</h3>
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:1rem;">
-            
             <div style="grid-column:span 2;">
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Property Address</label>
               <input type="text" id="edit_property_address" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">City</label>
               <input type="text" id="edit_city" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">State</label>
               <input type="text" id="edit_state" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Zip Code</label>
               <input type="text" id="edit_zip_code" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">County</label>
               <input type="text" id="edit_county" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Property Type</label>
               <input type="text" id="edit_property_type" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Units</label>
               <input type="number" id="edit_units_count" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Bedrooms</label>
               <input type="number" id="edit_bedrooms" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Bathrooms</label>
               <input type="number" step="0.5" id="edit_bathrooms" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Living Sq Ft</label>
               <input type="number" id="edit_living_sqft" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Year Built</label>
               <input type="number" id="edit_year_built" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Lot Acres</label>
               <input type="number" step="0.01" id="edit_lot_acres" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
           </div>
         </div>
 
@@ -302,44 +324,36 @@
         <div style="margin-bottom:2rem;">
           <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63; border-bottom:2px solid #e2e8f0; padding-bottom:0.5rem;">💰 Financial Information</h3>
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:1rem;">
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Estimated Value</label>
               <input type="number" id="edit_estimated_value" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Estimated Equity</label>
               <input type="number" id="edit_estimated_equity" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Equity %</label>
               <input type="number" step="0.01" id="edit_estimated_equity_percent" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Mortgage Balance</label>
               <input type="number" id="edit_open_mortgage_balance" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Last Sale Date</label>
               <input type="date" id="edit_last_sale_date" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
             <div>
               <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Last Sale Amount</label>
               <input type="number" id="edit_last_sale_amount" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
             </div>
-            
           </div>
         </div>
 
         <!-- Lead Management Section -->
         <div style="margin-bottom:2rem;">
           <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63; border-bottom:2px solid #e2e8f0; padding-bottom:0.5rem;">📊 Lead Management</h3>
-          
           <div style="margin-bottom:1rem;">
             <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">Stage</label>
             <select id="edit_stage" style="width:100%; padding:0.5rem; border:1px solid #e2e8f0; border-radius:0.5rem;">
@@ -352,7 +366,6 @@
               <option>Dead</option>
             </select>
           </div>
-          
           <div>
             <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.25rem;">📝 Notes</label>
             <textarea id="edit_notes" rows="5" style="width:100%; padding:0.75rem; border:1px solid #e2e8f0; border-radius:0.5rem; font-family:inherit;"></textarea>
@@ -389,6 +402,7 @@
     console.log('Supabase client initialized');
 
     let currentLeadId = null;
+    let currentLeadData = null;
 
     // Router
     const ROUTES = new Map([
@@ -433,7 +447,7 @@
       const tableBody = document.getElementById('crm-tbody');
       if (!tableBody) return;
       
-      tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">Loading leads...</td></tr>';
+      tableBody.innerHTML = '<tr><td colspan="7" class="p-4 text-center text-slate-500">Loading leads...</td></tr>';
 
       try {
         const { data, error } = await _supabase
@@ -443,12 +457,12 @@
 
         if (error) {
           console.error('Error fetching leads:', error);
-          tableBody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-500">Error: ${error.message}</td></tr>`;
+          tableBody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-red-500">Error: ${error.message}</td></tr>`;
           return;
         }
 
         if (!data || data.length === 0) {
-          tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">No leads found.</td></tr>';
+          tableBody.innerHTML = '<tr><td colspan="7" class="p-4 text-center text-slate-500">No leads found.</td></tr>';
           return;
         }
 
@@ -462,6 +476,12 @@
           const ownerName = lead.seller_name || `${lead.owner_first_name || ''} ${lead.owner_last_name || ''}`.trim() || 'N/A';
           const equity = lead.estimated_equity ? `$${(lead.estimated_equity/1000).toFixed(0)}k` : 'N/A';
           
+          // Get first available phone number
+          const primaryPhone = lead.wireless_1 || lead.wireless_2 || lead.wireless_3 || lead.landline_1;
+          const callButton = primaryPhone ? 
+            `<a href="tel:${primaryPhone}" class="call-btn" onclick="event.stopPropagation(); logQuickCall(${lead.id}, '${primaryPhone}');">📱 Call</a>` :
+            '<span class="text-slate-400 text-sm">No phone</span>';
+          
           row.innerHTML = `
             <td class="p-3 font-semibold">${ownerName}</td>
             <td class="p-3">${lead.property_address || ''}</td>
@@ -469,19 +489,27 @@
             <td class="p-3">${lead.units_count || 1}</td>
             <td class="p-3 font-bold text-green-700">${equity}</td>
             <td class="p-3"><span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">${lead.stage || 'New Lead'}</span></td>
+            <td class="p-3">${callButton}</td>
           `;
           row.addEventListener('click', () => openEditModal(lead));
           tableBody.appendChild(row);
         }
       } catch (err) {
         console.error('Unexpected error:', err);
-        tableBody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-500">Error loading leads</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-red-500">Error loading leads</td></tr>`;
       }
     }
+
+    // Quick Call Logging from Table
+    window.logQuickCall = function(leadId, phoneNumber) {
+      console.log(`Quick call logged for lead ${leadId}: ${phoneNumber}`);
+      // This will be enhanced when we open the modal
+    };
 
     // Open Edit Modal
     function openEditModal(lead) {
       currentLeadId = lead.id;
+      currentLeadData = lead;
       console.log('Opening edit modal for lead:', lead.id);
       
       // Header
@@ -503,6 +531,12 @@
       document.getElementById('edit_owner_mailing_city').value = lead.owner_mailing_city || '';
       document.getElementById('edit_owner_mailing_state').value = lead.owner_mailing_state || '';
       document.getElementById('edit_owner_mailing_zip').value = lead.owner_mailing_zip || '';
+      
+      // Setup call buttons
+      setupCallButtons();
+      
+      // Load call history
+      loadCallHistory(lead);
       
       // Property Info
       document.getElementById('edit_property_address').value = lead.property_address || '';
@@ -540,6 +574,93 @@
       
       document.getElementById('editModal').classList.add('active');
     }
+
+    // Setup Call Buttons
+    function setupCallButtons() {
+      const phoneFields = ['wireless_1', 'wireless_2', 'wireless_3', 'landline_1'];
+      
+      phoneFields.forEach(field => {
+        const input = document.getElementById(`edit_${field}`);
+        const button = document.getElementById(`call_${field}`);
+        
+        if (input && button) {
+          const phoneNumber = input.value;
+          if (phoneNumber) {
+            button.href = `tel:${phoneNumber}`;
+            button.style.display = 'inline-flex';
+            button.onclick = (e) => {
+              e.preventDefault();
+              logCall(phoneNumber);
+              window.location.href = `tel:${phoneNumber}`;
+            };
+          } else {
+            button.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    // Log Call
+    function logCall(phoneNumber) {
+      const timestamp = new Date().toLocaleString();
+      const callLog = currentLeadData.notes || '';
+      const newLog = `\n[${timestamp}] Called ${phoneNumber}`;
+      
+      document.getElementById('edit_notes').value = callLog + newLog;
+      
+      // Add to call history display
+      addCallHistoryEntry(phoneNumber, timestamp);
+      
+      console.log(`Call logged: ${phoneNumber} at ${timestamp}`);
+    }
+
+    // Load Call History
+    function loadCallHistory(lead) {
+      const callLogSection = document.getElementById('callLogSection');
+      const callLogEntries = document.getElementById('callLogEntries');
+      
+      // Parse notes for call history
+      const notes = lead.notes || '';
+      const callMatches = notes.match(/\[.*?\] Called .*?\n?/g);
+      
+      if (callMatches && callMatches.length > 0) {
+        callLogSection.style.display = 'block';
+        callLogEntries.innerHTML = '';
+        callMatches.forEach(entry => {
+          const div = document.createElement('div');
+          div.className = 'call-log-entry';
+          div.textContent = entry.trim();
+          callLogEntries.appendChild(div);
+        });
+      } else {
+        callLogSection.style.display = 'none';
+      }
+    }
+
+    // Add Call History Entry
+    function addCallHistoryEntry(phoneNumber, timestamp) {
+      const callLogSection = document.getElementById('callLogSection');
+      const callLogEntries = document.getElementById('callLogEntries');
+      
+      callLogSection.style.display = 'block';
+      
+      const div = document.createElement('div');
+      div.className = 'call-log-entry';
+      div.textContent = `[${timestamp}] Called ${phoneNumber}`;
+      callLogEntries.insertBefore(div, callLogEntries.firstChild);
+    }
+
+    // Mark as Contacted
+    document.getElementById('markContactedBtn').addEventListener('click', async () => {
+      const stage = document.getElementById('edit_stage');
+      stage.value = 'Contacted';
+      
+      const timestamp = new Date().toLocaleString();
+      const notes = document.getElementById('edit_notes');
+      notes.value = (notes.value || '') + `\n[${timestamp}] Marked as contacted`;
+      
+      alert('✅ Lead marked as "Contacted"! Don\'t forget to save your changes.');
+    });
 
     // Close Modal
     function closeModal() {
