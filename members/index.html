@@ -17,10 +17,13 @@
     .nav-link { cursor: pointer; padding: 0.75rem 1.5rem; border-radius: 0.5rem; transition: all 0.2s; font-weight: 600; }
     .nav-link:hover { background: #f1f5f9; }
     .nav-link.active { background: #0B5C63; color: white; }
-    .calc-result { font-size: 1.5rem; font-weight: bold; padding: 1rem; border-radius: 0.5rem; text-align: center; }
-    .calc-result.positive { background: #dcfce7; color: #166534; }
-    .calc-result.negative { background: #fee2e2; color: #991b1b; }
-    .calc-result.neutral { background: #f1f5f9; color: #475569; }
+    .info-card { background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1rem; }
+    .info-label { font-size: 0.75rem; color: #64748b; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem; }
+    .info-value { font-size: 1rem; color: #1e293b; font-weight: 500; }
+    .phone-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: #10b981; color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 600; font-size: 0.875rem; transition: all 0.2s; }
+    .phone-btn:hover { background: #059669; }
+    .email-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: #3b82f6; color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 600; font-size: 0.875rem; transition: all 0.2s; }
+    .email-btn:hover { background: #2563eb; }
   </style>
 </head>
 <body class="bg-slate-50">
@@ -47,76 +50,22 @@
     <section data-route="crm">
       <h1 class="text-3xl font-bold text-slate-800 mb-6">Lead CRM</h1>
       
-      <!-- Add New Lead Form -->
-      <div class="bg-white p-6 rounded-xl shadow-md mb-6">
-        <button id="toggleCrmForm" class="w-full flex items-center justify-between text-left font-bold text-lg text-brand hover:text-brand-dark transition">
-          <span>➕ Add New Lead</span>
-          <span id="toggleCrmIcon" class="text-2xl">▼</span>
-        </button>
-        
-        <form id="crmLeadForm" class="mt-6 hidden grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label for="crm_property_address" class="block text-sm font-semibold mb-1">Property Address *</label>
-            <input type="text" id="crm_property_address" name="crm_property_address" class="w-full p-2 border rounded" required autocomplete="street-address">
-          </div>
-          <div>
-            <label for="crm_city" class="block text-sm font-semibold mb-1">City *</label>
-            <input type="text" id="crm_city" name="crm_city" class="w-full p-2 border rounded" required autocomplete="address-level2">
-          </div>
-          <div>
-            <label for="crm_stage" class="block text-sm font-semibold mb-1">Stage</label>
-            <select id="crm_stage" name="crm_stage" class="w-full p-2 border rounded">
-              <option>New Lead</option>
-              <option>Contacted</option>
-              <option>Qualified</option>
-              <option>Under Contract</option>
-              <option>Closed</option>
-              <option>Dead</option>
-            </select>
-          </div>
-          <div>
-            <label for="crm_seller_name" class="block text-sm font-semibold mb-1">Seller Name</label>
-            <input type="text" id="crm_seller_name" name="crm_seller_name" class="w-full p-2 border rounded" autocomplete="name">
-          </div>
-          <div>
-            <label for="crm_seller_phone" class="block text-sm font-semibold mb-1">Phone</label>
-            <input type="tel" id="crm_seller_phone" name="crm_seller_phone" class="w-full p-2 border rounded" autocomplete="tel">
-          </div>
-          <div>
-            <label for="crm_asking_price" class="block text-sm font-semibold mb-1">Asking Price</label>
-            <input type="number" id="crm_asking_price" name="crm_asking_price" class="w-full p-2 border rounded" autocomplete="off">
-          </div>
-          <div>
-            <label for="crm_arv" class="block text-sm font-semibold mb-1">ARV</label>
-            <input type="number" id="crm_arv" name="crm_arv" class="w-full p-2 border rounded" autocomplete="off">
-          </div>
-          <div class="md:col-span-2">
-            <label for="crm_notes" class="block text-sm font-semibold mb-1">Notes</label>
-            <textarea id="crm_notes" name="crm_notes" class="w-full p-2 border rounded" rows="2"></textarea>
-          </div>
-          <div class="md:col-span-2">
-            <button type="submit" class="px-6 py-2 bg-brand text-white rounded-lg hover:bg-brand-dark font-semibold">Save Lead</button>
-            <button type="button" id="cancelCrmForm" class="ml-3 px-6 py-2 border rounded-lg hover:bg-slate-50 font-semibold">Cancel</button>
-            <span id="crmFormMessage" class="ml-4 text-sm"></span>
-          </div>
-        </form>
-      </div>
-
       <!-- Leads Table -->
       <div class="bg-white p-6 rounded-xl shadow-md overflow-x-auto">
-        <h2 class="text-xl font-bold mb-4">All Leads (Click to Edit)</h2>
+        <h2 class="text-xl font-bold mb-4">All Leads (Click to View Details)</h2>
         <table class="min-w-full text-sm text-left">
           <thead class="bg-slate-100">
             <tr>
-              <th class="p-3 font-bold">Address</th>
-              <th class="p-3 font-bold">City</th>
-              <th class="p-3 font-bold">Stage</th>
               <th class="p-3 font-bold">Owner</th>
-              <th class="p-3 font-bold">Phone</th>
+              <th class="p-3 font-bold">Property Address</th>
+              <th class="p-3 font-bold">City</th>
+              <th class="p-3 font-bold">Units</th>
+              <th class="p-3 font-bold">Equity</th>
+              <th class="p-3 font-bold">Stage</th>
             </tr>
           </thead>
           <tbody id="crm-tbody" class="divide-y">
-            <tr><td colspan="5" class="p-4 text-center text-slate-500">Loading leads...</td></tr>
+            <tr><td colspan="6" class="p-4 text-center text-slate-500">Loading leads...</td></tr>
           </tbody>
         </table>
       </div>
@@ -183,51 +132,153 @@
 
   </main>
 
-  <!-- Edit Lead Modal with Deal Calculator -->
-  <div id="editCrmModal" style="display:none; position:fixed; z-index:50; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; overflow-y:auto;">
-    <div style="background:white; padding:2rem; border-radius:1rem; max-width:900px; width:90%; max-height:90vh; overflow-y:auto; margin:2rem auto;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
-        <h2 style="font-size:1.5rem; font-weight:bold;">Edit Lead & Analyze Deal</h2>
-        <button id="closeCrmModal" style="font-size:2rem; color:#999; cursor:pointer; background:none; border:none;">&times;</button>
-      </div>
+  <!-- Lead Detail Modal -->
+  <div id="leadDetailModal" style="display:none; position:fixed; z-index:50; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); overflow-y:auto; padding:2rem;">
+    <div style="background:white; border-radius:1rem; max-width:1200px; margin:0 auto; padding:2rem;">
       
-      <form id="editCrmLeadForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <input type="hidden" id="edit_crm_lead_id">
+      <!-- Modal Header -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; border-bottom:2px solid #e2e8f0; padding-bottom:1rem;">
+        <div>
+          <h2 id="modal_property_address" style="font-size:1.75rem; font-weight:bold; color:#1e293b;"></h2>
+          <p id="modal_city_state" style="color:#64748b; margin-top:0.25rem;"></p>
+        </div>
+        <button id="closeLeadModal" style="font-size:2rem; color:#999; cursor:pointer; background:none; border:none;">&times;</button>
+      </div>
+
+      <!-- Contact Section -->
+      <div style="margin-bottom:2rem;">
+        <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63;">📞 Contact Information</h3>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:1rem;">
+          
+          <div class="info-card">
+            <div class="info-label">Owner Name</div>
+            <div id="modal_owner_name" class="info-value">-</div>
+          </div>
+          
+          <div class="info-card">
+            <div class="info-label">Owner Occupied</div>
+            <div id="modal_owner_occupied" class="info-value">-</div>
+          </div>
+          
+          <div class="info-card" style="grid-column: span 2;">
+            <div class="info-label">Mailing Address</div>
+            <div id="modal_mailing_address" class="info-value">-</div>
+          </div>
+          
+        </div>
         
-        <!-- Property Info -->
-        <div class="md:col-span-2 bg-slate-100 p-3 rounded-lg">
-          <h3 class="font-bold text-brand">Property Information</h3>
+        <!-- Phone Numbers -->
+        <div style="margin-top:1rem;">
+          <div class="info-label" style="margin-bottom:0.5rem;">Phone Numbers</div>
+          <div id="modal_phones" style="display:flex; flex-wrap:wrap; gap:0.5rem;"></div>
         </div>
         
-        <div class="md:col-span-2">
-          <label for="edit_crm_property_address" class="block text-sm font-semibold mb-1">Property Address</label>
-          <input type="text" id="edit_crm_property_address" name="edit_crm_property_address" class="w-full p-2 border rounded" autocomplete="street-address">
+        <!-- Emails -->
+        <div style="margin-top:1rem;">
+          <div class="info-label" style="margin-bottom:0.5rem;">Email Addresses</div>
+          <div id="modal_emails" style="display:flex; flex-wrap:wrap; gap:0.5rem;"></div>
         </div>
-        <div>
-          <label for="edit_crm_city" class="block text-sm font-semibold mb-1">City</label>
-          <input type="text" id="edit_crm_city" name="edit_crm_city" class="w-full p-2 border rounded" autocomplete="address-level2">
+      </div>
+
+      <!-- Property Details -->
+      <div style="margin-bottom:2rem;">
+        <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63;">🏠 Property Details</h3>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem;">
+          
+          <div class="info-card">
+            <div class="info-label">Units</div>
+            <div id="modal_units" class="info-value">-</div>
+          </div>
+          
+          <div class="info-card">
+            <div class="info-label">Bedrooms</div>
+            <div id="modal_bedrooms" class="info-value">-</div>
+          </div>
+          
+          <div class="info-card">
+            <div class="info-label">Bathrooms</div>
+            <div id="modal_bathrooms" class="info-value">-</div>
+          </div>
+          
+          <div class="info-card">
+            <div class="info-label">Living Sq Ft</div>
+            <div id="modal_sqft" class="info-value">-</div>
+          </div>
+          
+          <div class="info-card">
+            <div class="info-label">Year Built</div>
+            <div id="modal_year_built" class="info-value">-</div>
+          </div>
+          
+          <div class="info-card">
+            <div class="info-label">Lot Acres</div>
+            <div id="modal_lot_acres" class="info-value">-</div>
+          </div>
+          
         </div>
-        <div>
-          <label for="edit_crm_state" class="block text-sm font-semibold mb-1">State</label>
-          <input type="text" id="edit_crm_state" name="edit_crm_state" class="w-full p-2 border rounded" autocomplete="address-level1">
+      </div>
+
+      <!-- Financial Analysis -->
+      <div style="margin-bottom:2rem;">
+        <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63;">💰 Financial Analysis</h3>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem;">
+          
+          <div class="info-card" style="background:#dcfce7; border-color:#86efac;">
+            <div class="info-label">Estimated Value</div>
+            <div id="modal_estimated_value" class="info-value" style="color:#166534; font-size:1.25rem;">-</div>
+          </div>
+          
+          <div class="info-card" style="background:#dbeafe; border-color:#93c5fd;">
+            <div class="info-label">Estimated Equity</div>
+            <div id="modal_estimated_equity" class="info-value" style="color:#1e40af; font-size:1.25rem;">-</div>
+          </div>
+          
+          <div class="info-card">
+            <div class="info-label">Equity %</div>
+            <div id="modal_equity_percent" class="info-value">-</div>
+          </div>
+          
+          <div class="info-card">
+            <div class="info-label">Mortgage Balance</div>
+            <div id="modal_mortgage_balance" class="info-value">-</div>
+          </div>
+          
+          <div class="info-card">
+            <div class="info-label">Last Sale Date</div>
+            <div id="modal_last_sale_date" class="info-value">-</div>
+          </div>
+          
+          <div class="info-card">
+            <div class="info-label">Last Sale Amount</div>
+            <div id="modal_last_sale_amount" class="info-value">-</div>
+          </div>
+          
         </div>
-        
-        <!-- Seller Info -->
-        <div class="md:col-span-2 bg-slate-100 p-3 rounded-lg mt-2">
-          <h3 class="font-bold text-brand">Seller Information</h3>
+      </div>
+
+      <!-- Property Details Dump -->
+      <div id="property_dump_section" style="margin-bottom:2rem; display:none;">
+        <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63;">📋 Additional Details</h3>
+        <div class="info-card">
+          <pre id="modal_property_dump" style="white-space:pre-wrap; font-size:0.875rem; color:#475569;"></pre>
         </div>
-        
-        <div>
-          <label for="edit_crm_seller_name" class="block text-sm font-semibold mb-1">Seller Name</label>
-          <input type="text" id="edit_crm_seller_name" name="edit_crm_seller_name" class="w-full p-2 border rounded" autocomplete="name">
+      </div>
+
+      <!-- Notes -->
+      <div style="margin-bottom:2rem;">
+        <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63;">📝 Notes</h3>
+        <div class="info-card">
+          <textarea id="modal_notes" style="width:100%; min-height:100px; border:1px solid #e2e8f0; border-radius:0.5rem; padding:0.75rem; font-family:inherit;" placeholder="Add notes about this lead..."></textarea>
+          <button id="saveNotesBtn" style="margin-top:0.75rem; padding:0.5rem 1rem; background:#0B5C63; color:white; border:none; border-radius:0.5rem; font-weight:600; cursor:pointer;">Save Notes</button>
+          <span id="notesSaveMsg" style="margin-left:1rem; font-size:0.875rem;"></span>
         </div>
-        <div>
-          <label for="edit_crm_seller_phone" class="block text-sm font-semibold mb-1">Phone</label>
-          <input type="tel" id="edit_crm_seller_phone" name="edit_crm_seller_phone" class="w-full p-2 border rounded" autocomplete="tel">
-        </div>
-        <div>
-          <label for="edit_crm_stage" class="block text-sm font-semibold mb-1">Stage</label>
-          <select id="edit_crm_stage" name="edit_crm_stage" class="w-full p-2 border rounded">
+      </div>
+
+      <!-- Stage Management -->
+      <div style="margin-bottom:2rem;">
+        <h3 style="font-size:1.25rem; font-weight:bold; margin-bottom:1rem; color:#0B5C63;">📊 Lead Stage</h3>
+        <div class="info-card">
+          <select id="modal_stage" style="width:100%; padding:0.75rem; border:1px solid #e2e8f0; border-radius:0.5rem; font-size:1rem;">
             <option>New Lead</option>
             <option>Contacted</option>
             <option>Qualified</option>
@@ -235,77 +286,16 @@
             <option>Closed</option>
             <option>Dead</option>
           </select>
+          <button id="saveStageBtn" style="margin-top:0.75rem; padding:0.5rem 1rem; background:#0B5C63; color:white; border:none; border-radius:0.5rem; font-weight:600; cursor:pointer;">Update Stage</button>
+          <span id="stageSaveMsg" style="margin-left:1rem; font-size:0.875rem;"></span>
         </div>
-        
-        <!-- Deal Calculator Section -->
-        <div class="md:col-span-2 bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-lg mt-4 border-2 border-green-300">
-          <h3 class="font-bold text-green-900 mb-3 text-lg">💰 Deal Calculator</h3>
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label for="calc_arv" class="block text-sm font-semibold mb-1">ARV (After Repair Value)</label>
-              <input type="number" id="calc_arv" class="w-full p-2 border rounded" placeholder="200000">
-            </div>
-            <div>
-              <label for="calc_repairs" class="block text-sm font-semibold mb-1">Estimated Repairs</label>
-              <input type="number" id="calc_repairs" class="w-full p-2 border rounded" placeholder="25000">
-            </div>
-            <div>
-              <label for="calc_asking" class="block text-sm font-semibold mb-1">Asking Price</label>
-              <input type="number" id="calc_asking" class="w-full p-2 border rounded" placeholder="150000">
-            </div>
-            <div>
-              <label for="calc_closing" class="block text-sm font-semibold mb-1">Closing Costs (est.)</label>
-              <input type="number" id="calc_closing" class="w-full p-2 border rounded" placeholder="5000">
-            </div>
-          </div>
-          
-          <button type="button" id="calculateDeal" class="mt-4 w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold">
-            🧮 Calculate Deal
-          </button>
-          
-          <!-- Results -->
-          <div id="calcResults" class="mt-4 hidden">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div class="bg-white p-3 rounded-lg border">
-                <div class="text-xs text-slate-600 mb-1">Maximum Allowable Offer (70% Rule)</div>
-                <div id="result_mao" class="text-xl font-bold text-brand">$0</div>
-              </div>
-              <div class="bg-white p-3 rounded-lg border">
-                <div class="text-xs text-slate-600 mb-1">Potential Profit</div>
-                <div id="result_profit" class="text-xl font-bold">$0</div>
-              </div>
-              <div class="bg-white p-3 rounded-lg border">
-                <div class="text-xs text-slate-600 mb-1">Profit Margin</div>
-                <div id="result_margin" class="text-xl font-bold">0%</div>
-              </div>
-              <div class="bg-white p-3 rounded-lg border">
-                <div class="text-xs text-slate-600 mb-1">Deal Quality</div>
-                <div id="result_quality" class="text-xl font-bold">-</div>
-              </div>
-            </div>
-            
-            <div id="dealRecommendation" class="mt-3 p-3 rounded-lg text-sm"></div>
-          </div>
-        </div>
-        
-        <!-- Call Notes -->
-        <div class="md:col-span-2 mt-2">
-          <label for="edit_crm_notes" class="block text-sm font-semibold mb-1">📞 Call Notes</label>
-          <textarea id="edit_crm_notes" name="edit_crm_notes" class="w-full p-2 border rounded" rows="4"></textarea>
-        </div>
-        
-        <div class="md:col-span-2">
-          <button type="submit" class="px-6 py-3 bg-brand text-white rounded-lg hover:bg-brand-dark font-semibold">💾 Save Changes</button>
-          <button type="button" id="cancelCrmEdit" class="ml-3 px-6 py-3 border rounded-lg hover:bg-slate-50 font-semibold">Cancel</button>
-        </div>
-        
-        <div class="md:col-span-2 pt-4 border-t">
-          <button type="button" id="deleteCrmLeadBtn" class="w-full px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold">🗑️ Delete Lead</button>
-        </div>
-        
-        <p id="editCrmFormMessage" class="md:col-span-2 text-sm"></p>
-      </form>
+      </div>
+
+      <!-- Actions -->
+      <div style="display:flex; gap:1rem; justify-content:flex-end; padding-top:1rem; border-top:2px solid #e2e8f0;">
+        <button id="closeLeadModalBtn" style="padding:0.75rem 1.5rem; background:#e2e8f0; color:#475569; border:none; border-radius:0.5rem; font-weight:600; cursor:pointer;">Close</button>
+      </div>
+
     </div>
   </div>
 
@@ -318,6 +308,8 @@
     
     const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log('Supabase client initialized');
+
+    let currentLeadId = null;
 
     // Router
     const ROUTES = new Map([
@@ -362,7 +354,7 @@
       const tableBody = document.getElementById('crm-tbody');
       if (!tableBody) return;
       
-      tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500">Loading leads...</td></tr>';
+      tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">Loading leads...</td></tr>';
 
       try {
         const { data, error } = await _supabase
@@ -372,12 +364,12 @@
 
         if (error) {
           console.error('Error fetching leads:', error);
-          tableBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500">Error: ${error.message}</td></tr>`;
+          tableBody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-500">Error: ${error.message}</td></tr>`;
           return;
         }
 
         if (!data || data.length === 0) {
-          tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500">No leads found.</td></tr>';
+          tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">No leads found.</td></tr>';
           return;
         }
 
@@ -387,213 +379,142 @@
         for (const lead of data) {
           const row = document.createElement('tr');
           row.className = 'hover:bg-blue-50 cursor-pointer transition';
+          
+          const ownerName = lead.seller_name || `${lead.owner_first_name || ''} ${lead.owner_last_name || ''}`.trim() || 'N/A';
+          const equity = lead.estimated_equity ? `$${(lead.estimated_equity/1000).toFixed(0)}k` : 'N/A';
+          
           row.innerHTML = `
+            <td class="p-3 font-semibold">${ownerName}</td>
             <td class="p-3">${lead.property_address || ''}</td>
             <td class="p-3">${lead.city || ''}</td>
+            <td class="p-3">${lead.units_count || 1}</td>
+            <td class="p-3 font-bold text-green-700">${equity}</td>
             <td class="p-3"><span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">${lead.stage || 'New Lead'}</span></td>
-            <td class="p-3">${lead.seller_name || 'N/A'}</td>
-            <td class="p-3">${lead.seller_phone || 'N/A'}</td>
           `;
-          row.addEventListener('click', () => openCrmEditModal(lead));
+          row.addEventListener('click', () => openLeadDetail(lead));
           tableBody.appendChild(row);
         }
       } catch (err) {
         console.error('Unexpected error:', err);
-        tableBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500">Error loading leads</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-500">Error loading leads</td></tr>`;
       }
     }
 
-    // Form Toggle
-    document.getElementById('toggleCrmForm')?.addEventListener('click', () => {
-      const form = document.getElementById('crmLeadForm');
-      const icon = document.getElementById('toggleCrmIcon');
-      form.classList.toggle('hidden');
-      icon.textContent = form.classList.contains('hidden') ? '▼' : '▲';
-    });
-
-    document.getElementById('cancelCrmForm')?.addEventListener('click', () => {
-      document.getElementById('crmLeadForm').classList.add('hidden');
-      document.getElementById('toggleCrmIcon').textContent = '▼';
-      document.getElementById('crmLeadForm').reset();
-    });
-
-    // Add Lead
-    document.getElementById('crmLeadForm')?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const messageDiv = document.getElementById('crmFormMessage');
-      messageDiv.textContent = 'Saving...';
-      messageDiv.className = 'ml-4 text-sm text-blue-600';
-
-      const formData = {
-        property_address: document.getElementById('crm_property_address').value,
-        city: document.getElementById('crm_city').value,
-        stage: document.getElementById('crm_stage').value,
-        seller_name: document.getElementById('crm_seller_name').value || null,
-        seller_phone: document.getElementById('crm_seller_phone').value || null,
-        asking_price: parseInt(document.getElementById('crm_asking_price').value) || null,
-        arv: parseInt(document.getElementById('crm_arv').value) || null,
-        notes: document.getElementById('crm_notes').value || null
-      };
-
-      const { error } = await _supabase.from('leads').insert([formData]);
-
-      if (error) {
-        messageDiv.textContent = 'Error!';
-        messageDiv.className = 'ml-4 text-sm text-red-600';
-        return;
-      }
-
-      messageDiv.textContent = '✅ Saved!';
-      messageDiv.className = 'ml-4 text-sm text-green-600';
-      document.getElementById('crmLeadForm').reset();
-      loadAllLeads();
-      setTimeout(() => { messageDiv.textContent = ''; }, 3000);
-    });
-
-    // Edit Modal
-    function openCrmEditModal(lead) {
-      document.getElementById('edit_crm_lead_id').value = lead.id;
-      document.getElementById('edit_crm_property_address').value = lead.property_address || '';
-      document.getElementById('edit_crm_city').value = lead.city || '';
-      document.getElementById('edit_crm_state').value = lead.state || '';
-      document.getElementById('edit_crm_seller_name').value = lead.seller_name || '';
-      document.getElementById('edit_crm_seller_phone').value = lead.seller_phone || '';
-      document.getElementById('edit_crm_stage').value = lead.stage || 'New Lead';
-      document.getElementById('edit_crm_notes').value = lead.notes || '';
+    // Open Lead Detail Modal
+    function openLeadDetail(lead) {
+      currentLeadId = lead.id;
       
-      // Pre-fill calculator if data exists
-      document.getElementById('calc_arv').value = lead.arv || '';
-      document.getElementById('calc_asking').value = lead.asking_price || '';
-      document.getElementById('calc_repairs').value = lead.repairs || '';
+      // Property Info
+      document.getElementById('modal_property_address').textContent = lead.property_address || 'N/A';
+      document.getElementById('modal_city_state').textContent = `${lead.city || ''}, ${lead.state || ''} ${lead.zip_code || ''}`.trim();
       
-      // Hide results initially
-      document.getElementById('calcResults').classList.add('hidden');
+      // Contact Info
+      const ownerName = lead.seller_name || `${lead.owner_first_name || ''} ${lead.owner_last_name || ''}`.trim() || 'N/A';
+      document.getElementById('modal_owner_name').textContent = ownerName;
+      document.getElementById('modal_owner_occupied').textContent = lead.owner_occupied || 'Unknown';
       
-      document.getElementById('editCrmModal').style.display = 'flex';
-    }
-
-    document.getElementById('closeCrmModal')?.addEventListener('click', () => {
-      document.getElementById('editCrmModal').style.display = 'none';
-    });
-
-    document.getElementById('cancelCrmEdit')?.addEventListener('click', () => {
-      document.getElementById('editCrmModal').style.display = 'none';
-    });
-
-    // Deal Calculator Logic
-    document.getElementById('calculateDeal')?.addEventListener('click', () => {
-      const arv = parseFloat(document.getElementById('calc_arv').value) || 0;
-      const repairs = parseFloat(document.getElementById('calc_repairs').value) || 0;
-      const asking = parseFloat(document.getElementById('calc_asking').value) || 0;
-      const closing = parseFloat(document.getElementById('calc_closing').value) || 0;
+      const mailingAddr = lead.owner_mailing_address ? 
+        `${lead.owner_mailing_address}, ${lead.owner_mailing_city || ''}, ${lead.owner_mailing_state || ''} ${lead.owner_mailing_zip || ''}`.trim() : 
+        'N/A';
+      document.getElementById('modal_mailing_address').textContent = mailingAddr;
       
-      if (arv === 0) {
-        alert('Please enter an ARV to calculate the deal.');
-        return;
-      }
-      
-      // 70% Rule: MAO = (ARV × 0.70) - Repairs - Closing
-      const mao = (arv * 0.70) - repairs - closing;
-      
-      // Profit if bought at asking price
-      const profit = (arv * 0.70) - asking - repairs - closing;
-      
-      // Profit margin
-      const margin = asking > 0 ? ((profit / asking) * 100) : 0;
-      
-      // Deal quality
-      let quality = 'Poor Deal';
-      let qualityColor = 'text-red-600';
-      let recText = '❌ This deal does not meet the 70% rule. Consider passing or negotiating lower.';
-      let recColor = 'bg-red-50 border-red-300 text-red-800';
-      
-      if (asking <= mao) {
-        if (margin >= 30) {
-          quality = 'Excellent Deal';
-          qualityColor = 'text-green-600';
-          recText = '✅ This is an excellent deal! Strong profit margin and meets the 70% rule.';
-          recColor = 'bg-green-50 border-green-300 text-green-800';
-        } else if (margin >= 15) {
-          quality = 'Good Deal';
-          qualityColor = 'text-blue-600';
-          recText = '✅ This is a good deal. Meets the 70% rule with decent profit margin.';
-          recColor = 'bg-blue-50 border-blue-300 text-blue-800';
-        } else {
-          quality = 'Fair Deal';
-          qualityColor = 'text-yellow-600';
-          recText = '⚠️ This deal is marginal. Profit margin is low. Proceed with caution.';
-          recColor = 'bg-yellow-50 border-yellow-300 text-yellow-800';
+      // Phone Numbers
+      const phonesDiv = document.getElementById('modal_phones');
+      phonesDiv.innerHTML = '';
+      [lead.wireless_1, lead.wireless_2, lead.wireless_3, lead.landline_1].forEach((phone, idx) => {
+        if (phone) {
+          const label = idx < 3 ? `Cell ${idx+1}` : 'Landline';
+          phonesDiv.innerHTML += `<a href="tel:${phone}" class="phone-btn">📞 ${label}: ${phone}</a>`;
         }
+      });
+      if (phonesDiv.innerHTML === '') phonesDiv.innerHTML = '<span style="color:#94a3b8;">No phone numbers available</span>';
+      
+      // Emails
+      const emailsDiv = document.getElementById('modal_emails');
+      emailsDiv.innerHTML = '';
+      [lead.email_1, lead.email_2].forEach((email, idx) => {
+        if (email) {
+          emailsDiv.innerHTML += `<a href="mailto:${email}" class="email-btn">✉️ Email ${idx+1}: ${email}</a>`;
+        }
+      });
+      if (emailsDiv.innerHTML === '') emailsDiv.innerHTML = '<span style="color:#94a3b8;">No email addresses available</span>';
+      
+      // Property Details
+      document.getElementById('modal_units').textContent = lead.units_count || 'N/A';
+      document.getElementById('modal_bedrooms').textContent = lead.bedrooms || 'N/A';
+      document.getElementById('modal_bathrooms').textContent = lead.bathrooms || 'N/A';
+      document.getElementById('modal_sqft').textContent = lead.living_sqft ? lead.living_sqft.toLocaleString() : 'N/A';
+      document.getElementById('modal_year_built').textContent = lead.year_built || 'N/A';
+      document.getElementById('modal_lot_acres').textContent = lead.lot_acres || 'N/A';
+      
+      // Financial
+      document.getElementById('modal_estimated_value').textContent = lead.estimated_value ? `$${lead.estimated_value.toLocaleString()}` : 'N/A';
+      document.getElementById('modal_estimated_equity').textContent = lead.estimated_equity ? `$${lead.estimated_equity.toLocaleString()}` : 'N/A';
+      document.getElementById('modal_equity_percent').textContent = lead.estimated_equity_percent ? `${lead.estimated_equity_percent}%` : 'N/A';
+      document.getElementById('modal_mortgage_balance').textContent = lead.open_mortgage_balance ? `$${lead.open_mortgage_balance.toLocaleString()}` : 'N/A';
+      document.getElementById('modal_last_sale_date').textContent = lead.last_sale_date || 'N/A';
+      document.getElementById('modal_last_sale_amount').textContent = lead.last_sale_amount ? `$${lead.last_sale_amount.toLocaleString()}` : 'N/A';
+      
+      // Property Dump
+      if (lead.property_details_dump) {
+        document.getElementById('modal_property_dump').textContent = lead.property_details_dump;
+        document.getElementById('property_dump_section').style.display = 'block';
+      } else {
+        document.getElementById('property_dump_section').style.display = 'none';
       }
       
-      // Display results
-      document.getElementById('result_mao').textContent = `$${mao.toLocaleString('en-US', {maximumFractionDigits: 0})}`;
-      document.getElementById('result_profit').textContent = `$${profit.toLocaleString('en-US', {maximumFractionDigits: 0})}`;
-      document.getElementById('result_profit').className = `text-xl font-bold ${profit >= 0 ? 'text-green-600' : 'text-red-600'}`;
-      document.getElementById('result_margin').textContent = `${margin.toFixed(1)}%`;
-      document.getElementById('result_quality').textContent = quality;
-      document.getElementById('result_quality').className = `text-xl font-bold ${qualityColor}`;
+      // Notes & Stage
+      document.getElementById('modal_notes').value = lead.notes || '';
+      document.getElementById('modal_stage').value = lead.stage || 'New Lead';
       
-      const recDiv = document.getElementById('dealRecommendation');
-      recDiv.textContent = recText;
-      recDiv.className = `mt-3 p-3 rounded-lg text-sm border ${recColor}`;
-      
-      document.getElementById('calcResults').classList.remove('hidden');
+      document.getElementById('leadDetailModal').style.display = 'block';
+    }
+
+    // Close Modal
+    document.getElementById('closeLeadModal').addEventListener('click', () => {
+      document.getElementById('leadDetailModal').style.display = 'none';
+    });
+    document.getElementById('closeLeadModalBtn').addEventListener('click', () => {
+      document.getElementById('leadDetailModal').style.display = 'none';
     });
 
-    // Save Edit
-    document.getElementById('editCrmLeadForm')?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const messageDiv = document.getElementById('editCrmFormMessage');
-      messageDiv.textContent = 'Saving...';
-      messageDiv.className = 'text-sm text-blue-600';
-
-      const leadId = document.getElementById('edit_crm_lead_id').value;
-      const updatedData = {
-        property_address: document.getElementById('edit_crm_property_address').value,
-        city: document.getElementById('edit_crm_city').value,
-        state: document.getElementById('edit_crm_state').value || null,
-        seller_name: document.getElementById('edit_crm_seller_name').value || null,
-        seller_phone: document.getElementById('edit_crm_seller_phone').value || null,
-        stage: document.getElementById('edit_crm_stage').value,
-        asking_price: parseInt(document.getElementById('calc_asking').value) || null,
-        arv: parseInt(document.getElementById('calc_arv').value) || null,
-        repairs: parseInt(document.getElementById('calc_repairs').value) || null,
-        notes: document.getElementById('edit_crm_notes').value || null
-      };
-
-      const { error } = await _supabase.from('leads').update(updatedData).eq('id', leadId);
-
+    // Save Notes
+    document.getElementById('saveNotesBtn').addEventListener('click', async () => {
+      const notes = document.getElementById('modal_notes').value;
+      const msg = document.getElementById('notesSaveMsg');
+      msg.textContent = 'Saving...';
+      msg.style.color = '#3b82f6';
+      
+      const { error } = await _supabase.from('leads').update({ notes }).eq('id', currentLeadId);
+      
       if (error) {
-        messageDiv.textContent = 'Error!';
-        messageDiv.className = 'text-sm text-red-600';
-        return;
+        msg.textContent = 'Error!';
+        msg.style.color = '#ef4444';
+      } else {
+        msg.textContent = '✅ Saved!';
+        msg.style.color = '#10b981';
+        setTimeout(() => { msg.textContent = ''; }, 2000);
       }
+    });
 
-      messageDiv.textContent = '✅ Saved!';
-      messageDiv.className = 'text-sm text-green-600';
-      setTimeout(() => {
-        document.getElementById('editCrmModal').style.display = 'none';
+    // Save Stage
+    document.getElementById('saveStageBtn').addEventListener('click', async () => {
+      const stage = document.getElementById('modal_stage').value;
+      const msg = document.getElementById('stageSaveMsg');
+      msg.textContent = 'Saving...';
+      msg.style.color = '#3b82f6';
+      
+      const { error } = await _supabase.from('leads').update({ stage }).eq('id', currentLeadId);
+      
+      if (error) {
+        msg.textContent = 'Error!';
+        msg.style.color = '#ef4444';
+      } else {
+        msg.textContent = '✅ Saved!';
+        msg.style.color = '#10b981';
         loadAllLeads();
-      }, 1500);
-    });
-
-    // Delete Lead
-    document.getElementById('deleteCrmLeadBtn')?.addEventListener('click', async () => {
-      const leadId = document.getElementById('edit_crm_lead_id').value;
-      const address = document.getElementById('edit_crm_property_address').value;
-      
-      if (!confirm(`⚠️ Delete "${address}"?\n\nThis cannot be undone.`)) return;
-
-      const { error } = await _supabase.from('leads').delete().eq('id', leadId);
-
-      if (error) {
-        alert('Error deleting!');
-        return;
+        setTimeout(() => { msg.textContent = ''; }, 2000);
       }
-
-      document.getElementById('editCrmModal').style.display = 'none';
-      loadAllLeads();
     });
 
     // Logout
