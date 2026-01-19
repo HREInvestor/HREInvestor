@@ -53,7 +53,9 @@ loginBtn?.addEventListener("click", async () => {
     const paid = snap.exists() && snap.data().paid === true;
     
     sessionStorage.setItem('user-is-logged-in', 'true');
-    window.location.replace(paid ? "/members/" : "/members/pricing.html");
+    
+    // FIXED: Redirect to /payment.html instead of /members/pricing.html
+    window.location.replace(paid ? "/members/" : "/payment.html");
     
   } catch (e) {
     setMsg("Invalid email or password.");
@@ -62,6 +64,6 @@ loginBtn?.addEventListener("click", async () => {
 
 // SIGNUP BUTTON - Redirects to payment page (NO FREE ACCOUNT CREATION)
 signupBtn?.addEventListener("click", () => {
-  // Redirect to pricing/payment page
-  window.location.href = "/members/pricing.html";
+  // FIXED: Redirect to /payment.html instead of /members/pricing.html
+  window.location.href = "/payment.html";
 });
