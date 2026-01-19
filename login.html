@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -7,89 +7,90 @@
   <link rel="stylesheet" href="/styles.css">
   <style>
     body {
-      font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #f8fafc;
-      margin: 0;
-      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0B5C63 0%, #073C40 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .login-container {
-      max-width: 420px;
-      margin: 60px auto;
-      padding: 32px;
       background: white;
-      border-radius: 16px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      max-width: 420px;
+      width: 100%;
+      padding: 2.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
     h1 {
-      margin: 0 0 8px;
-      font-size: 28px;
+      font-size: 1.75rem;
+      font-weight: 800;
       color: #0B5C63;
+      margin-bottom: 0.5rem;
     }
     p {
-      margin: 0 0 24px;
       color: #64748b;
+      margin-bottom: 1.5rem;
     }
     label {
       display: block;
       font-weight: 600;
-      margin-bottom: 6px;
       color: #334155;
-      font-size: 14px;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
     }
     input {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 16px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 15px;
-      box-sizing: border-box;
+      padding: 0.75rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s;
     }
     input:focus {
       outline: none;
       border-color: #0B5C63;
-      box-shadow: 0 0 0 3px rgba(11, 92, 99, 0.1);
     }
-    .button-group {
-      display: flex;
-      gap: 12px;
-      margin-top: 24px;
-    }
-    button {
-      flex: 1;
-      padding: 12px 20px;
+    .btn {
+      width: 100%;
+      padding: 0.875rem;
       border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 15px;
+      border-radius: 0.5rem;
+      font-weight: 700;
+      font-size: 1rem;
       cursor: pointer;
       transition: all 0.2s;
     }
-    #loginBtn {
+    .btn-primary {
       background: #0B5C63;
       color: white;
+      margin-bottom: 0.75rem;
     }
-    #loginBtn:hover {
+    .btn-primary:hover {
       background: #073C40;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(11, 92, 99, 0.3);
     }
-    #signupBtn {
-      background: #e2e8f0;
-      color: #334155;
+    .btn-secondary {
+      background: #F59E0B;
+      color: white;
     }
-    #signupBtn:hover {
-      background: #cbd5e1;
+    .btn-secondary:hover {
+      background: #D97706;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
     }
     #msg {
-      margin-top: 16px;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 14px;
-      text-align: center;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
       display: none;
     }
     #msg.error {
       background: #fee2e2;
-      color: #b91c1c;
+      color: #991b1b;
       display: block;
     }
     #msg.success {
@@ -97,159 +98,63 @@
       color: #065f46;
       display: block;
     }
-    #msg.info {
-      background: #dbeafe;
-      color: #1e40af;
-      display: block;
-    }
-    .back-link {
-      display: block;
+    .divider {
       text-align: center;
-      margin-top: 20px;
-      color: #64748b;
-      text-decoration: none;
-      font-size: 14px;
+      margin: 1.5rem 0;
+      color: #94a3b8;
+      font-size: 0.875rem;
+      position: relative;
     }
-    .back-link:hover {
+    .divider::before,
+    .divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 40%;
+      height: 1px;
+      background: #e2e8f0;
+    }
+    .divider::before { left: 0; }
+    .divider::after { right: 0; }
+    .back-link {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+    .back-link a {
       color: #0B5C63;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+    .back-link a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="login-container">
     <h1>Member Login</h1>
-    <p>Log in to access forms, courses, and templates.</p>
+    <p>Access your HREI member dashboard</p>
 
-    <form id="loginForm">
-      <label for="email">Email Address</label>
-      <input 
-        type="email" 
-        id="email" 
-        name="email"
-        autocomplete="email"
-        placeholder="you@example.com"
-        required
-      />
+    <label for="email">Email Address</label>
+    <input id="email" type="email" placeholder="you@example.com" required />
 
-      <label for="password">Password</label>
-      <input 
-        type="password" 
-        id="password" 
-        name="password"
-        autocomplete="current-password"
-        placeholder="Enter your password"
-        required
-      />
+    <label for="password">Password</label>
+    <input id="password" type="password" placeholder="Enter your password" required />
 
-      <div class="button-group">
-        <button type="button" id="loginBtn">Log in</button>
-        <button type="button" id="signupBtn">Create account</button>
-      </div>
+    <button id="loginBtn" class="btn btn-primary">Log In</button>
 
-      <div id="msg"></div>
-    </form>
+    <div class="divider">or</div>
 
-    <a href="/" class="back-link">← Back to site</a>
+    <button id="signupBtn" class="btn btn-secondary">Join HREI (Payment Required)</button>
+
+    <div id="msg"></div>
+
+    <div class="back-link">
+      <a href="/">← Back to main site</a>
+    </div>
   </div>
 
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
-    import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
-
-    // Your REAL Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCqyyGwpbYfzigj5dYCyXrOC9bFJwNYc_s",
-      authDomain: "hrei-members.firebaseapp.com",
-      projectId: "hrei-members",
-      storageBucket: "hrei-members.firebasestorage.app",
-      messagingSenderId: "756905354156",
-      appId: "1:756905354156:web:f50a6bc24aec9954bd5009",
-      measurementId: "G-SLBVTW55MG"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    const loginBtn = document.getElementById('loginBtn');
-    const signupBtn = document.getElementById('signupBtn');
-    const msg = document.getElementById('msg');
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-
-    function showMessage(text, type) {
-      msg.textContent = text;
-      msg.className = type;
-    }
-
-    async function routeAfterLogin(uid) {
-      const ref = doc(db, "users", uid);
-      const snap = await getDoc(ref);
-      const paid = snap.exists() && snap.data().paid === true;
-      
-      sessionStorage.setItem('user-is-logged-in', 'true');
-      window.location.replace(paid ? "/members/" : "/members/pricing.html");
-    }
-
-    loginBtn.addEventListener('click', async () => {
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
-      
-      if (!email || !password) {
-        showMessage('Please enter email and password', 'error');
-        return;
-      }
-      
-      showMessage('Logging in...', 'info');
-      
-      try {
-        const cred = await signInWithEmailAndPassword(auth, email, password);
-        showMessage('Success! Redirecting...', 'success');
-        await routeAfterLogin(cred.user.uid);
-      } catch (error) {
-        console.error('Login error:', error);
-        showMessage('Invalid email or password', 'error');
-      }
-    });
-
-    signupBtn.addEventListener('click', async () => {
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
-      
-      if (!email || !password) {
-        showMessage('Please enter email and password', 'error');
-        return;
-      }
-      
-      if (password.length < 6) {
-        showMessage('Password must be at least 6 characters', 'error');
-        return;
-      }
-      
-      showMessage('Creating account...', 'info');
-      
-      try {
-        const cred = await createUserWithEmailAndPassword(auth, email, password);
-        
-        const ref = doc(db, "users", cred.user.uid);
-        await setDoc(ref, { paid: false, email }, { merge: true });
-        
-        sessionStorage.setItem('user-is-logged-in', 'true');
-        showMessage('Account created! Redirecting...', 'success');
-        setTimeout(() => {
-          window.location.replace('/members/pricing.html');
-        }, 500);
-      } catch (error) {
-        console.error('Signup error:', error);
-        showMessage(error.message, 'error');
-      }
-    });
-
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      loginBtn.click();
-    });
-  </script>
+  <script type="module" src="/assets/js/login.js"></script>
 </body>
 </html>
