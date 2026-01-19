@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Confirm Your Account - HREI</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0B5C63 0%, #073C40 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .confirm-container {
+      background: white;
+      max-width: 420px;
+      width: 100%;
+      padding: 2.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #0B5C63;
+      margin-bottom: 0.5rem;
+    }
+    .success-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+    p {
+      color: #64748b;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      text-align: left;
+    }
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    input:focus {
+      outline: none;
+      border-color: #0B5C63;
+    }
+    button {
+      width: 100%;
+      padding: 0.875rem;
+      background: #0B5C63;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    button:hover {
+      background: #073C40;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(11, 92, 99, 0.3);
+    }
+    button:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+      transform: none;
+    }
+    #msg {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      display: none;
+    }
+    #msg.error {
+      background: #fee2e2;
+      color: #991b1b;
+      display: block;
+    }
+    #msg.success {
+      background: #d1fae5;
+      color: #065f46;
+      display: block;
+    }
+    #msg.info {
+      background: #dbeafe;
+      color: #1e40af;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="confirm-container">
+    <div class="success-icon">✅</div>
+    <h1>Payment Confirmed!</h1>
+    <p>Thank you for joining HREI. Please create your account credentials below to access the members area.</p>
+    
+    <form id="confirmForm">
+      <label for="email">Email Address</label>
+      <input 
+        type="email" 
+        id="email" 
+        placeholder="you@example.com" 
+        required 
+        autocomplete="email"
+      />
+      
+      <label for="password">Choose a Password</label>
+      <input 
+        type="password" 
+        id="password" 
+        placeholder="Minimum 6 characters" 
+        required 
+        autocomplete="new-password"
+        minlength="6"
+      />
+      
+      <button type="submit" id="createBtn">Create My Account</button>
+    </form>
+    
+    <div id="msg"></div>
+  </div>
+
+  <script type="module" src="/signup-confirm.js"></script>
+</body>
+</html>
