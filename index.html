@@ -1,116 +1,311 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Huntsville Real Estate Investor LLC</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Huntsville Real Estate Investor - Professional Property Investment</title>
+  <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: Inter, sans-serif; }
-  </style>
   <script>
-    tailwind.config = { 
-      theme: { 
-        extend: { 
-          colors: { 
-            brand: { 
-              DEFAULT:'#0B5C63', 
-              dark:'#073C40', 
-              accent:'#F59E0B' 
-            }
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { DEFAULT: '#0B5C63', dark: '#073C40', accent: '#F59E0B' }
           }
         }
       }
     };
   </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; font-size: 18px; line-height: 1.7; }
+    .hero-bg { 
+      background: linear-gradient(rgba(7, 60, 64, 0.85), rgba(11, 92, 99, 0.75)), 
+                  url('assets/images/prop-1.jpg') center/cover no-repeat;
+      min-height: 85vh;
+    }
+    .property-card { 
+      position: relative; 
+      overflow: hidden; 
+      border-radius: 16px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .property-card:hover { 
+      transform: translateY(-8px); 
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    .property-card img { 
+      width: 100%; 
+      height: 280px; 
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .property-card:hover img { transform: scale(1.08); }
+    .property-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+      padding: 24px;
+      color: white;
+    }
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: #F59E0B;
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .service-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      height: 400px;
+    }
+    .service-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .service-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(7,60,64,0.3), rgba(7,60,64,0.9));
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 32px;
+      color: white;
+    }
+    .cta-button {
+      display: inline-block;
+      padding: 16px 32px;
+      background: #F59E0B;
+      color: white;
+      font-weight: 700;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+    .cta-button:hover {
+      background: #D97706;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+    }
+    .cta-button-outline {
+      display: inline-block;
+      padding: 16px 32px;
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+      font-weight: 700;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .cta-button-outline:hover {
+      background: white;
+      color: #0B5C63;
+    }
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      color: #073C40;
+    }
+    .section-subtitle {
+      font-size: 1.25rem;
+      color: #64748b;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+    }
+    .sell-house-banner {
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+      padding: 60px 20px;
+      text-align: center;
+      color: white;
+    }
+  </style>
 </head>
-<body class="bg-white">
+<body class="bg-white text-slate-800">
 
-  <!-- Header -->
-  <header class="bg-white shadow-sm sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <span class="font-extrabold text-2xl text-brand">HREI</span>
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <div class="flex items-center">
+          <span class="text-2xl font-extrabold text-brand">HREI</span>
+        </div>
+        <div class="hidden md:flex space-x-8 items-center">
+          <a href="#properties" class="text-slate-700 hover:text-brand font-semibold transition">Properties</a>
+          <a href="#services" class="text-slate-700 hover:text-brand font-semibold transition">Services</a>
+          <a href="#about" class="text-slate-700 hover:text-brand font-semibold transition">About</a>
+          <a href="schedule.html" class="text-slate-700 hover:text-brand font-semibold transition">Schedule</a>
+          <a href="sell-fast.html" class="cta-button text-sm py-3 px-6">💰 Sell Your House</a>
+        </div>
+        <div class="md:hidden">
+          <a href="sell-fast.html" class="cta-button text-sm py-2 px-4">Sell House</a>
+        </div>
       </div>
-      <nav class="hidden md:flex items-center gap-6 text-sm font-semibold">
-        <a href="#services" class="text-slate-700 hover:text-brand">Services</a>
-        <a href="#about" class="text-slate-700 hover:text-brand">About</a>
-        <a href="rent.html" class="text-slate-700 hover:text-brand">Pay Rent</a>
-        <a href="schedule.html" class="text-slate-700 hover:text-brand">Schedule Meeting</a>
-        <a href="login.html" class="bg-brand text-white px-5 py-2 rounded-lg hover:bg-brand-dark transition">Member Login</a>
-      </nav>
-      <!-- Mobile Menu Button -->
-      <button id="mobileMenuBtn" class="md:hidden text-slate-700">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
     </div>
-    <!-- Mobile Menu -->
-    <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
-      <nav class="flex flex-col px-4 py-4 gap-3">
-        <a href="#services" class="text-slate-700 hover:text-brand">Services</a>
-        <a href="#about" class="text-slate-700 hover:text-brand">About</a>
-        <a href="rent.html" class="text-slate-700 hover:text-brand">Pay Rent</a>
-        <a href="schedule.html" class="text-slate-700 hover:text-brand">Schedule Meeting</a>
-        <a href="login.html" class="bg-brand text-white px-5 py-2 rounded-lg hover:bg-brand-dark transition text-center">Member Login</a>
-      </nav>
-    </div>
-  </header>
+  </nav>
 
   <!-- Hero Section -->
-  <section class="bg-gradient-to-br from-brand to-brand-dark text-white py-20 md:py-32">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h1 class="text-4xl md:text-6xl font-extrabold mb-6">
-        Huntsville Real Estate Investor
+  <section class="hero-bg flex items-center justify-center text-center text-white px-4">
+    <div class="max-w-4xl">
+      <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+        Huntsville's Premier<br/>Real Estate Investment Firm
       </h1>
-      <p class="text-xl md:text-2xl mb-8 text-slate-100 max-w-3xl mx-auto">
-        Your trusted partner for wholesaling, rental properties, and fix-and-flip investments in Alabama.
+      <p class="text-xl md:text-2xl mb-10 text-slate-200 leading-relaxed">
+        We specialize in wholesale deals, rental properties, and fix-and-flip investments across North Alabama.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="schedule.html" class="bg-brand-accent text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-yellow-600 transition shadow-lg">
-          Schedule a Meeting
-        </a>
-        <a href="login.html" class="bg-white text-brand px-8 py-4 rounded-lg font-bold text-lg hover:bg-slate-100 transition shadow-lg">
-          Member Login
-        </a>
+        <a href="sell-fast.html" class="cta-button text-lg">💰 Sell Your House Fast</a>
+        <a href="#properties" class="cta-button-outline text-lg">View Properties</a>
       </div>
     </div>
   </section>
 
-  <!-- Services Section -->
-  <section id="services" class="py-20 bg-slate-50">
+  <!-- Sell Your House Banner -->
+  <section class="sell-house-banner">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-4xl md:text-5xl font-extrabold mb-4">Need to Sell Your House?</h2>
+      <p class="text-xl md:text-2xl mb-8 opacity-95">
+        Get a fair cash offer in 24 hours. No repairs, no agent fees, no hassle.
+      </p>
+      <a href="sell-fast.html" class="inline-block bg-white text-brand-dark font-bold text-lg px-10 py-4 rounded-lg hover:bg-slate-100 transition shadow-lg">
+        Get My Cash Offer →
+      </a>
+    </div>
+  </section>
+
+  <!-- Featured Properties Section -->
+  <section id="properties" class="py-24 bg-slate-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-12">Our Services</h2>
+      <div class="text-center mb-16">
+        <h2 class="section-title">Featured Properties</h2>
+        <p class="section-subtitle">
+          Explore our current portfolio of investment opportunities across Huntsville and surrounding areas.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Property Card 1 -->
+        <div class="property-card bg-white shadow-lg">
+          <img src="assets/images/prop-1.jpg" alt="Investment Property 1">
+          <div class="property-overlay">
+            <span class="badge mb-3">Wholesale Deal</span>
+            <h3 class="text-xl font-bold mb-1">926 Shoal Creek Rd</h3>
+            <p class="text-sm text-slate-300">Decatur, AL • 1.90 Acres</p>
+          </div>
+        </div>
+
+        <!-- Property Card 2 -->
+        <div class="property-card bg-white shadow-lg">
+          <img src="assets/images/prop-2.jpg" alt="Investment Property 2">
+          <div class="property-overlay">
+            <span class="badge mb-3">Fix & Flip</span>
+            <h3 class="text-xl font-bold mb-1">243 Miller Rd</h3>
+            <p class="text-sm text-slate-300">Gurley, AL • 3 Bed / 1 Bath</p>
+          </div>
+        </div>
+
+        <!-- Property Card 3 -->
+        <div class="property-card bg-white shadow-lg">
+          <img src="assets/images/prop-3.jpg" alt="Investment Property 3">
+          <div class="property-overlay">
+            <span class="badge mb-3">Rental Property</span>
+            <h3 class="text-xl font-bold mb-1">317 Grady St</h3>
+            <p class="text-sm text-slate-300">Gadsden, AL • Cash Flowing</p>
+          </div>
+        </div>
+
+        <!-- Property Card 4 -->
+        <div class="property-card bg-white shadow-lg">
+          <img src="assets/images/prop-4.jpg" alt="Investment Property 4">
+          <div class="property-overlay">
+            <span class="badge mb-3">Wholesale Deal</span>
+            <h3 class="text-xl font-bold mb-1">904 Barclift St NW</h3>
+            <p class="text-sm text-slate-300">Hartselle, AL • 1,522 SqFt</p>
+          </div>
+        </div>
+
+        <!-- Property Card 5 -->
+        <div class="property-card bg-white shadow-lg">
+          <img src="assets/images/prop-5.jpg" alt="Investment Property 5">
+          <div class="property-overlay">
+            <span class="badge mb-3">Fix & Flip</span>
+            <h3 class="text-xl font-bold mb-1">Madison County Portfolio</h3>
+            <p class="text-sm text-slate-300">Madison, AL • Multiple Units</p>
+          </div>
+        </div>
+
+        <!-- CTA Card -->
+        <div class="property-card bg-brand flex items-center justify-center text-center p-8">
+          <div>
+            <h3 class="text-2xl font-bold text-white mb-4">Looking for More?</h3>
+            <p class="text-slate-200 mb-6">Schedule a meeting to discuss exclusive off-market deals.</p>
+            <a href="schedule.html" class="cta-button bg-white text-brand hover:bg-slate-100">
+              Schedule Now
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section (Image-Based) -->
+  <section id="services" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-subtitle">
+          From wholesale deals to long-term rentals, we provide comprehensive real estate investment solutions.
+        </p>
+      </div>
+
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         
-        <!-- Wholesaling -->
-        <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition">
-          <div class="text-brand text-4xl mb-4">🏘️</div>
-          <h3 class="text-2xl font-bold mb-3">Wholesaling</h3>
-          <p class="text-slate-600">
-            We connect motivated sellers with cash buyers, providing quick and hassle-free real estate transactions.
-          </p>
+        <!-- Service 1: Wholesaling -->
+        <div class="service-card">
+          <img src="assets/images/prop-1.jpg" alt="Wholesale Properties">
+          <div class="service-overlay">
+            <h3 class="text-3xl font-bold mb-3">Wholesaling</h3>
+            <p class="text-slate-200 text-base leading-relaxed">
+              Access deeply discounted properties before they hit the market. Perfect for investors looking for high-equity deals.
+            </p>
+          </div>
         </div>
 
-        <!-- Rental Properties -->
-        <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition">
-          <div class="text-brand text-4xl mb-4">🏠</div>
-          <h3 class="text-2xl font-bold mb-3">Rental Properties</h3>
-          <p class="text-slate-600">
-            Quality rental properties managed with care. Tenants can easily pay rent online through our secure portal.
-          </p>
-          <a href="rent.html" class="inline-block mt-4 text-brand font-semibold hover:underline">Pay Rent Online →</a>
+        <!-- Service 2: Rental Properties -->
+        <div class="service-card">
+          <img src="assets/images/prop-3.jpg" alt="Rental Properties">
+          <div class="service-overlay">
+            <h3 class="text-3xl font-bold mb-3">Rental Properties</h3>
+            <p class="text-slate-200 text-base leading-relaxed">
+              Turnkey rental properties with verified cash flow. We handle acquisition, renovation, and tenant placement.
+            </p>
+          </div>
         </div>
 
-        <!-- Fix & Flip -->
-        <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition">
-          <div class="text-brand text-4xl mb-4">🔨</div>
-          <h3 class="text-2xl font-bold mb-3">Fix & Flip</h3>
-          <p class="text-slate-600">
-            Strategic property renovations that maximize value and deliver strong returns on investment.
-          </p>
+        <!-- Service 3: Fix & Flip -->
+        <div class="service-card">
+          <img src="assets/images/prop-2.jpg" alt="Fix and Flip">
+          <div class="service-overlay">
+            <h3 class="text-3xl font-bold mb-3">Fix & Flip</h3>
+            <p class="text-slate-200 text-base leading-relaxed">
+              Partner with us on high-margin renovation projects. We provide deal analysis, project management, and exit strategy.
+            </p>
+          </div>
         </div>
 
       </div>
@@ -118,119 +313,65 @@
   </section>
 
   <!-- About Section -->
-  <section id="about" class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <div>
-          <h2 class="text-3xl md:text-4xl font-extrabold mb-6">About HREI</h2>
-          <p class="text-lg text-slate-600 mb-4">
-            Huntsville Real Estate Investor LLC specializes in creating opportunities in the Alabama real estate market. 
-            Whether you're looking to sell quickly, invest in rental properties, or partner on fix-and-flip projects, 
-            we bring expertise and integrity to every transaction.
-          </p>
-          <p class="text-lg text-slate-600 mb-6">
-            Our members-only platform provides exclusive access to deal analysis tools, contracts, and training resources 
-            to help you succeed in real estate investing.
-          </p>
-          <a href="schedule.html" class="inline-block bg-brand text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-dark transition">
-            Schedule a Consultation
-          </a>
-        </div>
-        <div class="bg-slate-100 rounded-xl p-8">
-          <h3 class="text-2xl font-bold mb-4">Why Choose HREI?</h3>
-          <ul class="space-y-3">
-            <li class="flex items-start gap-3">
-              <span class="text-brand text-xl">✓</span>
-              <span class="text-slate-700">Local expertise in Huntsville and Alabama markets</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="text-brand text-xl">✓</span>
-              <span class="text-slate-700">Fast, transparent transactions</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="text-brand text-xl">✓</span>
-              <span class="text-slate-700">Exclusive member resources and training</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="text-brand text-xl">✓</span>
-              <span class="text-slate-700">Professional property management</span>
-            </li>
-          </ul>
-        </div>
-      </div>
+  <section id="about" class="py-24 bg-slate-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="section-title">About HREI</h2>
+      <p class="text-xl text-slate-700 leading-relaxed mb-8">
+        Huntsville Real Estate Investor LLC is a professional investment firm specializing in residential real estate across North Alabama. We leverage data-driven analysis, local market expertise, and strategic partnerships to deliver consistent returns for our investors.
+      </p>
+      <p class="text-xl text-slate-700 leading-relaxed mb-10">
+        Our team has successfully closed over <strong class="text-brand">$2.5M</strong> in transactions, managing a portfolio that includes wholesale deals, rental properties, and fix-and-flip projects across Madison, Morgan, and surrounding counties.
+      </p>
+      <a href="schedule.html" class="cta-button text-lg">Partner With Us</a>
     </div>
   </section>
 
-  <!-- CTA Section -->
-  <section class="py-20 bg-brand text-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-3xl md:text-4xl font-extrabold mb-6">Ready to Get Started?</h2>
-      <p class="text-xl mb-8 text-slate-100">
-        Whether you're a tenant, investor, or property seller, we're here to help.
+  <!-- Final CTA Section -->
+  <section class="py-20 bg-brand-dark text-white text-center">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="text-4xl md:text-5xl font-extrabold mb-6">Ready to Sell Your House?</h2>
+      <p class="text-xl md:text-2xl mb-8 text-slate-200">
+        We buy houses in any condition. Get your cash offer today—no obligation.
       </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="rent.html" class="bg-white text-brand px-8 py-4 rounded-lg font-bold text-lg hover:bg-slate-100 transition">
-          Pay Rent Online
-        </a>
-        <a href="schedule.html" class="bg-brand-accent text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-yellow-600 transition">
-          Schedule a Meeting
-        </a>
-        <a href="login.html" class="border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-brand transition">
-          Member Access
-        </a>
-      </div>
+      <a href="sell-fast.html" class="cta-button text-lg bg-brand-accent hover:bg-yellow-600">
+        Get Started Now →
+      </a>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-slate-900 text-slate-300 py-12">
+  <footer class="bg-brand-dark text-white py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
-          <h3 class="text-white font-bold text-lg mb-4">HREI</h3>
-          <p class="text-sm">Huntsville Real Estate Investor LLC</p>
-          <p class="text-sm">Serving Alabama since [Year]</p>
+          <h3 class="text-2xl font-bold mb-4">HREI</h3>
+          <p class="text-slate-300 leading-relaxed">
+            Professional real estate investment services in Huntsville and North Alabama.
+          </p>
         </div>
         <div>
-          <h3 class="text-white font-bold text-lg mb-4">Quick Links</h3>
-          <ul class="space-y-2 text-sm">
-            <li><a href="rent.html" class="hover:text-white">Pay Rent</a></li>
-            <li><a href="schedule.html" class="hover:text-white">Schedule Meeting</a></li>
-            <li><a href="login.html" class="hover:text-white">Member Login</a></li>
+          <h4 class="font-bold mb-4 text-lg">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="sell-fast.html" class="text-slate-300 hover:text-white transition">Sell Your House</a></li>
+            <li><a href="#properties" class="text-slate-300 hover:text-white transition">Properties</a></li>
+            <li><a href="#services" class="text-slate-300 hover:text-white transition">Services</a></li>
+            <li><a href="schedule.html" class="text-slate-300 hover:text-white transition">Schedule Meeting</a></li>
+            <li><a href="login.html" class="text-slate-300 hover:text-white transition">Member Login</a></li>
           </ul>
         </div>
         <div>
-          <h3 class="text-white font-bold text-lg mb-4">Contact</h3>
-          <p class="text-sm">Email: info@hreinvestor.com</p>
-          <p class="text-sm">Phone: (256) XXX-XXXX</p>
+          <h4 class="font-bold mb-4 text-lg">Contact</h4>
+          <p class="text-slate-300 leading-relaxed">
+            Huntsville, AL<br>
+            <a href="mailto:info@hreinvestor.com" class="hover:text-white transition">info@hreinvestor.com</a>
+          </p>
         </div>
       </div>
-      <div class="border-t border-slate-700 mt-8 pt-8 text-center text-sm">
+      <div class="border-t border-slate-600 mt-8 pt-8 text-center text-slate-400 text-sm">
         <p>&copy; 2026 Huntsville Real Estate Investor LLC. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
-  <script>
-    // Mobile menu toggle
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    
-    mobileMenuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
-          mobileMenu.classList.add('hidden');
-        }
-      });
-    });
-  </script>
 </body>
 </html>
