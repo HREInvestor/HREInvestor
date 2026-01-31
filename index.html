@@ -1,84 +1,253 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HREI Member Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Huntsville Real Estate Investor - Professional Property Investment</title>
+  <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            brand: {
-              DEFAULT:'#0B5C63',
-              dark:'#073C40',
-              accent:'#F59E0B'
-            }
+            brand: { DEFAULT: '#0B5C63', dark: '#073C40', accent: '#F59E0B' }
           }
         }
       }
     };
   </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: Inter, sans-serif; }
+    body { font-family: 'Inter', sans-serif; font-size: 18px; line-height: 1.7; }
+    .hero-bg { 
+      background: linear-gradient(rgba(7, 60, 64, 0.85), rgba(11, 92, 99, 0.75)), 
+                  linear-gradient(135deg, #0B5C63 0%, #073C40 100%);
+      min-height: 85vh;
+    }
+    .cta-button {
+      display: inline-block;
+      padding: 16px 32px;
+      background: #F59E0B;
+      color: white;
+      font-weight: 700;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+    .cta-button:hover {
+      background: #D97706;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+    }
+    .cta-button-outline {
+      display: inline-block;
+      padding: 16px 32px;
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+      font-weight: 700;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .cta-button-outline:hover {
+      background: white;
+      color: #0B5C63;
+    }
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      color: #073C40;
+    }
+    .section-subtitle {
+      font-size: 1.25rem;
+      color: #64748b;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+    }
+    .sell-house-banner {
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+      padding: 60px 20px;
+      text-align: center;
+      color: white;
+    }
+    .service-card {
+      padding: 40px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+    }
+    .service-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
-<body class="bg-slate-50">
+<body class="bg-white text-slate-800">
 
-  <!-- Authentication Guard -->
-  <script src="../assets/js/auth-guard.js"></script>
-
-  <!-- Header -->
-  <header class="bg-white shadow-sm sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <span class="font-extrabold text-2xl text-brand">HREI Members</span>
-      <button id="logoutBtn" class="text-sm font-semibold text-red-600 hover:text-red-800 transition">Logout</button>
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <div class="flex items-center">
+          <span class="text-2xl font-extrabold text-brand">HREI</span>
+        </div>
+        <div class="hidden md:flex space-x-8 items-center">
+          <a href="#services" class="text-slate-700 hover:text-brand font-semibold transition">Services</a>
+          <a href="#about" class="text-slate-700 hover:text-brand font-semibold transition">About</a>
+          <a href="schedule.html" class="text-slate-700 hover:text-brand font-semibold transition">Schedule</a>
+          <a href="rent.html" class="text-slate-700 hover:text-brand font-semibold transition">Pay Rent</a>
+          <a href="sell-fast.html" class="cta-button text-sm py-3 px-6">💰 Sell Your House</a>
+          <a href="login.html" class="text-slate-700 hover:text-brand font-semibold transition border-2 border-brand px-4 py-2 rounded-lg">Member Login</a>
+        </div>
+        <div class="md:hidden flex gap-2">
+          <a href="sell-fast.html" class="cta-button text-sm py-2 px-4">Sell House</a>
+          <a href="login.html" class="text-brand font-semibold border-2 border-brand px-3 py-2 rounded-lg text-sm">Login</a>
+        </div>
+      </div>
     </div>
-  </header>
+  </nav>
 
-  <main class="max-w-7xl mx-auto px-4 py-12">
-    <div class="mb-10">
-      <h1 class="text-3xl font-extrabold text-slate-900">Welcome Back</h1>
-      <p class="text-slate-600">Select a section below to manage your investments and resources.</p>
+  <!-- Hero Section -->
+  <section class="hero-bg flex items-center justify-center text-center text-white px-4">
+    <div class="max-w-4xl">
+      <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+        Huntsville's Premier<br/>Real Estate Investment Firm
+      </h1>
+      <p class="text-xl md:text-2xl mb-10 text-slate-200 leading-relaxed">
+        We specialize in wholesale deals, rental properties, and fix-and-flip investments across North Alabama.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="sell-fast.html" class="cta-button text-lg">💰 Sell Your House Fast</a>
+        <a href="schedule.html" class="cta-button-outline text-lg">Schedule Consultation</a>
+      </div>
     </div>
+  </section>
 
-    <!-- Dashboard Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      
-      <!-- CRM Section -->
-      <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition">
-        <div class="bg-brand/10 w-12 h-12 rounded-lg flex items-center justify-center text-brand text-2xl mb-6">📊</div>
-        <h2 class="text-xl font-bold mb-3">Lead CRM</h2>
-        <p class="text-slate-600 mb-6">Access your leads, track property stages, and manage your pipeline.</p>
-        <a href="crm.html" class="block text-center bg-brand text-white py-3 rounded-lg font-bold hover:bg-brand-dark transition">Open CRM</a>
+  <!-- Sell Your House Banner -->
+  <section class="sell-house-banner">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-4xl md:text-5xl font-extrabold mb-4">Need to Sell Your House?</h2>
+      <p class="text-xl md:text-2xl mb-8 opacity-95">
+        Get a fair cash offer in 24 hours. No repairs, no agent fees, no hassle.
+      </p>
+      <a href="sell-fast.html" class="inline-block bg-white text-brand-dark font-bold text-lg px-10 py-4 rounded-lg hover:bg-slate-100 transition shadow-lg">
+        Get My Cash Offer →
+      </a>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="py-24 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-subtitle">
+          From wholesale deals to long-term rentals, we provide comprehensive real estate investment solutions.
+        </p>
       </div>
 
-      <!-- Contracts Section -->
-      <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition">
-        <div class="bg-brand/10 w-12 h-12 rounded-lg flex items-center justify-center text-brand text-2xl mb-6">📄</div>
-        <h2 class="text-xl font-bold mb-3">Contracts</h2>
-        <p class="text-slate-600 mb-6">Download purchase agreements, assignment contracts, and investment memos.</p>
-        <a href="forms.html" class="block text-center bg-brand text-white py-3 rounded-lg font-bold hover:bg-brand-dark transition">View Documents</a>
-      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Service 1: Wholesaling -->
+        <div class="service-card text-center">
+          <div class="service-icon">🏘️</div>
+          <h3 class="text-2xl font-bold mb-3 text-brand">Wholesaling</h3>
+          <p class="text-slate-600 leading-relaxed">
+            Access deeply discounted properties before they hit the market. Perfect for investors looking for high-equity deals.
+          </p>
+        </div>
 
-      <!-- Videos Section -->
-      <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition">
-        <div class="bg-brand/10 w-12 h-12 rounded-lg flex items-center justify-center text-brand text-2xl mb-6">🎥</div>
-        <h2 class="text-xl font-bold mb-3">Training Videos</h2>
-        <p class="text-slate-600 mb-6">Watch exclusive training on wholesaling, fix-and-flip strategies, and market analysis.</p>
-        <a href="videos.html" class="block text-center bg-brand text-white py-3 rounded-lg font-bold hover:bg-brand-dark transition">Watch Now</a>
-      </div>
+        <!-- Service 2: Rental Properties -->
+        <div class="service-card text-center">
+          <div class="service-icon">🏠</div>
+          <h3 class="text-2xl font-bold mb-3 text-brand">Rental Properties</h3>
+          <p class="text-slate-600 leading-relaxed">
+            Turnkey rental properties with verified cash flow. We handle acquisition, renovation, and tenant placement.
+          </p>
+        </div>
 
+        <!-- Service 3: Fix & Flip -->
+        <div class="service-card text-center">
+          <div class="service-icon">🔨</div>
+          <h3 class="text-2xl font-bold mb-3 text-brand">Fix & Flip</h3>
+          <p class="text-slate-600 leading-relaxed">
+            Partner with us on high-margin renovation projects. We provide deal analysis, project management, and exit strategy.
+          </p>
+        </div>
+
+      </div>
     </div>
-  </main>
+  </section>
 
-  <script>
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      sessionStorage.removeItem('user-is-logged-in');
-      window.location.href = '../login.html';
-    });
-  </script>
+  <!-- About Section -->
+  <section id="about" class="py-24 bg-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="section-title">About HREI</h2>
+      <p class="text-xl text-slate-700 leading-relaxed mb-8">
+        Huntsville Real Estate Investor LLC is a professional investment firm specializing in residential real estate across North Alabama. We leverage data-driven analysis, local market expertise, and strategic partnerships to deliver consistent returns for our investors.
+      </p>
+      <p class="text-xl text-slate-700 leading-relaxed mb-10">
+        Our team has successfully closed over <strong class="text-brand">$2.5M</strong> in transactions, managing a portfolio that includes wholesale deals, rental properties, and fix-and-flip projects across Madison, Morgan, and surrounding counties.
+      </p>
+      <a href="schedule.html" class="cta-button text-lg">Partner With Us</a>
+    </div>
+  </section>
+
+  <!-- Final CTA Section -->
+  <section class="py-20 bg-brand-dark text-white text-center">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="text-4xl md:text-5xl font-extrabold mb-6">Ready to Sell Your House?</h2>
+      <p class="text-xl md:text-2xl mb-8 text-slate-200">
+        We buy houses in any condition. Get your cash offer today—no obligation.
+      </p>
+      <a href="sell-fast.html" class="cta-button text-lg bg-brand-accent hover:bg-yellow-600">
+        Get Started Now →
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-brand-dark text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h3 class="text-2xl font-bold mb-4">HREI</h3>
+          <p class="text-slate-300 leading-relaxed">
+            Professional real estate investment services in Huntsville and North Alabama.
+          </p>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4 text-lg">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="sell-fast.html" class="text-slate-300 hover:text-white transition">Sell Your House</a></li>
+            <li><a href="#services" class="text-slate-300 hover:text-white transition">Services</a></li>
+            <li><a href="schedule.html" class="text-slate-300 hover:text-white transition">Schedule Meeting</a></li>
+            <li><a href="rent.html" class="text-slate-300 hover:text-white transition">Pay Rent</a></li>
+            <li><a href="login.html" class="text-slate-300 hover:text-white transition">Member Login</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4 text-lg">Contact</h4>
+          <p class="text-slate-300 leading-relaxed">
+            Huntsville, AL<br>
+            <a href="mailto:info@hreinvestor.com" class="hover:text-white transition">info@hreinvestor.com</a>
+          </p>
+        </div>
+      </div>
+      <div class="border-t border-slate-600 mt-8 pt-8 text-center text-slate-400 text-sm">
+        <p>&copy; 2026 Huntsville Real Estate Investor LLC. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
 </body>
 </html>
