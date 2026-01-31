@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Huntsville Real Estate Investor - Professional Property Investment</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="assets/hrei-logo.jpg">
+  
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -18,13 +22,19 @@
     };
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
+    /* Smooth Scrolling */
+    html { scroll-behavior: smooth; }
+    
     body { font-family: 'Inter', sans-serif; font-size: 18px; line-height: 1.7; }
+    
     .hero-bg { 
       background: linear-gradient(rgba(7, 60, 64, 0.85), rgba(11, 92, 99, 0.75)), 
                   linear-gradient(135deg, #0B5C63 0%, #073C40 100%);
       min-height: 85vh;
     }
+
     .cta-button {
       display: inline-block;
       padding: 16px 32px;
@@ -41,6 +51,7 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
     }
+
     .cta-button-outline {
       display: inline-block;
       padding: 16px 32px;
@@ -56,38 +67,78 @@
       background: white;
       color: #0B5C63;
     }
-    .section-title {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      color: #073C40;
+
+    /* Back to Top Button */
+    #backToTop {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      display: none;
+      background: #0B5C63;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
     }
+    #backToTop:hover { 
+      background: #073C40;
+      transform: translateY(-3px);
+    }
+
+    .section-title { 
+      font-size: 2.5rem; 
+      font-weight: 800; 
+      margin-bottom: 1rem; 
+      color: #073C40; 
+    }
+    
     .section-subtitle {
       font-size: 1.25rem;
       color: #64748b;
       max-width: 700px;
       margin: 0 auto 3rem;
     }
+
     .sell-house-banner {
       background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
       padding: 60px 20px;
       text-align: center;
       color: white;
     }
-    .service-card {
-      padding: 40px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      transition: all 0.3s ease;
+
+    .service-card { 
+      padding: 40px; 
+      background: white; 
+      border-radius: 16px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+      transition: all 0.3s ease; 
     }
-    .service-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+    .service-card:hover { 
+      transform: translateY(-8px); 
+      box-shadow: 0 12px 24px rgba(0,0,0,0.12); 
     }
     .service-icon {
       font-size: 3rem;
       margin-bottom: 20px;
+    }
+
+    /* Logo styling */
+    .logo-img {
+      height: 50px;
+      width: auto;
+      filter: brightness(0) invert(1);
+    }
+
+    /* Mobile menu improvements */
+    #mobileMenu {
+      transition: all 0.3s ease;
     }
   </style>
 </head>
@@ -97,10 +148,14 @@
   <nav class="bg-white shadow-sm sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
-        <div class="flex items-center">
-          <span class="text-2xl font-extrabold text-brand">HREI</span>
+        <!-- Logo -->
+        <div class="flex items-center gap-3">
+          <img src="assets/hrei-logo.jpg" alt="HREI Logo" class="h-12 w-auto">
+          <span class="text-xl font-extrabold text-brand hidden sm:inline">HREI</span>
         </div>
-        <div class="hidden md:flex space-x-8 items-center">
+        
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-6 items-center">
           <a href="#services" class="text-slate-700 hover:text-brand font-semibold transition">Services</a>
           <a href="#about" class="text-slate-700 hover:text-brand font-semibold transition">About</a>
           <a href="schedule.html" class="text-slate-700 hover:text-brand font-semibold transition">Schedule</a>
@@ -108,11 +163,26 @@
           <a href="sell-fast.html" class="cta-button text-sm py-3 px-6">💰 Sell Your House</a>
           <a href="login.html" class="text-slate-700 hover:text-brand font-semibold transition border-2 border-brand px-4 py-2 rounded-lg">Member Login</a>
         </div>
-        <div class="md:hidden flex gap-2">
-          <a href="sell-fast.html" class="cta-button text-sm py-2 px-4">Sell House</a>
-          <a href="login.html" class="text-brand font-semibold border-2 border-brand px-3 py-2 rounded-lg text-sm">Login</a>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+          <button id="mobileMenuBtn" class="text-brand p-2 focus:outline-none">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+          </button>
         </div>
       </div>
+    </div>
+
+    <!-- Mobile Menu Dropdown -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-slate-100 px-4 py-6 space-y-4 shadow-lg">
+      <a href="#services" class="block text-slate-700 font-semibold hover:text-brand transition">Services</a>
+      <a href="#about" class="block text-slate-700 font-semibold hover:text-brand transition">About</a>
+      <a href="schedule.html" class="block text-slate-700 font-semibold hover:text-brand transition">Schedule</a>
+      <a href="rent.html" class="block text-slate-700 font-semibold hover:text-brand transition">Pay Rent</a>
+      <a href="sell-fast.html" class="block bg-brand-accent text-white text-center py-3 rounded-lg font-bold">💰 Sell Your House</a>
+      <a href="login.html" class="block text-center border-2 border-brand text-brand py-2 rounded-lg font-bold">Member Login</a>
     </div>
   </nav>
 
@@ -215,6 +285,9 @@
     </div>
   </section>
 
+  <!-- Back to Top Button -->
+  <div id="backToTop" title="Back to top">↑</div>
+
   <!-- Footer -->
   <footer class="bg-brand-dark text-white py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -249,5 +322,40 @@
     </div>
   </footer>
 
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Close mobile menu when clicking a link
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    // Back to Top Button Logic
+    const backToTopBtn = document.getElementById("backToTop");
+    
+    window.addEventListener('scroll', () => {
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        backToTopBtn.style.display = "block";
+      } else {
+        backToTopBtn.style.display = "none";
+      }
+    });
+    
+    backToTopBtn.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  </script>
 </body>
 </html>
