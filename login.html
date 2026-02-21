@@ -19,7 +19,7 @@
     
     main {
       background: white;
-      max-width: 420px;
+      max-width: 480px;
       width: 100%;
       padding: 40px 32px;
       border-radius: 16px;
@@ -47,7 +47,8 @@
       font-size: 14px;
     }
     
-    input[type="email"] {
+    input[type="email"],
+    input[type="tel"] {
       width: 100%;
       padding: 12px 14px;
       margin-bottom: 16px;
@@ -58,7 +59,8 @@
       box-sizing: border-box;
     }
     
-    input[type="email"]:focus {
+    input[type="email"]:focus,
+    input[type="tel"]:focus {
       outline: none;
       border-color: #0B5C63;
       box-shadow: 0 0 0 3px rgba(11, 92, 99, 0.1);
@@ -104,6 +106,50 @@
       opacity: 0.7;
     }
     
+    .consent-wrapper {
+      margin-bottom: 20px;
+      padding: 16px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .consent-checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    
+    .consent-checkbox input[type="checkbox"] {
+      margin-top: 4px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    
+    .consent-checkbox label {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 400;
+      color: #475569;
+      line-height: 1.5;
+      cursor: pointer;
+    }
+    
+    .consent-checkbox label a {
+      color: #0B5C63;
+      text-decoration: underline;
+    }
+    
+    .signup-fields {
+      display: none;
+    }
+    
+    .signup-fields.active {
+      display: block;
+    }
+    
     .button-group {
       display: flex;
       gap: 10px;
@@ -132,6 +178,11 @@
       box-shadow: 0 4px 12px rgba(11, 92, 99, 0.3);
     }
     
+    #loginBtn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
     #signupBtn {
       background: #f1f5f9;
       color: #0B5C63;
@@ -139,6 +190,44 @@
     
     #signupBtn:hover {
       background: #e2e8f0;
+    }
+    
+    #submitBtn {
+      width: 100%;
+      background: #0B5C63;
+      color: white;
+      display: none;
+      margin-bottom: 12px;
+    }
+    
+    #submitBtn:hover:not(:disabled) {
+      background: #073C40;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(11, 92, 99, 0.3);
+    }
+    
+    #submitBtn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    #submitBtn.active {
+      display: block;
+    }
+    
+    #cancelBtn {
+      width: 100%;
+      background: #f1f5f9;
+      color: #64748b;
+      display: none;
+    }
+    
+    #cancelBtn:hover {
+      background: #e2e8f0;
+    }
+    
+    #cancelBtn.active {
+      display: block;
     }
     
     #msg {
@@ -182,8 +271,8 @@
 </head>
 <body>
   <main>
-    <h1>Member Login</h1>
-    <p>Log in to access forms, mini-courses, and templates.</p>
+    <h1 id="formTitle">Member Login</h1>
+    <p id="formSubtitle">Log in to access forms, mini-courses, and templates.</p>
 
     <label>Email</label>
     <input id="email" type="email" placeholder="your@email.com" />
@@ -196,10 +285,29 @@
       </button>
     </div>
 
-    <div class="button-group">
-      <button id="loginBtn">Log in</button>
-      <button id="signupBtn">Create account</button>
+    <!-- Signup Additional Fields -->
+    <div id="signupFields" class="signup-fields">
+      <label>Phone Number</label>
+      <input id="phone" type="tel" placeholder="(256) 555-1234" />
+
+      <!-- SMS Consent -->
+      <div class="consent-wrapper">
+        <div class="consent-checkbox">
+          <input type="checkbox" id="smsConsent" />
+          <label for="smsConsent">
+            I consent to receive text messages from HREInvestor at 256-242-8207 regarding account notifications, informational messages, and marketing. I understand consent is not required to do business. Message frequency varies. Message & data rates may apply. Reply STOP to opt out or HELP for help. See our <a href="/privacy-policy.html" target="_blank">Privacy Policy</a>.
+          </label>
+        </div>
+      </div>
     </div>
+
+    <div class="button-group" id="buttonGroup">
+      <button id="loginBtn">Log in</button>
+      <button id="signupBtn" type="button">Create account</button>
+    </div>
+
+    <button id="submitBtn" type="button">Create Account</button>
+    <button id="cancelBtn" type="button">Cancel</button>
 
     <div id="msg"></div>
     
@@ -215,10 +323,51 @@
     togglePassword.addEventListener('click', function() {
       const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
       passwordInput.setAttribute('type', type);
-      
-      // Toggle icon
       this.textContent = type === 'password' ? '👁️' : '🙈';
     });
+
+    // Toggle between login and signup mode
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const signupFields = document.getElementById('signupFields');
+    const formTitle = document.getElementById('formTitle');
+    const formSubtitle = document.getElementById('formSubtitle');
+    const buttonGroup = document.getElementById('buttonGroup');
+    const msgDiv = document.getElementById('msg');
+
+    let isSignupMode = false;
+
+    signupBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      isSignupMode = true;
+      signupFields.classList.add('active');
+      submitBtn.classList.add('active');
+      cancelBtn.classList.add('active');
+      buttonGroup.style.display = 'none';
+      formTitle.textContent = 'Create Account';
+      formSubtitle.textContent = 'Sign up to access member resources.';
+      msgDiv.style.display = 'none';
+    });
+
+    cancelBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      isSignupMode = false;
+      signupFields.classList.remove('active');
+      submitBtn.classList.remove('active');
+      cancelBtn.classList.remove('active');
+      buttonGroup.style.display = 'flex';
+      formTitle.textContent = 'Member Login';
+      formSubtitle.textContent = 'Log in to access forms, mini-courses, and templates.';
+      msgDiv.style.display = 'none';
+      // Clear signup fields
+      document.getElementById('phone').value = '';
+      document.getElementById('smsConsent').checked = false;
+    });
+
+    // Note: Actual login/signup logic is handled by login.js
+    // This script only handles UI toggling
   </script>
 </body>
 </html>
