@@ -52,6 +52,30 @@
       outline: none;
       border-color: #0B5C63;
     }
+    /* Password wrapper for toggle button */
+    .password-wrapper {
+      position: relative;
+      width: 100%;
+    }
+    .password-wrapper input {
+      padding-right: 45px;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      cursor: pointer;
+      user-select: none;
+      font-size: 14px;
+      color: #64748b;
+      background: none;
+      border: none;
+      padding: 4px 8px;
+      transition: color 0.2s;
+    }
+    .toggle-password:hover {
+      color: #0B5C63;
+    }
     .btn {
       width: 100%;
       padding: 0.875rem;
@@ -140,7 +164,12 @@
     <input id="email" type="email" placeholder="you@example.com" required />
 
     <label for="password">Password</label>
-    <input id="password" type="password" placeholder="Enter your password" required />
+    <div class="password-wrapper">
+      <input id="password" type="password" placeholder="Enter your password" required />
+      <button type="button" class="toggle-password" id="togglePassword">
+        👁️ Show
+      </button>
+    </div>
 
     <button id="loginBtn" class="btn btn-primary">Log In</button>
 
@@ -156,5 +185,18 @@
   </div>
 
   <script type="module" src="/assets/js/login.js"></script>
+  <script>
+    // Show/Hide Password Toggle
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+
+    togglePassword.addEventListener('click', function() {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      
+      // Toggle button text and icon
+      this.textContent = type === 'password' ? '👁️ Show' : '🙈 Hide';
+    });
+  </script>
 </body>
 </html>
