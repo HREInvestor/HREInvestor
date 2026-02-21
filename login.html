@@ -3,190 +3,64 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Member Login - HREI</title>
+  <title>Member Login</title>
   <link rel="stylesheet" href="/styles.css">
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #0B5C63 0%, #073C40 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .login-container {
-      background: white;
-      max-width: 420px;
-      width: 100%;
-      padding: 2.5rem;
-      border-radius: 1rem;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    }
-    h1 {
-      font-size: 1.75rem;
-      font-weight: 800;
-      color: #0B5C63;
-      margin-bottom: 0.5rem;
-    }
-    p {
-      color: #64748b;
-      margin-bottom: 1.5rem;
-    }
-    label {
-      display: block;
-      font-weight: 600;
-      color: #334155;
-      margin-bottom: 0.5rem;
-      font-size: 0.875rem;
-    }
-    input {
-      width: 100%;
-      padding: 0.75rem;
-      border: 2px solid #e2e8f0;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      margin-bottom: 1rem;
-      transition: border-color 0.2s;
-    }
-    input:focus {
-      outline: none;
-      border-color: #0B5C63;
-    }
-    /* Password wrapper for toggle button */
     .password-wrapper {
       position: relative;
       width: 100%;
     }
     .password-wrapper input {
-      padding-right: 45px;
+      width: 100%;
+      padding: 10px 40px 10px 10px;
+      margin: 6px 0 12px;
     }
     .toggle-password {
       position: absolute;
-      right: 12px;
-      top: 12px;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
       cursor: pointer;
-      user-select: none;
-      font-size: 14px;
-      color: #64748b;
       background: none;
       border: none;
-      padding: 4px 8px;
-      transition: color 0.2s;
+      font-size: 18px;
+      color: #666;
+      padding: 5px;
+      margin-top: -6px;
     }
     .toggle-password:hover {
       color: #0B5C63;
     }
-    .btn {
-      width: 100%;
-      padding: 0.875rem;
-      border: none;
-      border-radius: 0.5rem;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-primary {
-      background: #0B5C63;
-      color: white;
-      margin-bottom: 0.75rem;
-    }
-    .btn-primary:hover {
-      background: #073C40;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(11, 92, 99, 0.3);
-    }
-    .btn-secondary {
-      background: #F59E0B;
-      color: white;
-    }
-    .btn-secondary:hover {
-      background: #D97706;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-    }
-    #msg {
-      margin-top: 1rem;
-      padding: 0.75rem;
-      border-radius: 0.5rem;
-      font-size: 0.875rem;
-      display: none;
-    }
-    #msg.error {
-      background: #fee2e2;
-      color: #991b1b;
-      display: block;
-    }
-    #msg.success {
-      background: #d1fae5;
-      color: #065f46;
-      display: block;
-    }
-    .divider {
-      text-align: center;
-      margin: 1.5rem 0;
-      color: #94a3b8;
-      font-size: 0.875rem;
-      position: relative;
-    }
-    .divider::before,
-    .divider::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      width: 40%;
-      height: 1px;
-      background: #e2e8f0;
-    }
-    .divider::before { left: 0; }
-    .divider::after { right: 0; }
-    .back-link {
-      text-align: center;
-      margin-top: 1.5rem;
-    }
-    .back-link a {
-      color: #0B5C63;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.875rem;
-    }
-    .back-link a:hover {
-      text-decoration: underline;
-    }
   </style>
 </head>
 <body>
-  <div class="login-container">
+  <main style="max-width:520px;margin:40px auto;padding:16px;">
     <h1>Member Login</h1>
-    <p>Access your HREI member dashboard</p>
+    <p>Log in to access forms, mini-courses, and templates.</p>
 
-    <label for="email">Email Address</label>
-    <input id="email" type="email" placeholder="you@example.com" required />
+    <label>Email</label>
+    <input id="email" type="email" style="width:100%;padding:10px;margin:6px 0 12px;" />
 
-    <label for="password">Password</label>
+    <label>Password</label>
     <div class="password-wrapper">
-      <input id="password" type="password" placeholder="Enter your password" required />
-      <button type="button" class="toggle-password" id="togglePassword">
-        👁️ Show
+      <input id="password" type="password" />
+      <button type="button" class="toggle-password" id="togglePassword" aria-label="Toggle password visibility">
+        👁️
       </button>
     </div>
 
-    <button id="loginBtn" class="btn btn-primary">Log In</button>
-
-    <div class="divider">or</div>
-
-    <button id="signupBtn" class="btn btn-secondary">Join HREI (Payment Required)</button>
-
-    <div id="msg"></div>
-
-    <div class="back-link">
-      <a href="/">← Back to main site</a>
+    <div style="display:flex;gap:10px;">
+      <button id="loginBtn" style="padding:10px 14px;">Log in</button>
+      <button id="signupBtn" style="padding:10px 14px;">Create account</button>
     </div>
-  </div>
+
+    <p id="msg" style="margin-top:12px;color:#b00020;"></p>
+    <p style="margin-top:18px;"><a href="/">← Back to site</a></p>
+  </main>
 
   <script type="module" src="/assets/js/login.js"></script>
   <script>
-    // Show/Hide Password Toggle
+    // Toggle password visibility
     const togglePassword = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('password');
 
@@ -194,8 +68,8 @@
       const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
       passwordInput.setAttribute('type', type);
       
-      // Toggle button text and icon
-      this.textContent = type === 'password' ? '👁️ Show' : '🙈 Hide';
+      // Toggle icon
+      this.textContent = type === 'password' ? '👁️' : '🙈';
     });
   </script>
 </body>
