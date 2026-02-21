@@ -37,6 +37,39 @@
       border-color: #0B5C63;
       box-shadow: 0 0 0 3px rgba(11, 92, 99, 0.1);
     }
+    .consent-wrapper {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: #f8fafc;
+      border-radius: 10px;
+      border: 2px solid #e2e8f0;
+    }
+    .consent-checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .consent-checkbox input,[type="checkbox"] {
+      margin-top: 4px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      flex-shrink: 0;
+      accent-color: #0B5C63;
+    }
+    .consent-checkbox label {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 400;
+      color: #475569;
+      line-height: 1.6;
+      cursor: pointer;
+    }
+    .consent-checkbox label a {
+      color: #0B5C63;
+      text-decoration: underline;
+      font-weight: 600;
+    }
     .submit-btn {
       width: 100%;
       padding: 16px;
@@ -206,6 +239,16 @@
                    class="form-input" placeholder="john@example.com">
           </div>
 
+          <!-- SMS Consent Checkbox -->
+          <div class="consent-wrapper">
+            <div class="consent-checkbox">
+              <input type="checkbox" id="smsConsent" name="smsConsent" />
+              <label for="smsConsent">
+                I consent to receive text messages from HREInvestor at 256-242-8207 regarding account notifications, informational messages, and marketing. I understand consent is not required to do business. Message frequency varies. Message & data rates may apply. Reply STOP to opt out or HELP for help. See our <a href="/privacy-policy.html" target="_blank">Privacy Policy</a>.
+              </label>
+            </div>
+          </div>
+
           <!-- Asking Price -->
           <div class="mb-6">
             <label class="block text-sm font-bold text-slate-700 mb-2">Asking Price (Optional)</label>
@@ -264,7 +307,8 @@
       <p class="text-slate-300">© 2026 Huntsville Real Estate Investor LLC. All rights reserved.</p>
       <p class="text-slate-400 text-sm mt-2">
         <a href="index.html" class="hover:text-white transition">Home</a> | 
-        <a href="schedule.html" class="hover:text-white transition ml-2">Schedule Consultation</a>
+        <a href="schedule.html" class="hover:text-white transition ml-2">Schedule Consultation</a> |
+        <a href="privacy-policy.html" class="hover:text-white transition ml-2">Privacy Policy</a>
       </p>
     </div>
   </footer>
@@ -298,6 +342,7 @@
         seller_name: document.getElementById('name').value.trim(),
         seller_phone: document.getElementById('phone').value.trim(),
         seller_email: document.getElementById('email').value.trim(),
+        sms_consent: document.getElementById('smsConsent').checked, // Capture SMS consent
         asking_price: document.getElementById('asking_price').value.trim() || null,
         property_condition: document.getElementById('condition').value || null,
         timeline: document.getElementById('timeline').value || null,
@@ -311,7 +356,7 @@
         // Insert into Supabase 'leads' table
         const { data, error } = await _supabase
           .from('leads')
-          .insert([formData]);
+          .insert(,[formData]);
 
         if (error) throw error;
 
