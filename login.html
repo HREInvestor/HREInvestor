@@ -86,8 +86,10 @@
       box-shadow: 0 8px 25px rgba(11,92,99,0.4);
     }
 
-    .btn-primary:active {
-      transform: translateY(0);
+    .btn-primary:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
     }
 
     .btn-secondary {
@@ -215,7 +217,7 @@
         <div class="mb-6">
           <div class="flex justify-between items-center mb-2">
             <label class="text-sm font-semibold text-slate-700">Password</label>
-            <a href="#" onclick="handleForgotPassword()" class="text-sm text-brand hover:text-brand-dark font-semibold transition">Forgot password?</a>
+            <a href="#" onclick="handleForgotPassword(); return false;" class="text-sm text-brand hover:text-brand-dark font-semibold transition">Forgot password?</a>
           </div>
           <div class="relative">
             <input
@@ -250,7 +252,7 @@
       <div class="divider my-5">or</div>
 
       <!-- Create Account -->
-      <button onclick="handleSignup()" id="signupBtn" class="btn-secondary mb-6">
+      <button onclick="handleSignup()" class="btn-secondary mb-6">
         Create an Account
       </button>
 
@@ -274,9 +276,10 @@
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-    const SUPABASE_URL = 'https://your-project.supabase.co';
-    const SUPABASE_ANON_KEY = 'your-anon-key';
-    const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // ✅ LIVE SUPABASE CREDENTIALS
+	const SUPABASE_URL = 'https://lmivqwscebdupfxxwfcc.supabase.co';
+	const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-	j9Rrz1HRoGNaqicMJ8jEwO1tVuCqbf9E9J3vuv4';
+        const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // Show/hide messages
     function showError(msg) {
@@ -298,7 +301,6 @@
       const text = document.getElementById('loginBtnText');
       btn.disabled = loading;
       text.textContent = loading ? 'Signing in...' : 'Sign In →';
-      btn.style.opacity = loading ? '0.7' : '1';
     }
 
     // Login handler
@@ -317,8 +319,8 @@
         return;
       }
 
-      showSuccess('Login successful! Redirecting...');
-      setTimeout(() => { window.location.href = '/members/index.html'; }, 1000);
+      showSuccess('Login successful! Redirecting to your dashboard...');
+      setTimeout(() => { window.location.href = '/members/index.html'; }, 1200);
     };
 
     // Signup handler
@@ -350,7 +352,7 @@
       const email = document.getElementById('email').value.trim();
 
       if (!email) {
-        showError('Please enter your email address first.');
+        showError('Please enter your email address above first.');
         return;
       }
 
@@ -372,7 +374,7 @@
       input.type = input.type === 'password' ? 'text' : 'password';
     };
 
-    // Check if already logged in
+    // Check if already logged in — skip login screen
     const { data: { session } } = await _supabase.auth.getSession();
     if (session) {
       window.location.href = '/members/index.html';
