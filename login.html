@@ -6,6 +6,7 @@
   <title>Member Login — HREI</title>
   <link rel="icon" type="image/jpeg" href="assets/hrei-logo.jpg">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -57,6 +58,7 @@
       transition: all 0.2s ease;
       outline: none;
       background: #f8fafc;
+      box-sizing: border-box;
     }
 
     .input-field:focus {
@@ -198,7 +200,7 @@
       <div id="successMsg" class="success-msg mb-4"></div>
 
       <!-- Login Form -->
-      <form id="loginForm" onsubmit="handleLogin(event)">
+      <form id="loginForm">
 
         <!-- Email -->
         <div class="mb-5">
@@ -217,23 +219,24 @@
         <div class="mb-6">
           <div class="flex justify-between items-center mb-2">
             <label class="text-sm font-semibold text-slate-700">Password</label>
-            <a href="#" onclick="handleForgotPassword(); return false;" class="text-sm text-brand hover:text-brand-dark font-semibold transition">Forgot password?</a>
+            <a href="#" id="forgotLink" class="text-sm font-semibold transition" style="color:#0B5C63;">Forgot password?</a>
           </div>
           <div class="relative">
             <input
               id="password"
               type="password"
-              class="input-field pr-12"
+              class="input-field"
+              style="padding-right: 48px;"
               placeholder="••••••••"
               required
               autocomplete="current-password"
             />
             <button
               type="button"
-              onclick="togglePassword()"
+              id="togglePwBtn"
               class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
             >
-              <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
               </svg>
@@ -243,7 +246,7 @@
 
         <!-- Login Button -->
         <button type="submit" id="loginBtn" class="btn-primary mb-4">
-          <span id="loginBtnText">Sign In →</span>
+          Sign In →
         </button>
 
       </form>
@@ -252,7 +255,7 @@
       <div class="divider my-5">or</div>
 
       <!-- Create Account -->
-      <button onclick="handleSignup()" class="btn-secondary mb-6">
+      <button id="signupBtn" class="btn-secondary mb-6">
         Create an Account
       </button>
 
@@ -273,15 +276,13 @@
     </div>
   </div>
 
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  <script>
+    // ✅ LIVE SUPABASE CREDENTIALS — Same method as crm.html
+    const SUPABASE_URL = 'https://lmivqwscebdupfxxwfcc.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuCqbf9E9J3vuv4';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // ✅ LIVE SUPABASE CREDENTIALS
-	const SUPABASE_URL = 'https://lmivqwscebdupfxxwfcc.supabase.co';
-	const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuCqbf9E9J3vuv4';
-        const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    // Show/hide messages
+    // Helper functions
     function showError(msg) {
       const el = document.getElementById('errorMsg');
       el.textContent = msg;
@@ -298,17 +299,15 @@
 
     function setLoading(loading) {
       const btn = document.getElementById('loginBtn');
-      const text = document.getElementById('loginBtnText');
       btn.disabled = loading;
-      text.textContent = loading ? 'Signing in...' : 'Sign In →';
+      btn.textContent = loading ? 'Signing in...' : 'Sign In →';
     }
 
-    // Login handler
-    window.handleLogin = async function(e) {
+    // Login
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
-
       setLoading(true);
 
       const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
@@ -321,10 +320,10 @@
 
       showSuccess('Login successful! Redirecting to your dashboard...');
       setTimeout(() => { window.location.href = '/members/index.html'; }, 1200);
-    };
+    });
 
-    // Signup handler
-    window.handleSignup = async function() {
+    // Signup
+    document.getElementById('signupBtn').addEventListener('click', async function() {
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
 
@@ -334,7 +333,6 @@
       }
 
       setLoading(true);
-
       const { data, error } = await _supabase.auth.signUp({ email, password });
 
       if (error) {
@@ -345,10 +343,11 @@
 
       showSuccess('Account created! Please check your email to confirm your account.');
       setLoading(false);
-    };
+    });
 
-    // Forgot password handler
-    window.handleForgotPassword = async function() {
+    // Forgot Password
+    document.getElementById('forgotLink').addEventListener('click', async function(e) {
+      e.preventDefault();
       const email = document.getElementById('email').value.trim();
 
       if (!email) {
@@ -366,19 +365,20 @@
       }
 
       showSuccess('Password reset email sent! Check your inbox.');
-    };
+    });
 
     // Toggle password visibility
-    window.togglePassword = function() {
+    document.getElementById('togglePwBtn').addEventListener('click', function() {
       const input = document.getElementById('password');
       input.type = input.type === 'password' ? 'text' : 'password';
-    };
+    });
 
-    // Check if already logged in — skip login screen
-    const { data: { session } } = await _supabase.auth.getSession();
-    if (session) {
-      window.location.href = '/members/index.html';
-    }
+    // Check if already logged in
+    _supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        window.location.href = '/members/index.html';
+      }
+    });
   </script>
 
 </body>
