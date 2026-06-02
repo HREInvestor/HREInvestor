@@ -27,8 +27,7 @@
       min-height: 100vh;
       background: linear-gradient(180deg, #073C40 0%, #0B5C63 100%);
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       z-index: 50;
       display: flex;
       flex-direction: column;
@@ -48,12 +47,10 @@
       font-size: 0.95rem;
       transition: all 0.2s ease;
     }
-
     .sidebar-link:hover, .sidebar-link.active {
       background: rgba(255,255,255,0.15);
       color: white;
     }
-
     .sidebar-link.active {
       background: rgba(245,158,11,0.2);
       color: #F59E0B;
@@ -74,7 +71,6 @@
       border: 1px solid #e2e8f0;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-
     .stat-card:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 25px rgba(0,0,0,0.1);
@@ -95,38 +91,28 @@
       position: relative;
       overflow: hidden;
     }
-
     .nav-card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 100%;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
       background: #0B5C63;
       transform: scaleY(0);
       transition: transform 0.2s ease;
     }
-
     .nav-card:hover {
       transform: translateY(-3px);
       box-shadow: 0 12px 30px rgba(11,92,99,0.15);
       border-color: #0B5C63;
     }
-
-    .nav-card:hover::before {
-      transform: scaleY(1);
-    }
-
+    .nav-card:hover::before { transform: scaleY(1); }
     .nav-card .icon {
       font-size: 2rem;
-      width: 52px;
-      height: 52px;
+      width: 52px; height: 52px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 12px;
-      background: #f0fdf4;
     }
 
     .welcome-banner {
@@ -137,45 +123,21 @@
       position: relative;
       overflow: hidden;
     }
-
     .welcome-banner::before {
       content: '';
       position: absolute;
-      top: -40%;
-      right: -10%;
-      width: 300px;
-      height: 300px;
+      top: -40%; right: -10%;
+      width: 300px; height: 300px;
       border-radius: 50%;
       background: rgba(255,255,255,0.05);
       pointer-events: none;
     }
 
-    .welcome-banner::after {
-      content: '';
-      position: absolute;
-      bottom: -50%;
-      right: 15%;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: rgba(245,158,11,0.08);
-      pointer-events: none;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 600;
-    }
-
-    .badge-green { background: #dcfce7; color: #16a34a; }
-    .badge-amber { background: #fef3c7; color: #d97706; }
-    .badge-blue  { background: #dbeafe; color: #2563eb; }
-    .badge-red   { background: #fee2e2; color: #dc2626; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; font-size: 0.78rem; font-weight: 600; }
+    .badge-green  { background: #dcfce7; color: #16a34a; }
+    .badge-amber  { background: #fef3c7; color: #d97706; }
+    .badge-blue   { background: #dbeafe; color: #2563eb; }
+    .badge-red    { background: #fee2e2; color: #dc2626; }
 
     .table-row:hover { background: #f8fafc; }
 
@@ -193,7 +155,6 @@
       top: 0;
       z-index: 40;
     }
-
     @media (max-width: 768px) {
       .mobile-header { display: flex; align-items: center; justify-content: space-between; }
     }
@@ -201,7 +162,7 @@
 </head>
 <body>
 
-  <!-- Auth Guard -->
+  <!-- ✅ auth-guard.js uses sessionStorage — must be set by login.html before arriving here -->
   <script src="../assets/js/auth-guard.js"></script>
 
   <!-- Mobile Header -->
@@ -216,52 +177,24 @@
 
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
-
-    <!-- Logo -->
     <div class="p-6 border-b border-white/10">
-      <a href="/">
-        <img src="../assets/hrei-logo.jpg" alt="HREI Logo" class="h-12 rounded-xl shadow-md">
-      </a>
+      <a href="/"><img src="../assets/hrei-logo.jpg" alt="HREI Logo" class="h-12 rounded-xl shadow-md"></a>
       <p class="text-white/60 text-xs mt-3 font-medium uppercase tracking-wider">Members Portal</p>
     </div>
 
-    <!-- Nav Links -->
     <nav class="flex-1 py-6 overflow-y-auto">
       <p class="text-white/40 text-xs font-semibold uppercase tracking-widest px-6 mb-3">Main</p>
-
-      <a href="index.html" class="sidebar-link active">
-        <span>🏠</span> Dashboard
-      </a>
-      <a href="jobs.html" class="sidebar-link">
-        <span>🔨</span> Job Board
-      </a>
-      <a href="schedule.html" class="sidebar-link">
-        <span>📅</span> My Schedule
-      </a>
-      <a href="leads.html" class="sidebar-link">
-        <span>🎯</span> Leads
-      </a>
+      <a href="index.html" class="sidebar-link active"><span>🏠</span> Dashboard</a>
+      <a href="jobs.html" class="sidebar-link"><span>🔨</span> Job Board</a>
+      <a href="schedule.html" class="sidebar-link"><span>📅</span> My Schedule</a>
+      <a href="leads.html" class="sidebar-link"><span>🎯</span> Leads</a>
 
       <p class="text-white/40 text-xs font-semibold uppercase tracking-widest px-6 mb-3 mt-6">Resources</p>
-
-      <a href="crm.html" class="sidebar-link">
-        <span>📊</span> CRM
-      </a>
-      <a href="forms.html" class="sidebar-link">
-        <span>📁</span> Forms Library
-      </a>
-      <a href="payments.html" class="sidebar-link">
-        <span>💳</span> Payments
-      </a>
-
-      <p class="text-white/40 text-xs font-semibold uppercase tracking-widest px-6 mb-3 mt-6">Admin</p>
-
-      <a href="admin/index.html" class="sidebar-link">
-        <span>⚙️</span> Admin Panel
-      </a>
+      <a href="crm.html" class="sidebar-link"><span>📊</span> CRM</a>
+      <a href="forms.html" class="sidebar-link"><span>📁</span> Forms Library</a>
+      <a href="payments.html" class="sidebar-link"><span>💳</span> Payments</a>
     </nav>
 
-    <!-- User Info + Logout -->
     <div class="p-5 border-t border-white/10">
       <div class="flex items-center gap-3 mb-4">
         <div class="w-9 h-9 rounded-full bg-amber-400 flex items-center justify-center text-white font-bold text-sm" id="avatarInitial">?</div>
@@ -274,125 +207,96 @@
         🚪 Sign Out
       </button>
     </div>
-
   </aside>
 
   <!-- Main Content -->
   <main class="main-content">
 
     <!-- Welcome Banner -->
-    <div class="welcome-banner mb-8 relative z-10">
+    <div class="welcome-banner mb-8">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <p class="text-amber-400 font-semibold text-sm mb-1">👋 Welcome back,</p>
-          <h1 class="text-3xl font-extrabold text-white mb-2" id="welcomeName">Loading...</h1>
+          <h1 class="text-3xl font-extrabold text-white mb-2" id="welcomeName">Member</h1>
           <p class="text-white/70 text-sm">Here's what's happening with your HREI account today.</p>
         </div>
         <div class="flex gap-3 flex-wrap">
-          <a href="jobs.html" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-5 py-3 rounded-xl text-sm transition shadow-lg">
-            🔨 View Jobs
-          </a>
-          <a href="leads.html" class="bg-white/15 hover:bg-white/25 text-white font-semibold px-5 py-3 rounded-xl text-sm transition border border-white/20">
-            🎯 View Leads
-          </a>
+          <a href="jobs.html" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-5 py-3 rounded-xl text-sm transition shadow-lg">🔨 View Jobs</a>
+          <a href="leads.html" class="bg-white/15 hover:bg-white/25 text-white font-semibold px-5 py-3 rounded-xl text-sm transition border border-white/20">🎯 View Leads</a>
         </div>
       </div>
     </div>
 
     <!-- Stats Row -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-
       <div class="stat-card">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-2xl">🔨</span>
-          <span class="badge badge-green">Live</span>
-        </div>
-        <p class="text-3xl font-extrabold text-slate-800" id="statJobs">—</p>
+        <div class="flex items-center justify-between mb-3"><span class="text-2xl">🔨</span><span class="badge badge-green">Live</span></div>
+        <p class="text-3xl font-extrabold text-slate-800">—</p>
         <p class="text-slate-500 text-sm mt-1 font-medium">Jobs Available</p>
       </div>
-
       <div class="stat-card">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-2xl">🎯</span>
-          <span class="badge badge-amber">Active</span>
-        </div>
+        <div class="flex items-center justify-between mb-3"><span class="text-2xl">🎯</span><span class="badge badge-amber">Active</span></div>
         <p class="text-3xl font-extrabold text-slate-800" id="statLeads">—</p>
         <p class="text-slate-500 text-sm mt-1 font-medium">Total Leads</p>
       </div>
-
       <div class="stat-card">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-2xl">📅</span>
-          <span class="badge badge-blue">Upcoming</span>
-        </div>
+        <div class="flex items-center justify-between mb-3"><span class="text-2xl">📅</span><span class="badge badge-blue">Upcoming</span></div>
         <p class="text-3xl font-extrabold text-slate-800" id="statScheduled">—</p>
         <p class="text-slate-500 text-sm mt-1 font-medium">Scheduled Jobs</p>
       </div>
-
       <div class="stat-card">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-2xl">✅</span>
-          <span class="badge badge-green">Done</span>
-        </div>
+        <div class="flex items-center justify-between mb-3"><span class="text-2xl">✅</span><span class="badge badge-green">Done</span></div>
         <p class="text-3xl font-extrabold text-slate-800" id="statComplete">—</p>
         <p class="text-slate-500 text-sm mt-1 font-medium">Completed Jobs</p>
       </div>
-
     </div>
 
     <!-- Quick Access Cards -->
     <h2 class="text-xl font-bold text-slate-800 mb-4">Quick Access</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
-
       <a href="jobs.html" class="nav-card">
         <div class="icon" style="background:#f0fdf4;">🔨</div>
         <p class="text-lg font-bold text-slate-800">Job Board</p>
         <p class="text-slate-500 text-sm">Browse and claim available jobs</p>
-        <span class="text-brand font-semibold text-sm mt-1">View Jobs →</span>
+        <span class="text-sm font-semibold mt-1" style="color:#0B5C63;">View Jobs →</span>
       </a>
-
       <a href="schedule.html" class="nav-card">
         <div class="icon" style="background:#eff6ff;">📅</div>
         <p class="text-lg font-bold text-slate-800">My Schedule</p>
         <p class="text-slate-500 text-sm">View your assigned job calendar</p>
-        <span class="text-brand font-semibold text-sm mt-1">Open Calendar →</span>
+        <span class="text-sm font-semibold mt-1" style="color:#0B5C63;">Open Calendar →</span>
       </a>
-
       <a href="leads.html" class="nav-card">
         <div class="icon" style="background:#fefce8;">🎯</div>
         <p class="text-lg font-bold text-slate-800">Leads</p>
         <p class="text-slate-500 text-sm">Manage and track your leads</p>
-        <span class="text-brand font-semibold text-sm mt-1">View Leads →</span>
+        <span class="text-sm font-semibold mt-1" style="color:#0B5C63;">View Leads →</span>
       </a>
-
       <a href="crm.html" class="nav-card">
         <div class="icon" style="background:#fdf4ff;">📊</div>
         <p class="text-lg font-bold text-slate-800">CRM</p>
         <p class="text-slate-500 text-sm">Full lead management system</p>
-        <span class="text-brand font-semibold text-sm mt-1">Open CRM →</span>
+        <span class="text-sm font-semibold mt-1" style="color:#0B5C63;">Open CRM →</span>
       </a>
-
       <a href="forms.html" class="nav-card">
         <div class="icon" style="background:#fff7ed;">📁</div>
         <p class="text-lg font-bold text-slate-800">Forms Library</p>
         <p class="text-slate-500 text-sm">Alabama real estate PDF forms</p>
-        <span class="text-brand font-semibold text-sm mt-1">Browse Forms →</span>
+        <span class="text-sm font-semibold mt-1" style="color:#0B5C63;">Browse Forms →</span>
       </a>
-
       <a href="payments.html" class="nav-card">
         <div class="icon" style="background:#f0fdf4;">💳</div>
         <p class="text-lg font-bold text-slate-800">Payments</p>
         <p class="text-slate-500 text-sm">Subscription & earnings tracker</p>
-        <span class="text-brand font-semibold text-sm mt-1">View Payments →</span>
+        <span class="text-sm font-semibold mt-1" style="color:#0B5C63;">View Payments →</span>
       </a>
-
     </div>
 
     <!-- Recent Leads Table -->
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
       <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100">
         <h2 class="text-lg font-bold text-slate-800">🎯 Recent Leads</h2>
-        <a href="crm.html" class="text-brand font-semibold text-sm hover:underline">View All →</a>
+        <a href="crm.html" class="font-semibold text-sm hover:underline" style="color:#0B5C63;">View All →</a>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
@@ -406,107 +310,104 @@
             </tr>
           </thead>
           <tbody id="recentLeadsBody">
-            <tr>
-              <td colspan="5" class="px-6 py-8 text-center text-slate-400">Loading leads...</td>
-            </tr>
+            <tr><td colspan="5" class="px-6 py-8 text-center text-slate-400">Loading leads...</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Footer -->
     <div class="text-center text-slate-400 text-xs pb-6">
-      © 2025 Huntsville Real Estate Investors · <a href="/" class="hover:text-brand transition">Back to Website</a>
+      © 2025 Huntsville Real Estate Investors · <a href="/" class="hover:underline">Back to Website</a>
     </div>
 
   </main>
 
   <script>
-    // ✅ LIVE SUPABASE CREDENTIALS
     const SUPABASE_URL = 'https://lmivqwscebdupfxxwfcc.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuCqbf9E9J3vuv4';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Status badge helper
     function statusBadge(status) {
       const map = {
-        'new':           '<span class="badge badge-blue">New</span>',
-        'contacted':     '<span class="badge badge-amber">Contacted</span>',
-        'qualified':     '<span class="badge badge-green">Qualified</span>',
-        'under contract':'<span class="badge badge-green">Under Contract</span>',
-        'converted':     '<span class="badge badge-green">Converted</span>',
-        'dead':          '<span class="badge badge-red">Dead</span>',
+        'new':            '<span class="badge badge-blue">New</span>',
+        'contacted':      '<span class="badge badge-amber">Contacted</span>',
+        'qualified':      '<span class="badge badge-green">Qualified</span>',
+        'under contract': '<span class="badge badge-green">Under Contract</span>',
+        'converted':      '<span class="badge badge-green">Converted</span>',
+        'dead':           '<span class="badge badge-red">Dead</span>',
       };
       return map[(status || '').toLowerCase()] || `<span class="badge badge-blue">${status || 'New'}</span>`;
     }
 
-    // Format currency
     function formatCurrency(val) {
       if (!val) return '—';
       return '$' + Number(val).toLocaleString();
     }
 
-    // Format date
     function formatDate(val) {
       if (!val) return '—';
       return new Date(val).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     }
 
     async function initDashboard() {
-      // Get current user
-      const { data: { session } } = await _supabase.auth.getSession();
-      if (!session) {
-        window.location.href = '/login.html';
-        return;
-      }
+      // ✅ Use Supabase to get user info for display ONLY — no redirect logic here
+      // auth-guard.js already handled the sessionStorage check above
+      try {
+        const { data: { user } } = await _supabase.auth.getUser();
 
-      const email = session.user.email;
-      const initial = email.charAt(0).toUpperCase();
-
-      document.getElementById('welcomeName').textContent = email.split('@')[0];
-      document.getElementById('sidebarEmail').textContent = email;
-      document.getElementById('avatarInitial').textContent = initial;
-
-      // Load leads
-      const { data: leads, error } = await _supabase
-        .from('leads')
-        .select('*')
-        .order('id', { ascending: false });
-
-      if (!error && leads) {
-        // Stats
-        document.getElementById('statLeads').textContent = leads.length;
-
-        const scheduled = leads.filter(l => (l.status || '').toLowerCase() === 'under contract').length;
-        const complete  = leads.filter(l => (l.status || '').toLowerCase() === 'converted').length;
-        document.getElementById('statScheduled').textContent = scheduled;
-        document.getElementById('statComplete').textContent = complete;
-
-        // Recent leads table (last 5)
-        const recent = leads.slice(0, 5);
-        const tbody = document.getElementById('recentLeadsBody');
-
-        if (recent.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-slate-400">No leads yet.</td></tr>';
-        } else {
-          tbody.innerHTML = recent.map(lead => `
-            <tr class="table-row border-t border-slate-100 transition">
-              <td class="px-6 py-4 font-semibold text-slate-800">${lead.seller_name || lead.name || '—'}</td>
-              <td class="px-6 py-4 text-slate-600">${lead.property_address || lead.address || '—'}</td>
-              <td class="px-6 py-4">${statusBadge(lead.status)}</td>
-              <td class="px-6 py-4 text-slate-700 font-medium">${formatCurrency(lead.asking_price)}</td>
-              <td class="px-6 py-4 text-slate-500">${formatDate(lead.created_at)}</td>
-            </tr>
-          `).join('');
+        if (user && user.email) {
+          const email = user.email;
+          document.getElementById('welcomeName').textContent = email.split('@')[0];
+          document.getElementById('sidebarEmail').textContent = email;
+          document.getElementById('avatarInitial').textContent = email.charAt(0).toUpperCase();
         }
+      } catch(e) {
+        // Supabase session unavailable — still show page since sessionStorage passed
+        console.warn('Could not fetch Supabase user:', e);
       }
 
-      // Jobs stats (placeholder — update when jobs table exists)
-      document.getElementById('statJobs').textContent = '—';
+      // Load leads from Supabase
+      try {
+        const { data: leads, error } = await _supabase
+          .from('leads')
+          .select('*')
+          .order('id', { ascending: false });
+
+        if (!error && leads) {
+          document.getElementById('statLeads').textContent = leads.length;
+
+          const scheduled = leads.filter(l => (l.status || '').toLowerCase() === 'under contract').length;
+          const complete  = leads.filter(l => (l.status || '').toLowerCase() === 'converted').length;
+          document.getElementById('statScheduled').textContent = scheduled;
+          document.getElementById('statComplete').textContent = complete;
+
+          const recent = leads.slice(0, 5);
+          const tbody = document.getElementById('recentLeadsBody');
+
+          if (recent.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-slate-400">No leads yet.</td></tr>';
+          } else {
+            tbody.innerHTML = recent.map(lead => `
+              <tr class="table-row border-t border-slate-100 transition">
+                <td class="px-6 py-4 font-semibold text-slate-800">${lead.seller_name || lead.name || '—'}</td>
+                <td class="px-6 py-4 text-slate-600">${lead.property_address || lead.address || '—'}</td>
+                <td class="px-6 py-4">${statusBadge(lead.status)}</td>
+                <td class="px-6 py-4 text-slate-700 font-medium">${formatCurrency(lead.asking_price)}</td>
+                <td class="px-6 py-4 text-slate-500">${formatDate(lead.created_at)}</td>
+              </tr>
+            `).join('');
+          }
+        }
+      } catch(e) {
+        console.warn('Could not load leads:', e);
+        document.getElementById('recentLeadsBody').innerHTML =
+          '<tr><td colspan="5" class="px-6 py-8 text-center text-slate-400">Could not load leads.</td></tr>';
+      }
     }
 
-    // Logout
+    // ✅ Logout — clear sessionStorage AND Supabase session
     document.getElementById('logoutBtn').addEventListener('click', async () => {
+      sessionStorage.removeItem('user-is-logged-in');
       await _supabase.auth.signOut();
       window.location.href = '/login.html';
     });
@@ -516,7 +417,7 @@
       document.getElementById('sidebar').classList.toggle('open');
     });
 
-    // Init
+    // Run dashboard
     initDashboard();
   </script>
 
