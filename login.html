@@ -1,373 +1,383 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Member Login</title>
-  <link rel="stylesheet" href="/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Member Login — HREI</title>
+  <link rel="icon" type="image/jpeg" href="assets/hrei-logo.jpg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { DEFAULT: '#0B5C63', dark: '#073C40', accent: '#F59E0B' }
+          }
+        }
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #0B5C63 0%, #073C40 100%);
+    body { font-family: 'Inter', sans-serif; }
+
+    .login-bg {
       min-height: 100vh;
+      background: linear-gradient(135deg, #073C40 0%, #0B5C63 60%, #0e7a84 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-bg::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 40%, rgba(245,158,11,0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 80%, rgba(255,255,255,0.04) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    .login-card {
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s ease;
+      outline: none;
+      background: #f8fafc;
+    }
+
+    .input-field:focus {
+      border-color: #0B5C63;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(11,92,99,0.1);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 15px;
+      background: #0B5C63;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(11,92,99,0.3);
+    }
+
+    .btn-primary:hover {
+      background: #073C40;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(11,92,99,0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 15px;
+      background: transparent;
+      color: #0B5C63;
+      border: 2px solid #0B5C63;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: #0B5C63;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .divider {
       display: flex;
       align-items: center;
-      justify-content: center;
-      margin: 0;
-      padding: 16px;
+      gap: 12px;
+      color: #94a3b8;
+      font-size: 0.9rem;
     }
-    
-    main {
-      background: white;
-      max-width: 480px;
-      width: 100%;
-      padding: 40px 32px;
-      border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    }
-    
-    h1 {
-      margin: 0 0 8px;
-      font-size: 28px;
-      font-weight: 800;
-      color: #0B5C63;
-    }
-    
-    p {
-      margin: 0 0 24px;
-      color: #64748b;
-      font-size: 15px;
-    }
-    
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #334155;
-      font-size: 14px;
-    }
-    
-    input[type="email"],
-    input[type="tel"] {
-      width: 100%;
-      padding: 12px 14px;
-      margin-bottom: 16px;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 15px;
-      transition: all 0.2s;
-      box-sizing: border-box;
-    }
-    
-    input[type="email"]:focus,
-    input[type="tel"]:focus {
-      outline: none;
-      border-color: #0B5C63;
-      box-shadow: 0 0 0 3px rgba(11, 92, 99, 0.1);
-    }
-    
-    .password-wrapper {
-      position: relative;
-      width: 100%;
-      margin-bottom: 20px;
-    }
-    
-    .password-wrapper input {
-      width: 100%;
-      padding: 12px 45px 12px 14px;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 15px;
-      transition: all 0.2s;
-      box-sizing: border-box;
-    }
-    
-    .password-wrapper input:focus {
-      outline: none;
-      border-color: #0B5C63;
-      box-shadow: 0 0 0 3px rgba(11, 92, 99, 0.1);
-    }
-    
-    .toggle-password {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      background: none;
-      border: none;
-      font-size: 20px;
-      padding: 8px;
-      line-height: 1;
-      transition: opacity 0.2s;
-    }
-    
-    .toggle-password:hover {
-      opacity: 0.7;
-    }
-    
-    .consent-wrapper {
-      margin-bottom: 20px;
-      padding: 16px;
-      background: #f8fafc;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-    }
-    
-    .consent-checkbox {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-    
-    .consent-checkbox input[type="checkbox"] {
-      margin-top: 4px;
-      width: 18px;
-      height: 18px;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-    
-    .consent-checkbox label {
-      margin: 0;
-      font-size: 13px;
-      font-weight: 400;
-      color: #475569;
-      line-height: 1.5;
-      cursor: pointer;
-    }
-    
-    .consent-checkbox label a {
-      color: #0B5C63;
-      text-decoration: underline;
-    }
-    
-    .signup-fields {
-      display: none;
-    }
-    
-    .signup-fields.active {
-      display: block;
-    }
-    
-    .button-group {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    
-    button {
+
+    .divider::before,
+    .divider::after {
+      content: '';
       flex: 1;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    #loginBtn {
-      background: #0B5C63;
-      color: white;
-    }
-    
-    #loginBtn:hover {
-      background: #073C40;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(11, 92, 99, 0.3);
-    }
-    
-    #loginBtn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    
-    #signupBtn {
-      background: #f1f5f9;
-      color: #0B5C63;
-    }
-    
-    #signupBtn:hover {
+      height: 1px;
       background: #e2e8f0;
     }
-    
-    #submitBtn {
-      width: 100%;
-      background: #0B5C63;
-      color: white;
-      display: none;
-      margin-bottom: 12px;
-    }
-    
-    #submitBtn:hover:not(:disabled) {
-      background: #073C40;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(11, 92, 99, 0.3);
-    }
-    
-    #submitBtn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    
-    #submitBtn.active {
-      display: block;
-    }
-    
-    #cancelBtn {
-      width: 100%;
-      background: #f1f5f9;
-      color: #64748b;
+
+    .error-msg {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #dc2626;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.9rem;
       display: none;
     }
-    
-    #cancelBtn:hover {
-      background: #e2e8f0;
-    }
-    
-    #cancelBtn.active {
-      display: block;
-    }
-    
-    #msg {
-      margin: 16px 0;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 14px;
+
+    .success-msg {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #16a34a;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.9rem;
       display: none;
     }
-    
-    #msg.error {
-      display: block;
-      background: #fee;
-      color: #b00020;
-      border: 1px solid #fcc;
+
+    .floating-shape {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.06;
+      background: white;
+      pointer-events: none;
     }
-    
-    #msg.success {
-      display: block;
-      background: #efe;
-      color: #0a6;
-      border: 1px solid #cfc;
-    }
-    
-    .back-link {
-      text-align: center;
-      margin-top: 20px;
-    }
-    
-    .back-link a {
-      color: #0B5C63;
-      text-decoration: none;
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245,158,11,0.15);
+      color: #F59E0B;
+      border: 1px solid rgba(245,158,11,0.3);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.8rem;
       font-weight: 600;
-      font-size: 14px;
-    }
-    
-    .back-link a:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <main>
-    <h1 id="formTitle">Member Login</h1>
-    <p id="formSubtitle">Log in to access forms, mini-courses, and templates.</p>
 
-    <label>Email</label>
-    <input id="email" type="email" placeholder="your@email.com" />
+  <div class="login-bg flex items-center justify-center px-4 py-12">
 
-    <label>Password</label>
-    <div class="password-wrapper">
-      <input id="password" type="password" placeholder="Enter your password" />
-      <button type="button" class="toggle-password" id="togglePassword" aria-label="Toggle password visibility">
-        👁️
-      </button>
-    </div>
+    <!-- Decorative floating shapes -->
+    <div class="floating-shape" style="width:400px;height:400px;top:-100px;right:-100px;"></div>
+    <div class="floating-shape" style="width:250px;height:250px;bottom:-50px;left:-80px;"></div>
+    <div class="floating-shape" style="width:150px;height:150px;top:40%;left:5%;"></div>
 
-    <!-- Signup Additional Fields -->
-    <div id="signupFields" class="signup-fields">
-      <label>Phone Number</label>
-      <input id="phone" type="tel" placeholder="(256) 555-1234" />
+    <div class="login-card w-full max-w-md p-10 relative z-10">
 
-      <!-- SMS Consent -->
-      <div class="consent-wrapper">
-        <div class="consent-checkbox">
-          <input type="checkbox" id="smsConsent" />
-          <label for="smsConsent">
-            I consent to receive text messages from HREInvestor at 256-242-8207 regarding account notifications, informational messages, and marketing. I understand consent is not required to do business. Message frequency varies. Message & data rates may apply. Reply STOP to opt out or HELP for help. See our <a href="/privacy-policy.html" target="_blank">Privacy Policy</a>.
-          </label>
+      <!-- Logo & Header -->
+      <div class="text-center mb-8">
+        <a href="/">
+          <img src="assets/hrei-logo.jpg" alt="HREI Logo" class="h-16 w-auto mx-auto rounded-xl shadow-md mb-4">
+        </a>
+        <div class="flex justify-center mb-3">
+          <span class="badge-pill">🔐 Members Only</span>
         </div>
+        <h1 class="text-3xl font-extrabold text-slate-800">Welcome Back</h1>
+        <p class="text-slate-500 mt-2">Sign in to access your HREI dashboard</p>
       </div>
+
+      <!-- Error / Success Messages -->
+      <div id="errorMsg" class="error-msg mb-4"></div>
+      <div id="successMsg" class="success-msg mb-4"></div>
+
+      <!-- Login Form -->
+      <form id="loginForm" onsubmit="handleLogin(event)">
+
+        <!-- Email -->
+        <div class="mb-5">
+          <label class="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
+          <input
+            id="email"
+            type="email"
+            class="input-field"
+            placeholder="you@example.com"
+            required
+            autocomplete="email"
+          />
+        </div>
+
+        <!-- Password -->
+        <div class="mb-6">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-sm font-semibold text-slate-700">Password</label>
+            <a href="#" onclick="handleForgotPassword()" class="text-sm text-brand hover:text-brand-dark font-semibold transition">Forgot password?</a>
+          </div>
+          <div class="relative">
+            <input
+              id="password"
+              type="password"
+              class="input-field pr-12"
+              placeholder="••••••••"
+              required
+              autocomplete="current-password"
+            />
+            <button
+              type="button"
+              onclick="togglePassword()"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
+            >
+              <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Login Button -->
+        <button type="submit" id="loginBtn" class="btn-primary mb-4">
+          <span id="loginBtnText">Sign In →</span>
+        </button>
+
+      </form>
+
+      <!-- Divider -->
+      <div class="divider my-5">or</div>
+
+      <!-- Create Account -->
+      <button onclick="handleSignup()" id="signupBtn" class="btn-secondary mb-6">
+        Create an Account
+      </button>
+
+      <!-- Back to Site -->
+      <div class="text-center">
+        <a href="/" class="text-sm text-slate-500 hover:text-brand transition font-medium">
+          ← Back to HREI Website
+        </a>
+      </div>
+
+      <!-- Trust Badges -->
+      <div class="mt-8 pt-6 border-t border-slate-100 flex justify-center gap-6 text-xs text-slate-400">
+        <span class="flex items-center gap-1">🔒 Secure Login</span>
+        <span class="flex items-center gap-1">🛡️ Data Protected</span>
+        <span class="flex items-center gap-1">✅ Members Only</span>
+      </div>
+
     </div>
+  </div>
 
-    <div class="button-group" id="buttonGroup">
-      <button id="loginBtn">Log in</button>
-      <button id="signupBtn" type="button">Create account</button>
-    </div>
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-    <button id="submitBtn" type="button">Create Account</button>
-    <button id="cancelBtn" type="button">Cancel</button>
+    const SUPABASE_URL = 'https://your-project.supabase.co';
+    const SUPABASE_ANON_KEY = 'your-anon-key';
+    const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    <div id="msg"></div>
-    
-    <p class="back-link"><a href="/">← Back to site</a></p>
-  </main>
+    // Show/hide messages
+    function showError(msg) {
+      const el = document.getElementById('errorMsg');
+      el.textContent = msg;
+      el.style.display = 'block';
+      document.getElementById('successMsg').style.display = 'none';
+    }
 
-  <script type="module" src="/assets/js/login.js"></script>
-  <script>
+    function showSuccess(msg) {
+      const el = document.getElementById('successMsg');
+      el.textContent = msg;
+      el.style.display = 'block';
+      document.getElementById('errorMsg').style.display = 'none';
+    }
+
+    function setLoading(loading) {
+      const btn = document.getElementById('loginBtn');
+      const text = document.getElementById('loginBtnText');
+      btn.disabled = loading;
+      text.textContent = loading ? 'Signing in...' : 'Sign In →';
+      btn.style.opacity = loading ? '0.7' : '1';
+    }
+
+    // Login handler
+    window.handleLogin = async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      setLoading(true);
+
+      const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        showError(error.message || 'Login failed. Please check your credentials.');
+        setLoading(false);
+        return;
+      }
+
+      showSuccess('Login successful! Redirecting...');
+      setTimeout(() => { window.location.href = '/members/index.html'; }, 1000);
+    };
+
+    // Signup handler
+    window.handleSignup = async function() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!email || !password) {
+        showError('Please enter your email and a password to create an account.');
+        return;
+      }
+
+      setLoading(true);
+
+      const { data, error } = await _supabase.auth.signUp({ email, password });
+
+      if (error) {
+        showError(error.message || 'Signup failed. Please try again.');
+        setLoading(false);
+        return;
+      }
+
+      showSuccess('Account created! Please check your email to confirm your account.');
+      setLoading(false);
+    };
+
+    // Forgot password handler
+    window.handleForgotPassword = async function() {
+      const email = document.getElementById('email').value.trim();
+
+      if (!email) {
+        showError('Please enter your email address first.');
+        return;
+      }
+
+      const { error } = await _supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + '/login.html'
+      });
+
+      if (error) {
+        showError(error.message);
+        return;
+      }
+
+      showSuccess('Password reset email sent! Check your inbox.');
+    };
+
     // Toggle password visibility
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
+    window.togglePassword = function() {
+      const input = document.getElementById('password');
+      input.type = input.type === 'password' ? 'text' : 'password';
+    };
 
-    togglePassword.addEventListener('click', function() {
-      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordInput.setAttribute('type', type);
-      this.textContent = type === 'password' ? '👁️' : '🙈';
-    });
-
-    // Toggle between login and signup mode
-    const loginBtn = document.getElementById('loginBtn');
-    const signupBtn = document.getElementById('signupBtn');
-    const submitBtn = document.getElementById('submitBtn');
-    const cancelBtn = document.getElementById('cancelBtn');
-    const signupFields = document.getElementById('signupFields');
-    const formTitle = document.getElementById('formTitle');
-    const formSubtitle = document.getElementById('formSubtitle');
-    const buttonGroup = document.getElementById('buttonGroup');
-    const msgDiv = document.getElementById('msg');
-
-    let isSignupMode = false;
-
-    signupBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      isSignupMode = true;
-      signupFields.classList.add('active');
-      submitBtn.classList.add('active');
-      cancelBtn.classList.add('active');
-      buttonGroup.style.display = 'none';
-      formTitle.textContent = 'Create Account';
-      formSubtitle.textContent = 'Sign up to access member resources.';
-      msgDiv.style.display = 'none';
-    });
-
-    cancelBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      isSignupMode = false;
-      signupFields.classList.remove('active');
-      submitBtn.classList.remove('active');
-      cancelBtn.classList.remove('active');
-      buttonGroup.style.display = 'flex';
-      formTitle.textContent = 'Member Login';
-      formSubtitle.textContent = 'Log in to access forms, mini-courses, and templates.';
-      msgDiv.style.display = 'none';
-      // Clear signup fields
-      document.getElementById('phone').value = '';
-      document.getElementById('smsConsent').checked = false;
-    });
-
-    // Note: Actual login/signup logic is handled by login.js
-    // This script only handles UI toggling
+    // Check if already logged in
+    const { data: { session } } = await _supabase.auth.getSession();
+    if (session) {
+      window.location.href = '/members/index.html';
+    }
   </script>
+
 </body>
 </html>
