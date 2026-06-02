@@ -28,81 +28,40 @@
     html { scroll-behavior: smooth; }
     
     body { font-family: 'Inter', sans-serif; font-size: 18px; line-height: 1.7; }
-    
-    /* Hero with Background Image */
-    .hero-bg { 
-      background: linear-gradient(rgba(7, 60, 64, 0.88), rgba(11, 92, 99, 0.82)), 
-                  url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1600&q=80') center/cover;
-      min-height: 90vh;
-      position: relative;
-    }
-    
-    .cta-button {
-      display: inline-block;
-      padding: 18px 36px;
-      background: #F59E0B;
-      color: white;
-      font-weight: 700;
-      font-size: 1.1rem;
-      border-radius: 12px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
-    }
-    .cta-button:hover {
-      background: #D97706;
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.5);
-    }
-    
-    .cta-button-outline {
-      display: inline-block;
-      padding: 18px 36px;
-      background: transparent;
-      color: white;
-      border: 3px solid white;
-      font-weight: 700;
-      font-size: 1.1rem;
-      border-radius: 12px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-    .cta-button-outline:hover {
-      background: white;
-      color: #0B5C63;
-    }
-    
-    /* Back to Top Button */
+
     #backToTop {
       position: fixed;
-      bottom: 30px;
-      right: 30px;
-      display: none;
+      bottom: 2rem;
+      right: 2rem;
       background: #0B5C63;
       color: white;
-      width: 56px;
-      height: 56px;
+      border: none;
       border-radius: 50%;
-      text-align: center;
-      line-height: 56px;
-      font-size: 24px;
+      width: 48px;
+      height: 48px;
+      font-size: 1.3rem;
       cursor: pointer;
-      z-index: 1000;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       transition: all 0.3s ease;
+      display: none;
+      z-index: 3rem;
+      color: #F59E0B;
+      opacity: 0.3;
+      line-height: 1;
     }
+    
     #backToTop:hover { 
       background: #073C40;
       transform: translateY(-4px);
     }
-    
-    .section-title { 
-      font-size: 2.75rem; 
-      font-weight: 800; 
-      margin-bottom: 1.25rem; 
-      color: #073C40; 
+
+    .section-title {
+      font-size: 2.75rem;
+      font-weight: 800;
+      margin-bottom: 1.25rem;
+      color: #073C40;
     }
-    
+
     .section-subtitle {
       font-size: 1.3rem;
       color: #64748b;
@@ -110,100 +69,141 @@
       margin: 0 auto 3.5rem;
       line-height: 1.8;
     }
-    
-    .service-card { 
-      padding: 48px 36px; 
-      background: white; 
-      border-radius: 20px; 
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08); 
+
+    .service-card {
+      padding: 48px 36px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
       transition: all 0.4s ease;
       border: 2px solid transparent;
     }
-    .service-card:hover { 
-      transform: translateY(-10px); 
+    .service-card:hover {
+      transform: translateY(-10px);
       box-shadow: 0 16px 40px rgba(0,0,0,0.15);
       border-color: #0B5C63;
     }
-    
+
     .service-icon {
       font-size: 4rem;
-      margin-bottom: 24px;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-button {
       display: inline-block;
-      transition: transform 0.3s ease;
-    }
-    .service-card:hover .service-icon {
-      transform: scale(1.15);
-    }
-    
-    /* How It Works Section */
-    .step-card {
-      background: white;
-      padding: 40px 32px;
-      border-radius: 20px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-      text-align: center;
-      position: relative;
+      background: #F59E0B;
+      color: white;
+      padding: 16px 36px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-decoration: none;
       transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(245,158,11,0.4);
     }
-    .step-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    .cta-button:hover {
+      background: #D97706;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(245,158,11,0.5);
     }
+
+    .hero-bg {
+      background: linear-gradient(135deg, #0B5C63 0%, #073C40 50%, #0B5C63 100%);
+      min-height: 85vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('assets/properties/prop-1.jpg') center/cover no-repeat;
+      opacity: 0.15;
+    }
+
     .step-number {
-      width: 64px;
-      height: 64px;
-      background: linear-gradient(135deg, #F59E0B, #D97706);
+      width: 60px;
+      height: 60px;
+      background: #0B5C63;
       color: white;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.75rem;
+      font-size: 1.5rem;
       font-weight: 800;
-      margin: 0 auto 20px;
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+      margin: 0 auto 1.5rem;
     }
-    
-    /* Stats Section */
+
+    .testimonial-card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      border-left: 5px solid #F59E0B;
+    }
+
     .stat-card {
       text-align: center;
-      padding: 32px 24px;
+      padding: 40px 20px;
     }
+
     .stat-number {
       font-size: 3.5rem;
       font-weight: 800;
       color: #F59E0B;
       line-height: 1;
-      margin-bottom: 12px;
     }
-    .stat-label {
-      font-size: 1.1rem;
-      color: #64748b;
+
+    .property-card {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    .property-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.85rem;
       font-weight: 600;
     }
-    
-    /* Testimonial Section */
-    .testimonial-card {
-      background: white;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-      border-left: 6px solid #F59E0B;
+
+    .faq-item {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 24px 0;
     }
-    .quote-icon {
-      font-size: 3rem;
-      color: #F59E0B;
-      opacity: 0.3;
-      line-height: 1;
+
+    .faq-question {
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    
-    /* Mobile menu improvements */
-    #mobileMenu {
-      transition: all 0.3s ease;
+
+    .faq-answer {
+      margin-top: 12px;
+      color: #64748b;
+      display: none;
+    }
+
+    .faq-answer.open {
+      display: block;
     }
   </style>
 </head>
 <body class="bg-white text-slate-800">
+
+  <!-- Back to Top Button -->
+  <button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
   <!-- Navigation -->
   <nav class="bg-white shadow-md sticky top-0 z-50">
@@ -211,7 +211,7 @@
       <div class="flex justify-between items-center h-20">
         <!-- Logo -->
         <div class="flex items-center gap-3">
-          <img src="assets/hrei-logo.jpg" alt="HREI Logo" class="h-12 w-auto">
+          <img src="assets/hrei-logo.jpg" alt="HREI Logo" class="h-12 w-auto rounded">
           <span class="text-xl font-extrabold text-brand hidden sm:inline">HREI</span>
         </div>
         
@@ -219,7 +219,7 @@
         <div class="hidden md:flex space-x-8 items-center">
           <a href="#services" class="text-slate-700 hover:text-brand font-semibold transition">Services</a>
           <a href="#how-it-works" class="text-slate-700 hover:text-brand font-semibold transition">How It Works</a>
-          <a href="#about" class="text-slate-700 hover:text-brand font-semibold transition">About</a>
+          <a href="https://link.clover.com/urlshortener/Whm9fV" target="_blank" rel="noopener noreferrer" class="text-slate-700 hover:text-brand font-semibold transition">Payments</a>
           <a href="schedule.html" class="text-slate-700 hover:text-brand font-semibold transition">Schedule</a>
           <a href="sell-fast.html" class="cta-button text-sm py-3 px-6">💰 Sell Your House</a>
           <a href="login.html" class="text-slate-700 hover:text-brand font-semibold transition border-2 border-brand px-4 py-2 rounded-lg">Login</a>
@@ -240,7 +240,7 @@
     <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-slate-100 px-4 py-6 space-y-4 shadow-lg">
       <a href="#services" class="block text-slate-700 font-semibold hover:text-brand transition">Services</a>
       <a href="#how-it-works" class="block text-slate-700 font-semibold hover:text-brand transition">How It Works</a>
-      <a href="#about" class="block text-slate-700 font-semibold hover:text-brand transition">About</a>
+      <a href="https://link.clover.com/urlshortener/Whm9fV" target="_blank" rel="noopener noreferrer" class="block text-slate-700 font-semibold hover:text-brand transition">Payments</a>
       <a href="schedule.html" class="block text-slate-700 font-semibold hover:text-brand transition">Schedule</a>
       <a href="sell-fast.html" class="block bg-brand-accent text-white text-center py-3 rounded-lg font-bold">💰 Sell Your House</a>
       <a href="login.html" class="block text-center border-2 border-brand text-brand py-2 rounded-lg font-bold">Login</a>
@@ -249,135 +249,219 @@
 
   <!-- Hero Section -->
   <section class="hero-bg flex items-center justify-center text-center text-white px-4">
-    <div class="max-w-5xl">
+    <div class="max-w-5xl relative z-10">
       <h1 class="text-5xl md:text-7xl font-extrabold mb-8 leading-tight drop-shadow-lg">
         Huntsville's Premier<br/>Real Estate Investment Firm
       </h1>
-      <p class="text-xl md:text-2xl mb-12 text-slate-100 leading-relaxed max-w-3xl mx-auto">
-        We buy houses fast for cash. No repairs, no fees, no waiting. Get your fair offer in 24 hours.
+      <p class="text-xl md:text-2xl mb-12 text-slate-200 max-w-3xl mx-auto leading-relaxed">
+        We buy houses fast, manage rentals professionally, and help investors build wealth in the Tennessee Valley.
       </p>
-      <div class="flex flex-col sm:flex-row gap-5 justify-center">
-        <a href="sell-fast.html" class="cta-button">💰 Get My Cash Offer</a>
-        <a href="schedule.html" class="cta-button-outline">Schedule Consultation</a>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="sell-fast.html" class="cta-button text-lg">💰 Get a Cash Offer Today</a>
+        <a href="schedule.html" class="bg-white text-brand font-bold py-4 px-8 rounded-xl text-lg hover:bg-slate-100 transition">📅 Schedule a Call</a>
       </div>
     </div>
   </section>
 
   <!-- Stats Section -->
-  <section class="py-16 bg-white border-b border-slate-200">
+  <section class="bg-brand py-16">
     <div class="max-w-7xl mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
         <div class="stat-card">
-          <div class="stat-number">$500K+</div>
-          <div class="stat-label">In Closed Transactions</div>
+          <div class="stat-number">50+</div>
+          <div class="text-white font-semibold mt-2">Properties Acquired</div>
         </div>
         <div class="stat-card">
-          <div class="stat-number">24hrs</div>
-          <div class="stat-label">Average Offer Time</div>
+          <div class="stat-number">$2M+</div>
+          <div class="text-white font-semibold mt-2">In Transactions</div>
         </div>
         <div class="stat-card">
           <div class="stat-number">100%</div>
-          <div class="stat-label">Cash Offers</div>
+          <div class="text-white font-semibold mt-2">Local Expertise</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">24hr</div>
+          <div class="text-white font-semibold mt-2">Offer Turnaround</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="py-24 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <h2 class="section-title">What We Do</h2>
+      <p class="section-subtitle">From buying distressed properties to managing rentals and educating investors — we do it all in Huntsville.</p>
+      
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="service-card text-center">
+          <div class="service-icon">🏠</div>
+          <h3 class="text-2xl font-bold text-brand-dark mb-4">We Buy Houses</h3>
+          <p class="text-slate-600 mb-6">Need to sell fast? We make fair cash offers on any condition home — no repairs, no commissions, no hassle.</p>
+          <a href="sell-fast.html" class="cta-button text-sm">Get My Offer</a>
+        </div>
+        
+        <div class="service-card text-center">
+          <div class="service-icon">🔑</div>
+          <h3 class="text-2xl font-bold text-brand-dark mb-4">Rental Management</h3>
+          <p class="text-slate-600 mb-6">We manage midterm and long-term rentals across Huntsville, handling everything from tenant screening to maintenance.</p>
+          <a href="rent.html" class="cta-button text-sm">View Rentals</a>
+        </div>
+        
+        <div class="service-card text-center">
+          <div class="service-icon">📚</div>
+          <h3 class="text-2xl font-bold text-brand-dark mb-4">Investor Education</h3>
+          <p class="text-slate-600 mb-6">Join our members area for exclusive forms, mini-courses, templates, and tools to grow your real estate portfolio.</p>
+          <a href="login.html" class="cta-button text-sm">Join Now</a>
         </div>
       </div>
     </div>
   </section>
 
   <!-- How It Works Section -->
-  <section id="how-it-works" class="py-24 bg-slate-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h2 class="section-title">How It Works</h2>
-        <p class="section-subtitle">
-          Selling your house has never been easier. Our simple 3-step process gets you cash fast.
-        </p>
-      </div>
+  <section id="how-it-works" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">Selling your house to HREI is simple, fast, and stress-free. Here's our proven 3-step process.</p>
       
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-        <!-- Step 1 -->
-        <div class="step-card">
+      <div class="grid md:grid-cols-3 gap-12">
+        <div>
           <div class="step-number">1</div>
-          <h3 class="text-2xl font-bold mb-4 text-brand">Submit Your Info</h3>
-          <p class="text-slate-600 leading-relaxed">
-            Fill out our simple form with your property details. It takes less than 2 minutes.
-          </p>
+          <h3 class="text-xl font-bold mb-3">Tell Us About Your Property</h3>
+          <p class="text-slate-600">Fill out our quick form or give us a call. We'll gather basic info about your home and situation.</p>
         </div>
-
-        <!-- Step 2 -->
-        <div class="step-card">
+        <div>
           <div class="step-number">2</div>
-          <h3 class="text-2xl font-bold mb-4 text-brand">Get Your Offer</h3>
-          <p class="text-slate-600 leading-relaxed">
-            We'll analyze your property and send you a fair, no-obligation cash offer within 24 hours.
-          </p>
+          <h3 class="text-xl font-bold mb-3">Receive a Fair Cash Offer</h3>
+          <p class="text-slate-600">Within 24 hours, we'll present you with a no-obligation cash offer based on current market conditions.</p>
         </div>
-
-        <!-- Step 3 -->
-        <div class="step-card">
+        <div>
           <div class="step-number">3</div>
-          <h3 class="text-2xl font-bold mb-4 text-brand">Close & Get Paid</h3>
-          <p class="text-slate-600 leading-relaxed">
-            Choose your closing date. We handle everything and you get cash—fast and hassle-free.
-          </p>
+          <h3 class="text-xl font-bold mb-3">Close on Your Timeline</h3>
+          <p class="text-slate-600">You pick the closing date. We handle all the paperwork. Get cash in hand in as little as 7 days.</p>
         </div>
       </div>
 
-      <div class="text-center mt-14">
-        <a href="sell-fast.html" class="cta-button text-lg">Start Now →</a>
+      <div class="mt-16">
+        <a href="sell-fast.html" class="cta-button text-lg">Start the Process →</a>
       </div>
     </div>
   </section>
 
-  <!-- Services Section -->
-  <section id="services" class="py-24 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h2 class="section-title">Our Services</h2>
-        <p class="section-subtitle">
-          From wholesale deals to long-term rentals, we provide comprehensive real estate investment solutions.
-        </p>
-      </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-        
-        <!-- Service 1: Wholesaling -->
-        <div class="service-card text-center">
-          <div class="service-icon">🏘️</div>
-          <h3 class="text-2xl font-bold mb-4 text-brand">Wholesaling</h3>
-          <p class="text-slate-600 leading-relaxed">
-            Access deeply discounted properties before they hit the market. Perfect for investors looking for high-equity deals.
-          </p>
-        </div>
-
-        <!-- Service 2: Rental Properties -->
-        <div class="service-card text-center">
-          <div class="service-icon">🏠</div>
-          <h3 class="text-2xl font-bold mb-4 text-brand">Rental Properties</h3>
-          <p class="text-slate-600 leading-relaxed">
-            Turnkey rental properties with verified cash flow. We handle acquisition, renovation, and tenant placement.
-          </p>
-        </div>
-
-        <!-- Service 3: Fix & Flip -->
-        <div class="service-card text-center">
-          <div class="service-icon">🔨</div>
-          <h3 class="text-2xl font-bold mb-4 text-brand">Fix & Flip</h3>
-          <p class="text-slate-600 leading-relaxed">
-            Partner with us on high-margin renovation projects. We provide deal analysis, project management, and exit strategy.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonial Section -->
+  <!-- FAQ Section -->
   <section class="py-24 bg-slate-50">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h2 class="section-title">What Our Clients Say</h2>
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="section-title text-center">Frequently Asked Questions</h2>
+      <p class="section-subtitle text-center">Got questions? We've got answers.</p>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Do I need to make repairs before selling?
+          <span>+</span>
+        </div>
+        <div class="faq-answer">
+          No. We buy houses in any condition — as-is. You don't need to clean, repair, or stage anything.
+        </div>
       </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="testimonial-card">
-          <div class="quote-icon">"</div>
-          <p
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          How fast can you close?
+          <span>+</span>
+        </div>
+        <div class="faq-answer">
+          We can close in as little as 7 days, or on whatever timeline works best for you.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Are there any fees or commissions?
+          <span>+</span>
+        </div>
+        <div class="faq-answer">
+          None. We cover all closing costs. The offer we make is the amount you receive.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          What areas do you serve?
+          <span>+</span>
+        </div>
+        <div class="faq-answer">
+          We primarily serve Huntsville and the surrounding Tennessee Valley area, including Madison, Decatur, and Athens, AL.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-24 bg-brand text-white text-center">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="text-4xl md:text-5xl font-extrabold mb-6">Ready to Get Started?</h2>
+      <p class="text-xl text-slate-200 mb-10">Whether you're selling a home, looking for a rental, or want to learn real estate investing — we're here to help.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="sell-fast.html" class="cta-button text-lg">💰 Get a Cash Offer</a>
+        <a href="schedule.html" class="bg-white text-brand font-bold py-4 px-8 rounded-xl text-lg hover:bg-slate-100 transition">📅 Schedule a Call</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-brand-dark text-white py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid md:grid-cols-3 gap-8 mb-8">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <img src="assets/hrei-logo.jpg" alt="HREI Logo" class="h-10 w-auto rounded">
+            <span class="text-xl font-extrabold">HREI</span>
+          </div>
+          <p class="text-slate-400">Huntsville's trusted real estate investment firm. Buying houses, managing rentals, and building wealth since day one.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-lg mb-4">Quick Links</h4>
+          <ul class="space-y-2 text-slate-400">
+            <li><a href="sell-fast.html" class="hover:text-white transition">Sell Your House</a></li>
+            <li><a href="rent.html" class="hover:text-white transition">Rentals</a></li>
+            <li><a href="schedule.html" class="hover:text-white transition">Schedule a Call</a></li>
+            <li><a href="login.html" class="hover:text-white transition">Member Login</a></li>
+            <li><a href="https://link.clover.com/urlshortener/Whm9fV" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">Payments</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-lg mb-4">Legal</h4>
+          <ul class="space-y-2 text-slate-400">
+            <li><a href="privacy-policy.html" class="hover:text-white transition">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-slate-700 pt-8 text-center text-slate-500">
+        <p>&copy; 2025 Huntsville Real Estate Investor. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile Menu Toggle
+    const btn = document.getElementById('mobileMenuBtn');
+    const menu = document.getElementById('mobileMenu');
+    btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+
+    // Back to Top Button
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backToTop.style.display = window.scrollY > 400 ? 'flex' : 'none';
+    });
+
+    // FAQ Toggle
+    function toggleFaq(el) {
+      const answer = el.nextElementSibling;
+      const icon = el.querySelector('span');
+      answer.classList.toggle('open');
+      icon.textContent = answer.classList.contains('open') ? '−' : '+';
+    }
+  </script>
+
+</body>
+</html>
