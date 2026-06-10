@@ -241,7 +241,7 @@
 
   <script>
     // ── Supabase Init ──────────────────────────────────────────────────────────
-    const SUPABASE_URL     = 'https://lmivqwscebdupfxxwfcc.supabase.co';
+    const SUPABASE_URL      = 'https://lmivqwscebdupfxxwfcc.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuCqbf9E9J3vuv4';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -254,32 +254,75 @@
     const successMessage = document.getElementById('successMessage');
     const errorMessage   = document.getElementById('errorMessage');
 
+    // ── Helper: Show Success ───────────────────────────────────────────────────
+    function showSuccess() {
+      successMessage.style.display = 'block';
+      form.reset();
+      successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // ── Helper: Show Error ─────────────────────────────────────────────────────
+    function showError() {
+      errorMessage.style.display = 'block';
+      errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // ── Layer 2 Fallback: Plain HTML Form POST to Formspree ────────────────────
+    // This bypasses ad blockers and security extensions like McAfee WebAdvisor
+    // by submitting a native browser form instead of a fetch() call.
+    function submitFallbackForm(data) {
+      const fallback = document.createElement('form');
+      fallback.method = 'POST';
+      fallback.action = FORMSPREE_ENDPOINT;
+      fallback.style.display = 'none';
+
+      // Add all data fields as hidden inputs
+      Object.entries(data).forEach(([key, value]) => {
+        const input = document.createElement('input');
+        input.type  = 'hidden';
+        input.name  = key;
+        input.value = value || '';
+        fallback.appendChild(input);
+      });
+
+      // Redirect to thank-you page after Formspree processes the form
+      const redirect = document.createElement('input');
+      redirect.type  = 'hidden';
+      redirect.name  = '_next';
+      redirect.value = 'https://hreinvestor.com/thank-you.html';
+      fallback.appendChild(redirect);
+
+      document.body.appendChild(fallback);
+      fallback.submit(); // Native browser POST — cannot be blocked by extensions
+    }
+
+    // ── Main Form Submit Handler ───────────────────────────────────────────────
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Reset UI
+      // Reset UI state
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending...';
       successMessage.style.display = 'none';
-      errorMessage.style.display = 'none';
+      errorMessage.style.display   = 'none';
 
-      // ── Collect field values ───────────────────────────────────────────────
+      // ── Collect & prepare field values ────────────────────────────────────
       const condition = document.getElementById('condition').value;
       const timeline  = document.getElementById('timeline').value;
       const notesRaw  = document.getElementById('notes').value.trim();
 
-      // Build notes string — combines condition, timeline, and any free-text notes
+      // Merge condition + timeline + free-text into the notes column
       const noteParts = [];
       if (condition) noteParts.push(`Condition: ${condition}`);
       if (timeline)  noteParts.push(`Timeline: ${timeline}`);
       if (notesRaw)  noteParts.push(notesRaw);
       const combinedNotes = noteParts.join(' | ') || null;
 
-      // Parse asking price as a number (Supabase column is double precision)
+      // Parse asking price as float (Supabase column is double precision)
       const askingRaw   = document.getElementById('asking_price').value.trim();
       const askingPrice = askingRaw ? parseFloat(askingRaw.replace(/[^0-9.]/g, '')) : null;
 
-      // ── Supabase payload — exact column names ──────────────────────────────
+      // ── Supabase payload — exact column names from schema ──────────────────
       const supabasePayload = {
         property_address: document.getElementById('property_address').value.trim(),
         city:             document.getElementById('city').value.trim(),
@@ -295,7 +338,7 @@
         source:           'Website - Sell Fast Form'
       };
 
-      // ── Formspree payload — human-readable for email ───────────────────────
+      // ── Formspree payload — human-readable for email notification ──────────
       const formspreePayload = {
         name:          supabasePayload.seller_name,
         email:         supabasePayload.email || 'Not provided',
@@ -310,14 +353,14 @@
       };
 
       try {
-        // ── Step 1: Save to Supabase ───────────────────────────────────────
+        // ── Layer 1: Save to Supabase ──────────────────────────────────────
         const { error: sbError } = await _supabase
           .from('leads')
           .insert([supabasePayload]);
 
         if (sbError) throw new Error('Supabase error: ' + sbError.message);
 
-        // ── Step 2: Send email notification via Formspree ─────────────────
+        // ── Layer 1: Send email via Formspree fetch() ──────────────────────
         const fsResponse = await fetch(FORMSPREE_ENDPOINT, {
           method: 'POST',
           headers: {
@@ -327,21 +370,41 @@
           body: JSON.stringify(formspreePayload)
         });
 
-        if (!fsResponse.ok) throw new Error('Formspree error: ' + fsResponse.status);
+        if (!fsResponse.ok) throw new Error('Formspree fetch failed: ' + fsResponse.status);
 
-        // ── Success ────────────────────────────────────────────────────────
-        successMessage.style.display = 'block';
-        form.reset();
-        successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // ── Layer 1 Success ────────────────────────────────────────────────
+        showSuccess();
 
       } catch (err) {
-        console.error('Submission error:', err);
-        errorMessage.style.display = 'block';
-        errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // ── Layer 2: Fetch failed — try native HTML form POST fallback ─────
+        console.warn('Primary submission failed, activating fallback...', err);
+
+        try {
+          // Supabase may have already saved — try again only if it was a
+          // Formspree failure (not a Supabase failure)
+          if (err.message.includes('Formspree')) {
+            // Supabase already saved — just fire the fallback for email
+            submitFallbackForm(formspreePayload);
+            // Note: page will redirect to thank-you.html via Formspree _next
+          } else {
+            // Supabase also failed — try saving again then fire fallback
+            await _supabase.from('leads').insert([supabasePayload]);
+            submitFallbackForm(formspreePayload);
+          }
+        } catch (fallbackErr) {
+          // Both layers failed — show error message
+          console.error('Both submission layers failed:', fallbackErr);
+          showError();
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'GET MY CASH OFFER →';
+        }
 
       } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'GET MY CASH OFFER →';
+        // Only re-enable button if we didn't redirect (Layer 1 success path)
+        if (successMessage.style.display === 'block') {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'GET MY CASH OFFER →';
+        }
       }
     });
   </script>
