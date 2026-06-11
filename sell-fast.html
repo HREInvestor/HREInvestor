@@ -92,6 +92,18 @@
       font-weight: 600;
       font-size: 0.95rem;
     }
+
+    /* ── Honeypot — completely hidden from real users ── */
+    .hp-field {
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 0;
+      width: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body class="bg-slate-50">
@@ -170,7 +182,21 @@
           ✕ Something went wrong. Please try again or call us directly at (256) 242-8207.
         </div>
 
-        <form id="sellForm">
+        <form id="sellForm" autocomplete="on">
+
+          <!-- ── HONEYPOT FIELDS — invisible to humans, bots fill these in ── -->
+          <!-- Field 1: Fake "website" field bots love to fill -->
+          <div class="hp-field" aria-hidden="true">
+            <label for="website">Website</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <!-- Field 2: Fake "company" field -->
+          <div class="hp-field" aria-hidden="true">
+            <label for="company">Company</label>
+            <input type="text" id="company" name="company" tabindex="-1" autocomplete="off">
+          </div>
+          <!-- Field 3: Timestamp check — bots submit instantly, humans take time -->
+          <input type="hidden" id="formLoadTime" name="formLoadTime">
 
           <!-- Property Address -->
           <div class="mb-6">
@@ -259,7 +285,7 @@
                       class="form-input" placeholder="Anything else we should know about the property?"></textarea>
           </div>
 
-          <!-- SMS Consent (UI only — no Supabase column exists for this) -->
+          <!-- SMS Consent (UI only — no Supabase column) -->
           <div class="mb-8 p-4 bg-slate-50 rounded-xl border-2 border-slate-200">
             <div class="flex items-start gap-3">
               <input type="checkbox" id="smsConsent"
@@ -297,6 +323,9 @@
   </footer>
 
   <script>
+    // ── Record the time the form loaded (for timing check) ────────────────
+    document.getElementById('formLoadTime').value = Date.now();
+
     // ── Supabase Init ──────────────────────────────────────────────────────
     const SUPABASE_URL      = 'https://lmivqwscebdupfxxwfcc.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuCqbf9E9J3vuv4';
@@ -305,6 +334,9 @@
     // ── Formspree Endpoint ─────────────────────────────────────────────────
     const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xpqejpzl';
 
+    // ── Minimum time (ms) a human takes to fill out a form ────────────────
+    const MIN_HUMAN_TIME_MS = 4000; // 4 seconds
+
     const form      = document.getElementById('sellForm');
     const submitBtn = document.getElementById('submitBtn');
     const errorMsg  = document.getElementById('errorMessage');
@@ -312,6 +344,26 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
+      // ── HONEYPOT CHECK 1: Hidden fields must be empty ──────────────────
+      const hpWebsite = document.getElementById('website').value;
+      const hpCompany = document.getElementById('company').value;
+      if (hpWebsite || hpCompany) {
+        // Bot detected — silently fail (don't alert the bot)
+        console.warn('Bot detected via honeypot field. Submission blocked.');
+        window.location.href = 'thank-you.html?name=Friend'; // Fake success
+        return;
+      }
+
+      // ── HONEYPOT CHECK 2: Timing — bots submit too fast ───────────────
+      const loadTime    = parseInt(document.getElementById('formLoadTime').value, 10);
+      const elapsedTime = Date.now() - loadTime;
+      if (elapsedTime < MIN_HUMAN_TIME_MS) {
+        console.warn('Bot detected via timing check. Submission blocked.');
+        window.location.href = 'thank-you.html?name=Friend'; // Fake success
+        return;
+      }
+
+      // ── Real human — proceed with submission ───────────────────────────
       submitBtn.disabled     = true;
       submitBtn.textContent  = 'Submitting...';
       errorMsg.style.display = 'none';
@@ -322,7 +374,7 @@
       const notesVal     = document.getElementById('notes').value.trim();
       const askingRaw    = document.getElementById('asking_price').value.trim();
 
-      // Condition & timeline have no Supabase column — append to notes
+      // Condition & timeline appended to notes (no Supabase column)
       const noteParts = [];
       if (conditionVal) noteParts.push('Condition: ' + conditionVal);
       if (timelineVal)  noteParts.push('Timeline: '  + timelineVal);
@@ -374,7 +426,7 @@
           })
         });
 
-        // Formspree failure is non-fatal — lead is already saved in Supabase
+        // Formspree failure is non-fatal — lead already saved in Supabase
         if (!fpResponse.ok) {
           console.warn('Formspree notification failed — lead saved to Supabase successfully.');
         }
