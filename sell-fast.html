@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sell Your House Fast | HREI</title>
-  <link rel="icon" type="image/jpeg" href="assets/hrei-logo.jpg">
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -30,6 +29,7 @@
       border-radius: 10px;
       font-size: 16px;
       transition: all 0.3s ease;
+      background: white;
     }
     .form-input:focus {
       outline: none;
@@ -54,9 +54,37 @@
       transform: translateY(-2px);
       box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
     }
-    .submit-btn:disabled { background: #94a3b8; cursor: not-allowed; transform: none; }
-    .success-message { display: none; padding: 24px; background: #10b981; color: white; border-radius: 12px; text-align: center; font-weight: 700; margin-bottom: 20px; }
-    .error-message { display: none; padding: 24px; background: #ef4444; color: white; border-radius: 12px; text-align: center; font-weight: 700; margin-bottom: 20px; }
+    .submit-btn:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .error-message {
+      display: none;
+      padding: 20px;
+      background: #ef4444;
+      color: white;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .trust-bar {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.9);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
   </style>
 </head>
 <body class="bg-slate-50">
@@ -65,52 +93,60 @@
   <nav class="bg-white shadow-sm sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
-        <a href="index.html" class="text-2xl font-extrabold text-brand">HREI</a>
+        <a href="index.html" class="flex items-center gap-3">
+          <img src="assets/hrei-logo.jpg" alt="HREI Logo" class="h-10 w-auto rounded-lg">
+          <span class="text-xl font-extrabold text-brand">HREI</span>
+        </a>
         <a href="index.html" class="text-slate-700 hover:text-brand font-semibold transition">← Back to Home</a>
       </div>
     </div>
   </nav>
 
   <!-- Hero Section -->
-  <section class="hero-gradient text-white py-16">
+  <section class="hero-gradient text-white py-20">
     <div class="max-w-4xl mx-auto px-4 text-center">
-      <h1 class="text-4xl md:text-6xl font-extrabold mb-6">Get Your Fair Cash Offer</h1>
-      <p class="text-xl md:text-2xl mb-4 text-slate-200">We buy houses in any condition across North Alabama.</p>
-      <div class="flex justify-center gap-8 mt-8 text-sm font-bold uppercase tracking-widest text-yellow-300">
-        <span>✓ No Repairs</span>
-        <span>✓ No Fees</span>
-        <span>✓ Fast Cash</span>
+      <div class="inline-block bg-white/10 border border-white/20 rounded-full px-5 py-2 text-sm font-bold mb-6 text-yellow-300 uppercase tracking-widest">
+        We Buy Houses in North Alabama
+      </div>
+      <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+        Get Your Fair Cash Offer
+      </h1>
+      <p class="text-xl md:text-2xl text-slate-200 leading-relaxed max-w-2xl mx-auto">
+        Fill out the form below and we'll contact you within 24 hours with a no-obligation offer.
+      </p>
+      <div class="trust-bar">
+        <div class="trust-item">⚡ Fast Closing</div>
+        <div class="trust-item">🔨 Any Condition</div>
+        <div class="trust-item">🤝 No Agent Needed</div>
+        <div class="trust-item">💰 Cash Offers</div>
       </div>
     </div>
   </section>
 
-  <!-- Lead Capture Form -->
+  <!-- Form Section -->
   <section class="py-16 bg-slate-50">
     <div class="max-w-2xl mx-auto px-4">
       <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
 
-        <!-- Success Message -->
-        <div id="successMessage" class="success-message">
-          ✓ SUCCESS! We've received your info. Check your phone — we'll be reaching out shortly!
-        </div>
-
         <!-- Error Message -->
         <div id="errorMessage" class="error-message">
-          ✕ Something went wrong. Please call us directly at 256-242-8207.
+          ✕ Something went wrong. Please try again or call us directly at (256) 242-8207.
         </div>
 
         <form id="sellForm">
 
           <!-- Section 1: Property Info -->
-          <h2 class="text-2xl font-bold mb-6 text-slate-800 border-b pb-2">1. Property Information</h2>
+          <h2 class="text-2xl font-bold mb-6 text-slate-800 border-b pb-3">
+            1. Property Information
+          </h2>
 
           <div class="mb-6">
             <label class="block text-sm font-bold text-slate-700 mb-2">Property Address *</label>
-            <input type="text" id="property_address" name="property_address" required
+            <input type="text" id="address" name="address" required
                    class="form-input" placeholder="123 Main St">
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <div class="md:col-span-1">
               <label class="block text-sm font-bold text-slate-700 mb-2">City *</label>
               <input type="text" id="city" name="city" required
@@ -118,8 +154,7 @@
             </div>
             <div>
               <label class="block text-sm font-bold text-slate-700 mb-2">State *</label>
-              <input type="text" id="state" name="state" value="AL" required
-                     class="form-input" maxlength="2">
+              <input type="text" id="state" name="state" value="AL" required class="form-input">
             </div>
             <div>
               <label class="block text-sm font-bold text-slate-700 mb-2">Zip *</label>
@@ -128,31 +163,14 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            <div>
-              <label class="block text-sm font-bold text-slate-700 mb-2">Property Type</label>
-              <select id="property_type" name="property_type" class="form-input">
-                <option value="">Select...</option>
-                <option value="Single Family">Single Family</option>
-                <option value="Multi-Family">Multi-Family</option>
-                <option value="Mobile Home">Mobile Home</option>
-                <option value="Land">Land / Lot</option>
-                <option value="Commercial">Commercial</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-sm font-bold text-slate-700 mb-2">Asking Price</label>
-              <input type="number" id="asking_price" name="asking_price"
-                     class="form-input" placeholder="150000">
-            </div>
-          </div>
-
-          <!-- Section 2: Contact Details -->
-          <h2 class="text-2xl font-bold mb-6 text-slate-800 border-b pb-2">2. Your Contact Info</h2>
+          <!-- Section 2: Contact Info -->
+          <h2 class="text-2xl font-bold mb-6 text-slate-800 border-b pb-3">
+            2. Your Contact Details
+          </h2>
 
           <div class="mb-6">
             <label class="block text-sm font-bold text-slate-700 mb-2">Full Name *</label>
-            <input type="text" id="seller_name" name="seller_name" required
+            <input type="text" id="name" name="name" required
                    class="form-input" placeholder="John Smith">
           </div>
 
@@ -163,53 +181,61 @@
                      class="form-input" placeholder="(256) 555-1234">
             </div>
             <div>
-              <label class="block text-sm font-bold text-slate-700 mb-2">Email Address</label>
-              <input type="email" id="email" name="email"
+              <label class="block text-sm font-bold text-slate-700 mb-2">Email Address *</label>
+              <input type="email" id="email" name="email" required
                      class="form-input" placeholder="john@example.com">
             </div>
           </div>
 
-          <!-- Section 3: Additional Details -->
-          <h2 class="text-2xl font-bold mb-6 text-slate-800 border-b pb-2">3. Additional Details <span class="text-slate-400 font-normal text-base">(Optional)</span></h2>
+          <!-- Section 3: Optional Details -->
+          <h2 class="text-2xl font-bold mb-6 text-slate-800 border-b pb-3">
+            3. Additional Details <span class="text-slate-400 font-normal text-lg">(Optional)</span>
+          </h2>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div>
               <label class="block text-sm font-bold text-slate-700 mb-2">Property Condition</label>
               <select id="condition" name="condition" class="form-input">
-                <option value="">Select...</option>
-                <option value="Excellent">Excellent</option>
-                <option value="Good">Good</option>
-                <option value="Fair">Fair</option>
-                <option value="Poor">Needs Work</option>
+                <option value="">Select condition...</option>
+                <option value="Excellent">Excellent - Move-in ready</option>
+                <option value="Good">Good - Minor repairs needed</option>
+                <option value="Fair">Fair - Some work required</option>
+                <option value="Poor">Poor - Major repairs needed</option>
               </select>
             </div>
             <div>
-              <label class="block text-sm font-bold text-slate-700 mb-2">How Soon to Sell?</label>
+              <label class="block text-sm font-bold text-slate-700 mb-2">When do you need to sell?</label>
               <select id="timeline" name="timeline" class="form-input">
-                <option value="">Select...</option>
-                <option value="ASAP">ASAP (within 30 days)</option>
-                <option value="1-3 months">1–3 Months</option>
-                <option value="3-6 months">3–6 Months</option>
-                <option value="Flexible">Flexible / Just Exploring</option>
+                <option value="">Select timeline...</option>
+                <option value="ASAP">ASAP</option>
+                <option value="1-3 months">1-3 Months</option>
+                <option value="3-6 months">3-6 Months</option>
+                <option value="Flexible">Flexible</option>
               </select>
             </div>
+          </div>
+
+          <div class="mb-6">
+            <label class="block text-sm font-bold text-slate-700 mb-2">Asking Price</label>
+            <input type="text" id="asking_price" name="asking_price"
+                   class="form-input" placeholder="$150,000">
           </div>
 
           <div class="mb-8">
             <label class="block text-sm font-bold text-slate-700 mb-2">Additional Notes</label>
-            <textarea id="notes" name="notes" rows="4" class="form-input"
-                      placeholder="Tell us more about your property or situation..."></textarea>
+            <textarea id="notes" name="notes" rows="3"
+                      class="form-input" placeholder="Anything else we should know about the property?"></textarea>
           </div>
 
           <!-- SMS Consent -->
-          <div class="mb-8 p-4 bg-slate-100 rounded-lg border-2 border-slate-200">
+          <div class="mb-8 p-4 bg-slate-50 rounded-xl border-2 border-slate-200">
             <div class="flex items-start gap-3">
               <input type="checkbox" id="smsConsent" name="smsConsent"
-                     class="mt-1 w-5 h-5 accent-brand" required>
+                     class="mt-1 w-5 h-5 accent-brand flex-shrink-0" required>
               <label for="smsConsent" class="text-xs text-slate-600 leading-relaxed">
-                I consent to receive text messages and calls from HREI at the number provided regarding my property.
-                Msg & data rates may apply. Reply STOP to opt out. See our
-                <a href="/privacy-policy.html" class="underline font-bold text-brand">Privacy Policy</a>.
+                I consent to receive text messages and calls from HREI regarding my property inquiry.
+                Message & data rates may apply. Reply STOP to opt out at any time.
+                See our <a href="privacy-policy.html" class="underline font-bold text-brand">Privacy Policy</a>.
               </label>
             </div>
           </div>
@@ -219,7 +245,7 @@
           </button>
 
           <p class="text-center text-xs text-slate-400 mt-4">
-            Your information is 100% private and will never be shared or sold.
+            No obligation. No pressure. We respect your privacy.
           </p>
 
         </form>
@@ -230,10 +256,9 @@
   <!-- Footer -->
   <footer class="text-white py-8" style="background-color: #073C40;">
     <div class="max-w-7xl mx-auto px-4 text-center">
-      <p class="text-slate-300">© 2026 Huntsville Real Estate Investor LLC. All rights reserved.</p>
-      <p class="text-slate-400 text-sm mt-2">
+      <p class="text-slate-300 text-sm">© 2026 Huntsville Real Estate Investor LLC. All rights reserved.</p>
+      <p class="text-slate-400 text-xs mt-2">
         <a href="index.html" class="hover:text-white transition">Home</a> |
-        <a href="schedule.html" class="hover:text-white transition ml-2">Schedule</a> |
         <a href="privacy-policy.html" class="hover:text-white transition ml-2">Privacy Policy</a>
       </p>
     </div>
@@ -241,170 +266,90 @@
 
   <script>
     // ── Supabase Init ──────────────────────────────────────────────────────────
-    const SUPABASE_URL      = 'https://lmivqwscebdupfxxwfcc.supabase.co';
+    const SUPABASE_URL     = 'https://lmivqwscebdupfxxwfcc.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuCqbf9E9J3vuv4';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // ── Formspree Endpoint ─────────────────────────────────────────────────────
-    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xpqejpzl';
+    // ── Formspree ID ───────────────────────────────────────────────────────────
+    // Replace YOUR_FORMSPREE_ID with your actual Formspree form ID
+    const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
 
-    // ── DOM Elements ───────────────────────────────────────────────────────────
-    const form           = document.getElementById('sellForm');
-    const submitBtn      = document.getElementById('submitBtn');
-    const successMessage = document.getElementById('successMessage');
-    const errorMessage   = document.getElementById('errorMessage');
+    const form      = document.getElementById('sellForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const errorMsg  = document.getElementById('errorMessage');
 
-    // ── Helper: Show Success ───────────────────────────────────────────────────
-    function showSuccess() {
-      successMessage.style.display = 'block';
-      form.reset();
-      successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    // ── Helper: Show Error ─────────────────────────────────────────────────────
-    function showError() {
-      errorMessage.style.display = 'block';
-      errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    // ── Layer 2 Fallback: Plain HTML Form POST to Formspree ────────────────────
-    // This bypasses ad blockers and security extensions like McAfee WebAdvisor
-    // by submitting a native browser form instead of a fetch() call.
-    function submitFallbackForm(data) {
-      const fallback = document.createElement('form');
-      fallback.method = 'POST';
-      fallback.action = FORMSPREE_ENDPOINT;
-      fallback.style.display = 'none';
-
-      // Add all data fields as hidden inputs
-      Object.entries(data).forEach(([key, value]) => {
-        const input = document.createElement('input');
-        input.type  = 'hidden';
-        input.name  = key;
-        input.value = value || '';
-        fallback.appendChild(input);
-      });
-
-      // Redirect to thank-you page after Formspree processes the form
-      const redirect = document.createElement('input');
-      redirect.type  = 'hidden';
-      redirect.name  = '_next';
-      redirect.value = 'https://hreinvestor.com/thank-you.html';
-      fallback.appendChild(redirect);
-
-      document.body.appendChild(fallback);
-      fallback.submit(); // Native browser POST — cannot be blocked by extensions
-    }
-
-    // ── Main Form Submit Handler ───────────────────────────────────────────────
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      // Reset UI state
-      submitBtn.disabled = true;
+      submitBtn.disabled    = true;
       submitBtn.textContent = 'Sending...';
-      successMessage.style.display = 'none';
-      errorMessage.style.display   = 'none';
+      errorMsg.style.display = 'none';
 
-      // ── Collect & prepare field values ────────────────────────────────────
-      const condition = document.getElementById('condition').value;
-      const timeline  = document.getElementById('timeline').value;
-      const notesRaw  = document.getElementById('notes').value.trim();
-
-      // Merge condition + timeline + free-text into the notes column
-      const noteParts = [];
-      if (condition) noteParts.push(`Condition: ${condition}`);
-      if (timeline)  noteParts.push(`Timeline: ${timeline}`);
-      if (notesRaw)  noteParts.push(notesRaw);
-      const combinedNotes = noteParts.join(' | ') || null;
-
-      // Parse asking price as float (Supabase column is double precision)
-      const askingRaw   = document.getElementById('asking_price').value.trim();
-      const askingPrice = askingRaw ? parseFloat(askingRaw.replace(/[^0-9.]/g, '')) : null;
-
-      // ── Supabase payload — exact column names from schema ──────────────────
-      const supabasePayload = {
-        property_address: document.getElementById('property_address').value.trim(),
-        city:             document.getElementById('city').value.trim(),
-        state:            document.getElementById('state').value.trim().toUpperCase(),
-        zip:              document.getElementById('zip').value.trim(),
-        seller_name:      document.getElementById('seller_name').value.trim(),
-        phone:            document.getElementById('phone').value.trim(),
-        email:            document.getElementById('email').value.trim() || null,
-        property_type:    document.getElementById('property_type').value || null,
-        asking_price:     askingPrice,
-        notes:            combinedNotes,
-        stage:            'New Lead',
-        source:           'Website - Sell Fast Form'
-      };
-
-      // ── Formspree payload — human-readable for email notification ──────────
-      const formspreePayload = {
-        name:          supabasePayload.seller_name,
-        email:         supabasePayload.email || 'Not provided',
-        phone:         supabasePayload.phone,
-        address:       `${supabasePayload.property_address}, ${supabasePayload.city}, ${supabasePayload.state} ${supabasePayload.zip}`,
-        property_type: supabasePayload.property_type || 'Not specified',
-        asking_price:  askingPrice ? `$${askingPrice.toLocaleString()}` : 'Not specified',
-        condition:     condition || 'Not specified',
-        timeline:      timeline  || 'Not specified',
-        notes:         notesRaw  || 'None',
-        source:        supabasePayload.source
+      // Collect form data
+      const sellerName = document.getElementById('name').value.trim();
+      const formData = {
+        address:      document.getElementById('address').value.trim(),
+        city:         document.getElementById('city').value.trim(),
+        state:        document.getElementById('state').value.trim(),
+        zip:          document.getElementById('zip').value.trim(),
+        seller_name:  sellerName,
+        seller_phone: document.getElementById('phone').value.trim(),
+        seller_email: document.getElementById('email').value.trim(),
+        condition:    document.getElementById('condition').value || null,
+        timeline:     document.getElementById('timeline').value || null,
+        asking_price: document.getElementById('asking_price').value.trim() || null,
+        notes:        document.getElementById('notes').value.trim() || null,
+        stage:        'New Lead',
+        created_at:   new Date().toISOString()
       };
 
       try {
-        // ── Layer 1: Save to Supabase ──────────────────────────────────────
-        const { error: sbError } = await _supabase
-          .from('leads')
-          .insert([supabasePayload]);
+        // ── Layer 1: Save to Supabase ────────────────────────────────────────
+        const { error: sbError } = await _supabase.from('leads').insert([formData]);
+        if (sbError) throw sbError;
 
-        if (sbError) throw new Error('Supabase error: ' + sbError.message);
-
-        // ── Layer 1: Send email via Formspree fetch() ──────────────────────
-        const fsResponse = await fetch(FORMSPREE_ENDPOINT, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify(formspreePayload)
+        // ── Layer 2: Send email via Formspree ────────────────────────────────
+        const fpResponse = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(formData)
         });
 
-        if (!fsResponse.ok) throw new Error('Formspree fetch failed: ' + fsResponse.status);
-
-        // ── Layer 1 Success ────────────────────────────────────────────────
-        showSuccess();
+        // ── Redirect to Thank You page (with seller name in URL) ─────────────
+        // This fires whether Formspree succeeds or not — Supabase save is what matters
+        const firstName = sellerName.split(' ')[0];
+        window.location.href = 'thank-you.html?name=' + encodeURIComponent(firstName);
 
       } catch (err) {
-        // ── Layer 2: Fetch failed — try native HTML form POST fallback ─────
-        console.warn('Primary submission failed, activating fallback...', err);
+        // ── Fallback: Try native Formspree POST if JS fetch fails ────────────
+        console.error('Submission error:', err);
 
-        try {
-          // Supabase may have already saved — try again only if it was a
-          // Formspree failure (not a Supabase failure)
-          if (err.message.includes('Formspree')) {
-            // Supabase already saved — just fire the fallback for email
-            submitFallbackForm(formspreePayload);
-            // Note: page will redirect to thank-you.html via Formspree _next
-          } else {
-            // Supabase also failed — try saving again then fire fallback
-            await _supabase.from('leads').insert([supabasePayload]);
-            submitFallbackForm(formspreePayload);
+        // Attempt native form POST to Formspree as last resort
+        const hiddenForm = document.createElement('form');
+        hiddenForm.method = 'POST';
+        hiddenForm.action = `https://formspree.io/f/${FORMSPREE_ID}`;
+
+        Object.entries(formData).forEach(([key, val]) => {
+          if (val) {
+            const input = document.createElement('input');
+            input.type  = 'hidden';
+            input.name  = key;
+            input.value = val;
+            hiddenForm.appendChild(input);
           }
-        } catch (fallbackErr) {
-          // Both layers failed — show error message
-          console.error('Both submission layers failed:', fallbackErr);
-          showError();
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'GET MY CASH OFFER →';
-        }
+        });
 
+        // Add _next redirect for native fallback
+        const nextInput = document.createElement('input');
+        nextInput.type  = 'hidden';
+        nextInput.name  = '_next';
+        nextInput.value = window.location.origin + '/thank-you.html?name=' + encodeURIComponent(formData.seller_name.split(' ')[0]);
+        hiddenForm.appendChild(nextInput);
+
+        document.body.appendChild(hiddenForm);
+        hiddenForm.submit();
       } finally {
-        // Only re-enable button if we didn't redirect (Layer 1 success path)
-        if (successMessage.style.display === 'block') {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'GET MY CASH OFFER →';
-        }
+        submitBtn.disabled    = false;
+        submitBtn.textContent = 'GET MY CASH OFFER →';
       }
     });
   </script>
