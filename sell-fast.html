@@ -207,28 +207,28 @@
                    class="form-input" placeholder="John Smith">
           </div>
 
-          <!-- Phone — maps to 'phone' column -->
+          <!-- Phone -->
           <div class="mb-6">
             <label class="block text-sm font-bold text-slate-700 mb-2">Phone Number *</label>
             <input type="tel" id="phone" name="phone" required
                    class="form-input" placeholder="(256) 555-1234">
           </div>
 
-          <!-- Email — maps to 'email' column -->
+          <!-- Email -->
           <div class="mb-6">
             <label class="block text-sm font-bold text-slate-700 mb-2">Email Address *</label>
             <input type="email" id="email" name="email" required
                    class="form-input" placeholder="john@example.com">
           </div>
 
-          <!-- Asking Price — double precision -->
+          <!-- Asking Price -->
           <div class="mb-6">
             <label class="block text-sm font-bold text-slate-700 mb-2">Asking Price (Optional)</label>
             <input type="number" id="asking_price" name="asking_price"
                    class="form-input" placeholder="150000" min="0">
           </div>
 
-          <!-- Condition — appended to notes -->
+          <!-- Condition -->
           <div class="mb-6">
             <label class="block text-sm font-bold text-slate-700 mb-2">Property Condition</label>
             <select id="condition" name="condition" class="form-input">
@@ -240,7 +240,7 @@
             </select>
           </div>
 
-          <!-- Timeline — appended to notes -->
+          <!-- Timeline -->
           <div class="mb-6">
             <label class="block text-sm font-bold text-slate-700 mb-2">When do you need to sell?</label>
             <select id="timeline" name="timeline" class="form-input">
@@ -259,7 +259,7 @@
                       class="form-input" placeholder="Anything else we should know about the property?"></textarea>
           </div>
 
-          <!-- SMS Consent (UI only — not sent to Supabase, no column exists) -->
+          <!-- SMS Consent (UI only — no Supabase column exists for this) -->
           <div class="mb-8 p-4 bg-slate-50 rounded-xl border-2 border-slate-200">
             <div class="flex items-start gap-3">
               <input type="checkbox" id="smsConsent"
@@ -302,6 +302,9 @@
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuCqbf9E9J3vuv4';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    // ── Formspree Endpoint ─────────────────────────────────────────────────
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xpqejpzl';
+
     const form      = document.getElementById('sellForm');
     const submitBtn = document.getElementById('submitBtn');
     const errorMsg  = document.getElementById('errorMessage');
@@ -309,24 +312,24 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      submitBtn.disabled    = true;
-      submitBtn.textContent = 'Submitting...';
+      submitBtn.disabled     = true;
+      submitBtn.textContent  = 'Submitting...';
       errorMsg.style.display = 'none';
 
-      const sellerName    = document.getElementById('seller_name').value.trim();
-      const conditionVal  = document.getElementById('condition').value;
-      const timelineVal   = document.getElementById('timeline').value;
-      const notesVal      = document.getElementById('notes').value.trim();
-      const askingRaw     = document.getElementById('asking_price').value.trim();
+      const sellerName   = document.getElementById('seller_name').value.trim();
+      const conditionVal = document.getElementById('condition').value;
+      const timelineVal  = document.getElementById('timeline').value;
+      const notesVal     = document.getElementById('notes').value.trim();
+      const askingRaw    = document.getElementById('asking_price').value.trim();
 
-      // Build notes string — condition & timeline have no column, so append to notes
+      // Condition & timeline have no Supabase column — append to notes
       const noteParts = [];
-      if (conditionVal)  noteParts.push('Condition: ' + conditionVal);
-      if (timelineVal)   noteParts.push('Timeline: ' + timelineVal);
-      if (notesVal)      noteParts.push(notesVal);
+      if (conditionVal) noteParts.push('Condition: ' + conditionVal);
+      if (timelineVal)  noteParts.push('Timeline: '  + timelineVal);
+      if (notesVal)     noteParts.push(notesVal);
       const combinedNotes = noteParts.join(' | ') || null;
 
-      // ✅ Every key maps to a real column in your Supabase leads table
+      // ✅ All keys match exact Supabase column names
       const formData = {
         property_address: document.getElementById('property_address').value.trim(),
         city:             document.getElementById('city').value.trim(),
@@ -342,13 +345,41 @@
       };
 
       try {
-        const { error } = await _supabase
+        // ── Step 1: Save to Supabase ───────────────────────────────────────
+        const { error: sbError } = await _supabase
           .from('leads')
           .insert([formData]);
 
-        if (error) throw error;
+        if (sbError) throw sbError;
 
-        // ✅ Redirect to thank-you page with seller's first name
+        // ── Step 2: Send email notification via Formspree ─────────────────
+        const fpResponse = await fetch(FORMSPREE_ENDPOINT, {
+          method:  'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept':       'application/json'
+          },
+          body: JSON.stringify({
+            name:             formData.seller_name,
+            email:            formData.email,
+            phone:            formData.phone,
+            property_address: formData.property_address,
+            city:             formData.city,
+            state:            formData.state,
+            zip:              formData.zip,
+            asking_price:     formData.asking_price,
+            notes:            formData.notes,
+            stage:            formData.stage,
+            source:           formData.source
+          })
+        });
+
+        // Formspree failure is non-fatal — lead is already saved in Supabase
+        if (!fpResponse.ok) {
+          console.warn('Formspree notification failed — lead saved to Supabase successfully.');
+        }
+
+        // ── Step 3: Redirect to thank-you page ────────────────────────────
         const firstName = sellerName.split(' ')[0];
         window.location.href = 'thank-you.html?name=' + encodeURIComponent(firstName);
 
