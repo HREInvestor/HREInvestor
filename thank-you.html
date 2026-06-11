@@ -92,23 +92,6 @@
       transform: translateY(-2px);
       box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
     }
-    .cta-secondary {
-      display: inline-block;
-      background: white;
-      color: #0B5C63;
-      font-weight: 800;
-      font-size: 1.1rem;
-      padding: 16px 36px;
-      border-radius: 12px;
-      text-decoration: none;
-      border: 2px solid #0B5C63;
-      transition: all 0.3s ease;
-    }
-    .cta-secondary:hover {
-      background: #0B5C63;
-      color: white;
-      transform: translateY(-2px);
-    }
 
     /* Confetti animation */
     @keyframes fall {
@@ -190,9 +173,9 @@
         <div class="step-card">
           <div class="step-number">1</div>
           <div class="text-4xl mb-4">📞</div>
-          <h3 class="text-xl font-bold mb-3 text-brand">We'll Call You</h3>
+          <h3 class="text-xl font-bold mb-3 text-brand">We'll Reach Out</h3>
           <p class="text-slate-600 leading-relaxed">
-            A member of our team will reach out within <strong>24 hours</strong> to learn more about your property and situation.
+            A member of our team will contact you within <strong>24 hours</strong> to learn more about your property and situation.
           </p>
         </div>
 
@@ -231,9 +214,9 @@
           <p class="text-slate-500 text-sm">Close in as little as 7 days or on your timeline.</p>
         </div>
         <div>
-          <div class="text-4xl mb-3">🚫</div>
-          <h3 class="font-bold text-lg text-brand mb-2">Zero Fees</h3>
-          <p class="text-slate-500 text-sm">No agent commissions, no closing costs, no hidden fees.</p>
+          <div class="text-4xl mb-3">🤝</div>
+          <h3 class="font-bold text-lg text-brand mb-2">No Agent Needed</h3>
+          <p class="text-slate-500 text-sm">Skip the listings, showings, and agent commissions entirely.</p>
         </div>
         <div>
           <div class="text-4xl mb-3">🔨</div>
@@ -247,18 +230,13 @@
   <!-- CTA Section -->
   <section class="py-20 bg-slate-50">
     <div class="max-w-2xl mx-auto px-4 text-center">
-      <h2 class="text-3xl font-extrabold text-slate-800 mb-4">Can't Wait? Reach Out Now.</h2>
+      <h2 class="text-3xl font-extrabold text-slate-800 mb-4">Want to Talk Sooner?</h2>
       <p class="text-slate-500 mb-10 text-lg">
-        If you'd like to speak with someone immediately or schedule a call, we're ready.
+        Schedule a call and we'll reach out at a time that works for you.
       </p>
-      <div class="flex flex-col sm:flex-row gap-5 justify-center">
-        <a href="tel:2562428207" class="cta-primary">
-          📞 Call Us: (256) 242-8207
-        </a>
-        <a href="schedule.html" class="cta-secondary">
-          📅 Schedule a Call
-        </a>
-      </div>
+      <a href="schedule.html" class="cta-primary">
+        📅 Schedule a Call
+      </a>
       <p class="text-slate-400 text-sm mt-8">
         Or <a href="index.html" class="text-brand font-semibold hover:underline">return to the homepage</a>.
       </p>
@@ -284,15 +262,13 @@
   <script>
     // ── Personalized Greeting ──────────────────────────────────────────────────
     // Reads ?name=John from the URL query string.
-    // sell-fast.html can append ?name=FirstName when redirecting here.
     (function() {
-      const params   = new URLSearchParams(window.location.search);
-      const rawName  = params.get('name') || '';
+      const params    = new URLSearchParams(window.location.search);
+      const rawName   = params.get('name') || '';
       const firstName = rawName.split(' ')[0].trim();
 
       if (firstName) {
         const nameEl = document.getElementById('sellerName');
-        // Capitalize first letter, lowercase the rest for safety
         nameEl.textContent = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
       }
     })();
@@ -305,16 +281,15 @@
       for (let i = 0; i < count; i++) {
         const piece = document.createElement('div');
         piece.classList.add('confetti-piece');
-        piece.style.left            = Math.random() * 100 + 'vw';
-        piece.style.background      = colors[Math.floor(Math.random() * colors.length)];
-        piece.style.width           = (Math.random() * 8 + 6) + 'px';
-        piece.style.height          = (Math.random() * 8 + 6) + 'px';
+        piece.style.left             = Math.random() * 100 + 'vw';
+        piece.style.background       = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.width            = (Math.random() * 8 + 6) + 'px';
+        piece.style.height           = (Math.random() * 8 + 6) + 'px';
         piece.style.animationDuration = (Math.random() * 3 + 2) + 's';
-        piece.style.animationDelay  = (Math.random() * 2) + 's';
-        piece.style.borderRadius    = Math.random() > 0.5 ? '50%' : '2px';
+        piece.style.animationDelay   = (Math.random() * 2) + 's';
+        piece.style.borderRadius     = Math.random() > 0.5 ? '50%' : '2px';
         document.body.appendChild(piece);
 
-        // Remove from DOM after animation completes to keep things clean
         piece.addEventListener('animationend', () => piece.remove());
       }
     })();
