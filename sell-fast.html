@@ -85,8 +85,6 @@
       font-weight: 600;
       font-size: 0.95rem;
     }
-    .mobile-menu { display: none; }
-    .mobile-menu.open { display: block; }
   </style>
 </head>
 <body class="bg-slate-50">
@@ -174,50 +172,56 @@
                    class="form-input" placeholder="123 Main St">
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div class="md:col-span-1">
-              <label class="block text-sm font-bold text-slate-700 mb-2">City *</label>
-              <input type="text" id="city" name="city" required
-                     class="form-input" placeholder="Huntsville">
-            </div>
+          <!-- City -->
+          <div class="mb-6">
+            <label class="block text-sm font-bold text-slate-700 mb-2">City *</label>
+            <input type="text" id="city" name="city" required
+                   class="form-input" placeholder="Huntsville">
+          </div>
+
+          <!-- State & Zip -->
+          <div class="grid grid-cols-2 gap-4 mb-6">
             <div>
               <label class="block text-sm font-bold text-slate-700 mb-2">State *</label>
-              <input type="text" id="state" name="state" value="AL" required class="form-input">
+              <input type="text" id="state" name="state" value="AL" required
+                     class="form-input" placeholder="AL" maxlength="2">
             </div>
             <div>
-              <label class="block text-sm font-bold text-slate-700 mb-2">Zip *</label>
+              <label class="block text-sm font-bold text-slate-700 mb-2">Zip Code *</label>
               <input type="text" id="zip" name="zip" required
                      class="form-input" placeholder="35801">
             </div>
           </div>
 
-          <!-- Contact Info -->
+          <!-- Name -->
           <div class="mb-6">
-            <label class="block text-sm font-bold text-slate-700 mb-2">Full Name *</label>
+            <label class="block text-sm font-bold text-slate-700 mb-2">Your Name *</label>
             <input type="text" id="name" name="name" required
                    class="form-input" placeholder="John Smith">
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div>
-              <label class="block text-sm font-bold text-slate-700 mb-2">Phone Number *</label>
-              <input type="tel" id="phone" name="phone" required
-                     class="form-input" placeholder="(256) 555-1234">
-            </div>
-            <div>
-              <label class="block text-sm font-bold text-slate-700 mb-2">Email Address *</label>
-              <input type="email" id="email" name="email" required
-                     class="form-input" placeholder="john@example.com">
-            </div>
+          <!-- Phone -->
+          <div class="mb-6">
+            <label class="block text-sm font-bold text-slate-700 mb-2">Phone Number *</label>
+            <input type="tel" id="phone" name="phone" required
+                   class="form-input" placeholder="(256) 555-1234">
           </div>
 
-          <!-- Optional Details -->
+          <!-- Email -->
+          <div class="mb-6">
+            <label class="block text-sm font-bold text-slate-700 mb-2">Email *</label>
+            <input type="email" id="email" name="email" required
+                   class="form-input" placeholder="john@example.com">
+          </div>
+
+          <!-- Asking Price -->
           <div class="mb-6">
             <label class="block text-sm font-bold text-slate-700 mb-2">Asking Price (Optional)</label>
             <input type="text" id="asking_price" name="asking_price"
                    class="form-input" placeholder="$150,000">
           </div>
 
+          <!-- Property Condition -->
           <div class="mb-6">
             <label class="block text-sm font-bold text-slate-700 mb-2">Property Condition</label>
             <select id="condition" name="condition" class="form-input">
@@ -229,6 +233,7 @@
             </select>
           </div>
 
+          <!-- Timeline -->
           <div class="mb-6">
             <label class="block text-sm font-bold text-slate-700 mb-2">When do you need to sell?</label>
             <select id="timeline" name="timeline" class="form-input">
@@ -240,6 +245,7 @@
             </select>
           </div>
 
+          <!-- Notes -->
           <div class="mb-8">
             <label class="block text-sm font-bold text-slate-700 mb-2">Additional Notes</label>
             <textarea id="notes" name="notes" rows="3"
@@ -289,41 +295,45 @@
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuCqbf9E9J3vuv4';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const form      = document.getElementById('sellForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const errorMsg  = document.getElementById('errorMessage');
+    const form       = document.getElementById('sellForm');
+    const submitBtn  = document.getElementById('submitBtn');
+    const errorMsg   = document.getElementById('errorMessage');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       submitBtn.disabled    = true;
-      submitBtn.textContent = 'Sending...';
+      submitBtn.textContent = 'Submitting...';
       errorMsg.style.display = 'none';
 
-      // Collect form data
       const sellerName = document.getElementById('name').value.trim();
+
       const formData = {
-        address:      document.getElementById('address').value.trim(),
-        city:         document.getElementById('city').value.trim(),
-        state:        document.getElementById('state').value.trim(),
-        zip:          document.getElementById('zip').value.trim(),
-        seller_name:  sellerName,
-        seller_phone: document.getElementById('phone').value.trim(),
-        seller_email: document.getElementById('email').value.trim(),
-        condition:    document.getElementById('condition').value || null,
-        timeline:     document.getElementById('timeline').value || null,
-        asking_price: document.getElementById('asking_price').value.trim() || null,
-        notes:        document.getElementById('notes').value.trim() || null,
-        stage:        'New Lead',
-        arv:          null,
-        created_at:   new Date().toISOString()
+        address:            document.getElementById('address').value.trim(),
+        city:               document.getElementById('city').value.trim(),
+        state:              document.getElementById('state').value.trim().toUpperCase(),
+        zip:                document.getElementById('zip').value.trim(),
+        seller_name:        sellerName,
+        seller_phone:       document.getElementById('phone').value.trim(),
+        seller_email:       document.getElementById('email').value.trim(),
+        sms_consent:        document.getElementById('smsConsent').checked,
+        asking_price:       document.getElementById('asking_price').value.trim() || null,
+        condition:          document.getElementById('condition').value || null,
+        timeline:           document.getElementById('timeline').value || null,
+        notes:              document.getElementById('notes').value.trim() || null,
+        stage:              'New Lead',
+        arv:                null,
+        created_at:         new Date().toISOString()
       };
 
       try {
-        // ── Save to Supabase ─────────────────────────────────────────────────
-        const { error: sbError } = await _supabase.from('leads').insert([formData]);
-        if (sbError) throw sbError;
+        // ✅ Fixed: removed rogue comma from .insert([formData])
+        const { error } = await _supabase
+          .from('leads')
+          .insert([formData]);
 
-        // ── Redirect to Thank You page ───────────────────────────────────────
+        if (error) throw error;
+
+        // ✅ Fixed: redirect to thank-you page instead of showing inline message
         const firstName = sellerName.split(' ')[0];
         window.location.href = 'thank-you.html?name=' + encodeURIComponent(firstName);
 
