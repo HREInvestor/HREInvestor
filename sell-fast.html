@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sell Your House Fast | HREI</title>
+
+  <link rel="icon" type="image/jpeg" href="assets/hrei-logo.jpg">
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -19,9 +21,15 @@
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
-    body { font-family: 'Inter', sans-serif; }
-    .hero-gradient { background: linear-gradient(135deg, #0B5C63 0%, #073C40 100%); }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; font-size: 18px; line-height: 1.7; }
+
+    .hero-gradient {
+      background: linear-gradient(135deg, #0B5C63 0%, #073C40 100%);
+    }
+
     .form-input {
       width: 100%;
       padding: 14px;
@@ -36,6 +44,7 @@
       border-color: #0B5C63;
       box-shadow: 0 0 0 3px rgba(11, 92, 99, 0.1);
     }
+
     .submit-btn {
       width: 100%;
       padding: 18px;
@@ -60,16 +69,18 @@
       transform: none;
       box-shadow: none;
     }
+
     .error-message {
       display: none;
       padding: 20px;
       background: #ef4444;
       color: white;
-      border-radius: 12px;
+      border-radius: 10px;
       text-align: center;
-      font-weight: 700;
+      font-weight: 600;
       margin-bottom: 20px;
     }
+
     .trust-bar {
       display: flex;
       justify-content: center;
@@ -89,7 +100,7 @@
 </head>
 <body class="bg-slate-50">
 
-  <!-- Navigation -->
+  <!-- ── Navigation ─────────────────────────────────────────────────────── -->
   <nav class="bg-white shadow-sm sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
@@ -102,7 +113,7 @@
     </div>
   </nav>
 
-  <!-- Hero Section -->
+  <!-- ── Hero ───────────────────────────────────────────────────────────── -->
   <section class="hero-gradient text-white py-20">
     <div class="max-w-4xl mx-auto px-4 text-center">
       <div class="inline-block bg-white/10 border border-white/20 rounded-full px-5 py-2 text-sm font-bold mb-6 text-yellow-300 uppercase tracking-widest">
@@ -123,7 +134,7 @@
     </div>
   </section>
 
-  <!-- Benefits Bar -->
+  <!-- ── Benefits ───────────────────────────────────────────────────────── -->
   <section class="py-12 bg-white">
     <div class="max-w-6xl mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
@@ -146,7 +157,7 @@
     </div>
   </section>
 
-  <!-- Form Section -->
+  <!-- ── Form ───────────────────────────────────────────────────────────── -->
   <section class="py-16 bg-slate-50">
     <div class="max-w-2xl mx-auto px-4">
       <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
@@ -158,14 +169,14 @@
           Fill out the form below and we'll contact you within 24 hours with a no-obligation offer.
         </p>
 
-        <!-- Error Message -->
+        <!-- Error Banner -->
         <div id="errorMessage" class="error-message">
           ✕ Something went wrong. Please try again or call us directly.
         </div>
 
         <form id="sellForm">
 
-          <!-- Property Address -->
+          <!-- Address -->
           <div class="mb-6">
             <label class="block text-sm font-bold text-slate-700 mb-2">Property Address *</label>
             <input type="text" id="address" name="address" required
@@ -184,7 +195,7 @@
             <div>
               <label class="block text-sm font-bold text-slate-700 mb-2">State *</label>
               <input type="text" id="state" name="state" value="AL" required
-                     class="form-input" placeholder="AL" maxlength="2">
+                     class="form-input" maxlength="2">
             </div>
             <div>
               <label class="block text-sm font-bold text-slate-700 mb-2">Zip Code *</label>
@@ -209,7 +220,7 @@
 
           <!-- Email -->
           <div class="mb-6">
-            <label class="block text-sm font-bold text-slate-700 mb-2">Email *</label>
+            <label class="block text-sm font-bold text-slate-700 mb-2">Email Address *</label>
             <input type="email" id="email" name="email" required
                    class="form-input" placeholder="john@example.com">
           </div>
@@ -221,7 +232,7 @@
                    class="form-input" placeholder="$150,000">
           </div>
 
-          <!-- Property Condition -->
+          <!-- Condition -->
           <div class="mb-6">
             <label class="block text-sm font-bold text-slate-700 mb-2">Property Condition</label>
             <select id="condition" name="condition" class="form-input">
@@ -278,7 +289,7 @@
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- ── Footer ─────────────────────────────────────────────────────────── -->
   <footer class="text-white py-8" style="background-color: #073C40;">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <p class="text-slate-300 text-sm">© 2026 Huntsville Real Estate Investor LLC. All rights reserved.</p>
@@ -289,51 +300,56 @@
     </div>
   </footer>
 
+  <!-- ── JavaScript ─────────────────────────────────────────────────────── -->
   <script>
-    // ── Supabase Init ──────────────────────────────────────────────────────────
+    // ── Supabase Init ──────────────────────────────────────────────────────
     const SUPABASE_URL      = 'https://lmivqwscebdupfxxwfcc.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuCqbf9E9J3vuv4';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const form       = document.getElementById('sellForm');
-    const submitBtn  = document.getElementById('submitBtn');
-    const errorMsg   = document.getElementById('errorMessage');
+    const form      = document.getElementById('sellForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const errorMsg  = document.getElementById('errorMessage');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      // Disable button & show loading state
       submitBtn.disabled    = true;
       submitBtn.textContent = 'Submitting...';
       errorMsg.style.display = 'none';
 
+      // Capture seller name for redirect
       const sellerName = document.getElementById('name').value.trim();
 
+      // ✅ Build formData object — column names match Supabase exactly
       const formData = {
-        address:            document.getElementById('address').value.trim(),
-        city:               document.getElementById('city').value.trim(),
-        state:              document.getElementById('state').value.trim().toUpperCase(),
-        zip:                document.getElementById('zip').value.trim(),
-        seller_name:        sellerName,
-        seller_phone:       document.getElementById('phone').value.trim(),
-        seller_email:       document.getElementById('email').value.trim(),
-        sms_consent:        document.getElementById('smsConsent').checked,
-        asking_price:       document.getElementById('asking_price').value.trim() || null,
-        condition:          document.getElementById('condition').value || null,
-        timeline:           document.getElementById('timeline').value || null,
-        notes:              document.getElementById('notes').value.trim() || null,
-        stage:              'New Lead',
-        arv:                null,
-        created_at:         new Date().toISOString()
+        address:      document.getElementById('address').value.trim(),
+        city:         document.getElementById('city').value.trim(),
+        state:        document.getElementById('state').value.trim().toUpperCase(),
+        zip:          document.getElementById('zip').value.trim(),
+        seller_name:  sellerName,
+        seller_phone: document.getElementById('phone').value.trim(),
+        seller_email: document.getElementById('email').value.trim(),
+        sms_consent:  document.getElementById('smsConsent').checked,
+        asking_price: document.getElementById('asking_price').value.trim() || null,
+        condition:    document.getElementById('condition').value || null,   // ✅ Fixed: was 'property_condition'
+        timeline:     document.getElementById('timeline').value || null,
+        notes:        document.getElementById('notes').value.trim() || null,
+        stage:        'New Lead',
+        arv:          null,
+        created_at:   new Date().toISOString()
       };
 
       try {
-        // ✅ Fixed: removed rogue comma from .insert([formData])
+        // ✅ Fixed: removed rogue comma — was .insert(,[formData])
         const { error } = await _supabase
           .from('leads')
           .insert([formData]);
 
         if (error) throw error;
 
-        // ✅ Fixed: redirect to thank-you page instead of showing inline message
+        // ✅ Fixed: redirect to thank-you page instead of inline success message
         const firstName = sellerName.split(' ')[0];
         window.location.href = 'thank-you.html?name=' + encodeURIComponent(firstName);
 
