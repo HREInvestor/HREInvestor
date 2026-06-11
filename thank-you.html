@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You | HREI</title>
+  <link rel="icon" type="image/jpeg" href="assets/hrei-logo.jpg">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { DEFAULT: '#0B5C63', dark: '#073C40', accent: '#F59E0B' }
+          }
+        }
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- ── Google / Facebook Pixel Conversion Tracking ──────────────────────
+       Replace the placeholder IDs below with your real tracking IDs.
+       These fire ONLY on this page, confirming a lead conversion.
+  ──────────────────────────────────────────────────────────────────────── -->
+
+  <!-- Google Tag (replace G-XXXXXXXXXX with your real Measurement ID) -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+    gtag('event', 'conversion', { 'send_to': 'AW-XXXXXXXXXX/XXXXXXXXXXXXXXXX' });
+  </script> -->
+
+  <!-- Facebook Pixel (replace XXXXXXXXXXXXXXXX with your real Pixel ID) -->
+  <!-- <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'XXXXXXXXXXXXXXXX');
+    fbq('track', 'Lead');
+  </script> -->
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .hero-gradient { background: linear-gradient(135deg, #0B5C63 0%, #073C40 100%); }
+
+    .step-card {
+      background: white;
+      border-radius: 16px;
+      padding: 32px 24px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .step-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+    .step-number {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin: 0 auto 20px;
+    }
+    .cta-primary {
+      display: inline-block;
+      background: #F59E0B;
+      color: white;
+      font-weight: 800;
+      font-size: 1.1rem;
+      padding: 16px 36px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+    }
+    .cta-primary:hover {
+      background: #D97706;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
+    }
+    .cta-secondary {
+      display: inline-block;
+      background: white;
+      color: #0B5C63;
+      font-weight: 800;
+      font-size: 1.1rem;
+      padding: 16px 36px;
+      border-radius: 12px;
+      text-decoration: none;
+      border: 2px solid #0B5C63;
+      transition: all 0.3s ease;
+    }
+    .cta-secondary:hover {
+      background: #0B5C63;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* Confetti animation */
+    @keyframes fall {
+      0%   { transform: translateY(-20px) rotate(0deg);   opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    .confetti-piece {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      top: -20px;
+      animation: fall linear forwards;
+      border-radius: 2px;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    /* Checkmark pulse */
+    @keyframes pulse-check {
+      0%   { transform: scale(0.8); opacity: 0; }
+      60%  { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1);   opacity: 1; }
+    }
+    .check-icon {
+      animation: pulse-check 0.6s ease forwards;
+    }
+  </style>
+</head>
+<body class="bg-slate-50">
+
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="index.html" class="flex items-center gap-3">
+          <img src="assets/hrei-logo.jpg" alt="HREI Logo" class="h-10 w-auto rounded">
+          <span class="text-xl font-extrabold text-brand hidden sm:inline">HREI</span>
+        </a>
+        <a href="index.html" class="text-slate-700 hover:text-brand font-semibold transition">← Back to Home</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero / Confirmation Section -->
+  <section class="hero-gradient text-white py-20">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+
+      <!-- Animated Checkmark -->
+      <div class="check-icon w-24 h-24 bg-green-400 rounded-full flex items-center justify-center mx-auto mb-8 shadow-xl">
+        <svg class="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+
+      <!-- Personalized Heading -->
+      <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+        We Got It, <span id="sellerName" class="text-yellow-300">Friend</span>! 🎉
+      </h1>
+      <p class="text-xl md:text-2xl text-slate-200 mb-4 leading-relaxed">
+        Your information has been received. Our team will be reaching out to you <strong class="text-yellow-300">within 24 hours</strong> with your no-obligation cash offer.
+      </p>
+      <p class="text-lg text-slate-300">
+        Keep an eye on your phone — we may call or text from a <strong>256</strong> area code number.
+      </p>
+    </div>
+  </section>
+
+  <!-- What Happens Next Section -->
+  <section class="py-20 bg-slate-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-brand mb-4">What Happens Next?</h2>
+        <p class="text-lg text-slate-500 max-w-xl mx-auto">Here's exactly what to expect over the next 24–48 hours.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <!-- Step 1 -->
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="text-4xl mb-4">📞</div>
+          <h3 class="text-xl font-bold mb-3 text-brand">We'll Call You</h3>
+          <p class="text-slate-600 leading-relaxed">
+            A member of our team will reach out within <strong>24 hours</strong> to learn more about your property and situation.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="text-4xl mb-4">🏠</div>
+          <h3 class="text-xl font-bold mb-3 text-brand">Property Review</h3>
+          <p class="text-slate-600 leading-relaxed">
+            We'll do a quick review of your property — no repairs needed, no cleaning required. We buy as-is.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="text-4xl mb-4">💰</div>
+          <h3 class="text-xl font-bold mb-3 text-brand">Get Your Offer</h3>
+          <p class="text-slate-600 leading-relaxed">
+            You'll receive a <strong>fair, no-obligation cash offer</strong>. No pressure. You choose if and when to close.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust / Reassurance Section -->
+  <section class="py-16 bg-white border-t border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="text-2xl font-extrabold text-slate-800 mb-10">Why Sellers Choose HREI</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+        <div>
+          <div class="text-4xl mb-3">⚡</div>
+          <h3 class="font-bold text-lg text-brand mb-2">Fast Closing</h3>
+          <p class="text-slate-500 text-sm">Close in as little as 7 days or on your timeline.</p>
+        </div>
+        <div>
+          <div class="text-4xl mb-3">🚫</div>
+          <h3 class="font-bold text-lg text-brand mb-2">Zero Fees</h3>
+          <p class="text-slate-500 text-sm">No agent commissions, no closing costs, no hidden fees.</p>
+        </div>
+        <div>
+          <div class="text-4xl mb-3">🔨</div>
+          <h3 class="font-bold text-lg text-brand mb-2">Any Condition</h3>
+          <p class="text-slate-500 text-sm">We buy houses as-is. No repairs or cleaning needed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 bg-slate-50">
+    <div class="max-w-2xl mx-auto px-4 text-center">
+      <h2 class="text-3xl font-extrabold text-slate-800 mb-4">Can't Wait? Reach Out Now.</h2>
+      <p class="text-slate-500 mb-10 text-lg">
+        If you'd like to speak with someone immediately or schedule a call, we're ready.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-5 justify-center">
+        <a href="tel:2562428207" class="cta-primary">
+          📞 Call Us: (256) 242-8207
+        </a>
+        <a href="schedule.html" class="cta-secondary">
+          📅 Schedule a Call
+        </a>
+      </div>
+      <p class="text-slate-400 text-sm mt-8">
+        Or <a href="index.html" class="text-brand font-semibold hover:underline">return to the homepage</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-white py-8" style="background-color: #073C40;">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <div class="flex items-center justify-center gap-3 mb-3">
+        <img src="assets/hrei-logo.jpg" alt="HREI Logo" class="h-8 w-auto rounded">
+        <span class="font-extrabold text-lg">HREI</span>
+      </div>
+      <p class="text-slate-300 text-sm">© 2026 Huntsville Real Estate Investor LLC. All rights reserved.</p>
+      <p class="text-slate-400 text-xs mt-2">
+        <a href="index.html" class="hover:text-white transition">Home</a> |
+        <a href="sell-fast.html" class="hover:text-white transition ml-2">Sell Your House</a> |
+        <a href="privacy-policy.html" class="hover:text-white transition ml-2">Privacy Policy</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // ── Personalized Greeting ──────────────────────────────────────────────────
+    // Reads ?name=John from the URL query string.
+    // sell-fast.html can append ?name=FirstName when redirecting here.
+    (function() {
+      const params   = new URLSearchParams(window.location.search);
+      const rawName  = params.get('name') || '';
+      const firstName = rawName.split(' ')[0].trim();
+
+      if (firstName) {
+        const nameEl = document.getElementById('sellerName');
+        // Capitalize first letter, lowercase the rest for safety
+        nameEl.textContent = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+      }
+    })();
+
+    // ── Confetti Animation ─────────────────────────────────────────────────────
+    (function launchConfetti() {
+      const colors = ['#F59E0B', '#0B5C63', '#10b981', '#3b82f6', '#ef4444', '#a855f7'];
+      const count  = 80;
+
+      for (let i = 0; i < count; i++) {
+        const piece = document.createElement('div');
+        piece.classList.add('confetti-piece');
+        piece.style.left            = Math.random() * 100 + 'vw';
+        piece.style.background      = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.width           = (Math.random() * 8 + 6) + 'px';
+        piece.style.height          = (Math.random() * 8 + 6) + 'px';
+        piece.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        piece.style.animationDelay  = (Math.random() * 2) + 's';
+        piece.style.borderRadius    = Math.random() > 0.5 ? '50%' : '2px';
+        document.body.appendChild(piece);
+
+        // Remove from DOM after animation completes to keep things clean
+        piece.addEventListener('animationend', () => piece.remove());
+      }
+    })();
+  </script>
+
+</body>
+</html>
