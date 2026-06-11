@@ -3,11 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Huntsville Real Estate Investor - Professional Property Investment</title>
-  
-  <!-- Favicon -->
+  <title>HREI - Huntsville Real Estate Investment Firm</title>
   <link rel="icon" type="image/jpeg" href="assets/hrei-logo.jpg">
-  
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -22,110 +19,90 @@
     };
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  
   <style>
-    /* Smooth Scrolling */
-    html { scroll-behavior: smooth; }
-    
-    body { font-family: 'Inter', sans-serif; font-size: 18px; line-height: 1.7; }
-
-    #backToTop {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      background: #0B5C63;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      font-size: 1.3rem;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
-      display: none;
-      z-index: 3rem;
-      color: #F59E0B;
-      opacity: 0.3;
-      line-height: 1;
-    }
-    
-    #backToTop:hover { 
-      background: #073C40;
-      transform: translateY(-4px);
-    }
-
-    .section-title {
-      font-size: 2.75rem;
-      font-weight: 800;
-      margin-bottom: 1.25rem;
-      color: #073C40;
-    }
-
-    .section-subtitle {
-      font-size: 1.3rem;
-      color: #64748b;
-      max-width: 750px;
-      margin: 0 auto 3.5rem;
-      line-height: 1.8;
-    }
-
-    .service-card {
-      padding: 48px 36px;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-      transition: all 0.4s ease;
-      border: 2px solid transparent;
-    }
-    .service-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.15);
-      border-color: #0B5C63;
-    }
-
-    .service-icon {
-      font-size: 4rem;
-      margin-bottom: 1.5rem;
-    }
-
+    body { font-family: 'Inter', sans-serif; }
+    .hero-gradient { background: linear-gradient(135deg, #0B5C63 0%, #073C40 100%); }
     .cta-button {
       display: inline-block;
       background: #F59E0B;
       color: white;
-      padding: 16px 36px;
+      font-weight: 800;
+      padding: 16px 32px;
       border-radius: 12px;
-      font-weight: 700;
-      font-size: 1.1rem;
       text-decoration: none;
+      font-size: 1.1rem;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(245,158,11,0.4);
+      box-shadow: 0 6px 20px rgba(245,158,11,0.3);
     }
     .cta-button:hover {
       background: #D97706;
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(245,158,11,0.5);
+      box-shadow: 0 10px 25px rgba(245,158,11,0.4);
     }
-
-    .hero-bg {
-      background: linear-gradient(135deg, #0B5C63 0%, #073C40 50%, #0B5C63 100%);
-      min-height: 85vh;
-      position: relative;
-      overflow: hidden;
+    .cta-button-outline {
+      display: inline-block;
+      background: transparent;
+      color: white;
+      font-weight: 700;
+      padding: 16px 32px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 1.1rem;
+      border: 2px solid rgba(255,255,255,0.6);
+      transition: all 0.3s ease;
     }
-
-    .hero-bg::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: url('assets/properties/prop-1.jpg') center/cover no-repeat;
-      opacity: 0.15;
+    .cta-button-outline:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: white;
+      transform: translateY(-2px);
     }
-
+    .stat-card {
+      text-align: center;
+      padding: 32px 24px;
+    }
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #0B5C63;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      color: #64748b;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 16px;
+    }
+    .section-subtitle {
+      font-size: 1.15rem;
+      color: #64748b;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+    .step-card {
+      background: white;
+      border-radius: 16px;
+      padding: 40px 32px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .step-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
     .step-number {
-      width: 60px;
-      height: 60px;
-      background: #0B5C63;
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #F59E0B, #D97706);
       color: white;
       border-radius: 50%;
       display: flex;
@@ -133,334 +110,273 @@
       justify-content: center;
       font-size: 1.5rem;
       font-weight: 800;
-      margin: 0 auto 1.5rem;
+      margin: 0 auto 24px;
     }
-
-    .testimonial-card {
+    .service-card {
       background: white;
-      border-radius: 20px;
-      padding: 40px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-      border-left: 5px solid #F59E0B;
-    }
-
-    .stat-card {
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    .stat-number {
-      font-size: 3.5rem;
-      font-weight: 800;
-      color: #F59E0B;
-      line-height: 1;
-    }
-
-    .property-card {
       border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      padding: 36px 28px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      border: 1px solid #e2e8f0;
       transition: all 0.3s ease;
     }
-    .property-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+    .service-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+      border-color: #0B5C63;
     }
-
-    .badge {
-      display: inline-block;
-      padding: 6px 16px;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    .faq-item {
-      border-bottom: 1px solid #e2e8f0;
-      padding: 24px 0;
-    }
-
-    .faq-question {
-      font-weight: 700;
-      font-size: 1.1rem;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .faq-answer {
-      margin-top: 12px;
-      color: #64748b;
-      display: none;
-    }
-
-    .faq-answer.open {
-      display: block;
-    }
+    .mobile-menu { display: none; }
+    .mobile-menu.open { display: block; }
   </style>
 </head>
-<body class="bg-white text-slate-800">
-
-  <!-- Back to Top Button -->
-  <button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<body class="bg-white">
 
   <!-- Navigation -->
-  <nav class="bg-white shadow-md sticky top-0 z-50">
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
+
         <!-- Logo -->
         <div class="flex items-center gap-3">
-          <img src="assets/hrei-logo.jpg" alt="HREI Logo" class="h-12 w-auto rounded">
-          <span class="text-xl font-extrabold text-brand hidden sm:inline">HREI</span>
-        </div>
-        
-        <!-- Desktop Menu -->
-        <div class="hidden md:flex space-x-8 items-center">
-          <a href="#services" class="text-slate-700 hover:text-brand font-semibold transition">Services</a>
-          <a href="#how-it-works" class="text-slate-700 hover:text-brand font-semibold transition">How It Works</a>
-          <a href="https://link.clover.com/urlshortener/Whm9fV" target="_blank" rel="noopener noreferrer" class="text-slate-700 hover:text-brand font-semibold transition">Payments</a>
-          <a href="schedule.html" class="text-slate-700 hover:text-brand font-semibold transition">Schedule</a>
-          <a href="sell-fast.html" class="cta-button text-sm py-3 px-6">💰 Sell Your House</a>
-          <a href="login.html" class="text-slate-700 hover:text-brand font-semibold transition border-2 border-brand px-4 py-2 rounded-lg">Login</a>
+          <img src="assets/hrei-logo.jpg" alt="HREI Logo" class="h-12 w-auto rounded-lg shadow-sm">
+          <div>
+            <div class="text-2xl font-extrabold text-brand leading-none">HREI</div>
+            <div class="text-xs text-slate-500 font-medium">Real Estate Investors</div>
+          </div>
         </div>
 
-        <!-- Mobile Menu Button -->
-        <div class="md:hidden">
-          <button id="mobileMenuBtn" class="text-brand p-2 focus:outline-none">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-            </svg>
-          </button>
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex items-center gap-8">
+          <a href="#how-it-works" class="text-slate-700 hover:text-brand font-semibold transition">How It Works</a>
+          <a href="#services" class="text-slate-700 hover:text-brand font-semibold transition">Services</a>
+          <a href="payment.html" class="text-slate-700 hover:text-brand font-semibold transition">Payments</a>
+          <a href="schedule.html" class="text-slate-700 hover:text-brand font-semibold transition">Schedule</a>
+          <a href="login.html" class="text-slate-700 hover:text-brand font-semibold transition">Member Login</a>
+          <a href="sell-fast.html" class="cta-button text-sm py-3 px-6">💰 Get My Offer</a>
         </div>
+
+        <!-- Mobile Hamburger -->
+        <button id="menuBtn" class="md:hidden p-2 rounded-lg hover:bg-slate-100 transition" aria-label="Open menu">
+          <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+
       </div>
     </div>
 
-    <!-- Mobile Menu Dropdown -->
-    <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-slate-100 px-4 py-6 space-y-4 shadow-lg">
-      <a href="#services" class="block text-slate-700 font-semibold hover:text-brand transition">Services</a>
-      <a href="#how-it-works" class="block text-slate-700 font-semibold hover:text-brand transition">How It Works</a>
-      <a href="https://link.clover.com/urlshortener/Whm9fV" target="_blank" rel="noopener noreferrer" class="block text-slate-700 font-semibold hover:text-brand transition">Payments</a>
-      <a href="schedule.html" class="block text-slate-700 font-semibold hover:text-brand transition">Schedule</a>
-      <a href="sell-fast.html" class="block bg-brand-accent text-white text-center py-3 rounded-lg font-bold">💰 Sell Your House</a>
-      <a href="login.html" class="block text-center border-2 border-brand text-brand py-2 rounded-lg font-bold">Login</a>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu md:hidden bg-white border-t border-slate-200 px-4 pb-4">
+      <div class="flex flex-col gap-1 pt-3">
+        <a href="#how-it-works" class="py-3 px-4 rounded-lg text-slate-700 hover:bg-slate-50 font-semibold transition">How It Works</a>
+        <a href="#services" class="py-3 px-4 rounded-lg text-slate-700 hover:bg-slate-50 font-semibold transition">Services</a>
+        <a href="payment.html" class="py-3 px-4 rounded-lg text-slate-700 hover:bg-slate-50 font-semibold transition">Payments</a>
+        <a href="schedule.html" class="py-3 px-4 rounded-lg text-slate-700 hover:bg-slate-50 font-semibold transition">Schedule</a>
+        <a href="login.html" class="py-3 px-4 rounded-lg text-slate-700 hover:bg-slate-50 font-semibold transition">Member Login</a>
+        <a href="sell-fast.html" class="mt-2 cta-button text-center">💰 Get My Cash Offer</a>
+      </div>
     </div>
   </nav>
 
   <!-- Hero Section -->
-  <section class="hero-bg flex items-center justify-center text-center text-white px-4">
-    <div class="max-w-5xl relative z-10">
-      <h1 class="text-5xl md:text-7xl font-extrabold mb-8 leading-tight drop-shadow-lg">
-        Huntsville's Premier<br/>Real Estate Investment Firm
+  <section class="hero-gradient text-white py-28">
+    <div class="max-w-5xl mx-auto px-4 text-center">
+      <div class="inline-block bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-5 py-2 text-sm font-bold mb-8 text-yellow-300 uppercase tracking-widest">
+        North Alabama's #1 Cash Home Buyer
+      </div>
+      <h1 class="text-5xl md:text-7xl font-extrabold mb-8 leading-tight">
+        Huntsville Real Estate<br>
+        <span class="text-yellow-300">Investment Firm</span>
       </h1>
-      <p class="text-xl md:text-2xl mb-12 text-slate-200 max-w-3xl mx-auto leading-relaxed">
-        We buy houses fast, manage rentals professionally, and help investors build wealth in the Tennessee Valley.
+      <p class="text-xl md:text-2xl mb-12 text-slate-100 leading-relaxed max-w-3xl mx-auto">
+        We buy houses fast for cash. No repairs, no waiting. Get your fair offer in 24 hours.
       </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="sell-fast.html" class="cta-button text-lg">💰 Get a Cash Offer Today</a>
-        <a href="schedule.html" class="bg-white text-brand font-bold py-4 px-8 rounded-xl text-lg hover:bg-slate-100 transition">📅 Schedule a Call</a>
+      <div class="flex flex-col sm:flex-row gap-5 justify-center">
+        <a href="sell-fast.html" class="cta-button">💰 Get My Cash Offer</a>
+        <a href="schedule.html" class="cta-button-outline">Schedule Consultation</a>
       </div>
     </div>
   </section>
 
   <!-- Stats Section -->
-  <section class="bg-brand py-16">
+  <section class="py-16 bg-white border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="stat-card">
-          <div class="stat-number">50+</div>
-          <div class="text-white font-semibold mt-2">Properties Acquired</div>
+          <div class="stat-number">$500K+</div>
+          <div class="stat-label">In Closed Transactions</div>
         </div>
         <div class="stat-card">
-          <div class="stat-number">$2M+</div>
-          <div class="text-white font-semibold mt-2">In Transactions</div>
+          <div class="stat-number">24hrs</div>
+          <div class="stat-label">Average Offer Time</div>
         </div>
         <div class="stat-card">
           <div class="stat-number">100%</div>
-          <div class="text-white font-semibold mt-2">Local Expertise</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">24hr</div>
-          <div class="text-white font-semibold mt-2">Offer Turnaround</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Services Section -->
-  <section id="services" class="py-24 bg-slate-50">
-    <div class="max-w-7xl mx-auto px-4 text-center">
-      <h2 class="section-title">What We Do</h2>
-      <p class="section-subtitle">From buying distressed properties to managing rentals and educating investors — we do it all in Huntsville.</p>
-      
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="service-card text-center">
-          <div class="service-icon">🏠</div>
-          <h3 class="text-2xl font-bold text-brand-dark mb-4">We Buy Houses</h3>
-          <p class="text-slate-600 mb-6">Need to sell fast? We make fair cash offers on any condition home — no repairs, no commissions, no hassle.</p>
-          <a href="sell-fast.html" class="cta-button text-sm">Get My Offer</a>
-        </div>
-        
-        <div class="service-card text-center">
-          <div class="service-icon">🔑</div>
-          <h3 class="text-2xl font-bold text-brand-dark mb-4">Rental Management</h3>
-          <p class="text-slate-600 mb-6">We manage midterm and long-term rentals across Huntsville, handling everything from tenant screening to maintenance.</p>
-          <a href="rent.html" class="cta-button text-sm">View Rentals</a>
-        </div>
-        
-        <div class="service-card text-center">
-          <div class="service-icon">📚</div>
-          <h3 class="text-2xl font-bold text-brand-dark mb-4">Investor Education</h3>
-          <p class="text-slate-600 mb-6">Join our members area for exclusive forms, mini-courses, templates, and tools to grow your real estate portfolio.</p>
-          <a href="login.html" class="cta-button text-sm">Join Now</a>
+          <div class="stat-label">Cash Offers</div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- How It Works Section -->
-  <section id="how-it-works" class="py-24 bg-white">
-    <div class="max-w-7xl mx-auto px-4 text-center">
-      <h2 class="section-title">How It Works</h2>
-      <p class="section-subtitle">Selling your house to HREI is simple, fast, and stress-free. Here's our proven 3-step process.</p>
-      
-      <div class="grid md:grid-cols-3 gap-12">
-        <div>
+  <section id="how-it-works" class="py-24 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">
+          Selling your house has never been easier. Our simple 3-step process gets you cash fast.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <!-- Step 1 -->
+        <div class="step-card">
           <div class="step-number">1</div>
-          <h3 class="text-xl font-bold mb-3">Tell Us About Your Property</h3>
-          <p class="text-slate-600">Fill out our quick form or give us a call. We'll gather basic info about your home and situation.</p>
+          <h3 class="text-2xl font-bold mb-4 text-brand">Submit Your Info</h3>
+          <p class="text-slate-600 leading-relaxed">
+            Fill out our simple form with your property details. It takes less than 2 minutes.
+          </p>
         </div>
-        <div>
+
+        <!-- Step 2 -->
+        <div class="step-card">
           <div class="step-number">2</div>
-          <h3 class="text-xl font-bold mb-3">Receive a Fair Cash Offer</h3>
-          <p class="text-slate-600">Within 24 hours, we'll present you with a no-obligation cash offer based on current market conditions.</p>
+          <h3 class="text-2xl font-bold mb-4 text-brand">Get Your Offer</h3>
+          <p class="text-slate-600 leading-relaxed">
+            We'll analyze your property and send you a fair, no-obligation cash offer within 24 hours.
+          </p>
         </div>
-        <div>
+
+        <!-- Step 3 -->
+        <div class="step-card">
           <div class="step-number">3</div>
-          <h3 class="text-xl font-bold mb-3">Close on Your Timeline</h3>
-          <p class="text-slate-600">You pick the closing date. We handle all the paperwork. Get cash in hand in as little as 7 days.</p>
+          <h3 class="text-2xl font-bold mb-4 text-brand">Close & Get Paid</h3>
+          <p class="text-slate-600 leading-relaxed">
+            Choose your closing date. We handle everything and you get cash — fast and hassle-free.
+          </p>
         </div>
       </div>
 
-      <div class="mt-16">
-        <a href="sell-fast.html" class="cta-button text-lg">Start the Process →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ Section -->
-  <section class="py-24 bg-slate-50">
-    <div class="max-w-4xl mx-auto px-4">
-      <h2 class="section-title text-center">Frequently Asked Questions</h2>
-      <p class="section-subtitle text-center">Got questions? We've got answers.</p>
-
-      <div class="faq-item">
-        <div class="faq-question" onclick="toggleFaq(this)">
-          Do I need to make repairs before selling?
-          <span>+</span>
-        </div>
-        <div class="faq-answer">
-          No. We buy houses in any condition — as-is. You don't need to clean, repair, or stage anything.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question" onclick="toggleFaq(this)">
-          How fast can you close?
-          <span>+</span>
-        </div>
-        <div class="faq-answer">
-          We can close in as little as 7 days, or on whatever timeline works best for you.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question" onclick="toggleFaq(this)">
-          Are there any fees or commissions?
-          <span>+</span>
-        </div>
-        <div class="faq-answer">
-          None. We cover all closing costs. The offer we make is the amount you receive.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question" onclick="toggleFaq(this)">
-          What areas do you serve?
-          <span>+</span>
-        </div>
-        <div class="faq-answer">
-          We primarily serve Huntsville and the surrounding Tennessee Valley area, including Madison, Decatur, and Athens, AL.
-        </div>
+      <div class="text-center mt-14">
+        <a href="sell-fast.html" class="cta-button text-lg">Start Now →</a>
       </div>
     </div>
   </section>
 
-  <!-- CTA Section -->
-  <section class="py-24 bg-brand text-white text-center">
-    <div class="max-w-4xl mx-auto px-4">
-      <h2 class="text-4xl md:text-5xl font-extrabold mb-6">Ready to Get Started?</h2>
-      <p class="text-xl text-slate-200 mb-10">Whether you're selling a home, looking for a rental, or want to learn real estate investing — we're here to help.</p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="sell-fast.html" class="cta-button text-lg">💰 Get a Cash Offer</a>
-        <a href="schedule.html" class="bg-white text-brand font-bold py-4 px-8 rounded-xl text-lg hover:bg-slate-100 transition">📅 Schedule a Call</a>
+  <!-- Services Section -->
+  <section id="services" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-subtitle">
+          Whether you're looking to sell, invest, or learn — HREI has you covered.
+        </p>
       </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Service 1 -->
+        <div class="service-card">
+          <div class="text-4xl mb-5">🏠</div>
+          <h3 class="text-xl font-bold mb-3 text-brand">We Buy Houses</h3>
+          <p class="text-slate-600 leading-relaxed mb-5">
+            Sell your house fast in any condition. No repairs, no showings, no stress. Close in as little as 7 days.
+          </p>
+          <a href="sell-fast.html" class="text-brand font-bold hover:underline">Get Your Offer →</a>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-card">
+          <div class="text-4xl mb-5">📈</div>
+          <h3 class="text-xl font-bold mb-3 text-brand">Investment Opportunities</h3>
+          <p class="text-slate-600 leading-relaxed mb-5">
+            Access exclusive off-market deals, wholesale properties, and joint venture opportunities in North Alabama.
+          </p>
+          <a href="login.html" class="text-brand font-bold hover:underline">Member Access →</a>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-card">
+          <div class="text-4xl mb-5">🎓</div>
+          <h3 class="text-xl font-bold mb-3 text-brand">Investor Education</h3>
+          <p class="text-slate-600 leading-relaxed mb-5">
+            Learn the strategies, contracts, and systems used by active investors. Forms, templates, and mini-courses included.
+          </p>
+          <a href="login.html" class="text-brand font-bold hover:underline">Join Members →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="hero-gradient py-20">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6">
+        Ready to Sell Your House?
+      </h2>
+      <p class="text-xl text-slate-200 mb-10 leading-relaxed">
+        Get a no-obligation cash offer in 24 hours. No repairs. No agent fees. No hassle.
+      </p>
+      <a href="sell-fast.html" class="cta-button text-lg">💰 Get My Cash Offer Today</a>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-brand-dark text-white py-12">
+  <footer class="bg-brand-dark text-white py-12" style="background-color: #073C40;">
     <div class="max-w-7xl mx-auto px-4">
-      <div class="grid md:grid-cols-3 gap-8 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+
+        <!-- Brand -->
         <div>
           <div class="flex items-center gap-3 mb-4">
-            <img src="assets/hrei-logo.jpg" alt="HREI Logo" class="h-10 w-auto rounded">
+            <img src="assets/hrei-logo.jpg" alt="HREI Logo" class="h-10 w-auto rounded-lg">
             <span class="text-xl font-extrabold">HREI</span>
           </div>
-          <p class="text-slate-400">Huntsville's trusted real estate investment firm. Buying houses, managing rentals, and building wealth since day one.</p>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Huntsville Real Estate Investor LLC. Serving North Alabama with integrity and speed.
+          </p>
         </div>
+
+        <!-- Quick Links -->
         <div>
-          <h4 class="font-bold text-lg mb-4">Quick Links</h4>
-          <ul class="space-y-2 text-slate-400">
+          <h4 class="font-bold text-white mb-4 uppercase tracking-widest text-sm">Quick Links</h4>
+          <ul class="space-y-2 text-slate-400 text-sm">
             <li><a href="sell-fast.html" class="hover:text-white transition">Sell Your House</a></li>
-            <li><a href="rent.html" class="hover:text-white transition">Rentals</a></li>
             <li><a href="schedule.html" class="hover:text-white transition">Schedule a Call</a></li>
+            <li><a href="payment.html" class="hover:text-white transition">Payments</a></li>
             <li><a href="login.html" class="hover:text-white transition">Member Login</a></li>
-            <li><a href="https://link.clover.com/urlshortener/Whm9fV" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">Payments</a></li>
           </ul>
         </div>
+
+        <!-- Legal -->
         <div>
-          <h4 class="font-bold text-lg mb-4">Legal</h4>
-          <ul class="space-y-2 text-slate-400">
+          <h4 class="font-bold text-white mb-4 uppercase tracking-widest text-sm">Legal</h4>
+          <ul class="space-y-2 text-slate-400 text-sm">
             <li><a href="privacy-policy.html" class="hover:text-white transition">Privacy Policy</a></li>
           </ul>
         </div>
+
       </div>
-      <div class="border-t border-slate-700 pt-8 text-center text-slate-500">
-        <p>&copy; 2025 Huntsville Real Estate Investor. All rights reserved.</p>
+      <div class="border-t border-slate-700 pt-8 text-center text-slate-400 text-sm">
+        © 2026 Huntsville Real Estate Investor LLC. All rights reserved.
       </div>
     </div>
   </footer>
 
   <script>
-    // Mobile Menu Toggle
-    const btn = document.getElementById('mobileMenuBtn');
-    const menu = document.getElementById('mobileMenu');
-    btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+    // Mobile menu toggle
+    const menuBtn    = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
 
-    // Back to Top Button
-    const backToTop = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-      backToTop.style.display = window.scrollY > 400 ? 'flex' : 'none';
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
     });
 
-    // FAQ Toggle
-    function toggleFaq(el) {
-      const answer = el.nextElementSibling;
-      const icon = el.querySelector('span');
-      answer.classList.toggle('open');
-      icon.textContent = answer.classList.contains('open') ? '−' : '+';
-    }
+    // Close mobile menu when a nav link is clicked
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+      });
+    });
   </script>
 
 </body>
