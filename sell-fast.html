@@ -285,7 +285,7 @@
                       class="form-input" placeholder="Anything else we should know about the property?"></textarea>
           </div>
 
-          <!-- SMS Consent (UI only — no Supabase column) -->
+          <!-- SMS consent is stored with the submitted lead. -->
           <div class="mb-8 p-4 bg-slate-50 rounded-xl border-2 border-slate-200">
             <div class="flex items-start gap-3">
               <input type="checkbox" id="smsConsent"
@@ -393,7 +393,9 @@
         asking_price:     askingRaw ? parseFloat(askingRaw) : null,
         notes:            combinedNotes,
         stage:            'New Lead',
-        source:           'Website - Sell Fast Form'
+        source:           'Website - Sell Fast Form',
+        sms_consent:      document.getElementById('smsConsent').checked,
+        sms_consent_at:   document.getElementById('smsConsent').checked ? new Date().toISOString() : null
       };
 
       try {
