@@ -44,5 +44,5 @@ Deno.serve(async (request) => {
     token_expires_at: token.ext_expires_in ? new Date(Date.now() + Number(token.ext_expires_in) * 1000).toISOString() : null, connected_by: stateData.uid,
   });
   if (error) return page("Connection not completed", "The connection could not be saved.");
-  return page("Microsoft 365 connected", "The HREI CRM is now authorized to send from offers@hreinvestor.com. No campaign emails have been sent.");
+  return Response.redirect("https://hreinvestor.com/members/outreach.html?email_connected=1", 302);
 });
