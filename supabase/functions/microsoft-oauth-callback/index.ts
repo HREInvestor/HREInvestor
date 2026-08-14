@@ -24,7 +24,7 @@ Deno.serve(async (request) => {
     code,
     redirect_uri: Deno.env.get("MICROSOFT_REDIRECT_URI")!,
     grant_type: "authorization_code",
-    scope: "offline_access https://graph.microsoft.com/Mail.Send",
+    scope: "offline_access https://graph.microsoft.com/Mail.Send https://graph.microsoft.com/Mail.Send.Shared",
   });
   const response = await fetch("https://login.microsoftonline.com/" + Deno.env.get("MICROSOFT_TENANT_ID")! + "/oauth2/v2.0/token", { method: "POST", headers: { "content-type": "application/x-www-form-urlencoded" }, body: tokenRequest });
   if (!response.ok) return page("Connection not completed", "Microsoft could not authorize the mailbox. Please try again.");
