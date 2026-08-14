@@ -27,7 +27,12 @@ Deno.serve(async (request) => {
     scope: "offline_access https://graph.microsoft.com/Mail.Send https://graph.microsoft.com/Mail.Send.Shared",
   });
   const response = await fetch("https://login.microsoftonline.com/" + Deno.env.get("MICROSOFT_TENANT_ID")! + "/oauth2/v2.0/token", { method: "POST", headers: { "content-type": "application/x-www-form-urlencoded" }, body: tokenRequest });
-  if (!response.ok) return page("Connection not completed", "Microsoft could not authorize the mailbox. Please try again.");
+  if (!response.ok) {
+    const details = await response.json().catch(() => ({}));
+    const code = typeof details.error === "string" ? details.error : "token_exchange_failed";
+    console.error("Microsoft token exchange failed", response.status, code);
+    return page("Connection not completed", "Microsoft rejected the secure mailbox connection (" + code + ").");
+  }
   const token = await response.json();
   if (!token.refresh_token) return page("Connection not completed", "Microsoft did not provide a secure refresh token.");
 
