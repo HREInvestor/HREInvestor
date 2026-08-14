@@ -31,7 +31,6 @@ Deno.serve(async (request) => {
     response_mode: "query",
     scope: "offline_access https://graph.microsoft.com/Mail.Send https://graph.microsoft.com/Mail.Send.Shared",
     state,
-    prompt: "consent",
   });
   const tenant = Deno.env.get("MICROSOFT_TENANT_ID")!;
   return Response.json({ authorize_url: "https://login.microsoftonline.com/" + tenant + "/oauth2/v2.0/authorize?" + query }, { headers: cors });
