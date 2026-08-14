@@ -1,5 +1,10 @@
 [functions.square-webhook]
 verify_jwt = false
 
+# Browser preflight requests do not carry a token. The function itself verifies
+# the Supabase session and Owner role before issuing an OAuth redirect.
+[functions.microsoft-oauth-start]
+verify_jwt = false
+
 [functions.microsoft-oauth-callback]
 verify_jwt = false
