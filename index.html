@@ -25,16 +25,16 @@
   </main>
   <footer class="footer"><div class="shell footer-row"><div><strong>HREI — Huntsville Real Estate Investors</strong><p>Huntsville, Alabama</p><p>© 2026 Huntsville Real Estate Investor LLC.</p></div><div class="footer-links"><a href="privacy-policy.html">Privacy</a><a href="login.html">Member login</a></div></div></footer>
   <script>
-+    document.getElementById('conversationForm').addEventListener('submit', event => {
-+      event.preventDefault();
-+      const form = new FormData(event.currentTarget);
-+      sessionStorage.setItem('hrei-conversation-prefill', JSON.stringify({
-+        property_address: form.get('property_address') || '',
-+        phone: form.get('phone') || '',
-+        notes: form.get('notes') || ''
-+      }));
-+      window.location.href = 'sell-fast.html';
-+    });
-+  </script>
-+</body>
+    document.getElementById('conversationForm').addEventListener('submit', event => {
+      event.preventDefault();
+      const form = new FormData(event.currentTarget);
+      sessionStorage.setItem('hrei-conversation-prefill', JSON.stringify({
+        property_address: form.get('property_address') || '',
+        phone: form.get('phone') || '',
+        notes: form.get('notes') || ''
+      }));
+      window.location.href = 'sell-fast.html';
+    });
+  </script>
+</body>
 </html>
