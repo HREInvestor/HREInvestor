@@ -1,6 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const cors = { "Access-Control-Allow-Origin": "https://hreinvestor.com", "Access-Control-Allow-Headers": "authorization, content-type" };
+const cors = { "Access-Control-Allow-Origin": "https://hreinvestor.com", "Access-Control-Allow-Headers": "authorization, apikey, content-type" };
 const encoder = new TextEncoder();
 const b64url = (value: string) => btoa(value).replaceAll("+", "-").replaceAll("/", "_").replaceAll("=", "");
 async function sign(value: string) {
