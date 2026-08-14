@@ -29,7 +29,7 @@ Deno.serve(async (request) => {
     response_type: "code",
     redirect_uri: Deno.env.get("MICROSOFT_REDIRECT_URI")!,
     response_mode: "query",
-    scope: "offline_access https://graph.microsoft.com/Mail.Send",
+    scope: "offline_access https://graph.microsoft.com/Mail.Send https://graph.microsoft.com/Mail.Send.Shared",
     state,
     prompt: "consent",
   });
