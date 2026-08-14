@@ -323,6 +323,18 @@
   </footer>
 
   <script>
+    // ── Receive the private handoff from the homepage conversation form ───
+    try {
+      const carriedValues = JSON.parse(sessionStorage.getItem('hrei-conversation-prefill') || '{}');
+      ['property_address', 'phone', 'notes'].forEach(field => {
+        const input = document.getElementById(field);
+        if (input && carriedValues[field] && !input.value) input.value = carriedValues[field];
+      });
+      sessionStorage.removeItem('hrei-conversation-prefill');
+    } catch (_) {
+      sessionStorage.removeItem('hrei-conversation-prefill');
+    }
+
     // ── Record the time the form loaded (for timing check) ────────────────
     document.getElementById('formLoadTime').value = Date.now();
 
