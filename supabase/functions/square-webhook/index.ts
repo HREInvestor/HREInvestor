@@ -31,7 +31,7 @@ async function customerEmail(customerId: string) {
   const response = await fetch(`https://connect.squareup.com/v2/customers/${customerId}`, {
     headers: { Authorization: `Bearer ${squareAccessToken}`, "Square-Version": "2026-07-15" },
   });
-  if (!response.ok) throw new Error("Square customer lookup failed.");
+  if (!response.ok) return null;
   const { customer } = await response.json();
   return customer?.email_address?.toLowerCase() || null;
 }
@@ -50,7 +50,7 @@ Deno.serve(async (request) => {
 
   if (subscription) {
     const email = await customerEmail(subscription.customer_id);
-    if (!email) return new Response("Customer email is required", { status: 422 });
+    if (!email) return new Response("ok", { status: 200 });
 
     const active = subscription.status === "ACTIVE";
     const { error } = await supabase
