@@ -2,6 +2,20 @@
   window.addEventListener("hrei:member-ready", () => {
     const form = document.getElementById("propertyForm");
     if (!form || document.getElementById("dealRoomFields")) return;
+
+    // Keep the property-publishing action at the top of the Owner CRM.
+    const propertyCard = form.closest("article");
+    const intro = [...document.querySelectorAll("main > section")].find(section => section.querySelector("h1")?.textContent === "CRM & Operations");
+    if (propertyCard && intro) {
+      propertyCard.classList.add("mt-8");
+      propertyCard.querySelector("h2").textContent = "Add property / publish a deal";
+      const helper = document.createElement("p");
+      helper.className = "mt-2 text-sm text-slate-600";
+      helper.textContent = "Create a draft or publish a property for signed-in investors.";
+      propertyCard.querySelector("h2").after(helper);
+      intro.after(propertyCard);
+    }
+
     const fields = document.createElement("div");
     fields.id = "dealRoomFields";
     fields.className = "space-y-3";
@@ -12,17 +26,5 @@
       '<input name="documents_url" type="url" placeholder="Deal documents link (optional)" class="w-full rounded-lg border p-3">'+
       '<input name="deal_contact_email" type="email" value="office@hreinvestor.com" placeholder="Deal contact email" class="w-full rounded-lg border p-3">';
     form.querySelector("button").before(fields);
-    const currentProperties = document.getElementById("properties");
-    if (currentProperties) {
-      const observer = new MutationObserver(() => {
-        currentProperties.querySelectorAll("div.rounded-xl.border").forEach(card => {
-          if (card.querySelector("[data-deal-link]")) return;
-          const title = card.querySelector("b")?.textContent;
-          const records = window.currentMember?.client;
-          if (!title || !records) return;
-        });
-      });
-      observer.observe(currentProperties, {childList:true, subtree:true});
-    }
   });
 })();
