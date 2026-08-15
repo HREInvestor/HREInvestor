@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Deal Room — HREI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>window.__MEMBER_ROUTE__="member";</script>
+  <style>body{visibility:hidden}</style>
+</head>
+<body class="min-h-screen bg-slate-100 text-slate-900">
+<script src="/assets/js/auth-guard.js"></script>
+<main class="mx-auto max-w-6xl px-5 py-10">
+  <header class="flex flex-wrap items-center justify-between gap-4">
+    <a href="/members/properties.html" class="font-extrabold text-teal-800">← Available Properties</a>
+    <button id="out" class="text-sm font-semibold text-teal-800">Sign out</button>
+  </header>
+  <div id="room" class="mt-10"><p class="text-slate-500">Loading deal room…</p></div>
+</main>
+<script>
+const esc=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[char]));
+const money=value=>value==null||value===""?"Not provided":new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:0}).format(value);
+const number=value=>value==null||value===""?"Not provided":new Intl.NumberFormat("en-US").format(value);
+window.addEventListener("hrei:member-ready",async event=>{
+  document.body.style.visibility="visible";
+  const id=new URLSearchParams(location.search).get("id"), root=document.getElementById("room");
+  if(!id){root.innerHTML='<p class="rounded-xl bg-white p-6 shadow">Choose a property from the available-properties page.</p>';return}
+  const {data:property,error}=await event.detail.client.from("properties").select("*").eq("id",id).single();
+  if(error||!property){root.innerHTML='<p class="rounded-xl bg-white p-6 shadow">This deal is not available to your account.</p>';return}
+  const address=[property.address,property.city,property.state,property.zip].filter(Boolean).join(", ");
+  const facts=[[property.bedrooms,"Beds"],[property.bathrooms,"Baths"],[property.square_feet,"Sq Ft"]].filter(item=>item[0]!=null);
+  root.innerHTML='<section class="overflow-hidden rounded-2xl bg-white shadow">'+
+    (property.image_url?'<img src="'+esc(property.image_url)+'" alt="" class="h-72 w-full object-cover sm:h-96">':'<div class="flex h-72 items-center justify-center bg-teal-800 text-7xl">🏠</div>')+
+    '<div class="p-6 sm:p-10"><p class="text-sm font-bold uppercase tracking-wider text-teal-800">HREI Investor Deal Room</p><h1 class="mt-2 text-4xl font-extrabold">'+esc(property.title)+'</h1><p class="mt-3 text-slate-600">'+esc(address||"Address shared upon request")+'</p>'+
+    (facts.length?'<div class="mt-6 flex flex-wrap gap-3">'+facts.map(item=>'<span class="rounded-full bg-slate-100 px-4 py-2 text-sm font-bold">'+esc(number(item[0]))+' '+esc(item[1])+'</span>').join("")+'</div>':"")+
+    '<div class="mt-8 grid gap-4 md:grid-cols-3"><div class="rounded-xl bg-teal-800 p-5 text-white"><p class="text-sm font-bold uppercase tracking-wide text-teal-100">Asking price</p><p class="mt-2 text-2xl font-extrabold">'+money(property.asking_price??property.list_price)+'</p></div><div class="rounded-xl bg-slate-100 p-5"><p class="text-sm font-bold uppercase tracking-wide text-slate-500">Estimated repairs</p><p class="mt-2 text-2xl font-extrabold">'+money(property.estimated_repairs)+'</p></div><div class="rounded-xl bg-slate-100 p-5"><p class="text-sm font-bold uppercase tracking-wide text-slate-500">Estimated ARV</p><p class="mt-2 text-2xl font-extrabold">'+money(property.estimated_arv)+'</p></div></div>'+
+    '<div class="mt-10 grid gap-8 lg:grid-cols-[2fr_1fr]"><div><h2 class="text-2xl font-extrabold">Deal overview</h2><p class="mt-3 whitespace-pre-line leading-7 text-slate-700">'+esc(property.description||"Contact HREI for the full property overview.")+'</p>'+
+    (property.investment_highlights?'<h2 class="mt-8 text-2xl font-extrabold">Investment highlights</h2><p class="mt-3 whitespace-pre-line leading-7 text-slate-700">'+esc(property.investment_highlights)+'</p>':"")+
+    '</div><aside class="rounded-xl bg-slate-50 p-6"><h2 class="text-xl font-extrabold">Interested?</h2><p class="mt-2 text-sm leading-6 text-slate-600">Request details, access information, or the next step from HREI.</p><a href="mailto:'+esc(property.deal_contact_email||"office@hreinvestor.com")+'?subject='+encodeURIComponent("Interest in "+property.title)+'" class="mt-5 block rounded-lg bg-teal-800 px-4 py-3 text-center font-bold text-white">Request information</a>'+
+    (property.documents_url?'<a href="'+esc(property.documents_url)+'" target="_blank" rel="noopener" class="mt-3 block rounded-lg border border-teal-800 px-4 py-3 text-center font-bold text-teal-800">Open deal documents</a>':"")+
+    '<p class="mt-5 text-xs leading-5 text-slate-500">Information is for qualified HREI members and is subject to change. Independently verify all property and financial information before making a decision.</p></aside></div></div></section>';
+});
+document.getElementById("out").onclick=async()=>{await window.currentMember.client.auth.signOut();location.replace("/login.html")};
+</script>
+</body></html>
