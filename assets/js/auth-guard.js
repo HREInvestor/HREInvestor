@@ -7,10 +7,14 @@
   );
   const { data: { user } } = await client.auth.getUser();
   if (!user) return redirect("Please sign in to continue.");
-  const { data: profile } = await client.from("member_profiles").select("id,email,role,subscription_status").eq("id", user.id).single();
+  const { data: profile } = await client.from("member_profiles").select("id,email,role,access_status").eq("id", user.id).single();
   if (!profile) return redirect("Your member profile is not ready. Please sign in again in a moment.");
-  const contractor = profile.role === "owner" || (profile.role === "contractor" && profile.subscription_status === "active");
-  if (window.__MEMBER_ROUTE__ === "contractor" && !contractor) return redirect("An active Contractor membership is required.");
+  if (profile.access_status !== "approved") {
+    await client.auth.signOut();
+    return redirect(profile.access_status === "suspended" ? "Your account has been paused. Contact HREI for help." : "Your account is awaiting Owner approval.");
+  }
+  const contractor = profile.role === "owner" || profile.role === "contractor";
+  if (window.__MEMBER_ROUTE__ === "contractor" && !contractor) return redirect("Contractor access has not been approved for this account.");
   if (window.__MEMBER_ROUTE__ === "owner" && profile.role !== "owner") return redirect("Owner access is required.");
   window.currentMember = { user, profile, contractor, client };
   window.dispatchEvent(new CustomEvent("hrei:member-ready", { detail: window.currentMember }));
