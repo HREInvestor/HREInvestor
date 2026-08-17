@@ -1,5 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-const cors={"Access-Control-Allow-Origin":"https://hreinvestor.com","Access-Control-Allow-Headers":"authorization, content-type, apikey"};
+const cors={"Access-Control-Allow-Origin":"https://hreinvestor.com","Access-Control-Allow-Headers":"authorization, content-type, apikey, x-client-info"};
 Deno.serve(async request=>{
  if(request.method==="OPTIONS")return new Response("ok",{headers:cors});
  if(request.method!=="POST")return new Response("Method not allowed",{status:405,headers:cors});
