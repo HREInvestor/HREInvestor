@@ -108,7 +108,7 @@
         <a href="/"><img src="assets/hrei-logo.jpg" alt="HREI Logo" class="h-16 w-auto mx-auto rounded-xl shadow-md mb-4"></a>
         <div class="flex justify-center mb-3"><span class="badge-pill">🔐 Members Only</span></div>
         <h1 class="text-3xl font-extrabold text-slate-800">Welcome Back</h1>
-        <p class="text-slate-500 mt-2">Sign in to access your Owner-approved HREI dashboard</p>
+        <p class="text-slate-500 mt-2">Sign in to access your approved HREI dashboard</p>
       </div>
 
       <div id="errorMsg" class="error-msg mb-4"></div>
@@ -201,7 +201,7 @@
       setLoading(true);
       const { data, error } = await _supabase.auth.signUp({ email, password });
       if (error) { showError(error.message || 'Signup failed. Please try again.'); setLoading(false); return; }
-      showSuccess('Account request created. Confirm your email, then the HREI Owner can approve your access.');
+      showSuccess('Account request created. Confirm your email, then the HREI CRM administrator can approve your access.');
       setLoading(false);
     });
 
