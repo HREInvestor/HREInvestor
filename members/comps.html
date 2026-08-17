@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Comping Tool — HREI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>window.__MEMBER_ROUTE__="owner";</script>
+  <style>body{visibility:hidden}</style>
+</head>
+<body class="min-h-screen bg-slate-100 text-slate-900">
+<script src="/assets/js/auth-guard.js"></script>
+<main class="mx-auto max-w-7xl px-5 py-10">
+  <header class="flex flex-wrap items-center justify-between gap-4">
+    <a href="/members/owner.html" class="font-extrabold text-teal-800">← Owner CRM</a>
+    <button id="out" class="text-sm font-semibold text-teal-800">Sign out</button>
+  </header>
+  <section class="mt-10">
+    <p class="text-sm font-bold uppercase tracking-wider text-teal-800">Owner analysis</p>
+    <h1 class="mt-2 text-4xl font-extrabold">Comping Tool</h1>
+    <p class="mt-3 max-w-3xl text-slate-600">Build a quick, saved valuation from the sales you enter. This first version does not claim to be an appraisal—always verify comparable data before making an offer.</p>
+  </section>
+  <div id="app" class="mt-8"><p class="rounded-2xl bg-white p-6 shadow text-slate-500">Loading comping tool…</p></div>
+</main>
+<script src="/assets/js/comping-tool.js"></script>
+</body>
+</html>
