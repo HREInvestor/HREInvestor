@@ -73,7 +73,7 @@
       ["bedrooms","bathrooms","square_feet","repair_estimate","target_profit","offer_rule_percent"].forEach(key => values[key] = asNumber(values[key]));
       values.state = String(values.state || "AL").toUpperCase();
       let response;
-      if (selected?.id) response = await client.from("comp_analyses").update(values).eq("id",selected.id).select().single();
+      if (selected?.id) response = await client.from("comp_analyses").update({...values,updated_at:new Date().toISOString()}).eq("id",selected.id).select().single();
       else { values.created_by = ownerId; response = await client.from("comp_analyses").insert(values).select().single(); }
       const message = document.getElementById("analysisMessage");
       if (response.error) { message.textContent = "Could not save: " + response.error.message; return; }
@@ -87,6 +87,7 @@
       event.preventDefault();
       const values = Object.fromEntries(new FormData(compForm));
       ["sale_price","square_feet","bedrooms","bathrooms","distance_miles"].forEach(key => values[key] = asNumber(values[key]));
+      values.sale_date = values.sale_date || null;
       values.analysis_id = selected.id;
       const response = await client.from("comp_sales").insert(values);
       if (response.error) { alert("Could not add this comp: " + response.error.message); return; }
