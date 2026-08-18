@@ -1,6 +1,19 @@
 (() => {
   const stages = ["New Lead", "Contacted", "Offer Sent", "Under Contract", "Closed", "Not a Fit"];
   const priorities = ["hot", "warm", "cold"];
+  const distressQueues = [
+    {value:"early_public_distress", label:"Early public distress", tone:"border-emerald-200 bg-emerald-50 text-emerald-900"},
+    {value:"developing_legal_distress", label:"Developing legal distress", tone:"border-amber-200 bg-amber-50 text-amber-900"},
+    {value:"immediate_foreclosure", label:"Immediate foreclosure", tone:"border-red-200 bg-red-50 text-red-900"}
+  ];
+  const distressTypes = [
+    ["", "Select signal"], ["tax_delinquency", "Tax delinquency"], ["new_lien", "New lien"],
+    ["nuisance_assessment", "Nuisance assessment"], ["code_enforcement", "Code enforcement"],
+    ["probate", "Probate"], ["landlord_eviction", "Landlord / eviction"], ["lis_pendens", "Lis pendens"],
+    ["judicial_foreclosure", "Judicial foreclosure"], ["repeated_municipal_lien", "Repeated municipal lien"],
+    ["tax_sale_notice", "Tax-sale notice"], ["foreclosure_auction", "Foreclosure auction"], ["other", "Other verified signal"]
+  ];
+  const queueLabel = value => distressQueues.find(queue => queue.value === value)?.label || "Early public distress";
   const esc = value => String(value ?? "").replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[char]));
   const dateValue = value => value ? String(value).slice(0, 10) : "";
   const prettyDate = value => value ? new Date(value + "T12:00:00").toLocaleDateString("en-US", {month:"short", day:"numeric", year:"numeric"}) : "No date";
@@ -34,6 +47,7 @@
     let stageFilter = "all";
     let priorityFilter = "all";
     let followUpFilter = "all";
+    let queueFilter = "all";
 
     const panel = document.createElement("section");
     panel.id = "crmCommandCenter";
@@ -53,15 +67,17 @@
       const matchSearch = !search || haystack.includes(search.toLowerCase());
       const matchStage = stageFilter === "all" || lead.stage === stageFilter;
       const matchPriority = priorityFilter === "all" || lead.priority === priorityFilter;
+      const matchQueue = queueFilter === "all" || (lead.distress_queue || "early_public_distress") === queueFilter;
       const openTasks = tasks.filter(task => String(task.lead_id) === String(lead.id) && task.status === "open");
       const hasDue = (lead.next_follow_up_on && lead.next_follow_up_on <= today) || openTasks.some(task => task.due_on && task.due_on <= today);
       const matchFollowUp = followUpFilter === "all" || (followUpFilter === "due" && hasDue) || (followUpFilter === "scheduled" && (lead.next_follow_up_on || openTasks.length));
-      return matchSearch && matchStage && matchPriority && matchFollowUp;
+      return matchSearch && matchStage && matchPriority && matchQueue && matchFollowUp;
     });
 
     const render = () => {
       const visible = filteredLeads();
       const stageCounts = stages.map(stage => ({stage, count: leads.filter(lead => lead.stage === stage).length}));
+      const queueCounts = distressQueues.map(queue => ({...queue, count: leads.filter(lead => (lead.distress_queue || "early_public_distress") === queue.value).length}));
       const dueCount = leads.filter(lead => lead.next_follow_up_on && lead.next_follow_up_on <= today).length +
         tasks.filter(task => task.status === "open" && task.due_on && task.due_on <= today).length;
 
@@ -70,13 +86,17 @@
           <div><p class="text-sm font-bold uppercase tracking-wider text-teal-800">CRM Command Center</p><h2 class="mt-1 text-2xl font-extrabold">Pipeline & follow-up</h2><p class="mt-1 text-sm text-slate-600">Organize every conversation and keep the next action visible.</p></div>
           <div class="rounded-xl bg-amber-50 px-4 py-3 text-sm font-bold text-amber-900">${dueCount} follow-up${dueCount === 1 ? "" : "s"} due</div>
         </div>
-        <div class="mt-5 grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        <div class="mt-5 grid gap-3 md:grid-cols-3">
+          ${queueCounts.map(item => `<button type="button" data-distress-queue="${item.value}" class="rounded-xl border p-4 text-left ${item.tone}"><span class="block text-3xl font-extrabold">${item.count}</span><span class="text-sm font-extrabold">${esc(item.label)}</span></button>`).join("")}
+        </div>
+        <div class="mt-3 grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
           ${stageCounts.map(item => `<button type="button" data-pipeline-stage="${esc(item.stage)}" class="rounded-xl border p-3 text-left hover:border-teal-700"><span class="block text-2xl font-extrabold text-teal-800">${item.count}</span><span class="text-xs font-bold text-slate-600">${esc(item.stage)}</span></button>`).join("")}
         </div>
         <div class="mt-6 grid gap-3 md:grid-cols-4">
           <input id="crmSearch" value="${esc(search)}" placeholder="Search seller, address, phone, or email" class="rounded-lg border p-3 md:col-span-2">
           <select id="crmStageFilter" class="rounded-lg border p-3"><option value="all">All stages</option>${stages.map(value => `<option value="${esc(value)}" ${stageFilter === value ? "selected" : ""}>${esc(value)}</option>`).join("")}</select>
           <select id="crmPriorityFilter" class="rounded-lg border p-3"><option value="all">All priorities</option>${priorities.map(value => `<option value="${value}" ${priorityFilter === value ? "selected" : ""}>${value[0].toUpperCase() + value.slice(1)}</option>`).join("")}</select>
+          <select id="crmQueueFilter" class="rounded-lg border p-3"><option value="all">All distress queues</option>${distressQueues.map(queue => `<option value="${queue.value}" ${queueFilter === queue.value ? "selected" : ""}>${esc(queue.label)}</option>`).join("")}</select>
           <select id="crmFollowUpFilter" class="rounded-lg border p-3"><option value="all">All follow-ups</option><option value="due" ${followUpFilter === "due" ? "selected" : ""}>Due now</option><option value="scheduled" ${followUpFilter === "scheduled" ? "selected" : ""}>Scheduled</option></select>
           <button id="crmClearFilters" type="button" class="rounded-lg border px-4 py-3 text-sm font-bold">Clear filters</button>
           <p class="self-center text-sm text-slate-600 md:col-span-2">${visible.length} of ${leads.length} lead${leads.length === 1 ? "" : "s"} shown</p>
@@ -97,11 +117,13 @@
             <div><div class="flex flex-wrap items-center gap-2"><b class="text-lg">${esc(leadName(lead))}</b><span class="rounded-full px-2 py-1 text-xs font-bold ${priorityStyle}">${esc(lead.priority || "warm")}</span></div>
             <p class="mt-1 text-sm text-slate-600">${esc(lead.phone || "No phone")} · ${esc(lead.email || "No email")}</p>
             <p class="mt-1 text-sm">${esc([lead.property_address, lead.city, lead.state, lead.zip].filter(Boolean).join(", ") || "No property address yet")}</p></div>
-            <div class="text-right text-sm"><b>${esc(lead.stage || "New Lead")}</b><p class="mt-1 text-slate-600">Follow up: ${prettyDate(lead.next_follow_up_on)}</p></div>
+            <div class="text-right text-sm"><b>${esc(lead.stage || "New Lead")}</b><p class="mt-1 font-bold text-teal-800">${esc(queueLabel(lead.distress_queue))}</p><p class="mt-1 text-slate-600">Follow up: ${prettyDate(lead.next_follow_up_on)}</p></div>
           </div>
-          <div class="mt-4 grid gap-3 md:grid-cols-4">
+          <div class="mt-4 grid gap-3 md:grid-cols-3">
             <label class="text-xs font-bold text-slate-600">Stage<select data-stage="${lead.id}" class="mt-1 w-full rounded-lg border p-2 text-sm">${stages.map(value => `<option ${lead.stage === value ? "selected" : ""}>${esc(value)}</option>`).join("")}</select></label>
             <label class="text-xs font-bold text-slate-600">Priority<select data-priority="${lead.id}" class="mt-1 w-full rounded-lg border p-2 text-sm">${priorities.map(value => `<option value="${value}" ${(lead.priority || "warm") === value ? "selected" : ""}>${value[0].toUpperCase() + value.slice(1)}</option>`).join("")}</select></label>
+            <label class="text-xs font-bold text-slate-600">Distress queue<select data-queue="${lead.id}" class="mt-1 w-full rounded-lg border p-2 text-sm">${distressQueues.map(queue => `<option value="${queue.value}" ${(lead.distress_queue || "early_public_distress") === queue.value ? "selected" : ""}>${esc(queue.label)}</option>`).join("")}</select></label>
+            <label class="text-xs font-bold text-slate-600">Verified signal<select data-distress-type="${lead.id}" class="mt-1 w-full rounded-lg border p-2 text-sm">${distressTypes.map(([value,label]) => `<option value="${value}" ${(lead.distress_type || "") === value ? "selected" : ""}>${esc(label)}</option>`).join("")}</select></label>
             <label class="text-xs font-bold text-slate-600">Next follow-up<input data-followup="${lead.id}" value="${dateValue(lead.next_follow_up_on)}" type="date" class="mt-1 w-full rounded-lg border p-2 text-sm"></label>
             <button type="button" data-save-lead="${lead.id}" class="self-end rounded-lg bg-teal-800 px-3 py-2 text-sm font-bold text-white">Save lead plan</button>
           </div>
@@ -120,22 +142,28 @@
       panel.querySelector("#crmSearch").oninput = input => { search = input.target.value; render(); };
       panel.querySelector("#crmStageFilter").onchange = input => { stageFilter = input.target.value; render(); };
       panel.querySelector("#crmPriorityFilter").onchange = input => { priorityFilter = input.target.value; render(); };
+      panel.querySelector("#crmQueueFilter").onchange = input => { queueFilter = input.target.value; render(); };
       panel.querySelector("#crmFollowUpFilter").onchange = input => { followUpFilter = input.target.value; render(); };
-      panel.querySelector("#crmClearFilters").onclick = () => { search = ""; stageFilter = "all"; priorityFilter = "all"; followUpFilter = "all"; render(); };
+      panel.querySelector("#crmClearFilters").onclick = () => { search = ""; stageFilter = "all"; priorityFilter = "all"; queueFilter = "all"; followUpFilter = "all"; render(); };
       panel.querySelectorAll("[data-pipeline-stage]").forEach(button => button.onclick = () => { stageFilter = button.dataset.pipelineStage; render(); });
+      panel.querySelectorAll("[data-distress-queue]").forEach(button => button.onclick = () => { queueFilter = button.dataset.distressQueue; render(); });
       panel.querySelectorAll("[data-save-lead]").forEach(button => button.onclick = async () => {
         const id = button.dataset.saveLead;
         const stage = panel.querySelector(`[data-stage="${id}"]`).value;
         const priority = panel.querySelector(`[data-priority="${id}"]`).value;
         const followUp = panel.querySelector(`[data-followup="${id}"]`).value || null;
+        const distressQueue = panel.querySelector(`[data-queue="${id}"]`).value;
+        const distressType = panel.querySelector(`[data-distress-type="${id}"]`).value || null;
         const previous = leads.find(lead => String(lead.id) === String(id));
         button.disabled = true;
-        const {error} = await client.from("leads").update({stage, priority, next_follow_up_on: followUp}).eq("id", id);
+        const {error} = await client.from("leads").update({stage, priority, next_follow_up_on: followUp, distress_queue:distressQueue, distress_type:distressType}).eq("id", id);
         if (error) { alert("Could not save this lead plan: " + error.message); button.disabled = false; return; }
         if (previous.stage !== stage) await logActivity(id, "stage_changed", "Stage changed from " + (previous.stage || "New Lead") + " to " + stage);
         if ((previous.priority || "warm") !== priority) await logActivity(id, "priority_changed", "Priority changed to " + priority);
         if ((previous.next_follow_up_on || null) !== followUp) await logActivity(id, "follow_up_set", followUp ? "Follow-up scheduled for " + prettyDate(followUp) : "Follow-up date cleared");
-        Object.assign(previous, {stage, priority, next_follow_up_on: followUp});
+        if ((previous.distress_queue || "early_public_distress") !== distressQueue) await logActivity(id, "note", "Distress queue changed to " + queueLabel(distressQueue));
+        if ((previous.distress_type || null) !== distressType) await logActivity(id, "note", "Verified distress signal changed to " + (distressTypes.find(item => item[0] === distressType)?.[1] || "not specified"));
+        Object.assign(previous, {stage, priority, next_follow_up_on: followUp, distress_queue:distressQueue, distress_type:distressType});
         render();
       });
       panel.querySelectorAll("[data-add-task]").forEach(button => button.onclick = async () => {
