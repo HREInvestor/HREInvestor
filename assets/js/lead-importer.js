@@ -52,7 +52,7 @@
         const sameNameAndAddress = clean(row.seller_name) && clean(row.property_address) && clean(lead.seller_name) === clean(row.seller_name) && clean(lead.property_address) === clean(row.property_address);
         return sameEmail || samePhone || sameNameAndAddress;
       });
-      return { index:index + 2, row, valid, duplicate };
+      return { index:index + 2, row, valid, duplicate, archivedMatch: duplicate && existing.some(lead => lead.archived_at && ((row.email && clean(lead.email) === clean(row.email)) || (digits(row.phone).length >= 7 && digits(lead.phone) === digits(row.phone)) || (clean(row.seller_name) && clean(row.property_address) && clean(lead.seller_name) === clean(row.seller_name) && clean(lead.property_address) === clean(row.property_address)))) };
     });
   }
   function renderReview() {
@@ -62,7 +62,7 @@
     document.getElementById("summary").textContent = reviewed.length + " row(s) found · " + valid.length + " ready · " + duplicates.length + " likely duplicate(s) · " + eligible.length + " will import.";
     document.getElementById("import").disabled = !eligible.length;
     document.getElementById("preview").innerHTML = '<table class="min-w-full text-left text-sm"><thead><tr class="border-b text-slate-500"><th class="p-3">Row</th><th class="p-3">Seller</th><th class="p-3">Property / contact</th><th class="p-3">Status</th></tr></thead><tbody>' + reviewed.slice(0,100).map(item => {
-      const status = !item.valid ? "Needs seller name plus contact or property" : item.duplicate ? (skip ? "Duplicate — skipped" : "Duplicate — included") : "Ready";
+      const archivedMatch=item.duplicate&&item.archivedMatch;const status = !item.valid ? "Needs seller name plus contact or property" : archivedMatch ? "Archived match — blocked from outreach" : item.duplicate ? (skip ? "Duplicate — skipped" : "Duplicate — included") : "Ready";
       const style = !item.valid ? "text-red-700" : item.duplicate ? "text-amber-700" : "text-teal-800";
       return '<tr class="border-b"><td class="p-3">'+item.index+'</td><td class="p-3 font-bold">'+esc(item.row.seller_name || "—")+'</td><td class="p-3">'+esc([item.row.property_address,item.row.city,item.row.state].filter(Boolean).join(", ") || item.row.phone || item.row.email || "—")+'</td><td class="p-3 font-bold '+style+'">'+status+'</td></tr>';
     }).join("") + (reviewed.length > 100 ? '<tr><td colspan="4" class="p-3 text-slate-500">Showing the first 100 rows.</td></tr>' : "") + '</tbody></table>';
