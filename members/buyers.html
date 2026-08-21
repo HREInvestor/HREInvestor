@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cash Buyer CRM — HREI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>window.__MEMBER_ROUTE__="owner";</script>
+  <style>body{visibility:hidden}</style>
+</head>
+<body class="min-h-screen bg-slate-100 text-slate-900">
+  <script src="/assets/js/auth-guard.js"></script>
+  <main class="mx-auto max-w-7xl px-5 py-8">
+    <header class="flex flex-wrap items-center justify-between gap-3">
+      <div><a href="/members/" class="text-sm font-bold text-teal-800">← CRM</a><h1 class="mt-2 text-3xl font-extrabold">Cash Buyer CRM</h1><p class="mt-1 text-slate-600">Review buyer intake profiles and organize the people to contact when a deal is ready.</p></div>
+      <button id="signOut" class="text-sm font-semibold text-teal-800">Sign out</button>
+    </header>
+
+    <section class="mt-6 rounded-2xl bg-white p-5 shadow">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div><h2 class="font-bold">Buyer intake link</h2><p class="mt-1 text-sm text-slate-600">Text this link to a cash buyer after you meet them.</p></div>
+        <div class="flex w-full max-w-xl gap-2"><input id="intakeLink" readonly class="min-w-0 flex-1 rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm"><button id="copyLink" class="rounded-lg bg-teal-700 px-4 py-2 text-sm font-bold text-white hover:bg-teal-800">Copy link</button></div>
+      </div>
+      <p id="linkMessage" class="mt-2 text-sm font-medium" aria-live="polite"></p>
+    </section>
+
+    <section class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="rounded-2xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Total buyers</p><p id="totalCount" class="mt-1 text-3xl font-extrabold">—</p></div>
+      <div class="rounded-2xl bg-white p-5 shadow"><p class="text-sm text-slate-500">New intake</p><p id="newCount" class="mt-1 text-3xl font-extrabold">—</p></div>
+      <div class="rounded-2xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Vetted</p><p id="vettedCount" class="mt-1 text-3xl font-extrabold">—</p></div>
+      <div class="rounded-2xl bg-white p-5 shadow"><p class="text-sm text-slate-500">Priority buyers</p><p id="priorityCount" class="mt-1 text-3xl font-extrabold">—</p></div>
+    </section>
+
+    <section class="mt-6 rounded-2xl bg-white p-5 shadow">
+      <div class="grid gap-3 md:grid-cols-4">
+        <label class="md:col-span-2"><span class="text-sm font-semibold">Search</span><input id="search" type="search" placeholder="Name, company, email, city, ZIP, or buy box" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2"></label>
+        <label><span class="text-sm font-semibold">Status</span><select id="statusFilter" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2"><option value="">All active statuses</option><option value="new">New</option><option value="active">Active</option><option value="vetted">Vetted</option><option value="priority">Priority</option><option value="inactive">Inactive</option><option value="opted_out">Opted out</option></select></label>
+        <label><span class="text-sm font-semibold">County</span><select id="countyFilter" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2"><option value="">All counties</option><option>Madison</option><option>Marshall</option><option>Limestone</option><option>Morgan</option><option>Jackson</option><option>Other Alabama</option></select></label>
+      </div>
+      <p id="message" class="mt-4 text-sm font-medium" aria-live="polite"></p>
+      <div id="buyers" class="mt-5 grid gap-5 lg:grid-cols-2"></div>
+    </section>
+  </main>
+  <script src="/assets/js/cash-buyer-crm.js"></script>
+</body>
+</html>
