@@ -38,7 +38,7 @@
         '<dl class="mt-4 grid gap-x-4 gap-y-3 text-sm sm:grid-cols-2"><div><dt class="font-semibold text-slate-500">Markets</dt><dd>' + list(b.counties) + '</dd></div><div><dt class="font-semibold text-slate-500">Strategy / property</dt><dd>' + list(b.strategies) + ' · ' + list(b.property_types) + '</dd></div><div><dt class="font-semibold text-slate-500">Purchase range</dt><dd>' + money(b.min_purchase_price) + ' – ' + money(b.max_purchase_price) + '</dd></div><div><dt class="font-semibold text-slate-500">Experience</dt><dd>' + (b.purchases_last_12_months ?? "—") + ' bought in last 12 mo. · ' + (b.lifetime_purchases ?? "—") + ' lifetime</dd></div><div><dt class="font-semibold text-slate-500">Funding / close</dt><dd>' + list(b.funding_sources) + ' · ' + (b.typical_close_days ? esc(b.typical_close_days) + ' typical days to close' : "—") + '</dd></div><div><dt class="font-semibold text-slate-500">Proof of funds</dt><dd>' + esc((b.proof_of_funds_status || "available_on_request").replaceAll("_", " ")) + '</dd></div></dl>' +
         (b.buy_box ? '<p class="mt-4 rounded-lg bg-slate-50 p-3 text-sm"><b>Buy box:</b> ' + esc(b.buy_box) + "</p>" : "") +
         '<label class="mt-4 block text-sm font-semibold">Private CRM notes<textarea data-notes="' + b.id + '" class="mt-1 w-full rounded-lg border border-slate-300 p-2 font-normal" rows="3" placeholder="Notes only your team can see">' + esc(b.internal_notes || "") + '</textarea></label>' +
-        '<div class="mt-3 flex flex-wrap gap-2"><button data-save="' + b.id + '" class="rounded-lg bg-teal-700 px-3 py-2 text-sm font-bold text-white hover:bg-teal-800">Save changes</button><button data-contact="' + b.id + '" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50">Mark contacted</button><button data-optout="' + b.id + '" class="rounded-lg border border-red-300 px-3 py-2 text-sm font-semibold text-red-700 hover:bg-red-50">Do not contact</button></div>' +
+        '<div class="mt-3 flex flex-wrap gap-2"><button data-save="' + b.id + '" class="rounded-lg bg-teal-700 px-3 py-2 text-sm font-bold text-white hover:bg-teal-800">Save changes</button><button data-contact="' + b.id + '" class="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50">Mark contacted</button><button data-optout="' + b.id + '" class="rounded-lg border border-red-300 px-3 py-2 text-sm font-semibold text-red-700 hover:bg-red-50">Do not contact</button><button data-delete="' + b.id + '" class="rounded-lg border border-red-700 px-3 py-2 text-sm font-bold text-red-800 hover:bg-red-50">Delete buyer</button></div>' +
         '</article>';
     }).join("");
   }
@@ -66,6 +66,7 @@
       const save = target.dataset.save;
       const contact = target.dataset.contact;
       const optout = target.dataset.optout;
+      const remove = target.dataset.delete;
       if (save) {
         const status = qs('[data-status="' + save + '"]').value;
         const notes = qs('[data-notes="' + save + '"]').value.trim();
@@ -73,6 +74,17 @@
       }
       if (contact) updateBuyer(Number(contact), { last_contacted_at: new Date().toISOString() }, "Contact activity recorded.");
       if (optout && confirm("Mark this buyer as do not contact? No messages will be sent from the CRM.")) updateBuyer(Number(optout), { contact_opt_out:true, status:"opted_out" }, "Buyer marked do not contact.");
+      if (remove) {
+        const buyer = buyers.find((item) => item.id === Number(remove));
+        if (!confirm("Permanently delete " + (buyer?.full_name || "this buyer") + "? This cannot be undone.")) return;
+        setMessage("Deleting buyer…");
+        client.from("cash_buyers").delete().eq("id", Number(remove)).then(({ error }) => {
+          if (error) { setMessage(error.message, true); return; }
+          buyers = buyers.filter((item) => item.id !== Number(remove));
+          setMessage("Buyer permanently deleted.");
+          render();
+        });
+      }
     });
   }
 
