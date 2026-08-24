@@ -8,3 +8,11 @@ verify_jwt = false
 
 [functions.microsoft-oauth-callback]
 verify_jwt = false
+
+# These functions verify the session and Owner role internally. The public
+# unsubscribe endpoint must also be available without a Supabase session.
+[functions.marketing-campaign-send]
+verify_jwt = false
+
+[functions.marketing-unsubscribe]
+verify_jwt = false
