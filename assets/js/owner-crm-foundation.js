@@ -74,7 +74,7 @@
       return matchSearch && matchStage && matchPriority && matchQueue && matchFollowUp;
     });
 
-    const render = () => {
+    const render = (searchCursor = null) => {
       const visible = filteredLeads();
       const stageCounts = stages.map(stage => ({stage, count: leads.filter(lead => lead.stage === stage).length}));
       const queueCounts = distressQueues.map(queue => ({...queue, count: leads.filter(lead => (lead.distress_queue || "early_public_distress") === queue.value).length}));
@@ -139,7 +139,10 @@
         </article>`;
       }).join("") : '<p class="rounded-xl bg-slate-50 p-5 text-slate-500">No leads match these filters.</p>';
 
-      panel.querySelector("#crmSearch").oninput = input => { search = input.target.value; render(); };
+      panel.querySelector("#crmSearch").oninput = input => {
+        search = input.target.value;
+        render(input.target.selectionStart);
+      };
       panel.querySelector("#crmStageFilter").onchange = input => { stageFilter = input.target.value; render(); };
       panel.querySelector("#crmPriorityFilter").onchange = input => { priorityFilter = input.target.value; render(); };
       panel.querySelector("#crmQueueFilter").onchange = input => { queueFilter = input.target.value; render(); };
@@ -192,6 +195,12 @@
         if (error) { alert("Could not save the note: " + error.message); button.disabled = false; return; }
         render();
       });
+
+      if (searchCursor !== null) {
+        const searchInput = panel.querySelector("#crmSearch");
+        searchInput.focus({preventScroll:true});
+        searchInput.setSelectionRange(searchCursor, searchCursor);
+      }
     };
     render();
   });
