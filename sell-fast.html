@@ -285,19 +285,6 @@
                       class="form-input" placeholder="Anything else we should know about the property?"></textarea>
           </div>
 
-          <!-- SMS consent is stored with the submitted lead. -->
-          <div class="mb-8 p-4 bg-slate-50 rounded-xl border-2 border-slate-200">
-            <div class="flex items-start gap-3">
-              <input type="checkbox" id="smsConsent"
-                     class="mt-1 w-5 h-5 flex-shrink-0" required>
-              <label for="smsConsent" class="text-xs text-slate-600 leading-relaxed">
-                I consent to receive text messages and calls from HREI at (256) 242-8207 regarding my property inquiry.
-                Message &amp; data rates may apply. Reply STOP to opt out at any time.
-                See our <a href="privacy-policy.html" class="underline font-bold text-brand">Privacy Policy</a>.
-              </label>
-            </div>
-          </div>
-
           <button type="submit" id="submitBtn" class="submit-btn">
             GET MY CASH OFFER →
           </button>
@@ -405,9 +392,7 @@
         asking_price:     askingRaw ? parseFloat(askingRaw) : null,
         notes:            combinedNotes,
         stage:            'New Lead',
-        source:           'Website - Sell Fast Form',
-        sms_consent:      document.getElementById('smsConsent').checked,
-        sms_consent_at:   document.getElementById('smsConsent').checked ? new Date().toISOString() : null
+        source:           'Website - Sell Fast Form'
       };
 
       try {
