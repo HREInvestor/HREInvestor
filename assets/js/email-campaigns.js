@@ -60,20 +60,25 @@
     const rows=campaignR.data||[];
     document.getElementById("history").innerHTML=rows.length?rows.map(row=>'<article class="rounded-xl border p-4"><div class="flex flex-wrap justify-between gap-2"><b>'+esc(row.name)+'</b><span class="rounded-full bg-slate-100 px-2 py-1 text-xs font-bold">'+esc(row.status)+'</span></div><p class="mt-1 text-sm text-slate-600">'+esc(row.subject)+" · "+Number(row.sent_count||0)+" sent · "+Number(row.failed_count||0)+" failed · "+new Date(row.created_at).toLocaleString()+"</p></article>").join(""):'<p class="text-sm text-slate-500">No campaigns yet.</p>';
   };
-  window.addEventListener("hrei:member-ready",async event=>{
-    client=event.detail.client;document.body.style.visibility="visible";await load();
+  let initialized=false;
+  const initialize=async member=>{
+    if(initialized||!member)return;
+    initialized=true;
+    client=member.client;document.body.style.visibility="visible";await load();
     document.getElementById("all").onclick=()=>{if(selectedIds.size!==leads.length)leads.forEach(lead=>selectedIds.add(String(lead.id)));else selectedIds.clear();draftId=null;renderRecipients();};
     document.getElementById("previewButton").onclick=showPreview;
     document.getElementById("campaignForm").onsubmit=async submitEvent=>{
       submitEvent.preventDefault();const result=document.getElementById("result"),button=submitEvent.submitter;
       button.disabled=true;
       try{
-        const id=await saveDraft(event.detail.user.id);showPreview();result.textContent="Draft saved for "+selected().length+" recipients. Nothing has been sent.";
+        const id=await saveDraft(member.user.id);showPreview();result.textContent="Draft saved for "+selected().length+" recipients. Nothing has been sent.";
         document.getElementById("draftStatus").textContent="Draft saved. Campaign ID: "+id;
         await load();
       }catch(error){result.textContent=error.message||"Could not save the draft.";}
       finally{button.disabled=false;}
     };
     document.getElementById("out").onclick=async()=>{await client.auth.signOut();location.replace("/login.html");};
-  });
+  };
+  window.addEventListener("hrei:member-ready",event=>initialize(event.detail));
+  initialize(window.currentMember);
 })();
