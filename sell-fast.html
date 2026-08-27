@@ -285,6 +285,15 @@
                       class="form-input" placeholder="Anything else we should know about the property?"></textarea>
           </div>
 
+          <div class="mb-8 p-4 bg-slate-50 rounded-xl border-2 border-slate-200">
+            <div class="flex items-start gap-3">
+              <input type="checkbox" id="contactConsent" class="mt-1 w-5 h-5 flex-shrink-0" required>
+              <label for="contactConsent" class="text-xs text-slate-600 leading-relaxed">
+                I agree that HREI may contact me by phone, text, or email about this property inquiry. I understand I can opt out of marketing emails at any time. See our <a href="privacy-policy.html" class="underline font-bold text-brand">Privacy Policy</a>.
+              </label>
+            </div>
+          </div>
+
           <button type="submit" id="submitBtn" class="submit-btn">
             GET MY CASH OFFER →
           </button>
@@ -378,6 +387,9 @@
       if (conditionVal) noteParts.push('Condition: ' + conditionVal);
       if (timelineVal)  noteParts.push('Timeline: '  + timelineVal);
       if (notesVal)     noteParts.push(notesVal);
+      if (document.getElementById('contactConsent').checked) {
+        noteParts.push('Contact permission confirmed through website form: phone, text, and email. Submitted ' + new Date().toISOString() + '.');
+      }
       const combinedNotes = noteParts.join(' | ') || null;
 
       // ✅ All keys match exact Supabase column names
@@ -436,6 +448,7 @@
 
       } catch (err) {
         console.error('Submission error:', err);
+        errorMsg.textContent = 'We could not save your request: ' + (err.message || 'Please try again.');
         errorMsg.style.display = 'block';
         errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
         submitBtn.disabled    = false;
