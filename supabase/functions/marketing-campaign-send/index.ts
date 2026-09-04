@@ -12,6 +12,26 @@ const errorText = async (response: Response) => {
   const body = await response.json().catch(() => ({}));
   return text(body?.error?.message || body?.error_description || body?.message || response.statusText || "Email provider request failed.");
 };
+const sender = {
+  name: "Joshua Cornelius",
+  company: "Huntsville Real Estate Investors LLC",
+  phone: "(256) 701-0912",
+  address: "119 Terry Drake Rd, Owens Cross Rds, AL 35763",
+};
+const firstName = (name: unknown) => {
+  const value = text(name).trim();
+  if (!value) return "there";
+  return /\b(llc|inc|trust|properties|investments|homes|builders)\b/i.test(value) ? value : value.split(/\s+/)[0];
+};
+const propertyAddress = (lead: Record<string, unknown>) =>
+  [lead.property_address, lead.city, lead.state, lead.zip_code].filter(Boolean).map(text).join(", ") || "your property";
+const merge = (value: unknown, lead: Record<string, unknown>) => text(value)
+  .replaceAll("[First Name]", firstName(lead.seller_name))
+  .replaceAll("[Property Address]", propertyAddress(lead))
+  .replaceAll("[Your Name]", sender.name)
+  .replaceAll("[Company Name]", sender.company)
+  .replaceAll("[Phone Number]", sender.phone)
+  .replaceAll("[Mailing Address]", sender.address);
 
 async function getMicrosoftToken(connection: { refresh_token: string }) {
   const request = new URLSearchParams({
@@ -44,7 +64,7 @@ Deno.serve(async request => {
   const campaignId = text(payload.campaign_id);
   const requestedIds = [...new Set(Array.isArray(payload.lead_ids) ? payload.lead_ids.map(Number).filter(Number.isFinite) : [])];
   if (!campaignId || !requestedIds.length) return json({ message: "Choose a campaign and at least one lead." }, 400);
-  if (requestedIds.length > 100) return json({ message: "Send to at most 100 recipients at a time." }, 400);
+  if (requestedIds.length > 250) return json({ message: "Send to at most 250 recipients at a time." }, 400);
 
   const { data: campaign } = await supabase.from("email_campaigns").select("id,subject,message,status").eq("id", campaignId).single();
   if (!campaign) return json({ message: "Campaign was not found." }, 404);
@@ -54,7 +74,7 @@ Deno.serve(async request => {
   if (!connection?.refresh_token || !connection.sender_email) return json({ message: "Connect offers@hreinvestor.com on Owner Outreach before sending." }, 400);
 
   const { data: rows } = await supabase.from("leads")
-    .select("id,email,email_opt_out,contact_opt_out,archived_at")
+    .select("id,email,seller_name,property_address,city,state,zip_code,email_opt_out,contact_opt_out,archived_at")
     .in("id", requestedIds);
   const eligible = (rows || []).filter(row => row.email && !row.email_opt_out && !row.contact_opt_out && !row.archived_at);
   if (!eligible.length) return json({ message: "None of the selected leads are eligible for email." }, 400);
@@ -76,15 +96,15 @@ Deno.serve(async request => {
       .upsert(record, { onConflict: "campaign_id,lead_id" }).select("id").single();
     if (recipientError || !recipient?.id) { failed++; continue; }
     const unsubscribeUrl = "https://lmivqwscebdupfxxwfcc.supabase.co/functions/v1/marketing-unsubscribe?recipient_id=" + encodeURIComponent(recipient.id);
-    const html = "<p>Advertisement from Huntsville Real Estate Investors LLC</p>" +
-      "<p>" + escapeHtml(campaign.message).replace(/\n/g, "<br>") + "</p>" +
-      "<hr><p style=\"font-size:12px;color:#64748b\">Huntsville Real Estate Investors LLC · 119 Terry Drake Rd, Owens Cross Rds, AL 35763<br><a href=\"" + unsubscribeUrl + "\">Unsubscribe from future marketing emails</a></p>";
+    const html = "<p>Advertisement from " + escapeHtml(sender.company) + "</p>" +
+      "<p>" + escapeHtml(merge(campaign.message, lead)).replace(/\n/g, "<br>") + "</p>" +
+      "<hr><p style=\"font-size:12px;color:#64748b\">" + escapeHtml(sender.company) + " · " + escapeHtml(sender.address) + "<br><a href=\"" + unsubscribeUrl + "\">Unsubscribe from future marketing emails</a></p>";
     const response = await fetch("https://graph.microsoft.com/v1.0/me/sendMail", {
       method: "POST",
       headers: { authorization: "Bearer " + token.access_token, "content-type": "application/json" },
       body: JSON.stringify({
         message: {
-          subject: campaign.subject,
+          subject: merge(campaign.subject, lead),
           body: { contentType: "HTML", content: html },
           toRecipients: [{ emailAddress: { address: lead.email } }],
           from: { emailAddress: { address: connection.sender_email } },

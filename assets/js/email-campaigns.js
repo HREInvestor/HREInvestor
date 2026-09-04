@@ -2,6 +2,8 @@
   const esc=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[char]));
   const sender={name:"Joshua Cornelius",company:"Huntsville Real Estate Investors LLC",phone:"(256) 701-0912",address:"119 Terry Drake Rd, Owens Cross Rds, AL 35763",email:"offers@hreinvestor.com"};
   let client,leads=[],selectedIds=new Set(),draftId=null;
+  const sendButton=()=>document.getElementById("sendButton");
+  const resetDraft=()=>{draftId=null;sendButton().disabled=true;document.getElementById("draftStatus").textContent="";};
   const selected=()=>leads.filter(lead=>selectedIds.has(String(lead.id)));
   const firstName=lead=>{
     const name=String(lead.seller_name||"").trim();
@@ -23,7 +25,7 @@
     root.innerHTML=leads.length?leads.map(lead=>'<label class="flex items-start gap-3 rounded-xl border p-3"><input data-lead="'+lead.id+'" type="checkbox" '+(selectedIds.has(String(lead.id))?"checked ":"")+'class="mt-1 h-4 w-4"><span><b>'+esc(lead.seller_name||"Unnamed lead")+'</b><span class="block text-sm text-slate-600">'+esc(lead.email)+'</span><span class="block text-xs text-slate-500">'+esc(propertyAddress(lead))+"</span></span></label>").join(""):'<p class="rounded-xl bg-slate-50 p-4 text-sm text-slate-600">No eligible recipients. Leads that are archived, opted out, or missing an email are excluded.</p>';
     document.querySelectorAll("[data-lead]").forEach(box=>box.onchange=()=>{
       if(box.checked)selectedIds.add(box.dataset.lead);else selectedIds.delete(box.dataset.lead);
-      draftId=null;renderRecipients();
+      resetDraft();renderRecipients();
     });
   };
   const showPreview=()=>{
@@ -65,17 +67,37 @@
     if(initialized||!member)return;
     initialized=true;
     client=member.client;document.body.style.visibility="visible";await load();
-    document.getElementById("all").onclick=()=>{if(selectedIds.size!==leads.length)leads.forEach(lead=>selectedIds.add(String(lead.id)));else selectedIds.clear();draftId=null;renderRecipients();};
+    document.getElementById("all").onclick=()=>{if(selectedIds.size!==leads.length)leads.forEach(lead=>selectedIds.add(String(lead.id)));else selectedIds.clear();resetDraft();renderRecipients();};
     document.getElementById("previewButton").onclick=showPreview;
+    ["name","subject","message"].forEach(id=>document.getElementById(id).addEventListener("input",resetDraft));
     document.getElementById("campaignForm").onsubmit=async submitEvent=>{
       submitEvent.preventDefault();const result=document.getElementById("result"),button=submitEvent.submitter;
       button.disabled=true;
       try{
         const id=await saveDraft(member.user.id);showPreview();result.textContent="Draft saved for "+selected().length+" recipients. Nothing has been sent.";
-        document.getElementById("draftStatus").textContent="Draft saved. Campaign ID: "+id;
+        document.getElementById("draftStatus").textContent="Draft saved and ready for your final send approval.";
+        sendButton().disabled=false;
         await load();
       }catch(error){result.textContent=error.message||"Could not save the draft.";}
       finally{button.disabled=false;}
+    };
+    sendButton().onclick=async()=>{
+      const result=document.getElementById("result"),recipients=selected();
+      if(!draftId)return result.textContent="Save and preview the draft before sending.";
+      if(!recipients.length)return result.textContent="Select at least one eligible recipient.";
+      if(recipients.length>250)return result.textContent="Select 250 or fewer recipients for this campaign.";
+      if(!confirm("Send this campaign individually to "+recipients.length+" selected recipient"+(recipients.length===1?"?":"s?")+" This cannot be undone."))return;
+      const button=sendButton();button.disabled=true;button.textContent="Sending…";result.textContent="";
+      try{
+        const {data:{session}}=await client.auth.getSession();
+        if(!session)throw new Error("Your session expired. Please sign in again.");
+        const {data,error}=await client.functions.invoke("marketing-campaign-send",{body:{campaign_id:draftId,lead_ids:recipients.map(lead=>lead.id)},headers:{Authorization:"Bearer "+session.access_token}});
+        if(error){let message=error.message||"Could not send the campaign.";const response=error.context;if(response?.json){const detail=await response.json().catch(()=>null);message=detail?.message||message;}throw new Error(message);}
+        if(data?.message!=="Campaign complete.")throw new Error(data?.message||"The campaign could not be completed.");
+        result.textContent="Campaign complete: "+data.sent+" sent, "+data.failed+" failed, and "+data.skipped+" skipped.";
+        draftId=null;document.getElementById("draftStatus").textContent="";await load();
+      }catch(error){result.textContent=error.message||"Could not send the campaign.";}
+      finally{button.disabled=!draftId;button.textContent="Send approved campaign";}
     };
     document.getElementById("out").onclick=async()=>{await client.auth.signOut();location.replace("/login.html");};
   };
