@@ -16,3 +16,8 @@ verify_jwt = false
 
 [functions.marketing-unsubscribe]
 verify_jwt = false
+
+# Public seller form. The function validates the request and writes using the
+# service role so browser visitors never get direct CRM access.
+[functions.seller-inquiry-submit]
+verify_jwt = false
