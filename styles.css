@@ -7,6 +7,10 @@
   --card:#f8fafc;
   --ring: rgba(14,165,233,.35);
 }
+html{scroll-behavior:smooth}
+*:focus-visible{outline:3px solid var(--brand);outline-offset:3px}
+.skip-link{position:absolute;left:-9999px;top:0;z-index:9999;background:#fff;color:var(--ink);padding:12px 16px;font-weight:700}
+.skip-link:focus{left:12px;top:12px}
 
 /* Make in-page anchors stop below the sticky header */
 html { scroll-behavior: smooth; }              /* optional: nice smooth scroll */
