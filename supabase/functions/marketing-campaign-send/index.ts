@@ -96,12 +96,12 @@ Deno.serve(async request => {
       .upsert(record, { onConflict: "campaign_id,lead_id" }).select("id").single();
     if (recipientError || !recipient?.id) { failed++; continue; }
     const unsubscribeUrl = "https://lmivqwscebdupfxxwfcc.supabase.co/functions/v1/marketing-unsubscribe?recipient_id=" + encodeURIComponent(recipient.id);
-    const html = "<div style=\"margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;color:#334155\">" +
-      "<div style=\"max-width:640px;margin:0 auto;padding:24px;box-sizing:border-box;font-size:16px;line-height:1.65\">" +
+    const html = '<div style="margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;color:#334155">' +
+      '<div style="max-width:640px;margin:0 auto;padding:24px;box-sizing:border-box;font-size:16px;line-height:1.65">' +
       escapeHtml(merge(campaign.message, lead)).replace(/\n/g, "<br>") +
-      "<div style=\"margin-top:30px;padding-top:14px;border-top:1px solid #e2e8f0;font-size:11px;line-height:1.5;color:#94a3b8\">" +
-      "Commercial inquiry from " + escapeHtml(sender.company) + " · " + escapeHtml(sender.address) + " · <a style=\"color:#64748b\" href=\"" + unsubscribeUrl + "\">Unsubscribe</a>" +
-      "</div></div></div>";
+      '<div style="margin-top:30px;padding-top:14px;border-top:1px solid #e2e8f0;font-size:11px;line-height:1.5;color:#94a3b8">' +
+      'Commercial inquiry from ' + escapeHtml(sender.company) + ' · ' + escapeHtml(sender.address) + ' · <a style="color:#64748b" href="' + unsubscribeUrl + '">Unsubscribe</a>' +
+      '</div></div></div>';
     const response = await fetch("https://graph.microsoft.com/v1.0/me/sendMail", {
       method: "POST",
       headers: { authorization: "Bearer " + token.access_token, "content-type": "application/json" },
