@@ -35,7 +35,7 @@ create or replace function public.push_bot_trading_status(p_token text, p_payloa
 returns jsonb
 language plpgsql
 security definer
-set search_path = public
+set search_path = public, extensions
 as $$
 declare
   expected text;
@@ -56,7 +56,7 @@ begin
     raise exception 'bot push token not configured';
   end if;
 
-  incoming := encode(digest(convert_to(trim(p_token), 'utf8'), 'sha256'), 'hex');
+  incoming := encode(digest(convert_to(trim(p_token), 'utf8'), 'sha256'::text), 'hex');
   if incoming is distinct from expected then
     raise exception 'unauthorized';
   end if;
