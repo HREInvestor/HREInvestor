@@ -1,4 +1,4 @@
-// Betting bot owner guard (standalone; does not touch CRM files)
+// Prediction Bot owner guard (standalone; does not touch CRM files)
 window.BB = (function () {
   const sb = supabase.createClient('https://lmivqwscebdupfxxwfcc.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtaXZxd3NjZWJkdXBmeHh3ZmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NjQ1NzAsImV4cCI6MjA4NDE0MDU3MH0.AzE-j9Rrz1HRoGNaqicMJ8jEwO1tVuCqbf9E9J3vuv4');
   return {
