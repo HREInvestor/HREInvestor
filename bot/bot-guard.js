@@ -7,5 +7,8 @@ window.BB = (function () {
     signIn: (email, password) => sb.auth.signInWithPassword({ email, password }),
     signOut: () => sb.auth.signOut(),
     summary: () => sb.rpc('bettingbot_owner_summary'),
+    revshare: () => sb.rpc('bettingbot_revshare_summary'),
+    markPaid: (display_name, amount, paid_on, note) => sb.rpc('bettingbot_revshare_mark_paid', { p_display_name: display_name, p_amount: amount, p_paid_on: paid_on || null, p_note: note || null }),
+    voidPayment: (id) => sb.rpc('bettingbot_revshare_void', { p_id: id }),
   };
 })();
