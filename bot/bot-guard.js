@@ -11,6 +11,7 @@ window.BB = (function () {
     markPaid: (display_name, amount, paid_on, note) => sb.rpc('bettingbot_revshare_mark_paid', { p_display_name: display_name, p_amount: amount, p_paid_on: paid_on || null, p_note: note || null }),
     voidPayment: (id) => sb.rpc('bettingbot_revshare_void', { p_id: id }),
     disabledList: () => sb.rpc('bettingbot_disabled_list'),
+    downloadsList: () => sb.rpc('bettingbot_downloads_list'),
     disable: (display_name, note) => sb.rpc('bettingbot_disable', { p_display_name: display_name, p_install_id: null, p_note: note || null }),
     enable: (id) => sb.rpc('bettingbot_enable', { p_id: id }),
   };
