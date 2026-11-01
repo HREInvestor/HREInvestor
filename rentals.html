@@ -614,6 +614,10 @@
             okBox.innerHTML = '<strong>Application Saved!</strong> Redirecting you now to complete the <strong>$50.00 Application Fee</strong> checkout. If your browser does not redirect automatically within 2 seconds, <a href="' + res.body.checkout_url + '" style="text-decoration:underline;font-weight:800">click here to open the $50.00 payment checkout</a>.';
             okBox.hidden = false;
             window.location.href = res.body.checkout_url;
+          } else if (res.status === 200 && res.body && res.body.ok) {
+            okBox.innerHTML = '<strong>Application Saved!</strong> We will text or email you a secure Square payment link for the <strong>$50.00 Application Fee</strong> shortly. Questions? Call or text (256) 701-0912.';
+            okBox.hidden = false;
+            submitBtn.textContent = 'Application Submitted';
           } else {
             showError((res.body && res.body.error) || 'Could not submit application. Please try again or call (256) 701-0912.');
             submitBtn.disabled = false;
