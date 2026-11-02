@@ -1,0 +1,17 @@
+name: Refresh markets data
+on:
+  schedule: [{cron: "0 12 * * 1"}]   # Mondays 12:00 UTC (6-7 AM CT)
+  workflow_dispatch:
+permissions: {contents: write}
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install numpy && python3 scripts/update-markets.py
+        env: {HUD_TOKEN: "${{ secrets.HUD_TOKEN }}"}
+      - run: |
+          git config user.name "hrei-markets-bot"; git config user.email "office@hreinvestor.com"
+          git add data/markets.json && git commit -m "Markets data weekly refresh" && git pull --rebase && git push || echo "no changes"
