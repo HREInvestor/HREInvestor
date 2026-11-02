@@ -22,11 +22,55 @@
   const renderRecipients=()=>{
     const root=document.getElementById("recipients"),rows=selected();
     document.getElementById("count").textContent=rows.length+" of "+leads.length+" eligible lead"+(leads.length===1?"":"s")+" selected";
-    root.innerHTML=leads.length?leads.map(lead=>'<label class="flex items-start gap-3 rounded-xl border p-3"><input data-lead="'+lead.id+'" type="checkbox" '+(selectedIds.has(String(lead.id))?"checked ":"")+'class="mt-1 h-4 w-4"><span><b>'+esc(lead.seller_name||"Unnamed lead")+'</b><span class="block text-sm text-slate-600">'+esc(lead.email)+'</span><span class="block text-xs text-slate-500">'+esc(propertyAddress(lead))+"</span></span></label>").join(""):'<p class="rounded-xl bg-slate-50 p-4 text-sm text-slate-600">No eligible recipients. Leads that are archived, opted out, or missing an email are excluded.</p>';
+    root.innerHTML=leads.length?leads.map(lead=>'<label class="flex items-start gap-3 rounded-xl border p-3"><input data-lead="'+lead.id+'" type="checkbox" '+(selectedIds.has(String(lead.id))?"checked ":"")+'class="mt-1 h-4 w-4"><span><b>'+esc(lead.seller_name||"Unnamed lead")+'</b> <span class="rounded bg-slate-100 px-1 font-mono text-xs text-slate-600">#'+esc(lead.id)+'</span><span class="block text-sm text-slate-600">'+esc(lead.email)+'</span><span class="block text-xs text-slate-500">'+esc(propertyAddress(lead))+"</span></span></label>").join(""):'<p class="rounded-xl bg-slate-50 p-4 text-sm text-slate-600">No eligible recipients. Leads that are archived, opted out, or missing an email are excluded.</p>';
     document.querySelectorAll("[data-lead]").forEach(box=>box.onchange=()=>{
       if(box.checked)selectedIds.add(box.dataset.lead);else selectedIds.delete(box.dataset.lead);
       resetDraft();renderRecipients();
     });
+  };
+  const parseIds=text=>[...new Set(String(text||"").split(/[\s,;]+/).map(v=>v.replace(/^#/,"").trim()).filter(Boolean))];
+  const leadCols="id,seller_name,email,property_address,city,state,zip_code,archived_at,contact_opt_out,email_opt_out";
+  const reasonFor=lead=>{const r=[];if(lead.archived_at)r.push("archived");if(lead.contact_opt_out||lead.email_opt_out)r.push("opted out");if(!String(lead.email||"").trim())r.push("no email");return r;};
+  const fetchByIds=async ids=>{
+    const out=[];
+    for(let i=0;i<ids.length;i+=150){const {data,error}=await client.from("leads").select(leadCols).in("id",ids.slice(i,i+150));if(error)throw error;out.push(...(data||[]));}
+    return out;
+  };
+  const selectByIds=async(ids,replace)=>{
+    const report=document.getElementById("idReport");
+    if(!ids.length){report.textContent="No IDs found in the box.";return {matched:0};}
+    report.textContent="Checking "+ids.length+" IDs…";
+    const rows=await fetchByIds(ids),byId=new Map(rows.map(row=>[String(row.id),row])),known=new Set(leads.map(l=>String(l.id)));
+    if(replace)selectedIds.clear();
+    const notFound=[],ineligible=[];let matched=0;
+    ids.forEach(id=>{
+      const row=byId.get(id);
+      if(!row){notFound.push(id);return;}
+      const reasons=reasonFor(row);
+      if(reasons.length){ineligible.push(id+" ("+reasons.join(", ")+")");return;}
+      if(!known.has(id)){leads.push(row);known.add(id);}
+      selectedIds.add(id);matched++;
+    });
+    resetDraft();renderRecipients();
+    const total=selectedIds.size;
+    report.innerHTML='<b>'+matched+" of "+ids.length+" IDs matched eligible leads and were checked.</b> "+total+" selected in total."+(total>250?' <span class="font-bold text-red-700">Over the 250-per-campaign cap — trim before sending.</span>':"")+(notFound.length?'<p class="mt-1 text-red-700">Not found ('+notFound.length+"): "+esc(notFound.join(", "))+"</p>":"")+(ineligible.length?'<p class="mt-1 text-amber-800">Not eligible ('+ineligible.length+"): "+esc(ineligible.join("; "))+"</p>":"");
+    return {matched,notFound,ineligible};
+  };
+  const loadDraft=async id=>{
+    const result=document.getElementById("result");
+    const {data:campaign,error}=await client.from("email_campaigns").select("id,name,subject,message,status").eq("id",id).single();
+    if(error)return result.textContent="Could not load draft: "+error.message;
+    if(campaign.status!=="draft")return result.textContent="Only draft campaigns can be loaded.";
+    const {data:recips,error:rErr}=await client.from("email_campaign_recipients").select("lead_id").eq("campaign_id",id).limit(1000);
+    if(rErr)return result.textContent="Could not load draft recipients: "+rErr.message;
+    document.getElementById("name").value=campaign.name||"";
+    document.getElementById("subject").value=campaign.subject||"";
+    document.getElementById("message").value=campaign.message||"";
+    const ids=[...new Set((recips||[]).map(r=>String(r.lead_id)))];
+    document.getElementById("idInput").value=ids.join(", ");
+    await selectByIds(ids,true);
+    result.textContent="Loaded draft “"+campaign.name+"” with "+selectedIds.size+" eligible recipients. Click “Save draft & preview” to save it as a new draft before sending. Nothing has been sent.";
+    document.getElementById("campaignForm").scrollIntoView({behavior:"smooth",block:"start"});
   };
   const showPreview=()=>{
     const result=document.getElementById("result"),lead=selected()[0],row=values();
@@ -60,7 +104,8 @@
     if(leadR.error){document.getElementById("result").textContent="Could not load recipients: "+leadR.error.message;return;}
     leads=(leadR.data||[]).filter(lead=>String(lead.email||"").trim());renderRecipients();
     const rows=campaignR.data||[];
-    document.getElementById("history").innerHTML=rows.length?rows.map(row=>'<article class="rounded-xl border p-4"><div class="flex flex-wrap justify-between gap-2"><b>'+esc(row.name)+'</b><span class="rounded-full bg-slate-100 px-2 py-1 text-xs font-bold">'+esc(row.status)+'</span></div><p class="mt-1 text-sm text-slate-600">'+esc(row.subject)+" · "+Number(row.sent_count||0)+" sent · "+Number(row.failed_count||0)+" failed · "+new Date(row.created_at).toLocaleString()+"</p></article>").join(""):'<p class="text-sm text-slate-500">No campaigns yet.</p>';
+    const hist=document.getElementById("history");hist.innerHTML=rows.length?rows.map(row=>'<article class="rounded-xl border p-4"><div class="flex flex-wrap justify-between gap-2"><b>'+esc(row.name)+'</b><span class="rounded-full bg-slate-100 px-2 py-1 text-xs font-bold">'+esc(row.status)+'</span></div><p class="mt-1 text-sm text-slate-600">'+esc(row.subject)+" · "+Number(row.sent_count||0)+" sent · "+Number(row.failed_count||0)+" failed · "+new Date(row.created_at).toLocaleString()+"</p>"+(row.status==="draft"?'<button type="button" data-load-draft="'+esc(row.id)+'" class="mt-2 rounded-lg border border-teal-800 px-3 py-1 text-xs font-bold text-teal-900">Load copy & recipients</button>':"")+"</article>").join(""):'<p class="text-sm text-slate-500">No campaigns yet.</p>';
+    hist.querySelectorAll("[data-load-draft]").forEach(b=>b.onclick=()=>loadDraft(b.dataset.loadDraft).catch(e=>document.getElementById("result").textContent=e.message));
   };
   let initialized=false;
   const initialize=async member=>{
@@ -69,6 +114,8 @@
     client=member.client;document.body.style.visibility="visible";await load();
     document.getElementById("all").onclick=()=>{if(selectedIds.size!==leads.length)leads.forEach(lead=>selectedIds.add(String(lead.id)));else selectedIds.clear();resetDraft();renderRecipients();};
     document.getElementById("previewButton").onclick=showPreview;
+    let idTimer;document.getElementById("idInput").addEventListener("input",()=>{clearTimeout(idTimer);idTimer=setTimeout(()=>document.getElementById("idApply").click(),700);});
+    document.getElementById("idApply").onclick=()=>selectByIds(parseIds(document.getElementById("idInput").value),document.getElementById("idReplace").checked).catch(e=>document.getElementById("idReport").textContent="Could not check IDs: "+(e.message||e));
     ["name","subject","message"].forEach(id=>document.getElementById(id).addEventListener("input",resetDraft));
     document.getElementById("campaignForm").onsubmit=async submitEvent=>{
       submitEvent.preventDefault();const result=document.getElementById("result"),button=submitEvent.submitter;
