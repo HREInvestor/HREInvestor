@@ -1,9 +1,9 @@
 (()=>{
   const esc=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[char]));
   const sender={name:"Joshua Cornelius",company:"Huntsville Real Estate Investors LLC",phone:"(256) 684-8692",address:"119 Terry Drake Rd, Owens Cross Rds, AL 35763",email:"offers@hreinvestor.com"};
-  let client,leads=[],selectedIds=new Set(),draftId=null;
+  let client,leads=[],selectedIds=new Set(),draftId=null,draftRecipients=null;const extraLeads=new Map();
   const sendButton=()=>document.getElementById("sendButton");
-  const resetDraft=()=>{draftId=null;sendButton().disabled=true;document.getElementById("draftStatus").textContent="";};
+  const resetDraft=()=>{draftId=null;draftRecipients=null;sendButton().disabled=true;document.getElementById("draftStatus").textContent="";};
   const selected=()=>leads.filter(lead=>selectedIds.has(String(lead.id)));
   const firstName=lead=>{
     const name=String(lead.seller_name||"").trim();
@@ -48,7 +48,7 @@
       if(!row){notFound.push(id);return;}
       const reasons=reasonFor(row);
       if(reasons.length){ineligible.push(id+" ("+reasons.join(", ")+")");return;}
-      if(!known.has(id)){leads.push(row);known.add(id);}
+      if(!known.has(id)){leads.push(row);known.add(id);}extraLeads.set(id,row);
       selectedIds.add(id);matched++;
     });
     resetDraft();renderRecipients();
@@ -89,12 +89,12 @@
     const recipients=selected(),row=values();
     if(!recipients.length)throw new Error("Select at least one eligible recipient.");
     if(!row.name||!row.subject||!row.message)throw new Error("Complete the campaign name, subject, and message first.");
-    if(draftId)return draftId;
+    if(draftId){draftRecipients=draftRecipients||recipients;return draftId;}
     const {data:campaign,error:campaignError}=await client.from("email_campaigns").insert({...row,created_by:userId,status:"draft"}).select("id").single();
     if(campaignError)throw campaignError;
     const {error:recipientError}=await client.from("email_campaign_recipients").insert(recipients.map(lead=>({campaign_id:campaign.id,lead_id:lead.id,recipient_email:lead.email,status:"queued"})));
     if(recipientError){await client.from("email_campaigns").delete().eq("id",campaign.id);throw recipientError;}
-    draftId=campaign.id;return draftId;
+    draftId=campaign.id;draftRecipients=recipients;return draftId;
   };
   const load=async()=>{
     const [leadR,campaignR]=await Promise.all([
@@ -102,7 +102,7 @@
       client.from("email_campaigns").select("id,name,subject,status,sent_count,failed_count,created_at,sent_at").order("created_at",{ascending:false}).limit(20)
     ]);
     if(leadR.error){document.getElementById("result").textContent="Could not load recipients: "+leadR.error.message;return;}
-    leads=(leadR.data||[]).filter(lead=>String(lead.email||"").trim());renderRecipients();
+    leads=(leadR.data||[]).filter(lead=>String(lead.email||"").trim());{const have=new Set(leads.map(l=>String(l.id)));extraLeads.forEach((row,id)=>{if(!have.has(id))leads.push(row);});}renderRecipients();
     const rows=campaignR.data||[];
     const hist=document.getElementById("history");hist.innerHTML=rows.length?rows.map(row=>'<article class="rounded-xl border p-4"><div class="flex flex-wrap justify-between gap-2"><b>'+esc(row.name)+'</b><span class="rounded-full bg-slate-100 px-2 py-1 text-xs font-bold">'+esc(row.status)+'</span></div><p class="mt-1 text-sm text-slate-600">'+esc(row.subject)+" · "+Number(row.sent_count||0)+" sent · "+Number(row.failed_count||0)+" failed · "+new Date(row.created_at).toLocaleString()+"</p>"+(row.status==="draft"?'<button type="button" data-load-draft="'+esc(row.id)+'" class="mt-2 rounded-lg border border-teal-800 px-3 py-1 text-xs font-bold text-teal-900">Load copy & recipients</button>':"")+"</article>").join(""):'<p class="text-sm text-slate-500">No campaigns yet.</p>';
     hist.querySelectorAll("[data-load-draft]").forEach(b=>b.onclick=()=>loadDraft(b.dataset.loadDraft).catch(e=>document.getElementById("result").textContent=e.message));
@@ -129,7 +129,7 @@
       finally{button.disabled=false;}
     };
     sendButton().onclick=async()=>{
-      const result=document.getElementById("result"),recipients=selected();
+      const result=document.getElementById("result"),recipients=draftRecipients||selected();
       if(!draftId)return result.textContent="Save and preview the draft before sending.";
       if(!recipients.length)return result.textContent="Select at least one eligible recipient.";
       if(recipients.length>250)return result.textContent="Select 250 or fewer recipients for this campaign.";
@@ -142,7 +142,7 @@
         if(error){let message=error.message||"Could not send the campaign.";const response=error.context;if(response?.json){const detail=await response.json().catch(()=>null);message=detail?.message||message;}throw new Error(message);}
         if(data?.message!=="Campaign complete.")throw new Error(data?.message||"The campaign could not be completed.");
         result.textContent="Campaign complete: "+data.sent+" sent, "+data.failed+" failed, and "+data.skipped+" skipped.";
-        draftId=null;document.getElementById("draftStatus").textContent="";await load();
+        draftId=null;draftRecipients=null;document.getElementById("draftStatus").textContent="";await load();
       }catch(error){result.textContent=error.message||"Could not send the campaign.";}
       finally{button.disabled=!draftId;button.textContent="Send approved campaign";}
     };
