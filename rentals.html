@@ -175,7 +175,7 @@
         <div class="hero-badges">
           <span class="hero-badge">✓ Renovated Single-Family Homes</span>
           <span class="hero-badge">✓ Standard 12-Month &amp; Corporate/Employee Leases</span>
-          <span class="hero-badge">✓ Online Application &amp; Instant Fee Checkout</span>
+          <span class="hero-badge">✓ Free Online Application — No Fee</span>
         </div>
       </div>
     </section>
@@ -184,8 +184,8 @@
       <div class="shell">
 
         <div id="paid-confirmation" class="paid-banner" hidden>
-          <h3>✓ Application Submitted &amp; Fee Checkout Completed</h3>
-          <p id="paid-confirmation-text">Thank you! We have recorded your rental application for <strong>3506 Gay Street NW, Huntsville, AL 35810</strong>. Our leasing team will review your information and contact you shortly at your phone number or email. Questions? Call or text <strong>(256) 701-0912</strong> or email <a href="mailto:offers@hreinvestor.com" style="text-decoration:underline;font-weight:700">offers@hreinvestor.com</a>.</p>
+          <h3>✓ Application Submitted</h3>
+          <p id="paid-confirmation-text">Thank you! We received your application.</p>
         </div>
 
         <div class="section-header">
@@ -252,10 +252,10 @@
 
               <div class="card-actions">
                 <button type="button" class="button" id="open-application-btn">
-                  Apply Now for 3506 Gay Street NW ($50 Application Fee) →
+                  Apply Now for 3506 Gay Street NW (Free Application) →
                 </button>
                 <div class="fee-callout" id="fee-callout-box">
-                  🔒 A non-refundable <strong>$50.00 application &amp; screening fee</strong> is required at submission to process your application.
+                  ✓ <strong>No application fee.</strong> Housing Choice Vouchers welcome.
                 </div>
               </div>
             </div>
@@ -296,29 +296,28 @@
             <div>
               <div class="eyebrow" style="color:var(--gold)">Online Rental Application • 3506 Gay Street NW</div>
               <h3 id="app-heading">Apply for 3506 Gay Street NW, Huntsville, AL 35810</h3>
-              <p>Complete the form below to apply. After clicking submit, you will be directed to our secure online payment checkout to complete the required <strong>$50.00 non-refundable application fee</strong> so our team can begin background, credit, income, and landlord verification.</p>
+              <p>Complete the form below to apply. <strong>There is no application fee.</strong> Our leasing team will review your application and contact you about next steps, verification, and a showing.</p>
             </div>
             <div class="fee-badge-large">
-              <strong>$50.00</strong>
-              <span>Non-Refundable Application Fee</span>
-              <span>Required to Process Application</span>
+              <strong>$0</strong>
+              <span>Free Application</span>
+              <span>No Fee Required</span>
             </div>
           </div>
 
           <form id="rental-app-form" novalidate>
             <input type="hidden" name="property_slug" value="3506-gay-st-nw">
-            <!-- Honeypot field -->
             <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
               <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
             </div>
 
-            <div class="form-group-title">1. Applicant Contact &amp; Move-In Timing</div>
+            <div class="form-group-title">1. Applicant Information</div>
             <div class="form-grid">
               <label class="field">Full Legal Name *
                 <input type="text" name="full_name" autocomplete="name" required placeholder="Jane Doe">
               </label>
-              <label class="field">Desired Move-In Date *
-                <input type="date" name="desired_move_in_date" required>
+              <label class="field">Date of Birth *
+                <input type="date" name="d_date_of_birth" required>
               </label>
               <label class="field">Mobile Phone Number *
                 <input type="tel" name="phone" autocomplete="tel" inputmode="tel" required placeholder="(256) 555-0199">
@@ -326,71 +325,198 @@
               <label class="field">Email Address *
                 <input type="email" name="email" autocomplete="email" required placeholder="jane@example.com">
               </label>
-            </div>
-
-            <div class="form-group-title">2. Current Residence &amp; Landlord Reference</div>
-            <div class="form-grid">
               <label class="field full-span">Current Street Address, City, State &amp; ZIP *
                 <input type="text" name="current_address" autocomplete="street-address" required placeholder="123 Oak Ave NW, Huntsville, AL 35801">
               </label>
               <label class="field">Length of Time at Current Address *
                 <input type="text" name="current_residence_duration" required placeholder="e.g., 2 years, 4 months">
               </label>
-              <label class="field">Current Landlord / Property Manager Name <span class="opt">(or "Homeowner")</span>
-                <input type="text" name="current_landlord_name" placeholder="Landlord or Apartment Complex Name">
-              </label>
-              <label class="field">Current Landlord Phone Number <span class="opt">(optional)</span>
-                <input type="tel" name="current_landlord_phone" placeholder="(256) 555-0100">
+              <label class="field">Current Monthly Rent <span class="opt">(or mortgage)</span>
+                <input type="text" name="d_current_rent" placeholder="$1,100">
               </label>
             </div>
 
-            <div class="form-group-title">3. Employment &amp; Monthly Income Verification</div>
+            <div class="form-group-title">2. Household &amp; Occupants</div>
             <div class="form-grid">
-              <label class="field">Current Employer (or Company Name for Corporate Lease) *
+              <label class="field">Total Number of Occupants (Including Yourself) *
+                <input type="number" name="occupants_count" min="1" max="10" value="1" required>
+              </label>
+              <label class="field">Number of Adults 18+ (Including Yourself) *
+                <input type="number" name="d_adults_count" min="1" max="10" value="1" required>
+              </label>
+              <label class="field">Number of Minors Under 18
+                <input type="number" name="d_minors_count" min="0" max="10" value="0">
+              </label>
+              <label class="field">Full Names of All Other Adults 18+ <span class="opt">(each adult may need to complete screening)</span>
+                <input type="text" name="d_adult_occupants" placeholder="Co-applicant / other adult names">
+              </label>
+            </div>
+
+            <div class="form-group-title">3. Move-In &amp; Lease</div>
+            <div class="form-grid">
+              <label class="field">Desired Move-In Date *
+                <input type="date" name="desired_move_in_date" required>
+              </label>
+              <label class="field">Desired Lease Length *
+                <select name="d_lease_length" required>
+                  <option value="">Select…</option>
+                  <option>12 months</option>
+                  <option>18 months</option>
+                  <option>24 months</option>
+                  <option>6 months (corporate / short term)</option>
+                  <option>Other (explain in notes)</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="form-group-title">4. Housing Choice Voucher (Section 8) — Vouchers Welcome</div>
+            <div class="form-grid">
+              <label class="field">Will you be using a housing voucher? *
+                <select name="d_has_voucher" id="voucher-select" required>
+                  <option value="">Select…</option>
+                  <option>No</option>
+                  <option>Yes</option>
+                </select>
+              </label>
+              <label class="field voucher-f">Voucher Bedroom Size
+                <select name="d_voucher_bedrooms">
+                  <option value="">Select…</option>
+                  <option>1 bedroom</option><option>2 bedroom</option><option>3 bedroom</option><option>4+ bedroom</option>
+                </select>
+              </label>
+              <label class="field voucher-f">Housing Authority
+                <input type="text" name="d_housing_authority" placeholder="e.g., Huntsville Housing Authority">
+              </label>
+              <label class="field voucher-f">Caseworker Name, Phone &amp; Email
+                <input type="text" name="d_caseworker" placeholder="Name · phone · email">
+              </label>
+              <label class="field voucher-f">Voucher Payment Standard / Amount <span class="opt">(if known)</span>
+                <input type="text" name="d_voucher_amount" placeholder="$ per month">
+              </label>
+            </div>
+
+            <div class="form-group-title">5. Rental History</div>
+            <div class="form-grid">
+              <label class="field">Current Landlord / Property Manager Name <span class="opt">(or "Homeowner")</span>
+                <input type="text" name="current_landlord_name" placeholder="Landlord or Apartment Complex Name">
+              </label>
+              <label class="field">Current Landlord Phone Number
+                <input type="tel" name="current_landlord_phone" placeholder="(256) 555-0100">
+              </label>
+              <label class="field full-span">Reason for Leaving Current Residence *
+                <input type="text" name="d_reason_for_leaving" required placeholder="e.g., need more space, relocating for work">
+              </label>
+              <label class="field">Previous Address &amp; Dates <span class="opt">(if under 2 yrs at current)</span>
+                <input type="text" name="d_prior_address" placeholder="Address · from–to">
+              </label>
+              <label class="field">Previous Landlord Name &amp; Phone
+                <input type="text" name="d_prior_landlord" placeholder="Name · phone">
+              </label>
+            </div>
+
+            <div class="form-group-title">6. Employment &amp; Income</div>
+            <div class="form-grid">
+              <label class="field">Current Employer (or Income Source) *
                 <input type="text" name="employer_name" required placeholder="e.g., Toyota Motor Mfg Alabama / Huntsville Hospital">
               </label>
               <label class="field">Job Title / Position *
                 <input type="text" name="job_title" required placeholder="e.g., Production Engineer / Registered Nurse">
               </label>
-              <label class="field">Total Monthly Gross Income (Before Taxes, USD) *
-                <input type="number" name="monthly_gross_income" min="1" step="1" required placeholder="4500">
+              <label class="field">Length of Employment *
+                <input type="text" name="d_employment_length" required placeholder="e.g., 3 years">
               </label>
-              <label class="field">Supervisor or HR Verification Contact (Name &amp; Phone/Email)
-                <input type="text" name="supervisor_or_hr_contact" placeholder="HR Department or Supervisor Phone/Email">
+              <label class="field">Supervisor or HR Contact (Name &amp; Phone/Email)
+                <input type="text" name="supervisor_or_hr_contact" placeholder="Name · phone · email">
+              </label>
+              <label class="field">Employer Phone / Address
+                <input type="text" name="d_employer_phone_address" placeholder="Phone or address">
+              </label>
+              <label class="field">Monthly Gross Income from Employment (Before Taxes) *
+                <input type="number" name="monthly_gross_income" min="0" step="1" required placeholder="4500">
+              </label>
+              <label class="field full-span">Other Monthly Income <span class="opt">(source &amp; amount, e.g., second job, child support, benefits — optional)</span>
+                <input type="text" name="d_other_income" placeholder="Source · $ per month">
               </label>
             </div>
 
-            <div class="form-group-title">4. Household Occupants, Pets &amp; Rental History</div>
+            <div class="form-group-title">7. Background Questions (Applicant &amp; All Adult Occupants)</div>
             <div class="form-grid">
-              <label class="field">Total Number of Occupants (Including Yourself) *
-                <input type="number" name="occupants_count" min="1" max="10" value="1" required>
+              <label class="field">Have you ever been evicted or had an eviction filed against you? *
+                <select name="d_eviction_ever" required><option value="">Select…</option><option>No</option><option>Yes</option></select>
               </label>
+              <label class="field">Have you ever broken a lease? *
+                <select name="d_broken_lease" required><option value="">Select…</option><option>No</option><option>Yes</option></select>
+              </label>
+              <label class="field">Do you currently owe money to any landlord or property manager? *
+                <select name="d_owe_landlord" required><option value="">Select…</option><option>No</option><option>Yes</option></select>
+              </label>
+              <label class="field">Have you filed for bankruptcy in the last 7 years? *
+                <select name="d_bankruptcy" required><option value="">Select…</option><option>No</option><option>Yes — discharged</option><option>Yes — open</option></select>
+              </label>
+              <label class="field full-span">Have you or any adult occupant been <strong>convicted</strong> of a crime (other than minor traffic violations) in the last 7 years? *
+                <span class="opt">Do not include arrests without conviction, or sealed/expunged records. A conviction does not automatically disqualify you; we review each case individually, considering the nature, severity and age of the offense and any evidence of rehabilitation.</span>
+                <select name="d_criminal_history" required><option value="">Select…</option><option>No</option><option>Yes</option></select>
+              </label>
+              <label class="field full-span">If you answered Yes to any question above, please explain <span class="opt">(dates, circumstances, and any information you'd like us to consider)</span>
+                <textarea name="d_criminal_details" placeholder="Optional explanation"></textarea>
+              </label>
+            </div>
+
+            <div class="form-group-title">8. Pets, Smoking &amp; Vehicles</div>
+            <div class="form-grid">
               <label class="field">Any Pets? *
-                <select name="has_pets" id="has-pets-select" required>
+                <select name="has_pets" required>
                   <option value="no">No Pets</option>
-                  <option value="yes">Yes (Describe breed, weight &amp; count below)</option>
+                  <option value="yes">Yes</option>
                 </select>
               </label>
-              <label class="field">Names &amp; Relationship/Ages of Other Occupants <span class="opt">(if any)</span>
-                <input type="text" name="occupants_details" placeholder="List additional adults or children">
+              <label class="field">Number of Pets
+                <input type="number" name="d_pet_count" min="0" max="10" value="0">
               </label>
-              <label class="field">Pet Details <span class="opt">(if applicable)</span>
-                <input type="text" name="pets_details" placeholder="Breed, age, weight (lbs)">
+              <label class="field">Pet Type &amp; Breed
+                <input type="text" name="d_pet_type_breed" placeholder="e.g., Dog — Lab mix">
               </label>
-              <label class="field full-span">Have you or any occupant ever had an eviction filing, broken lease, or felony conviction? *
-                <input type="text" name="prior_evictions_or_felonies" required value="No" placeholder="State 'No' or provide details">
+              <label class="field">Pet Weight(s) &amp; Age(s)
+                <input type="text" name="d_pet_weight" placeholder="e.g., 45 lbs, 3 yrs">
               </label>
-              <label class="field full-span">Additional Notes / Corporate Housing Details <span class="opt">(optional)</span>
-                <textarea name="additional_notes" placeholder="Share any additional context, voucher/relocation details, or preferred lease term..."></textarea>
+              <label class="field full-span">Do you need an assistance animal (service or support animal)? <span class="opt">Assistance animals are not pets and are not charged pet fees or deposits.</span>
+                <select name="d_assistance_animal"><option value="">Select…</option><option>No</option><option>Yes</option></select>
+              </label>
+              <label class="field">Does anyone in the household smoke or vape? *
+                <select name="d_smoking" required><option value="">Select…</option><option>No</option><option>Yes (outdoors only — no smoking inside)</option></select>
+              </label>
+              <label class="field">Number of Vehicles *
+                <input type="number" name="d_vehicles_count" min="0" max="10" value="1" required>
+              </label>
+              <label class="field full-span">Vehicle Make / Model / Year / Plate <span class="opt">(optional)</span>
+                <input type="text" name="d_vehicle_details" placeholder="e.g., 2019 Honda Civic, AL plate ABC123">
+              </label>
+            </div>
+
+            <div class="form-group-title">9. Emergency Contact &amp; Other</div>
+            <div class="form-grid">
+              <label class="field full-span">Emergency Contact (Name, Relationship, Phone) *
+                <input type="text" name="d_emergency_contact" required placeholder="Name · relationship · phone (not living with you)">
+              </label>
+              <label class="field">How Did You Hear About Us?
+                <select name="d_heard_about">
+                  <option value="">Select…</option>
+                  <option>Zillow</option><option>Apartments.com</option><option>TurboTenant</option><option>Craigslist</option><option>Facebook</option><option>Housing authority / caseworker</option><option>Employer / relocation</option><option>Yard sign / drive-by</option><option>Friend / referral</option><option>hreinvestor.com</option><option>Other</option>
+                </select>
+              </label>
+              <label class="field full-span">Additional Notes <span class="opt">(optional)</span>
+                <textarea name="additional_notes" placeholder="Anything else you'd like us to know — corporate housing details, questions, etc."></textarea>
               </label>
             </div>
 
             <div class="consent-box">
               <label class="consent-label">
                 <input type="checkbox" name="screening_consent" id="screening-consent" required>
-                <span>
-                  <strong>Applicant Certification &amp; $50.00 Screening Fee Authorization:</strong> I certify that the information provided in this application is true and complete. I authorize Huntsville Real Estate Investors LLC (HREI) and its screening partners to verify my employment, income, rental history, credit, criminal background, and eviction records. I understand and agree that the <strong>$50.00 application fee is non-refundable</strong> and that my application is not complete until the $50.00 fee payment is submitted on the next screen.
-                </span>
+                <span><strong>Screening Authorization:</strong> I authorize Huntsville Real Estate Investors LLC (HREI) and its screening partners to obtain my consumer credit report and to verify my identity, employment, income, rental history, eviction records, and criminal conviction records for the purpose of evaluating this rental application. There is <strong>no application fee</strong>.</span>
+              </label>
+              <label class="consent-label" style="margin-top:12px">
+                <input type="checkbox" name="truth_certification" id="truth-certification" required>
+                <span><strong>Certification:</strong> I certify that the information in this application is true and complete. I understand that false or incomplete information may be grounds for denial of my application or termination of a lease.</span>
               </label>
             </div>
 
@@ -399,10 +525,10 @@
 
             <div style="margin-top:22px">
               <button type="submit" class="button" id="app-submit-btn" style="width:100%;font-size:1.12rem;padding:17px 24px">
-                Submit Application &amp; Proceed to $50.00 Fee Checkout →
+                Submit Free Application →
               </button>
               <p style="font-size:.8rem;color:var(--muted);text-align:center;margin:10px 0 0">
-                Equal Housing Opportunity. All qualified applicants are screened fairly in accordance with federal Fair Housing laws.
+                <strong>Equal Housing Opportunity.</strong> HREI does not discriminate on the basis of race, color, religion, sex (including sexual orientation and gender identity), national origin, familial status, or disability, and complies with all federal, state, and local fair housing laws. Housing Choice Vouchers are welcome. Applicants with disabilities may request a reasonable accommodation at any time by calling (256) 701-0912.
               </p>
             </div>
           </form>
@@ -492,25 +618,6 @@
       }
     });
 
-    // Check URL query params for returning applicant after payment
-    var params = new URLSearchParams(window.location.search);
-    if (params.get('application_paid') === '1') {
-      var paidBanner = document.getElementById('paid-confirmation');
-      paidBanner.hidden = false;
-      var appId = params.get('app_id');
-      if (appId) {
-        fetch(ENDPOINT + '?verify_app_id=' + encodeURIComponent(appId) + '&confirm_redirect=1')
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
-            if (data && data.ok && data.application && data.application.full_name) {
-              document.getElementById('paid-confirmation-text').innerHTML =
-                'Thank you, <strong>' + data.application.full_name.replace(/[<>&]/g, '') + '</strong>! We have received your rental application and $50.00 application fee for <strong>3506 Gay Street NW, Huntsville, AL 35810</strong>. Our leasing team is reviewing your application and will contact you shortly.';
-            }
-          })
-          .catch(function() {});
-      }
-    }
-
     // Dynamically check occupancy status from Supabase Edge Function
     fetch(ENDPOINT + '?property_slug=3506-gay-st-nw')
       .then(function(r) { return r.json(); })
@@ -546,89 +653,92 @@
       errBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
+    var voucherSel = document.getElementById('voucher-select');
+    function syncVoucher() {
+      var show = voucherSel.value === 'Yes';
+      document.querySelectorAll('.voucher-f').forEach(function(el) { el.style.display = show ? '' : 'none'; });
+    }
+    voucherSel.addEventListener('change', syncVoucher); syncVoucher();
+
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       errBox.hidden = true;
       okBox.hidden = true;
 
       var fd = new FormData(form);
-      var fullName = String(fd.get('full_name') || '').trim();
-      var email = String(fd.get('email') || '').trim();
-      var phone = String(fd.get('phone') || '').trim();
+      var g = function(n) { return String(fd.get(n) || '').trim(); };
+      var fullName = g('full_name'), email = g('email'), phone = g('phone');
       var phoneDigits = phone.replace(/\D/g, '');
-      var moveIn = String(fd.get('desired_move_in_date') || '').trim();
-      var currentAddress = String(fd.get('current_address') || '').trim();
-      var employer = String(fd.get('employer_name') || '').trim();
-      var income = Number(fd.get('monthly_gross_income') || 0);
+      var income = Number(fd.get('monthly_gross_income'));
       var consent = document.getElementById('screening-consent').checked;
+      var truth = document.getElementById('truth-certification').checked;
 
       if (fullName.length < 2) return showError('Please enter your full legal name.');
-      if (!moveIn) return showError('Please select your desired move-in date.');
-      if (!(phoneDigits.length === 10 || (phoneDigits.length === 11 && phoneDigits[0] === '1'))) {
-        return showError('Please enter a valid 10-digit US phone number.');
+      if (!(phoneDigits.length === 10 || (phoneDigits.length === 11 && phoneDigits[0] === '1'))) return showError('Please enter a valid 10-digit US phone number.');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return showError('Please enter a valid email address.');
+      if (g('current_address').length < 5) return showError('Please enter your current street address.');
+      if (g('employer_name').length < 2) return showError('Please enter your current employer or income source.');
+      if (g('monthly_gross_income') === '' || !(income >= 0)) return showError('Please enter your monthly gross income (enter 0 if none).');
+      var missing = Array.prototype.filter.call(form.querySelectorAll('[required]'), function(el) {
+        return el.type !== 'checkbox' && !String(el.value || '').trim();
+      });
+      if (missing.length) {
+        missing[0].focus();
+        return showError('Please answer all required (*) questions.');
       }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-        return showError('Please enter a valid email address.');
-      }
-      if (currentAddress.length < 5) return showError('Please enter your current street address.');
-      if (employer.length < 2) return showError('Please enter your current employer or income source.');
-      if (!income || income <= 0) return showError('Please enter your monthly gross income.');
-      if (!consent) return showError('Please check the box to authorize screening and acknowledge the $50.00 application fee.');
+      if (voucherSel.value === 'Yes' && !g('d_housing_authority')) return showError('Please enter your housing authority for the voucher.');
+      if (!consent || !truth) return showError('Please check both authorization boxes to submit.');
+
+      var details = {};
+      fd.forEach(function(v, k) { if (k.indexOf('d_') === 0) { v = String(v).trim(); if (v) details[k.slice(2)] = v; } });
 
       var payload = {
         property_slug: '3506-gay-st-nw',
         full_name: fullName,
         email: email,
         phone: phone,
-        desired_move_in_date: moveIn,
-        current_address: currentAddress,
-        current_residence_duration: String(fd.get('current_residence_duration') || '').trim(),
-        current_landlord_name: String(fd.get('current_landlord_name') || '').trim(),
-        current_landlord_phone: String(fd.get('current_landlord_phone') || '').trim(),
-        employer_name: employer,
-        job_title: String(fd.get('job_title') || '').trim(),
+        desired_move_in_date: g('desired_move_in_date'),
+        current_address: g('current_address'),
+        current_residence_duration: g('current_residence_duration'),
+        current_landlord_name: g('current_landlord_name'),
+        current_landlord_phone: g('current_landlord_phone'),
+        employer_name: g('employer_name'),
+        job_title: g('job_title'),
         monthly_gross_income: income,
-        supervisor_or_hr_contact: String(fd.get('supervisor_or_hr_contact') || '').trim(),
+        supervisor_or_hr_contact: g('supervisor_or_hr_contact'),
         occupants_count: Number(fd.get('occupants_count') || 1),
-        occupants_details: String(fd.get('occupants_details') || '').trim(),
+        occupants_details: g('d_adult_occupants') + (g('d_minors_count') ? ' | minors: ' + g('d_minors_count') : ''),
         has_pets: fd.get('has_pets') === 'yes',
-        pets_details: String(fd.get('pets_details') || '').trim(),
-        prior_evictions_or_felonies: String(fd.get('prior_evictions_or_felonies') || '').trim(),
-        additional_notes: String(fd.get('additional_notes') || '').trim(),
+        pets_details: [g('d_pet_count') && 'count ' + g('d_pet_count'), g('d_pet_type_breed'), g('d_pet_weight')].filter(Boolean).join(' · '),
+        prior_evictions_or_felonies: 'Eviction: ' + g('d_eviction_ever') + '; Broken lease: ' + g('d_broken_lease') + '; Owes landlord: ' + g('d_owe_landlord') + '; Conviction (7 yrs): ' + g('d_criminal_history') + '; Bankruptcy: ' + g('d_bankruptcy'),
+        additional_notes: g('additional_notes'),
+        details: details,
         screening_consent: consent,
+        truth_certification: truth,
         website: String(fd.get('website') || '')
       };
 
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Saving Application & Opening $50.00 Checkout…';
+      submitBtn.textContent = 'Submitting Application…';
 
-      fetch(ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-        .then(function(r) {
-          return r.json().catch(function() { return {}; }).then(function(j) { return { status: r.status, body: j }; });
-        })
+      fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+        .then(function(r) { return r.json().catch(function() { return {}; }).then(function(j) { return { status: r.status, body: j }; }); })
         .then(function(res) {
-          if (res.status === 200 && res.body && res.body.ok && res.body.checkout_url) {
-            okBox.innerHTML = '<strong>Application Saved!</strong> Redirecting you now to complete the <strong>$50.00 Application Fee</strong> checkout. If your browser does not redirect automatically within 2 seconds, <a href="' + res.body.checkout_url + '" style="text-decoration:underline;font-weight:800">click here to open the $50.00 payment checkout</a>.';
+          if (res.status === 200 && res.body && res.body.ok) {
+            okBox.innerHTML = '<strong>Application Submitted!</strong> Thank you. Our leasing team will review your application and contact you shortly. Questions? Call or text (256) 701-0912 or email offers@hreinvestor.com.';
             okBox.hidden = false;
-            window.location.href = res.body.checkout_url;
-          } else if (res.status === 200 && res.body && res.body.ok) {
-            okBox.innerHTML = '<strong>Application Saved!</strong> We will text or email you a secure Square payment link for the <strong>$50.00 Application Fee</strong> shortly. Questions? Call or text (256) 701-0912.';
-            okBox.hidden = false;
+            okBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             submitBtn.textContent = 'Application Submitted';
           } else {
             showError((res.body && res.body.error) || 'Could not submit application. Please try again or call (256) 701-0912.');
             submitBtn.disabled = false;
-            submitBtn.textContent = 'Submit Application & Proceed to $50.00 Fee Checkout →';
+            submitBtn.textContent = 'Submit Free Application →';
           }
         })
         .catch(function() {
           showError('Network error while submitting application. Please check your connection and try again.');
           submitBtn.disabled = false;
-          submitBtn.textContent = 'Submit Application & Proceed to $50.00 Fee Checkout →';
+          submitBtn.textContent = 'Submit Free Application →';
         });
     });
   })();

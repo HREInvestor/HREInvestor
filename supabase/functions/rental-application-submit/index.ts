@@ -29,8 +29,42 @@ const escapeHtml = (value: unknown) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[ch]!)
   );
 
-// Legacy processor retired 2026-11-01 (merchant account deactivated). Square is primary; optional Square link via RENTAL_APPLICATION_PAYMENT_URL, else HREI sends a Square link manually.
-const FALLBACK_PAYMENT_URL = Deno.env.get("RENTAL_APPLICATION_PAYMENT_URL") || "";
+
+// Extra screening answers stored in rental_applications.application_details (jsonb). [key, label]
+const DETAIL_FIELDS: [string, string][] = [
+  ["date_of_birth", "Date of birth"],
+  ["adult_occupants", "Other adults 18+ (names)"],
+  ["adults_count", "Number of adults 18+"],
+  ["minors_count", "Number of minors under 18"],
+  ["lease_length", "Desired lease length"],
+  ["has_voucher", "Housing voucher (HCV/Section 8)"],
+  ["voucher_bedrooms", "Voucher bedroom size"],
+  ["housing_authority", "Housing authority"],
+  ["caseworker", "Caseworker name & contact"],
+  ["voucher_amount", "Voucher payment amount"],
+  ["current_rent", "Current monthly rent"],
+  ["reason_for_leaving", "Reason for leaving"],
+  ["prior_address", "Prior address & dates"],
+  ["prior_landlord", "Prior landlord name & phone"],
+  ["employment_length", "Time at employer"],
+  ["employer_phone_address", "Employer phone/address"],
+  ["other_income", "Other income (source & monthly)"],
+  ["eviction_ever", "Ever evicted / eviction filed"],
+  ["broken_lease", "Ever broken a lease"],
+  ["owe_landlord", "Owe a landlord money"],
+  ["criminal_history", "Criminal conviction disclosure"],
+  ["criminal_details", "Conviction details / mitigation"],
+  ["bankruptcy", "Bankruptcy (last 7 yrs)"],
+  ["pet_type_breed", "Pet type/breed"],
+  ["pet_weight", "Pet weight(s)"],
+  ["pet_count", "Number of pets"],
+  ["assistance_animal", "Assistance animal (no fee/deposit)"],
+  ["smoking", "Smoker in household"],
+  ["vehicles_count", "Number of vehicles"],
+  ["vehicle_details", "Vehicle make/model/plate"],
+  ["emergency_contact", "Emergency contact (name, relation, phone)"],
+  ["heard_about", "How heard about us"],
+];
 
 async function getMicrosoftToken(connection: { refresh_token: string }) {
   const reqBody = new URLSearchParams({
@@ -98,125 +132,19 @@ Deno.serve(async (request) => {
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     { auth: { persistSession: false } }
   );
-  const squareToken = Deno.env.get("SQUARE_ACCESS_TOKEN") || "";
-
   const url = new URL(request.url);
 
   if (request.method === "GET") {
     const slug = asText(url.searchParams.get("property_slug"));
-    const verifyAppId = asText(url.searchParams.get("verify_app_id"));
-    const confirmRedirect = url.searchParams.get("confirm_redirect") === "1";
-
     if (slug) {
       const { data: property, error } = await supabase
         .from("rental_properties")
-        .select("slug,title,address,city,state,zip,monthly_rent,security_deposit,application_fee_cents,bedrooms,bathrooms,square_feet,lot_acres,is_occupied,lease_term,description")
+        .select("slug,title,address,city,state,zip,monthly_rent,security_deposit,bedrooms,bathrooms,square_feet,lot_acres,is_occupied,lease_term,description")
         .eq("slug", slug)
         .maybeSingle();
       if (error || !property) return json(request, { ok: false, error: "Property not found." }, 404);
       return json(request, { ok: true, property });
     }
-
-    if (verifyAppId) {
-      const { data: app, error } = await supabase
-        .from("rental_applications")
-        .select("*")
-        .eq("id", verifyAppId)
-        .maybeSingle();
-      if (error || !app) return json(request, { ok: false, error: "Application not found." }, 404);
-
-      let isPaid = app.payment_status === "paid";
-
-      if (!isPaid && app.square_order_id && squareToken) {
-        try {
-          const orderRes = await fetch(`https://connect.squareup.com/v2/orders/${app.square_order_id}`, {
-            headers: {
-              Authorization: `Bearer ${squareToken}`,
-              "Content-Type": "application/json",
-            },
-          });
-          if (orderRes.ok) {
-            const orderJson = await orderRes.json();
-            const order = orderJson?.order;
-            const tenders = Array.isArray(order?.tenders) ? order.tenders : [];
-            if (order?.state === "COMPLETED" || tenders.length > 0) {
-              isPaid = true;
-            }
-          }
-        } catch (err) {
-          console.error("Square order check error:", err);
-        }
-      }
-
-      if (!isPaid && confirmRedirect) {
-        isPaid = true;
-      }
-
-      if (isPaid && app.payment_status !== "paid") {
-        const nowIso = new Date().toISOString();
-        await supabase
-          .from("rental_applications")
-          .update({
-            payment_status: "paid",
-            paid_at: nowIso,
-            paid_notification_sent_at: nowIso,
-            updated_at: nowIso,
-          })
-          .eq("id", app.id);
-
-        try {
-          const ownerHtml = `<div style="font-family:Arial,sans-serif;color:#1e293b;max-width:640px;margin:0 auto;padding:20px">
-            <h2 style="color:#113d3b;margin-bottom:8px">✅ Rental Application Fee Paid ($50.00) — 3506 Gay Street NW</h2>
-            <p><strong>Applicant:</strong> ${escapeHtml(app.full_name)}<br>
-            <strong>Phone:</strong> ${escapeHtml(app.phone)}<br>
-            <strong>Email:</strong> ${escapeHtml(app.email)}<br>
-            <strong>Desired Move-In:</strong> ${escapeHtml(app.desired_move_in_date || "ASAP")}<br>
-            <strong>Employer &amp; Role:</strong> ${escapeHtml(app.employer_name)} (${escapeHtml(app.job_title || "N/A")})<br>
-            <strong>Monthly Gross Income:</strong> $${escapeHtml(app.monthly_gross_income)}<br>
-            <strong>Current Address:</strong> ${escapeHtml(app.current_address)} (${escapeHtml(app.current_residence_duration || "")})<br>
-            <strong>Current Landlord:</strong> ${escapeHtml(app.current_landlord_name || "N/A")} (${escapeHtml(app.current_landlord_phone || "N/A")})<br>
-            <strong>Occupants:</strong> ${escapeHtml(app.occupants_count)} (${escapeHtml(app.occupants_details || "None listed")})<br>
-            <strong>Pets:</strong> ${app.has_pets ? "Yes — " + escapeHtml(app.pets_details || "") : "No"}<br>
-            <strong>History Disclosure:</strong> ${escapeHtml(app.prior_evictions_or_felonies || "None")}<br>
-            <strong>Application ID:</strong> ${escapeHtml(app.id)}</p>
-          </div>`;
-          await sendNotificationEmail(
-            supabase,
-            `[PAID $50] Rental Application — ${app.full_name} (3506 Gay St NW)`,
-            ownerHtml,
-            ["office@hreinvestor.com"]
-          );
-
-          const applicantHtml = `<div style="font-family:Arial,sans-serif;color:#1e293b;max-width:640px;margin:0 auto;padding:20px">
-            <h2 style="color:#113d3b">We received your rental application &amp; $50.00 application fee</h2>
-            <p>Hi ${escapeHtml(app.full_name)},</p>
-            <p>Thank you for applying for <strong>3506 Gay Street NW, Huntsville, AL 35810</strong>. Your application and $50.00 non-refundable application fee have been received by Huntsville Real Estate Investors LLC (HREI).</p>
-            <p>Our leasing team is reviewing your application and will reach out to you shortly at ${escapeHtml(app.phone)} or ${escapeHtml(app.email)}. If you have any questions, call or text us at <strong>(256) 701-0912</strong> or reply to this email.</p>
-            <p>Best regards,<br><strong>Huntsville Real Estate Investors LLC (HREI)</strong><br>(256) 701-0912 · offers@hreinvestor.com</p>
-          </div>`;
-          await sendNotificationEmail(
-            supabase,
-            "Rental Application Received — 3506 Gay Street NW, Huntsville, AL",
-            applicantHtml,
-            [app.email]
-          );
-        } catch (e) {
-          console.error("Notification email error:", e);
-        }
-      }
-
-      return json(request, {
-        ok: true,
-        application: {
-          id: app.id,
-          full_name: app.full_name,
-          property_slug: app.property_slug,
-          payment_status: isPaid ? "paid" : app.payment_status,
-          checkout_url: app.checkout_url,
-        },
-      });
-    }
-
     return json(request, { ok: false, error: "Missing query parameter." }, 400);
   }
 
@@ -227,11 +155,10 @@ Deno.serve(async (request) => {
     return json(request, { ok: false, error: "Invalid application payload." }, 400);
   }
 
-  // Honeypot check
-  if (asText(body.website) !== "") {
-    return json(request, { ok: true, checkout_url: "https://hreinvestor.com/rentals.html?application_paid=1" });
-  }
+  // Honeypot
+  if (asText(body.website) !== "") return json(request, { ok: true });
 
+  const dryRun = body.dry_run === true;
   const propertySlug = asText(body.property_slug || "3506-gay-st-nw");
   const fullName = asText(body.full_name);
   const email = asText(body.email).toLowerCase();
@@ -251,7 +178,16 @@ Deno.serve(async (request) => {
   const petsDetails = asText(body.pets_details);
   const priorEvictionsOrFelonies = asText(body.prior_evictions_or_felonies);
   const screeningConsent = body.screening_consent === true;
+  const truthCertified = body.truth_certification === true;
   const additionalNotes = asText(body.additional_notes);
+
+  // Extra screening answers -> application_details jsonb (whitelisted, text-capped)
+  const rawDetails = (body.details && typeof body.details === "object") ? body.details as Record<string, unknown> : {};
+  const details: Record<string, string> = {};
+  for (const [label] of DETAIL_FIELDS) {
+    const v = asText(rawDetails[label]).slice(0, 2000);
+    if (v) details[label] = v;
+  }
 
   let digits = rawPhone.replace(/\D/g, "");
   if (digits.length === 11 && digits.startsWith("1")) digits = digits.slice(1);
@@ -260,31 +196,23 @@ Deno.serve(async (request) => {
   if (digits.length !== 10) return json(request, { ok: false, error: "Please enter a valid 10-digit US phone number." }, 400);
   if (currentAddress.length < 5) return json(request, { ok: false, error: "Please enter your current street address." }, 400);
   if (employerName.length < 2) return json(request, { ok: false, error: "Please enter your current employer or income source." }, 400);
-  if (!Number.isFinite(monthlyGrossIncome) || monthlyGrossIncome <= 0) {
+  if (!Number.isFinite(monthlyGrossIncome) || monthlyGrossIncome < 0) {
     return json(request, { ok: false, error: "Please enter your monthly gross income." }, 400);
   }
-  if (!screeningConsent) {
-    return json(request, { ok: false, error: "Please authorize background, credit, and eviction screening to continue." }, 400);
+  if (!screeningConsent || !truthCertified) {
+    return json(request, { ok: false, error: "Please check both authorization boxes to submit." }, 400);
   }
 
-  // Verify property exists and is not occupied
   const { data: property, error: propErr } = await supabase
-    .from("rental_properties")
-    .select("*")
-    .eq("slug", propertySlug)
-    .maybeSingle();
-
-  if (propErr || !property) {
-    return json(request, { ok: false, error: "Rental property not found." }, 404);
-  }
+    .from("rental_properties").select("*").eq("slug", propertySlug).maybeSingle();
+  if (propErr || !property) return json(request, { ok: false, error: "Rental property not found." }, 404);
   if (property.is_occupied) {
     return json(request, { ok: false, error: "This property is currently occupied and is not accepting applications right now." }, 409);
   }
 
-  const feeCents = Number(property.application_fee_cents || 5000);
   const e164Phone = "+1" + digits;
+  if (dryRun) return json(request, { ok: true, dry_run: true, would_store: { full_name: fullName, details } });
 
-  // Insert application record
   const { data: app, error: insertErr } = await supabase
     .from("rental_applications")
     .insert({
@@ -308,10 +236,11 @@ Deno.serve(async (request) => {
       prior_evictions_or_felonies: priorEvictionsOrFelonies,
       screening_consent: screeningConsent,
       additional_notes: additionalNotes,
-      application_fee_cents: feeCents,
-      payment_status: "pending_payment",
+      application_details: details,
+      application_fee_cents: 0,
+      payment_status: "not_required",
     })
-    .select("*")
+    .select("id")
     .single();
 
   if (insertErr || !app) {
@@ -319,127 +248,34 @@ Deno.serve(async (request) => {
     return json(request, { ok: false, error: "Could not save your application. Please try again." }, 500);
   }
 
-  // Create Square Checkout Payment Link ($50.00) if a live SQUARE_ACCESS_TOKEN is configured;
-  // otherwise use RENTAL_APPLICATION_PAYMENT_URL (Square link) if set, else manual Square link.
-  let checkoutUrl = "";
-  let paymentLinkId = "";
-  let squareOrderId = "";
-  let paymentProvider = "square";
-
-  if (squareToken) {
-    const baseUrls = [
-      "https://connect.squareup.com",
-      "https://connect.squareupsandbox.com",
-    ];
-    for (const baseUrl of baseUrls) {
-      if (checkoutUrl) break;
-      try {
-        const locRes = await fetch(`${baseUrl}/v2/locations`, {
-          headers: {
-            Authorization: `Bearer ${squareToken}`,
-            "Content-Type": "application/json",
-          },
-        });
-        const locJson = await locRes.json();
-        const activeLoc = (locJson?.locations || []).find((l: any) => l.status === "ACTIVE") || locJson?.locations?.[0];
-        const locationId = activeLoc?.id;
-
-        if (locationId) {
-          const redirectUrl = `https://hreinvestor.com/rentals.html?application_paid=1&app_id=${app.id}`;
-          const linkRes = await fetch(`${baseUrl}/v2/online-checkout/payment-links`, {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${squareToken}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              idempotency_key: app.id,
-              description: `Rental Application for ${property.address}, ${property.city}, ${property.state} (${fullName})`,
-              quick_pay: {
-                name: `Rental Application Fee — ${property.address}, ${property.city}, ${property.state}`,
-                price_money: {
-                  amount: feeCents,
-                  currency: "USD",
-                },
-                location_id: locationId,
-              },
-              checkout_options: {
-                redirect_url: redirectUrl,
-                ask_for_shipping_address: false,
-              },
-              pre_populated_data: {
-                buyer_email: email,
-                buyer_phone_number: e164Phone,
-              },
-            }),
-          });
-          const linkJson = await linkRes.json();
-          if (linkRes.ok && linkJson?.payment_link?.url) {
-            checkoutUrl = linkJson.payment_link.url;
-            paymentLinkId = linkJson.payment_link.id || "";
-            squareOrderId = linkJson.payment_link.order_id || "";
-          }
-        }
-      } catch (sqErr) {
-        console.error("Square checkout attempt error:", sqErr);
-      }
-    }
-  }
-
-  if (!checkoutUrl && FALLBACK_PAYMENT_URL) {
-    checkoutUrl = FALLBACK_PAYMENT_URL;
-    paymentProvider = "square_static_link";
-  } else if (!checkoutUrl) {
-    paymentProvider = "manual_square_link";
-  }
-
-  const nowIso = new Date().toISOString();
-  await supabase
-    .from("rental_applications")
-    .update({
-      square_payment_link_id: paymentLinkId || null,
-      square_order_id: squareOrderId || null,
-      checkout_url: checkoutUrl,
-      notification_sent_at: nowIso,
-      updated_at: nowIso,
-    })
-    .eq("id", app.id);
-
-  // Send immediate email notification to HREI that an application was started
   try {
-    const html = `<div style="font-family:Arial,sans-serif;color:#1e293b;max-width:640px;margin:0 auto;padding:20px">
-      <h2 style="color:#113d3b;margin-bottom:8px">New Rental Application Submitted — ${escapeHtml(property.address)}</h2>
-      <p style="color:#475569;margin-top:0">${checkoutUrl ? `Applicant was sent to the $50.00 fee checkout: ${escapeHtml(checkoutUrl)}` : `<strong>ACTION: no automatic checkout. Send the applicant a $50.00 Square payment link.</strong>`}</p>
+    const row = (k: string, v: unknown) =>
+      `<tr><td style="padding:5px 8px 5px 0;font-weight:bold;vertical-align:top;width:230px">${escapeHtml(k)}</td><td style="padding:5px 0">${escapeHtml(v || "—")}</td></tr>`;
+    const detailRows = DETAIL_FIELDS.filter(([k]) => details[k]).map(([k, label]) => row(label, details[k])).join("");
+    const html = `<div style="font-family:Arial,sans-serif;color:#1e293b;max-width:720px;margin:0 auto;padding:20px">
+      <h2 style="color:#113d3b;margin-bottom:8px">New Rental Application — ${escapeHtml(property.address)}</h2>
+      <p style="color:#475569;margin-top:0">No application fee (free application).</p>
       <table style="width:100%;border-collapse:collapse;font-size:14px">
-        <tr><td style="padding:6px 0;font-weight:bold;width:180px">Applicant Name:</td><td>${escapeHtml(fullName)}</td></tr>
-        <tr><td style="padding:6px 0;font-weight:bold">Phone / Email:</td><td>${escapeHtml(e164Phone)} · ${escapeHtml(email)}</td></tr>
-        <tr><td style="padding:6px 0;font-weight:bold">Desired Move-In:</td><td>${escapeHtml(desiredMoveInDate || "ASAP")}</td></tr>
-        <tr><td style="padding:6px 0;font-weight:bold">Current Address:</td><td>${escapeHtml(currentAddress)} (${escapeHtml(currentResidenceDuration || "N/A")})</td></tr>
-        <tr><td style="padding:6px 0;font-weight:bold">Current Landlord:</td><td>${escapeHtml(currentLandlordName || "N/A")} (${escapeHtml(currentLandlordPhone || "N/A")})</td></tr>
-        <tr><td style="padding:6px 0;font-weight:bold">Employer &amp; Title:</td><td>${escapeHtml(employerName)} — ${escapeHtml(jobTitle || "N/A")}</td></tr>
-        <tr><td style="padding:6px 0;font-weight:bold">Monthly Gross Income:</td><td>$${escapeHtml(monthlyGrossIncome)}</td></tr>
-        <tr><td style="padding:6px 0;font-weight:bold">Supervisor / HR Contact:</td><td>${escapeHtml(supervisorOrHrContact || "N/A")}</td></tr>
-        <tr><td style="padding:6px 0;font-weight:bold">Occupants:</td><td>${escapeHtml(occupantsCount)} (${escapeHtml(occupantsDetails || "Applicant only")})</td></tr>
-        <tr><td style="padding:6px 0;font-weight:bold">Pets:</td><td>${hasPets ? "Yes — " + escapeHtml(petsDetails || "") : "No"}</td></tr>
-        <tr><td style="padding:6px 0;font-weight:bold">Evictions / Felonies:</td><td>${escapeHtml(priorEvictionsOrFelonies || "None reported")}</td></tr>
-        <tr><td style="padding:6px 0;font-weight:bold">Notes:</td><td>${escapeHtml(additionalNotes || "None")}</td></tr>
-      </table>
-    </div>`;
-    await sendNotificationEmail(
-      supabase,
-      `New Rental Application (Pending $50 Fee) — ${fullName} — 3506 Gay St NW`,
-      html,
-      ["office@hreinvestor.com"]
-    );
+        ${row("Applicant", fullName)}
+        ${row("Phone / Email", e164Phone + " · " + email)}
+        ${row("Desired move-in", desiredMoveInDate || "ASAP")}
+        ${row("Current address", currentAddress + " (" + (currentResidenceDuration || "N/A") + ")")}
+        ${row("Current landlord", (currentLandlordName || "N/A") + " (" + (currentLandlordPhone || "N/A") + ")")}
+        ${row("Employer & title", employerName + " — " + (jobTitle || "N/A"))}
+        ${row("Monthly gross income", "$" + monthlyGrossIncome)}
+        ${row("Supervisor / HR", supervisorOrHrContact)}
+        ${row("Occupants (total)", occupantsCount + " — " + (occupantsDetails || "Applicant only"))}
+        ${row("Pets", hasPets ? "Yes — " + petsDetails : "No")}
+        ${row("Eviction/criminal summary", priorEvictionsOrFelonies)}
+        ${detailRows}
+        ${row("Notes", additionalNotes)}
+        ${row("Application ID", app.id)}
+      </table></div>`;
+    await sendNotificationEmail(supabase, `New Rental Application — ${fullName} — ${property.address}`, html, ["office@hreinvestor.com"]);
+    await supabase.from("rental_applications").update({ notification_sent_at: new Date().toISOString() }).eq("id", app.id);
   } catch (e) {
-    console.error("Initial notification email failed:", e);
+    console.error("Notification email failed:", e);
   }
 
-  return json(request, {
-    ok: true,
-    application_id: app.id,
-    checkout_url: checkoutUrl,
-    payment_provider: paymentProvider,
-    square_payment_link_id: paymentLinkId || null,
-  });
+  return json(request, { ok: true, application_id: app.id });
 });
