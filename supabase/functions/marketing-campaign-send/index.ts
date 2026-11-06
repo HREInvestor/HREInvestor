@@ -25,7 +25,13 @@ const firstName = (name: unknown) => {
 };
 const propertyAddress = (lead: Record<string, unknown>) =>
   [lead.property_address, lead.city, lead.state, lead.zip_code].filter(Boolean).map(text).join(", ") || "your property";
+const draftField = (lead: Record<string, unknown>, key: string) => {
+  const sd = lead.source_data && typeof lead.source_data === "object" ? lead.source_data as Record<string, unknown> : {};
+  return text(sd[key]).trim();
+};
 const merge = (value: unknown, lead: Record<string, unknown>) => text(value)
+  .replaceAll("[Lead Draft Subject]", draftField(lead, "draft_subject"))
+  .replaceAll("[Lead Draft Message]", draftField(lead, "draft_message"))
   .replaceAll("[First Name]", firstName(lead.seller_name))
   .replaceAll("[Property Address]", propertyAddress(lead))
   .replaceAll("[Your Name]", sender.name)
@@ -74,7 +80,7 @@ Deno.serve(async request => {
   if (!connection?.refresh_token || !connection.sender_email) return json({ message: "Connect offers@hreinvestor.com on Owner Outreach before sending." }, 400);
 
   const { data: rows } = await supabase.from("leads")
-    .select("id,email,seller_name,property_address,city,state,zip_code,email_opt_out,contact_opt_out,archived_at")
+    .select("id,email,seller_name,property_address,city,state,zip_code,email_opt_out,contact_opt_out,archived_at,source_data")
     .in("id", requestedIds);
   const eligible = (rows || []).filter(row => row.email && !row.email_opt_out && !row.contact_opt_out && !row.archived_at);
   if (!eligible.length) return json({ message: "None of the selected leads are eligible for email." }, 400);
