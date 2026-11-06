@@ -143,7 +143,15 @@
       .app-section{padding:22px}
       .rental-summary{padding:22px}
     }
+
+    @media(max-width:600px){
+      .thumbs-strip{grid-template-columns:repeat(4,1fr);gap:6px;padding:10px}
+      .thumb-btn{height:54px}
+      .fee-badge-large{min-width:0;width:100%}
+      .app-header{flex-direction:column;align-items:stretch}
+    }
   </style>
+<link rel="stylesheet" href="assets/css/mobile-nav.css">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -154,11 +162,12 @@
         <img src="assets/favicon.png" alt="HREI logo">
         <span><strong>HREI</strong><small>Huntsville Real Estate Investors</small></span>
       </a>
-      <div class="links">
+      <button type="button" class="menu-toggle" aria-controls="site-nav-links" aria-expanded="false" aria-label="Open menu"><span class="bars" aria-hidden="true"></span><span>Menu</span></button><div class="links" id="site-nav-links">
         <a class="hide-mobile" href="index.html#process">How it works</a>
         <a class="hide-mobile" href="index.html#projects">Our work</a>
         <a class="hide-mobile" href="index.html#home-connect">Home repairs</a>
         <a href="gay-street.html">Featured Deal</a>
+        <a class="hide-mobile" href="markets.html">Markets</a>
         <a class="active-tab" href="rentals.html">Rentals</a>
         <a class="button buyer-button hide-mobile" href="buyer-intake.html">Buy Houses</a>
         <a class="button" href="sell-fast.html">Sell Your House</a>
@@ -743,5 +752,6 @@
     });
   })();
   </script>
+<script src="assets/js/mobile-nav.js" defer></script>
 </body>
 </html>

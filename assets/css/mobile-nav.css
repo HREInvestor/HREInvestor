@@ -1,0 +1,27 @@
+/* Shared mobile navigation for public pages (index, rentals, gay-street, markets). */
+.menu-toggle{display:none}
+.nav .links a{white-space:nowrap}
+@media(max-width:1100px){
+  .nav{height:auto!important;min-height:64px}
+  .nav>.shell{flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+  .brand img{width:42px;height:42px}
+  .menu-toggle{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-left:auto;height:44px;min-width:44px;padding:0 12px;border:1px solid rgba(17,61,59,.25);border-radius:8px;background:#fff;color:var(--forest,#113d3b);font:600 .9rem "DM Sans",sans-serif;cursor:pointer}
+  .menu-toggle:focus-visible{outline:3px solid var(--gold,#c88a2c);outline-offset:2px}
+  .menu-toggle .bars,.menu-toggle .bars::before,.menu-toggle .bars::after{display:block;width:20px;height:2px;border-radius:2px;background:currentColor;position:relative;transition:transform .2s,background .2s}
+  .menu-toggle .bars::before,.menu-toggle .bars::after{content:"";position:absolute;left:0}
+  .menu-toggle .bars::before{top:-6px}
+  .menu-toggle .bars::after{top:6px}
+  .nav.nav-open .menu-toggle .bars{background:transparent}
+  .nav.nav-open .menu-toggle .bars::before{top:0;transform:rotate(45deg)}
+  .nav.nav-open .menu-toggle .bars::after{top:0;transform:rotate(-45deg)}
+  .nav .links{display:none!important;flex-basis:100%;flex-direction:column;align-items:stretch;gap:0!important;padding:6px 0 14px;max-height:calc(100vh - 72px);overflow-y:auto}
+  .nav.nav-open .links{display:flex!important}
+  .nav .links a{display:block!important;padding:13px 4px;border-bottom:1px solid var(--line,#dbe1dc);font-size:1rem}
+  .nav .links a.active-tab{border-bottom:1px solid var(--line,#dbe1dc);padding-bottom:13px;box-shadow:inset 3px 0 0 var(--gold,#c88a2c);padding-left:12px}
+  .nav .links a.button{display:block!important;width:100%;margin-top:10px;padding:14px 18px;text-align:center;white-space:nowrap;border-bottom:0}
+  .nav .links a.button.buyer-button{border:1px solid var(--forest,#113d3b)}
+}
+@media(max-width:480px){
+  .brand small{display:none!important}
+  .shell{padding-left:16px;padding-right:16px}
+}
