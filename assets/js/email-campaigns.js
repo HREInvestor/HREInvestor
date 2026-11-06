@@ -11,7 +11,10 @@
     return /\b(llc|inc|trust|properties|investments|homes|builders)\b/i.test(name)?name:name.split(/\s+/)[0];
   };
   const propertyAddress=lead=>[lead.property_address,lead.city,lead.state,lead.zip_code].filter(Boolean).join(", ")||"your property";
+  const draftField=(lead,key)=>{const sd=lead&&lead.source_data&&typeof lead.source_data==="object"?lead.source_data:{};return String(sd[key]||"").trim();};
   const merge=(value,lead)=>String(value||"")
+    .replaceAll("[Lead Draft Subject]",draftField(lead,"draft_subject"))
+    .replaceAll("[Lead Draft Message]",draftField(lead,"draft_message"))
     .replaceAll("[First Name]",firstName(lead))
     .replaceAll("[Property Address]",propertyAddress(lead))
     .replaceAll("[Your Name]",sender.name)
@@ -29,7 +32,7 @@
     });
   };
   const parseIds=text=>[...new Set(String(text||"").split(/[\s,;]+/).map(v=>v.replace(/^#/,"").trim()).filter(Boolean))];
-  const leadCols="id,seller_name,email,property_address,city,state,zip_code,archived_at,contact_opt_out,email_opt_out";
+  const leadCols="id,seller_name,email,property_address,city,state,zip_code,archived_at,contact_opt_out,email_opt_out,source_data";
   const reasonFor=lead=>{const r=[];if(lead.archived_at)r.push("archived");if(lead.contact_opt_out||lead.email_opt_out)r.push("opted out");if(!String(lead.email||"").trim())r.push("no email");return r;};
   const fetchByIds=async ids=>{
     const out=[];
