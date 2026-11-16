@@ -1,18 +1,18 @@
 {
- "generated": "2026-11-09T21:57",
+ "generated": "2026-11-16T21:39",
  "zips": [
   {
    "zip": "35810",
    "label": "Huntsville N (Gay St area)",
-   "value": 167004.19323362308,
-   "value_as_of": "2026-09-30",
-   "yoy": -0.01438389640492288,
-   "mom3": -0.007953223110206742,
-   "value_low_tier": 125467.52164187674,
-   "value_top_tier": 234713.78123063585,
-   "rent": 1428.6627816627818,
-   "rent_yoy": 0.017120323945989613,
-   "rent_as_of": "2026-09-30",
+   "value": 166224.7134523707,
+   "value_as_of": "2026-10-31",
+   "yoy": -0.014951764620144692,
+   "mom3": -0.005620502410559891,
+   "value_low_tier": 124068.40375401561,
+   "value_top_tier": 235089.94463151696,
+   "rent": 1427.4769230769232,
+   "rent_yoy": 0.025352616302026565,
+   "rent_as_of": "2026-10-31",
    "dom": 73.0,
    "inventory": 150.0,
    "new_listings": 36.0,
@@ -20,7 +20,7 @@
    "list_price": 209950.0,
    "inventory_yy": 0.2397,
    "redfin": null,
-   "zillow_forecast_12m": 1.2,
+   "zillow_forecast_12m": 0.9,
    "crm": {
     "leads": 794,
     "offers": 22,
@@ -35,11 +35,11 @@
    "rent_burden_pct": 0.5655209452201934,
    "hh_growth_since_2019acs": null,
    "households": 11661.0,
-   "rent_to_value": 0.008554652155734902,
+   "rent_to_value": 0.0085876335319173,
    "forecast": {
-    "mid": -0.00719194820246144,
-    "low": -0.04971058330713093,
-    "high": 0.010626697136607632
+    "mid": -0.007475882310072346,
+    "low": -0.045155882215610954,
+    "high": 0.01099832101726065
    },
    "lean": "Rental / DSCR",
    "lean_why": "renter share 37%, rent-to-value 0.86%/mo"
@@ -47,15 +47,15 @@
   {
    "zip": "35811",
    "label": "Huntsville NE",
-   "value": 286996.5863408258,
-   "value_as_of": "2026-09-30",
-   "yoy": 0.014093135074370489,
-   "mom3": 0.003918758327297489,
-   "value_low_tier": 177096.8816131726,
-   "value_top_tier": 436826.0766674799,
-   "rent": 1401.878787878788,
-   "rent_yoy": 0.05719802391418294,
-   "rent_as_of": "2026-09-30",
+   "value": 286581.1358616993,
+   "value_as_of": "2026-10-31",
+   "yoy": 0.013812968481356824,
+   "mom3": 0.006021483198401345,
+   "value_low_tier": 178790.16263625445,
+   "value_top_tier": 433851.0479064566,
+   "rent": 1448.3371212121212,
+   "rent_yoy": 0.05108231511751504,
+   "rent_as_of": "2026-10-31",
    "dom": 82.0,
    "inventory": 240.0,
    "new_listings": 68.0,
@@ -63,7 +63,7 @@
    "list_price": 375000.0,
    "inventory_yy": 0.4953,
    "redfin": null,
-   "zillow_forecast_12m": 1.8,
+   "zillow_forecast_12m": 1.3,
    "crm": {
     "leads": 317,
     "offers": 9,
@@ -78,11 +78,11 @@
    "rent_burden_pct": 0.4696969696969697,
    "hh_growth_since_2019acs": null,
    "households": 11203.0,
-   "rent_to_value": 0.004884653179163505,
+   "rent_to_value": 0.00505384667716256,
    "forecast": {
-    "mid": 0.007046567537185244,
-    "low": -0.03547206756748424,
-    "high": 0.024865212876254317
+    "mid": 0.006906484240678412,
+    "low": -0.030773515664860196,
+    "high": 0.025380687568011408
    },
    "lean": "Flip (retail resale)",
    "lean_why": "owner-heavy (78% owner), values +1.4% YoY, DOM 82"
@@ -90,15 +90,15 @@
   {
    "zip": "35816",
    "label": "Huntsville NW",
-   "value": 158100.20099895154,
-   "value_as_of": "2026-09-30",
-   "yoy": 0.027125697084626754,
-   "mom3": 0.003985154887995668,
-   "value_low_tier": 100584.70453968341,
-   "value_top_tier": 229848.5461354466,
-   "rent": 951.0749999999999,
-   "rent_yoy": -0.007282225677326504,
-   "rent_as_of": "2026-09-30",
+   "value": 157205.68565831633,
+   "value_as_of": "2026-10-31",
+   "yoy": 0.03176786274122079,
+   "mom3": 0.0039811661512476615,
+   "value_low_tier": 99748.55991314485,
+   "value_top_tier": 230471.46821048614,
+   "rent": 958.162962962963,
+   "rent_yoy": -0.0051033291861468655,
+   "rent_as_of": "2026-10-31",
    "dom": 95.0,
    "inventory": 26.0,
    "new_listings": 8.0,
@@ -106,7 +106,7 @@
    "list_price": 163950.0,
    "inventory_yy": -0.1875,
    "redfin": null,
-   "zillow_forecast_12m": 1.4,
+   "zillow_forecast_12m": 0.9,
    "crm": {
     "leads": 232,
     "offers": 2,
@@ -121,27 +121,27 @@
    "rent_burden_pct": 0.5144173007609131,
    "hh_growth_since_2019acs": null,
    "households": 7003.0,
-   "rent_to_value": 0.006015647001019987,
+   "rent_to_value": 0.006094963798227455,
    "forecast": {
-    "mid": 0.013562848542313377,
-    "low": -0.02895578656235611,
-    "high": 0.03138149388138245
+    "mid": 0.015883931370610394,
+    "low": -0.021796068534928215,
+    "high": 0.03435813469794339
    },
    "lean": "Rental / DSCR",
-   "lean_why": "renter share 76%, rent-to-value 0.60%/mo"
+   "lean_why": "renter share 76%, rent-to-value 0.61%/mo"
   },
   {
    "zip": "35805",
    "label": "Huntsville central",
-   "value": 150455.1355540213,
-   "value_as_of": "2026-09-30",
-   "yoy": -0.018024803418273394,
-   "mom3": -0.013244302519840323,
-   "value_low_tier": 105250.15678140645,
-   "value_top_tier": 219627.62299950165,
-   "rent": 1112.4662068965517,
-   "rent_yoy": 0.011085401821214758,
-   "rent_as_of": "2026-09-30",
+   "value": 151607.24684855694,
+   "value_as_of": "2026-10-31",
+   "yoy": -0.01675997085643266,
+   "mom3": -0.008395408538938165,
+   "value_low_tier": 111418.73821747299,
+   "value_top_tier": 219268.95714866486,
+   "rent": 1105.423859649123,
+   "rent_yoy": 0.013937389175340487,
+   "rent_as_of": "2026-10-31",
    "dom": 100.0,
    "inventory": 72.0,
    "new_listings": 20.0,
@@ -149,7 +149,7 @@
    "list_price": 214900.0,
    "inventory_yy": 0.3091,
    "redfin": null,
-   "zillow_forecast_12m": 1.1,
+   "zillow_forecast_12m": 0.6,
    "crm": {
     "leads": 394,
     "offers": 10,
@@ -164,27 +164,27 @@
    "rent_burden_pct": 0.6246955218287428,
    "hh_growth_since_2019acs": null,
    "households": 9522.0,
-   "rent_to_value": 0.007394006211885787,
+   "rent_to_value": 0.007291365568780163,
    "forecast": {
-    "mid": -0.009012401709136697,
-    "low": -0.051531036813806184,
-    "high": 0.008806243629932375
+    "mid": -0.00837998542821633,
+    "low": -0.04605998533375494,
+    "high": 0.010094217899116666
    },
    "lean": "Rental / DSCR",
-   "lean_why": "renter share 59%, rent-to-value 0.74%/mo"
+   "lean_why": "renter share 59%, rent-to-value 0.73%/mo"
   },
   {
    "zip": "35801",
    "label": "Huntsville downtown/SE",
-   "value": 393739.2016717875,
-   "value_as_of": "2026-09-30",
-   "yoy": 0.01783614084249807,
-   "mom3": 0.0036563067098633883,
-   "value_low_tier": 229454.82130178972,
-   "value_top_tier": 700526.8884021761,
-   "rent": 1475.6113580246913,
-   "rent_yoy": 0.00838402513795855,
-   "rent_as_of": "2026-09-30",
+   "value": 397400.56010913354,
+   "value_as_of": "2026-10-31",
+   "yoy": 0.020022760703657827,
+   "mom3": 0.005325905461445846,
+   "value_low_tier": 233919.0109506323,
+   "value_top_tier": 707156.2749715665,
+   "rent": 1468.7612698412697,
+   "rent_yoy": 0.020395902068869542,
+   "rent_as_of": "2026-10-31",
    "dom": 62.0,
    "inventory": 115.0,
    "new_listings": 44.0,
@@ -192,7 +192,7 @@
    "list_price": 570000.0,
    "inventory_yy": -0.0574,
    "redfin": null,
-   "zillow_forecast_12m": 1.6,
+   "zillow_forecast_12m": 1.4,
    "crm": {
     "leads": 180,
     "offers": 2,
@@ -207,27 +207,27 @@
    "rent_burden_pct": 0.3331195896120551,
    "hh_growth_since_2019acs": null,
    "households": 10268.0,
-   "rent_to_value": 0.003747687179126068,
+   "rent_to_value": 0.0036959214889831075,
    "forecast": {
-    "mid": 0.008918070421249036,
-    "low": -0.03360056468342045,
-    "high": 0.026736715760318108
+    "mid": 0.010011380351828914,
+    "low": -0.027668619553709695,
+    "high": 0.02848558367916191
    },
    "lean": "Flip (retail resale)",
-   "lean_why": "owner-heavy (68% owner), values +1.8% YoY, DOM 62"
+   "lean_why": "owner-heavy (68% owner), values +2.0% YoY, DOM 62"
   },
   {
    "zip": "35806",
    "label": "Huntsville W",
-   "value": 365308.6015821351,
-   "value_as_of": "2026-09-30",
-   "yoy": 0.008084223339744678,
-   "mom3": 0.001524762505103805,
-   "value_low_tier": 245916.37412345936,
-   "value_top_tier": 536065.609477769,
-   "rent": 1325.5652032658136,
-   "rent_yoy": 0.04230829351794507,
-   "rent_as_of": "2026-09-30",
+   "value": 366309.5711166595,
+   "value_as_of": "2026-10-31",
+   "yoy": 0.006780707925074569,
+   "mom3": 0.0026620354524691248,
+   "value_low_tier": 248404.88032067745,
+   "value_top_tier": 539833.3533390121,
+   "rent": 1326.9067576348277,
+   "rent_yoy": 0.03878200661231701,
+   "rent_as_of": "2026-10-31",
    "dom": 99.0,
    "inventory": 123.0,
    "new_listings": 20.0,
@@ -235,7 +235,7 @@
    "list_price": 369450.0,
    "inventory_yy": -0.0238,
    "redfin": null,
-   "zillow_forecast_12m": 1.4,
+   "zillow_forecast_12m": 1.3,
    "crm": {
     "leads": 125,
     "offers": 5,
@@ -250,11 +250,11 @@
    "rent_burden_pct": 0.39711141678129297,
    "hh_growth_since_2019acs": null,
    "households": 14040.0,
-   "rent_to_value": 0.0036286175510920095,
+   "rent_to_value": 0.003622364421409684,
    "forecast": {
-    "mid": 0.004042111669872339,
-    "low": -0.03847652343479715,
-    "high": 0.02186075700894141
+    "mid": 0.0033903539625372847,
+    "low": -0.03428964594300132,
+    "high": 0.02186455728987028
    },
    "lean": "Rental / DSCR",
    "lean_why": "renter share 54%, rent-to-value 0.36%/mo"
@@ -262,15 +262,15 @@
   {
    "zip": "35756",
    "label": "Madison (S)",
-   "value": 388014.3656421518,
-   "value_as_of": "2026-09-30",
-   "yoy": -0.001155287253322923,
-   "mom3": 0.0017119423677915968,
-   "value_low_tier": 280478.6786926456,
-   "value_top_tier": 566895.6954030566,
-   "rent": 1649.819934640523,
-   "rent_yoy": 0.03143501877632682,
-   "rent_as_of": "2026-09-30",
+   "value": 383130.254125424,
+   "value_as_of": "2026-10-31",
+   "yoy": -0.0014030252486136874,
+   "mom3": 0.003608377711632915,
+   "value_low_tier": 278744.5516605147,
+   "value_top_tier": 560572.5243998498,
+   "rent": 1683.701754385965,
+   "rent_yoy": 0.03592484103754212,
+   "rent_as_of": "2026-10-31",
    "dom": 78.0,
    "inventory": 259.0,
    "new_listings": 68.0,
@@ -278,7 +278,7 @@
    "list_price": 456250.0,
    "inventory_yy": 0.0177,
    "redfin": null,
-   "zillow_forecast_12m": 1.8,
+   "zillow_forecast_12m": 1.3,
    "crm": {
     "leads": 31,
     "offers": 5,
@@ -293,11 +293,11 @@
    "rent_burden_pct": 0.33570919458303633,
    "hh_growth_since_2019acs": null,
    "households": 8815.0,
-   "rent_to_value": 0.004251955805579832,
+   "rent_to_value": 0.004394593578179752,
    "forecast": {
-    "mid": -0.0005776436266614615,
-    "low": -0.04309627873133095,
-    "high": 0.01724100171240761
+    "mid": -0.0007015126243068437,
+    "low": -0.03838151252984545,
+    "high": 0.017772690703026152
    },
    "lean": "Wholesale (price to move)",
    "lean_why": "values -0.1% YoY, DOM 78 vs 78 median"
@@ -305,15 +305,15 @@
   {
    "zip": "35757",
    "label": "Madison (N)",
-   "value": 348988.8366871472,
-   "value_as_of": "2026-09-30",
-   "yoy": 0.0035675501906564655,
-   "mom3": 0.00016563686417625512,
-   "value_low_tier": 261949.91956596661,
-   "value_top_tier": 486426.4429399493,
-   "rent": 1512.5113186191284,
-   "rent_yoy": 0.026771149220365942,
-   "rent_as_of": "2026-09-30",
+   "value": 346869.95244879654,
+   "value_as_of": "2026-10-31",
+   "yoy": 0.0016827886172139372,
+   "mom3": -0.0006274104308077177,
+   "value_low_tier": 261809.33382227187,
+   "value_top_tier": 481914.28950198373,
+   "rent": 1526.8801169590643,
+   "rent_yoy": 0.03620729168105141,
+   "rent_as_of": "2026-10-31",
    "dom": 74.0,
    "inventory": 119.0,
    "new_listings": 36.0,
@@ -321,7 +321,7 @@
    "list_price": 388150.0,
    "inventory_yy": 0.0439,
    "redfin": null,
-   "zillow_forecast_12m": 1.5,
+   "zillow_forecast_12m": 1.1,
    "crm": {
     "leads": 49,
     "offers": 7,
@@ -336,27 +336,27 @@
    "rent_burden_pct": 0.31654676258992803,
    "hh_growth_since_2019acs": null,
    "households": 7173.0,
-   "rent_to_value": 0.004333981949041616,
+   "rent_to_value": 0.004401880607356602,
    "forecast": {
-    "mid": 0.0017837750953282328,
-    "low": -0.040734860009341255,
-    "high": 0.019602420434397305
+    "mid": 0.0008413943086069686,
+    "low": -0.03683860559693164,
+    "high": 0.019315597635939964
    },
    "lean": "Flip (retail resale)",
-   "lean_why": "owner-heavy (72% owner), values +0.4% YoY, DOM 74"
+   "lean_why": "owner-heavy (72% owner), values +0.2% YoY, DOM 74"
   },
   {
    "zip": "35758",
    "label": "Madison",
-   "value": 376538.8825220587,
-   "value_as_of": "2026-09-30",
-   "yoy": 0.01416103899037302,
-   "mom3": 0.006851063211049668,
-   "value_low_tier": 260868.92550254622,
-   "value_top_tier": 583663.9406692997,
-   "rent": 1280.6757387495022,
-   "rent_yoy": 0.0145855133697943,
-   "rent_as_of": "2026-09-30",
+   "value": 375489.5765662287,
+   "value_as_of": "2026-10-31",
+   "yoy": 0.014792276556212514,
+   "mom3": 0.008230039375681342,
+   "value_low_tier": 261551.08513306244,
+   "value_top_tier": 578011.2549275401,
+   "rent": 1255.0745183714002,
+   "rent_yoy": 0.0011270196985937453,
+   "rent_as_of": "2026-10-31",
    "dom": 74.0,
    "inventory": 226.0,
    "new_listings": 40.0,
@@ -364,7 +364,7 @@
    "list_price": 419900.0,
    "inventory_yy": 0.4441,
    "redfin": null,
-   "zillow_forecast_12m": 1.7,
+   "zillow_forecast_12m": 1.2,
    "crm": {
     "leads": 128,
     "offers": 3,
@@ -379,27 +379,27 @@
    "rent_burden_pct": 0.35995972478603794,
    "hh_growth_since_2019acs": null,
    "households": 20322.0,
-   "rent_to_value": 0.0034011779345907967,
+   "rent_to_value": 0.0033425016210803676,
    "forecast": {
-    "mid": 0.00708051949518651,
-    "low": -0.03543811560948298,
-    "high": 0.024899164834255583
+    "mid": 0.007396138278106257,
+    "low": -0.03028386162743235,
+    "high": 0.025870341605439252
    },
    "lean": "Flip (retail resale)",
-   "lean_why": "owner-heavy (69% owner), values +1.4% YoY, DOM 74"
+   "lean_why": "owner-heavy (69% owner), values +1.5% YoY, DOM 74"
   },
   {
    "zip": "35601",
    "label": "Decatur",
-   "value": 172712.19014627158,
-   "value_as_of": "2026-09-30",
-   "yoy": -0.020538770800667794,
-   "mom3": -0.007620931527330788,
-   "value_low_tier": 110596.20508866497,
-   "value_top_tier": 304500.3545070684,
-   "rent": 1030.4583333333333,
-   "rent_yoy": 0.008410613367841435,
-   "rent_as_of": "2026-09-30",
+   "value": 172107.88240294965,
+   "value_as_of": "2026-10-31",
+   "yoy": -0.019604294573110526,
+   "mom3": -0.002690160024675592,
+   "value_low_tier": 109834.65256108914,
+   "value_top_tier": 303060.1121317118,
+   "rent": 975.2805555555555,
+   "rent_yoy": 0.015532275603821866,
+   "rent_as_of": "2026-10-31",
    "dom": 72.0,
    "inventory": 134.0,
    "new_listings": 44.0,
@@ -407,7 +407,7 @@
    "list_price": 225000.0,
    "inventory_yy": -0.0147,
    "redfin": null,
-   "zillow_forecast_12m": 2.1,
+   "zillow_forecast_12m": 1.8,
    "crm": {
     "leads": 12,
     "offers": 8,
@@ -422,27 +422,27 @@
    "rent_burden_pct": 0.496276991809382,
    "hh_growth_since_2019acs": null,
    "households": 13938.0,
-   "rent_to_value": 0.005966332384880467,
+   "rent_to_value": 0.005666681513587903,
    "forecast": {
-    "mid": -0.010269385400333897,
-    "low": -0.052788020505003384,
-    "high": 0.0075492599387351755
+    "mid": -0.009802147286555263,
+    "low": -0.04748214719209387,
+    "high": 0.008672056040777733
    },
    "lean": "Wholesale (price to move)",
-   "lean_why": "values -2.1% YoY, DOM 72 vs 78 median"
+   "lean_why": "values -2.0% YoY, DOM 72 vs 78 median"
   },
   {
    "zip": "35603",
    "label": "Decatur (S)",
-   "value": 276455.3897876058,
-   "value_as_of": "2026-09-30",
-   "yoy": -0.007843520840249085,
-   "mom3": -0.004797704523460733,
-   "value_low_tier": 193016.49125055465,
-   "value_top_tier": 405178.6827802156,
-   "rent": 1154.8333333333333,
-   "rent_yoy": 0.04628721398357771,
-   "rent_as_of": "2026-09-30",
+   "value": 275409.8241523638,
+   "value_as_of": "2026-10-31",
+   "yoy": -0.006268754932220344,
+   "mom3": -0.001500977797923353,
+   "value_low_tier": 193231.3509245472,
+   "value_top_tier": 402614.29037709977,
+   "rent": 1193.1666666666667,
+   "rent_yoy": 0.04206836909336609,
+   "rent_as_of": "2026-10-31",
    "dom": 78.0,
    "inventory": 156.0,
    "new_listings": 44.0,
@@ -450,7 +450,7 @@
    "list_price": 337402.0,
    "inventory_yy": 0.0097,
    "redfin": null,
-   "zillow_forecast_12m": 2.1,
+   "zillow_forecast_12m": 1.9,
    "crm": {
     "leads": 3,
     "offers": 3,
@@ -465,24 +465,24 @@
    "rent_burden_pct": 0.3529606351306649,
    "hh_growth_since_2019acs": null,
    "households": 13175.0,
-   "rent_to_value": 0.004177286376006504,
+   "rent_to_value": 0.004332331536606973,
    "forecast": {
-    "mid": -0.003921760420124543,
-    "low": -0.04644039552479403,
-    "high": 0.01389688491894453
+    "mid": -0.003134377466110172,
+    "low": -0.04081437737164878,
+    "high": 0.015339825861222824
    },
    "lean": "Wholesale (price to move)",
-   "lean_why": "values -0.8% YoY, DOM 78 vs 78 median"
+   "lean_why": "values -0.6% YoY, DOM 78 vs 78 median"
   },
   {
    "zip": "35976",
    "label": "Guntersville",
-   "value": 304528.5496349405,
-   "value_as_of": "2026-09-30",
-   "yoy": 0.029790415130055425,
-   "mom3": -0.0021866380802343377,
-   "value_low_tier": 175217.27224081126,
-   "value_top_tier": 593869.669836623,
+   "value": 302070.34600896185,
+   "value_as_of": "2026-10-31",
+   "yoy": 0.026153286291128675,
+   "mom3": -0.004195859115389333,
+   "value_low_tier": 174550.54741669135,
+   "value_top_tier": 590741.582505673,
    "rent": null,
    "rent_yoy": null,
    "rent_as_of": null,
@@ -493,7 +493,7 @@
    "list_price": 589900.0,
    "inventory_yy": 0.587,
    "redfin": null,
-   "zillow_forecast_12m": 1.1,
+   "zillow_forecast_12m": 1.0,
    "crm": {
     "leads": 52,
     "offers": 6,
@@ -510,83 +510,83 @@
    "households": 6553.0,
    "rent_to_value": null,
    "forecast": {
-    "mid": 0.014895207565027713,
-    "low": -0.027623427539641775,
-    "high": 0.032713852904096785
+    "mid": 0.013076643145564337,
+    "low": -0.02460335675997427,
+    "high": 0.03155084647289733
    },
    "lean": "Wholesale (price to move)",
-   "lean_why": "values +3.0% YoY, DOM 159 vs 78 median"
+   "lean_why": "values +2.6% YoY, DOM 159 vs 78 median"
   }
  ],
  "metros": [
   {
    "metro": "Huntsville, AL",
-   "value": 313528.32743208297,
-   "yoy": 0.011384202391598652,
-   "rent": 1386.887802481335,
-   "rent_yoy": 0.026369187203836075,
-   "inventory": 3156.0,
-   "inventory_yoy": 0.08790072388831427,
-   "new_listings": 743.0,
-   "new_pending": 523.0,
-   "price_cut_share": 0.29788426225249415,
-   "days_to_pending": 30.0,
-   "median_sale_price": 322333.0,
-   "sale_to_list": 0.9823647134076837,
-   "pct_sold_above_list": 0.20708630778365492,
-   "zillow_forecast_12m": 2.1,
+   "value": 312821.63699954696,
+   "yoy": 0.011123471017731035,
+   "rent": 1386.955477095398,
+   "rent_yoy": 0.024559679621810382,
+   "inventory": 3117.0,
+   "inventory_yoy": 0.07556935817805388,
+   "new_listings": 682.0,
+   "new_pending": 450.0,
+   "price_cut_share": 0.2835475461930516,
+   "days_to_pending": 35.0,
+   "median_sale_price": 316667.0,
+   "sale_to_list": 0.9815103159382739,
+   "pct_sold_above_list": 0.1880861573023457,
+   "zillow_forecast_12m": 1.6,
    "forecast": {
-    "mid": 0.005692101195799326,
-    "low": -0.03682653390887016,
-    "high": 0.0235107465348684
+    "mid": 0.005561735508865517,
+    "low": -0.03211826439667309,
+    "high": 0.024035938836198513
    },
-   "as_of": "2026-09-30"
+   "as_of": "2026-10-31"
   },
   {
    "metro": "Decatur, AL",
-   "value": 226560.07226688377,
-   "yoy": 0.006182509600475283,
-   "rent": 1081.8400793650794,
-   "rent_yoy": 0.024660160039378543,
-   "inventory": 658.0,
-   "inventory_yoy": -0.06267806267806264,
-   "new_listings": 158.0,
-   "new_pending": 118.0,
-   "price_cut_share": 0.275603990375817,
-   "days_to_pending": 33.0,
-   "median_sale_price": 230633.0,
-   "sale_to_list": 0.9680458028488559,
-   "pct_sold_above_list": 0.13729650426000664,
-   "zillow_forecast_12m": 2.2,
+   "value": 227951.76725620835,
+   "yoy": 0.004879069010417902,
+   "rent": 1065.6825396825398,
+   "rent_yoy": 0.0282563517228962,
+   "inventory": 646.0,
+   "inventory_yoy": -0.058309037900874605,
+   "new_listings": 153.0,
+   "new_pending": 110.0,
+   "price_cut_share": 0.26531623362754986,
+   "days_to_pending": 31.0,
+   "median_sale_price": 229908.0,
+   "sale_to_list": 0.96822160562761,
+   "pct_sold_above_list": 0.14411243679536362,
+   "zillow_forecast_12m": 1.9,
    "forecast": {
-    "mid": 0.0030912548002376417,
-    "low": -0.039427380304431846,
-    "high": 0.020909900139306714
+    "mid": 0.002439534505208951,
+    "low": -0.03524046540032966,
+    "high": 0.020913737832541947
    },
-   "as_of": "2026-09-30"
+   "as_of": "2026-10-31"
   },
   {
    "metro": "Albertville, AL",
-   "value": 240098.29178821333,
-   "yoy": 0.028521632144195896,
-   "rent": 1425.2777777777776,
-   "rent_yoy": 0.006713083163564226,
-   "inventory": 567.0,
-   "inventory_yoy": 0.13855421686746983,
-   "new_listings": 105.0,
-   "new_pending": 80.0,
-   "price_cut_share": 0.23803138310239577,
-   "days_to_pending": 53.0,
-   "median_sale_price": 251067.0,
-   "sale_to_list": 0.9571848118968868,
-   "pct_sold_above_list": 0.12460422378900642,
-   "zillow_forecast_12m": 1.0,
+   "value": 238820.8602267229,
+   "yoy": 0.022812135367450415,
+   "rent": 1355.8333333333333,
+   "rent_yoy": -0.0012953725182386355,
+   "inventory": 554.0,
+   "inventory_yoy": 0.15176715176715172,
+   "new_listings": 104.0,
+   "new_pending": 64.0,
+   "price_cut_share": 0.23193417100081157,
+   "days_to_pending": 48.0,
+   "median_sale_price": 249700.0,
+   "sale_to_list": 0.9563869904455484,
+   "pct_sold_above_list": 0.12522127920058235,
+   "zillow_forecast_12m": 0.9,
    "forecast": {
-    "mid": 0.014260816072097948,
-    "low": -0.02825781903257154,
-    "high": 0.03207946141116702
+    "mid": 0.011406067683725207,
+    "low": -0.0262739322218134,
+    "high": 0.029880271011058203
    },
-   "as_of": "2026-09-30"
+   "as_of": "2026-10-31"
   }
  ],
  "gay_st_tract": {
@@ -600,14 +600,10 @@
    "name": "30-yr fixed mortgage rate (Freddie Mac PMMS), %",
    "url": "https://fred.stlouisfed.org/series/MORTGAGE30US",
    "last": [
-    "2026-11-05",
-    7.18
+    "2026-11-12",
+    7.11
    ],
    "history": [
-    [
-     "2025-09-18",
-     6.26
-    ],
     [
      "2025-09-25",
      6.3
@@ -843,6 +839,10 @@
     [
      "2026-11-05",
      7.18
+    ],
+    [
+     "2026-11-12",
+     7.11
     ]
    ]
   },
@@ -850,14 +850,10 @@
    "name": "15-yr fixed mortgage rate (Freddie Mac PMMS), %",
    "url": "https://fred.stlouisfed.org/series/MORTGAGE15US",
    "last": [
-    "2026-11-05",
-    6.57
+    "2026-11-12",
+    6.45
    ],
    "history": [
-    [
-     "2025-09-18",
-     5.41
-    ],
     [
      "2025-09-25",
      5.49
@@ -1093,6 +1089,10 @@
     [
      "2026-11-05",
      6.57
+    ],
+    [
+     "2026-11-12",
+     6.45
     ]
    ]
   },
@@ -2600,14 +2600,10 @@
    "name": "PPI softwood lumber (1982=100)",
    "url": "https://fred.stlouisfed.org/series/WPU081",
    "last": [
-    "2026-09-01",
-    282.34
+    "2026-10-01",
+    275.584
    ],
    "history": [
-    [
-     "2021-10-01",
-     288.295
-    ],
     [
      "2021-11-01",
      299.073
@@ -2838,11 +2834,15 @@
     ],
     [
      "2026-08-01",
-     286.355
+     286.481
     ],
     [
      "2026-09-01",
-     282.34
+     282.695
+    ],
+    [
+     "2026-10-01",
+     275.584
     ]
    ]
   },
@@ -2869,27 +2869,27 @@
   "available": true,
   "chosen": "damped persistence (0.5 x trailing YoY)",
   "coef": {
-   "intercept": 0.0772,
-   "yoy_12m": 0.0431,
-   "momentum_3m_ann": 0.0496,
-   "cagr_5y": -0.0028,
-   "mortgage_rate_chg_12m_pts": -0.0255,
-   "metro_inventory_yoy": -0.1059
+   "intercept": 0.076,
+   "yoy_12m": 0.0438,
+   "momentum_3m_ann": 0.0503,
+   "cagr_5y": -0.0026,
+   "mortgage_rate_chg_12m_pts": -0.025,
+   "metro_inventory_yoy": -0.1064
   },
-  "resid_p10": -0.04251863510466949,
-  "resid_p90": 0.017818645339069072,
-  "n_obs": 948,
+  "resid_p10": -0.03767999990553861,
+  "resid_p90": 0.018474203327332996,
+  "n_obs": 960,
   "train_origins": [
    "2019-03-31",
-   "2025-09-30"
+   "2025-10-31"
   ],
   "backtest": {
    "method": "walk-forward, expanding window, 12-mo outcome lag",
-   "n_test": 660,
-   "mae_model": 0.08546204768868708,
-   "mae_naive_yoy_persist": 0.058532428395758306,
-   "mae_damped_half_yoy": 0.032539209582053245,
-   "mae_zero_change": 0.016511082023928376
+   "n_test": 672,
+   "mae_model": 0.08546680805843983,
+   "mae_naive_yoy_persist": 0.05792126612028477,
+   "mae_damped_half_yoy": 0.03224708392910353,
+   "mae_zero_change": 0.016521492370759446
   }
  },
  "hud_fmr": null,
@@ -2898,112 +2898,112 @@
    "source": "Zillow ZHVI (mid tier) by ZIP",
    "url": "https://files.zillowstatic.com/research/public_csvs/zhvi/Zip_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv",
    "ok": true,
-   "as_of": "2026-09-30",
+   "as_of": "2026-10-31",
    "note": ""
   },
   {
    "source": "Zillow ZHVI bottom tier by ZIP",
    "url": "https://files.zillowstatic.com/research/public_csvs/zhvi/Zip_zhvi_uc_sfrcondo_tier_0.0_0.33_sm_sa_month.csv",
    "ok": true,
-   "as_of": "2026-09-30",
+   "as_of": "2026-10-31",
    "note": ""
   },
   {
    "source": "Zillow ZHVI top tier by ZIP",
    "url": "https://files.zillowstatic.com/research/public_csvs/zhvi/Zip_zhvi_uc_sfrcondo_tier_0.67_1.0_sm_sa_month.csv",
    "ok": true,
-   "as_of": "2026-09-30",
+   "as_of": "2026-10-31",
    "note": ""
   },
   {
    "source": "Zillow ZORI rent by ZIP",
    "url": "https://files.zillowstatic.com/research/public_csvs/zori/Zip_zori_uc_sfrcondomfr_sm_month.csv",
    "ok": true,
-   "as_of": "2026-09-30",
+   "as_of": "2026-10-31",
    "note": ""
   },
   {
    "source": "Zillow ZHVF forecast by ZIP",
    "url": "https://files.zillowstatic.com/research/public_csvs/zhvf_growth/Zip_zhvf_growth_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv",
    "ok": true,
-   "as_of": "2027-09-30",
+   "as_of": "2027-10-31",
    "note": ""
   },
   {
    "source": "Zillow ZHVI by metro",
    "url": "https://files.zillowstatic.com/research/public_csvs/zhvi/Metro_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv",
    "ok": true,
-   "as_of": "2026-09-30",
+   "as_of": "2026-10-31",
    "note": ""
   },
   {
    "source": "Zillow ZORI by metro",
    "url": "https://files.zillowstatic.com/research/public_csvs/zori/Metro_zori_uc_sfrcondomfr_sm_month.csv",
    "ok": true,
-   "as_of": "2026-09-30",
+   "as_of": "2026-10-31",
    "note": ""
   },
   {
    "source": "Zillow ZHVF forecast by metro",
    "url": "https://files.zillowstatic.com/research/public_csvs/zhvf_growth/Metro_zhvf_growth_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv",
    "ok": true,
-   "as_of": "2027-09-30",
+   "as_of": "2027-10-31",
    "note": ""
   },
   {
    "source": "Zillow for-sale inventory by metro",
    "url": "https://files.zillowstatic.com/research/public_csvs/invt_fs/Metro_invt_fs_uc_sfrcondo_sm_month.csv",
    "ok": true,
-   "as_of": "2026-09-30",
+   "as_of": "2026-10-31",
    "note": ""
   },
   {
    "source": "Zillow new listings by metro",
    "url": "https://files.zillowstatic.com/research/public_csvs/new_listings/Metro_new_listings_uc_sfrcondo_sm_month.csv",
    "ok": true,
-   "as_of": "2026-09-30",
+   "as_of": "2026-10-31",
    "note": ""
   },
   {
    "source": "Zillow newly pending by metro",
    "url": "https://files.zillowstatic.com/research/public_csvs/new_pending/Metro_new_pending_uc_sfrcondo_sm_month.csv",
    "ok": true,
-   "as_of": "2026-09-30",
+   "as_of": "2026-10-31",
    "note": ""
   },
   {
    "source": "Zillow % listings with price cut",
    "url": "https://files.zillowstatic.com/research/public_csvs/perc_listings_price_cut/Metro_perc_listings_price_cut_uc_sfrcondo_sm_month.csv",
    "ok": true,
-   "as_of": "2026-09-30",
+   "as_of": "2026-10-31",
    "note": ""
   },
   {
    "source": "Zillow median days to pending",
    "url": "https://files.zillowstatic.com/research/public_csvs/med_doz_pending/Metro_med_doz_pending_uc_sfrcondo_sm_month.csv",
    "ok": true,
-   "as_of": "2026-09-30",
+   "as_of": "2026-10-31",
    "note": ""
   },
   {
    "source": "Zillow median sale price",
    "url": "https://files.zillowstatic.com/research/public_csvs/median_sale_price/Metro_median_sale_price_uc_sfrcondo_sm_month.csv",
    "ok": true,
-   "as_of": "2026-08-31",
+   "as_of": "2026-09-30",
    "note": ""
   },
   {
    "source": "Zillow mean sale-to-list",
    "url": "https://files.zillowstatic.com/research/public_csvs/mean_sale_to_list/Metro_mean_sale_to_list_uc_sfrcondo_sm_month.csv",
    "ok": true,
-   "as_of": "2026-08-31",
+   "as_of": "2026-09-30",
    "note": ""
   },
   {
    "source": "Zillow % sold above list",
    "url": "https://files.zillowstatic.com/research/public_csvs/pct_sold_above_list/Metro_pct_sold_above_list_uc_sfrcondo_sm_month.csv",
    "ok": true,
-   "as_of": "2026-08-31",
+   "as_of": "2026-09-30",
    "note": ""
   },
   {
@@ -3031,14 +3031,14 @@
    "source": "FRED MORTGAGE30US",
    "url": "https://fred.stlouisfed.org/series/MORTGAGE30US",
    "ok": true,
-   "as_of": "2026-11-05",
+   "as_of": "2026-11-12",
    "note": ""
   },
   {
    "source": "FRED MORTGAGE15US",
    "url": "https://fred.stlouisfed.org/series/MORTGAGE15US",
    "ok": true,
-   "as_of": "2026-11-05",
+   "as_of": "2026-11-12",
    "note": ""
   },
   {
@@ -3101,7 +3101,7 @@
    "source": "FRED WPU081",
    "url": "https://fred.stlouisfed.org/series/WPU081",
    "ok": true,
-   "as_of": "2026-09-01",
+   "as_of": "2026-10-01",
    "note": ""
   },
   {
