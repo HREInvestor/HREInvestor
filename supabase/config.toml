@@ -21,3 +21,8 @@ verify_jwt = false
 # service role so browser visitors never get direct CRM access.
 [functions.seller-inquiry-submit]
 verify_jwt = false
+
+# REPS tracker notifications. Authenticates internally: pg_cron sends a Vault-held
+# shared secret; the in-app "test" action verifies the caller's Supabase session + allowlist.
+[functions.reps-notify]
+verify_jwt = false
