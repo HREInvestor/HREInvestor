@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-16T21:39",
+ "generated": "2026-11-23T23:25",
  "zips": [
   {
    "zip": "35810",
@@ -600,14 +600,10 @@
    "name": "30-yr fixed mortgage rate (Freddie Mac PMMS), %",
    "url": "https://fred.stlouisfed.org/series/MORTGAGE30US",
    "last": [
-    "2026-11-12",
-    7.11
+    "2026-11-19",
+    7.28
    ],
    "history": [
-    [
-     "2025-09-25",
-     6.3
-    ],
     [
      "2025-10-02",
      6.34
@@ -843,6 +839,10 @@
     [
      "2026-11-12",
      7.11
+    ],
+    [
+     "2026-11-19",
+     7.28
     ]
    ]
   },
@@ -850,14 +850,10 @@
    "name": "15-yr fixed mortgage rate (Freddie Mac PMMS), %",
    "url": "https://fred.stlouisfed.org/series/MORTGAGE15US",
    "last": [
-    "2026-11-12",
-    6.45
+    "2026-11-19",
+    6.66
    ],
    "history": [
-    [
-     "2025-09-25",
-     5.49
-    ],
     [
      "2025-10-02",
      5.55
@@ -1093,6 +1089,10 @@
     [
      "2026-11-12",
      6.45
+    ],
+    [
+     "2026-11-19",
+     6.66
     ]
    ]
   },
@@ -1600,14 +1600,10 @@
    "name": "Nonfarm employment, Huntsville MSA (BLS CES), thousands",
    "url": "https://fred.stlouisfed.org/series/HUNT601NA",
    "last": [
-    "2026-09-01",
-    298.8
+    "2026-10-01",
+    299.2
    ],
    "history": [
-    [
-     "2021-10-01",
-     256.1
-    ],
     [
      "2021-11-01",
      256.3
@@ -1842,7 +1838,11 @@
     ],
     [
      "2026-09-01",
-     298.8
+     298.9
+    ],
+    [
+     "2026-10-01",
+     299.2
     ]
    ]
   },
@@ -2886,7 +2886,7 @@
   "backtest": {
    "method": "walk-forward, expanding window, 12-mo outcome lag",
    "n_test": 672,
-   "mae_model": 0.08546680805843983,
+   "mae_model": 0.08546680805843986,
    "mae_naive_yoy_persist": 0.05792126612028477,
    "mae_damped_half_yoy": 0.03224708392910353,
    "mae_zero_change": 0.016521492370759446
@@ -3031,14 +3031,14 @@
    "source": "FRED MORTGAGE30US",
    "url": "https://fred.stlouisfed.org/series/MORTGAGE30US",
    "ok": true,
-   "as_of": "2026-11-12",
+   "as_of": "2026-11-19",
    "note": ""
   },
   {
    "source": "FRED MORTGAGE15US",
    "url": "https://fred.stlouisfed.org/series/MORTGAGE15US",
    "ok": true,
-   "as_of": "2026-11-12",
+   "as_of": "2026-11-19",
    "note": ""
   },
   {
@@ -3059,7 +3059,7 @@
    "source": "FRED HUNT601NA",
    "url": "https://fred.stlouisfed.org/series/HUNT601NA",
    "ok": true,
-   "as_of": "2026-09-01",
+   "as_of": "2026-10-01",
    "note": ""
   },
   {
